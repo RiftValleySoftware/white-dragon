@@ -1,16 +1,16 @@
 Pod::Spec.new do |spec|
-    spec.name                       = 'BMLTiOSLib'
-    spec.summary                    = 'An iOS Framework that provides a driver-level interaction with BMLT Root Servers.'
-    spec.description                = 'The BMLTiOSLib is a Swift shared framework designed to allow easy development of iOS BMLT apps. It completely abstracts the connection to BMLT Root Servers, including administration functions.'
-    spec.version                    = '1.2.8'
-    spec.platform                   = :ios, '9.0'
-    spec.homepage                   = 'https://bmlt.magshare.net/BMLTiOSLib'
-    spec.social_media_url           = 'https://twitter.com/BMLT_NA'
-    spec.author                     = { 'BMLT Administrators' => 'bmlt@magshare.net' }
-    spec.documentation_url          = 'https://bmlt.magshare.net/bmlt-doc/'
+    spec.name                       = 'WhiteDragon'
+    spec.summary                    = 'An iOS Framework that provides a driver-level interaction with A BAOBAB Server.'
+    spec.description                = 'The White Dragon iOS Framework is a Swift shared framework designed to allow easy development of iOS Great Rift Valley Platform apps. It completely abstracts the connection to BAOBAB Servers, including administration functions.'
+    spec.version                    = '1.0.0'
+    spec.platform                   = :ios, '10.0'
+    spec.homepage                   = 'https://littlegreenviper.com'
+    spec.social_media_url           = 'https://twitter.com/LilGreenViper'
+    spec.author                     = { 'Little Green Viper Software Development LLC' => 'chris@littlegreenviper.com' }
+    spec.documentation_url          = 'https://littlegreenviper.com'
     spec.license                    = { :type => 'MIT', :file => 'LICENSE' }
-    spec.source                     = { :git => 'https://github.com/LittleGreenViper/BMLTiOSLib.git', :tag => spec.version.to_s }
-    spec.source_files               = 'BMLTiOSLib/Framework Project/Classes/**/*'
+    spec.source                     = { :git => 'https://github.com/LittleGreenViper/white-dragon.git', :tag => spec.version.to_s }
+    spec.source_files               = 'WhiteDragon/Framework Project/Classes/**/*'
     spec.dependency                'SwiftLint', '~> 0.24'
 end
 

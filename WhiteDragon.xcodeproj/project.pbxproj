@@ -29,6 +29,13 @@
 		D477B404213EA86B0018AB45 /* WhiteDragonTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WhiteDragonTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D477B409213EA86B0018AB45 /* white_dragonTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = white_dragonTests.swift; sourceTree = "<group>"; };
 		D477B40B213EA86B0018AB45 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D4B8A989213ECB18007CB311 /* WhiteDragon.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = WhiteDragon.podspec; sourceTree = "<group>"; };
+		D4B8A98A213ECB18007CB311 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		D4B8A98B213ECB18007CB311 /* LICENSE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
+		D4B8A98C213ECB18007CB311 /* jazzy.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = jazzy.sh; sourceTree = "<group>"; };
+		D4B8A98D213ECB18007CB311 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
+		D4B8A98E213ECB25007CB311 /* .swift-version */ = {isa = PBXFileReference; lastKnownFileType = text; path = ".swift-version"; sourceTree = "<group>"; };
+		D4B8A98F213ECB25007CB311 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +60,7 @@
 		D477B3F1213EA86B0018AB45 = {
 			isa = PBXGroup;
 			children = (
+				D4B8A988213ECAF8007CB311 /* Miscellaneous */,
 				D477B3FD213EA86B0018AB45 /* WhiteDragon */,
 				D477B408213EA86B0018AB45 /* WhiteDragonTests */,
 				D477B3FC213EA86B0018AB45 /* Products */,
@@ -84,6 +92,20 @@
 				D477B40B213EA86B0018AB45 /* Info.plist */,
 			);
 			path = WhiteDragonTests;
+			sourceTree = "<group>";
+		};
+		D4B8A988213ECAF8007CB311 /* Miscellaneous */ = {
+			isa = PBXGroup;
+			children = (
+				D4B8A98D213ECB18007CB311 /* CHANGELOG.md */,
+				D4B8A98A213ECB18007CB311 /* README.md */,
+				D4B8A98C213ECB18007CB311 /* jazzy.sh */,
+				D4B8A989213ECB18007CB311 /* WhiteDragon.podspec */,
+				D4B8A98F213ECB25007CB311 /* .swiftlint.yml */,
+				D4B8A98E213ECB25007CB311 /* .swift-version */,
+				D4B8A98B213ECB18007CB311 /* LICENSE.txt */,
+			);
+			name = Miscellaneous;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
