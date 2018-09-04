@@ -7,9 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		22FEC5AA2EB6675701FA7FBE /* Pods_WhiteDragon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DEA8986ABAA1BA586DC9A8CD /* Pods_WhiteDragon.framework */; };
 		D477B405213EA86B0018AB45 /* WhiteDragon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D477B3FB213EA86B0018AB45 /* WhiteDragon.framework */; };
 		D477B40A213EA86B0018AB45 /* white_dragonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D477B409213EA86B0018AB45 /* white_dragonTests.swift */; };
 		D477B40C213EA86B0018AB45 /* white_dragon.h in Headers */ = {isa = PBXBuildFile; fileRef = D477B3FE213EA86B0018AB45 /* white_dragon.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D4B94831213EEA6200A3560E /* RVP_IOS_SDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B94830213EEA6200A3560E /* RVP_IOS_SDK.swift */; };
+		D4B94832213EECBE00A3560E /* RVP_IOS_SDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B94830213EEA6200A3560E /* RVP_IOS_SDK.swift */; };
+		D4B94835213EFBD100A3560E /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = D4B94834213EFBD100A3560E /* Podfile */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -23,6 +27,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		013808534F4BE80FA8E7DA44 /* Pods-WhiteDragon.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WhiteDragon.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WhiteDragon/Pods-WhiteDragon.debug.xcconfig"; sourceTree = "<group>"; };
+		69826259210E6D8098363362 /* Pods-WhiteDragon.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WhiteDragon.release.xcconfig"; path = "Pods/Target Support Files/Pods-WhiteDragon/Pods-WhiteDragon.release.xcconfig"; sourceTree = "<group>"; };
 		D477B3FB213EA86B0018AB45 /* WhiteDragon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = WhiteDragon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D477B3FE213EA86B0018AB45 /* white_dragon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = white_dragon.h; sourceTree = "<group>"; };
 		D477B3FF213EA86B0018AB45 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -36,6 +42,9 @@
 		D4B8A98D213ECB18007CB311 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		D4B8A98E213ECB25007CB311 /* .swift-version */ = {isa = PBXFileReference; lastKnownFileType = text; path = ".swift-version"; sourceTree = "<group>"; };
 		D4B8A98F213ECB25007CB311 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; };
+		D4B94830213EEA6200A3560E /* RVP_IOS_SDK.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RVP_IOS_SDK.swift; path = Classes/RVP_IOS_SDK.swift; sourceTree = "<group>"; };
+		D4B94834213EFBD100A3560E /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
+		DEA8986ABAA1BA586DC9A8CD /* Pods_WhiteDragon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WhiteDragon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -43,6 +52,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				22FEC5AA2EB6675701FA7FBE /* Pods_WhiteDragon.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -57,6 +67,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1B167A77A521F6F73C1DD02D /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				013808534F4BE80FA8E7DA44 /* Pods-WhiteDragon.debug.xcconfig */,
+				69826259210E6D8098363362 /* Pods-WhiteDragon.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		D477B3F1213EA86B0018AB45 = {
 			isa = PBXGroup;
 			children = (
@@ -64,6 +83,8 @@
 				D477B3FD213EA86B0018AB45 /* WhiteDragon */,
 				D477B408213EA86B0018AB45 /* WhiteDragonTests */,
 				D477B3FC213EA86B0018AB45 /* Products */,
+				1B167A77A521F6F73C1DD02D /* Pods */,
+				E3C5D3B5C8389DED8CDB8D36 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -79,6 +100,7 @@
 		D477B3FD213EA86B0018AB45 /* WhiteDragon */ = {
 			isa = PBXGroup;
 			children = (
+				D4B94830213EEA6200A3560E /* RVP_IOS_SDK.swift */,
 				D477B3FE213EA86B0018AB45 /* white_dragon.h */,
 				D477B3FF213EA86B0018AB45 /* Info.plist */,
 			);
@@ -97,6 +119,7 @@
 		D4B8A988213ECAF8007CB311 /* Miscellaneous */ = {
 			isa = PBXGroup;
 			children = (
+				D4B94834213EFBD100A3560E /* Podfile */,
 				D4B8A98D213ECB18007CB311 /* CHANGELOG.md */,
 				D4B8A98A213ECB18007CB311 /* README.md */,
 				D4B8A98C213ECB18007CB311 /* jazzy.sh */,
@@ -106,6 +129,14 @@
 				D4B8A98B213ECB18007CB311 /* LICENSE.txt */,
 			);
 			name = Miscellaneous;
+			sourceTree = "<group>";
+		};
+		E3C5D3B5C8389DED8CDB8D36 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DEA8986ABAA1BA586DC9A8CD /* Pods_WhiteDragon.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -126,6 +157,8 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D477B40F213EA86B0018AB45 /* Build configuration list for PBXNativeTarget "WhiteDragon" */;
 			buildPhases = (
+				66DDBFAEFEC6F9ADE0F70673 /* [CP] Check Pods Manifest.lock */,
+				D4B94833213EFB8A00A3560E /* SwiftLINT */,
 				D477B3F6213EA86B0018AB45 /* Headers */,
 				D477B3F7213EA86B0018AB45 /* Sources */,
 				D477B3F8213EA86B0018AB45 /* Frameworks */,
@@ -171,6 +204,7 @@
 				TargetAttributes = {
 					D477B3FA213EA86B0018AB45 = {
 						CreatedOnToolsVersion = 10.0;
+						LastSwiftMigration = 1000;
 					};
 					D477B403213EA86B0018AB45 = {
 						CreatedOnToolsVersion = 10.0;
@@ -200,6 +234,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D4B94835213EFBD100A3560E /* Podfile in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -212,11 +247,55 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		66DDBFAEFEC6F9ADE0F70673 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-WhiteDragon-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D4B94833213EFB8A00A3560E /* SwiftLINT */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLINT;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PROJECT_DIR}/Pods/SwiftLint/swiftlint\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		D477B3F7213EA86B0018AB45 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D4B94831213EEA6200A3560E /* RVP_IOS_SDK.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -225,6 +304,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D477B40A213EA86B0018AB45 /* white_dragonTests.swift in Sources */,
+				D4B94832213EECBE00A3560E /* RVP_IOS_SDK.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -363,7 +443,9 @@
 		};
 		D477B410213EA86B0018AB45 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 013808534F4BE80FA8E7DA44 /* Pods-WhiteDragon.debug.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -381,6 +463,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.littlegreenviper.white-dragon";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -388,7 +471,9 @@
 		};
 		D477B411213EA86B0018AB45 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 69826259210E6D8098363362 /* Pods-WhiteDragon.release.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -414,6 +499,7 @@
 		D477B413213EA86B0018AB45 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = P53V4JS928;
 				INFOPLIST_FILE = "white-dragonTests/Info.plist";
@@ -432,6 +518,7 @@
 		D477B414213EA86B0018AB45 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = P53V4JS928;
 				INFOPLIST_FILE = "white-dragonTests/Info.plist";
