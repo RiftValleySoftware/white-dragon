@@ -1,5 +1,5 @@
 Pod::Spec.new do |spec|
-    spec.name                       = 'WhiteDragon'
+    spec.name                       = 'White Dragon iOS SDK'
     spec.summary                    = 'An iOS Framework that provides a driver-level interaction with A BAOBAB Server.'
     spec.description                = 'The White Dragon iOS Framework is a Swift shared framework designed to allow easy development of iOS Great Rift Valley Platform apps. It completely abstracts the connection to BAOBAB Servers, including administration functions.'
     spec.version                    = '1.0.0'
@@ -10,7 +10,7 @@ Pod::Spec.new do |spec|
     spec.documentation_url          = 'https://littlegreenviper.com'
     spec.license                    = { :type => 'MIT', :file => 'LICENSE' }
     spec.source                     = { :git => 'https://github.com/LittleGreenViper/white-dragon.git', :tag => spec.version.to_s }
-    spec.source_files               = 'WhiteDragon/Framework Project/Classes/**/*'
+    spec.source_files               = 'WhiteDragon/Classes/**/*'
     spec.dependency                'SwiftLint', '~> 0.24'
 end
 

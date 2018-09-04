@@ -1,4 +1,4 @@
-BLUE DRAGON PHP SDK
+WHITE DRAGON IOS SDK
 
 © Copyright 2018, Little Green Viper Software Development LLC.
 
