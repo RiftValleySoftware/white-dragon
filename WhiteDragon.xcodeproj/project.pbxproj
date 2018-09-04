@@ -3,11 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D477B405213EA86B0018AB45 /* white_dragon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D477B3FB213EA86B0018AB45 /* white_dragon.framework */; };
+		D477B405213EA86B0018AB45 /* WhiteDragon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D477B3FB213EA86B0018AB45 /* WhiteDragon.framework */; };
 		D477B40A213EA86B0018AB45 /* white_dragonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D477B409213EA86B0018AB45 /* white_dragonTests.swift */; };
 		D477B40C213EA86B0018AB45 /* white_dragon.h in Headers */ = {isa = PBXBuildFile; fileRef = D477B3FE213EA86B0018AB45 /* white_dragon.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
@@ -23,10 +23,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		D477B3FB213EA86B0018AB45 /* white_dragon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = white_dragon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D477B3FB213EA86B0018AB45 /* WhiteDragon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = WhiteDragon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D477B3FE213EA86B0018AB45 /* white_dragon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = white_dragon.h; sourceTree = "<group>"; };
 		D477B3FF213EA86B0018AB45 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D477B404213EA86B0018AB45 /* white-dragonTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "white-dragonTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D477B404213EA86B0018AB45 /* WhiteDragonTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WhiteDragonTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D477B409213EA86B0018AB45 /* white_dragonTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = white_dragonTests.swift; sourceTree = "<group>"; };
 		D477B40B213EA86B0018AB45 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -43,7 +43,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D477B405213EA86B0018AB45 /* white_dragon.framework in Frameworks */,
+				D477B405213EA86B0018AB45 /* WhiteDragon.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -53,8 +53,8 @@
 		D477B3F1213EA86B0018AB45 = {
 			isa = PBXGroup;
 			children = (
-				D477B3FD213EA86B0018AB45 /* white-dragon */,
-				D477B408213EA86B0018AB45 /* white-dragonTests */,
+				D477B3FD213EA86B0018AB45 /* WhiteDragon */,
+				D477B408213EA86B0018AB45 /* WhiteDragonTests */,
 				D477B3FC213EA86B0018AB45 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -62,28 +62,28 @@
 		D477B3FC213EA86B0018AB45 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D477B3FB213EA86B0018AB45 /* white_dragon.framework */,
-				D477B404213EA86B0018AB45 /* white-dragonTests.xctest */,
+				D477B3FB213EA86B0018AB45 /* WhiteDragon.framework */,
+				D477B404213EA86B0018AB45 /* WhiteDragonTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		D477B3FD213EA86B0018AB45 /* white-dragon */ = {
+		D477B3FD213EA86B0018AB45 /* WhiteDragon */ = {
 			isa = PBXGroup;
 			children = (
 				D477B3FE213EA86B0018AB45 /* white_dragon.h */,
 				D477B3FF213EA86B0018AB45 /* Info.plist */,
 			);
-			path = "white-dragon";
+			path = WhiteDragon;
 			sourceTree = "<group>";
 		};
-		D477B408213EA86B0018AB45 /* white-dragonTests */ = {
+		D477B408213EA86B0018AB45 /* WhiteDragonTests */ = {
 			isa = PBXGroup;
 			children = (
 				D477B409213EA86B0018AB45 /* white_dragonTests.swift */,
 				D477B40B213EA86B0018AB45 /* Info.plist */,
 			);
-			path = "white-dragonTests";
+			path = WhiteDragonTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -100,9 +100,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		D477B3FA213EA86B0018AB45 /* white-dragon */ = {
+		D477B3FA213EA86B0018AB45 /* WhiteDragon */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D477B40F213EA86B0018AB45 /* Build configuration list for PBXNativeTarget "white-dragon" */;
+			buildConfigurationList = D477B40F213EA86B0018AB45 /* Build configuration list for PBXNativeTarget "WhiteDragon" */;
 			buildPhases = (
 				D477B3F6213EA86B0018AB45 /* Headers */,
 				D477B3F7213EA86B0018AB45 /* Sources */,
@@ -113,14 +113,14 @@
 			);
 			dependencies = (
 			);
-			name = "white-dragon";
+			name = WhiteDragon;
 			productName = "white-dragon";
-			productReference = D477B3FB213EA86B0018AB45 /* white_dragon.framework */;
+			productReference = D477B3FB213EA86B0018AB45 /* WhiteDragon.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		D477B403213EA86B0018AB45 /* white-dragonTests */ = {
+		D477B403213EA86B0018AB45 /* WhiteDragonTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D477B412213EA86B0018AB45 /* Build configuration list for PBXNativeTarget "white-dragonTests" */;
+			buildConfigurationList = D477B412213EA86B0018AB45 /* Build configuration list for PBXNativeTarget "WhiteDragonTests" */;
 			buildPhases = (
 				D477B400213EA86B0018AB45 /* Sources */,
 				D477B401213EA86B0018AB45 /* Frameworks */,
@@ -131,9 +131,9 @@
 			dependencies = (
 				D477B407213EA86B0018AB45 /* PBXTargetDependency */,
 			);
-			name = "white-dragonTests";
+			name = WhiteDragonTests;
 			productName = "white-dragonTests";
-			productReference = D477B404213EA86B0018AB45 /* white-dragonTests.xctest */;
+			productReference = D477B404213EA86B0018AB45 /* WhiteDragonTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -142,6 +142,7 @@
 		D477B3F2213EA86B0018AB45 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				CLASSPREFIX = RVP_;
 				LastSwiftUpdateCheck = 1000;
 				LastUpgradeCheck = 1000;
 				ORGANIZATIONNAME = "Little Green Viper Software Development LLC";
@@ -154,8 +155,8 @@
 					};
 				};
 			};
-			buildConfigurationList = D477B3F5213EA86B0018AB45 /* Build configuration list for PBXProject "white-dragon" */;
-			compatibilityVersion = "Xcode 9.3";
+			buildConfigurationList = D477B3F5213EA86B0018AB45 /* Build configuration list for PBXProject "WhiteDragon" */;
+			compatibilityVersion = "Xcode 10.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -166,8 +167,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				D477B3FA213EA86B0018AB45 /* white-dragon */,
-				D477B403213EA86B0018AB45 /* white-dragonTests */,
+				D477B3FA213EA86B0018AB45 /* WhiteDragon */,
+				D477B403213EA86B0018AB45 /* WhiteDragonTests */,
 			);
 		};
 /* End PBXProject section */
@@ -210,7 +211,7 @@
 /* Begin PBXTargetDependency section */
 		D477B407213EA86B0018AB45 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = D477B3FA213EA86B0018AB45 /* white-dragon */;
+			target = D477B3FA213EA86B0018AB45 /* WhiteDragon */;
 			targetProxy = D477B406213EA86B0018AB45 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -268,7 +269,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -326,7 +327,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -427,7 +428,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		D477B3F5213EA86B0018AB45 /* Build configuration list for PBXProject "white-dragon" */ = {
+		D477B3F5213EA86B0018AB45 /* Build configuration list for PBXProject "WhiteDragon" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D477B40D213EA86B0018AB45 /* Debug */,
@@ -436,7 +437,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D477B40F213EA86B0018AB45 /* Build configuration list for PBXNativeTarget "white-dragon" */ = {
+		D477B40F213EA86B0018AB45 /* Build configuration list for PBXNativeTarget "WhiteDragon" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D477B410213EA86B0018AB45 /* Debug */,
@@ -445,7 +446,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D477B412213EA86B0018AB45 /* Build configuration list for PBXNativeTarget "white-dragonTests" */ = {
+		D477B412213EA86B0018AB45 /* Build configuration list for PBXNativeTarget "WhiteDragonTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D477B413213EA86B0018AB45 /* Debug */,
