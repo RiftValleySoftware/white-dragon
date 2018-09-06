@@ -12,7 +12,6 @@
 		D477B40A213EA86B0018AB45 /* white_dragonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D477B409213EA86B0018AB45 /* white_dragonTests.swift */; };
 		D477B40C213EA86B0018AB45 /* white_dragon.h in Headers */ = {isa = PBXBuildFile; fileRef = D477B3FE213EA86B0018AB45 /* white_dragon.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D4B94831213EEA6200A3560E /* RVP_IOS_SDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B94830213EEA6200A3560E /* RVP_IOS_SDK.swift */; };
-		D4B94832213EECBE00A3560E /* RVP_IOS_SDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B94830213EEA6200A3560E /* RVP_IOS_SDK.swift */; };
 		D4B94835213EFBD100A3560E /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = D4B94834213EFBD100A3560E /* Podfile */; };
 /* End PBXBuildFile section */
 
@@ -304,7 +303,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				D477B40A213EA86B0018AB45 /* white_dragonTests.swift in Sources */,
-				D4B94832213EECBE00A3560E /* RVP_IOS_SDK.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
