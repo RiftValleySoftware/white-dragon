@@ -26,24 +26,23 @@ import Foundation
 /* ###################################################################################################################################### */
 /**
  */
-public protocol RVP_IOS_SDK_Delegate {
-
-    /** The following methods are required */
+public protocol RVP_IOS_SDK_Delegate: class {
+    /* ################################################################## */
+    // MARK: - REQUIRED METHODS -
+    /* ################################################################## */
+    /**
+     */
+    func sdkInstance(_ inSDKInstance: RVP_IOS_SDK, loginValid: Bool)
     
     /* ################################################################## */
     /**
      */
-    func sdkInstance(_ inSDKInstance: RVP_IOS_SDK, loginValid inLoginValid: Bool)
+    func sdkInstance(_ inSDKInstance: RVP_IOS_SDK, sessionDisconnectedBecause: RVP_IOS_SDK.Disconnection_Reason)
     
     /* ################################################################## */
     /**
      */
-    func sdkInstance(_ inSDKInstance: RVP_IOS_SDK, sessionDisconnectedBecause inReason: RVP_IOS_SDK.Disconnection_Reason)
-    
-    /* ################################################################## */
-    /**
-     */
-    func sdkInstance(_ inSDKInstance: RVP_IOS_SDK, sessionError inError: Error)
+    func sdkInstance(_ inSDKInstance: RVP_IOS_SDK, sessionError: Error)
 }
 
 /* ###################################################################################################################################### */
@@ -54,7 +53,7 @@ public protocol RVP_IOS_SDK_Delegate {
  
  The SDK is a Swift-only shared framework for use by Swift applications, targeting iOS 10 or above.
  */
-public class RVP_IOS_SDK: NSObject {
+public class RVP_IOS_SDK: NSObject, URLSessionTaskDelegate {
     /* ################################################################## */
     // MARK: Public Enums
     /* ################################################################## */
@@ -63,7 +62,7 @@ public class RVP_IOS_SDK: NSObject {
      
      These are supplied in the delegate method.
     */
-    public enum Disconnection_Reason : Int {
+    public enum Disconnection_Reason: Int {
         /** Unkown reason. */
         case Unknown = 0
         /** The connection period has completed. */
@@ -77,14 +76,14 @@ public class RVP_IOS_SDK: NSObject {
     /* ################################################################## */
     // MARK: Private Properties
     /* ################################################################## */
+    /** This is the delegate object. This instance is pretty much useless without a delegate. */
+    private weak var _delegate: RVP_IOS_SDK_Delegate?
+    
     /** This is the URI to the server. */
     private var _server_uri: String = ""
     
     /** This is the server's sectret. */
     private var _server_secret: String = ""
-    
-    /** This is a simple Boolean operator that is set to true, if the instance is currently logged in. */
-    private var _loggedIn: Bool = false
     
     /** If _loggedIn is true, then this must be non-nil, and is the time at which the login was made. */
     private var _loginTime: Date! = nil
@@ -94,6 +93,12 @@ public class RVP_IOS_SDK: NSObject {
 
     /** This is the connection session with the server. It is initiated at the time the class is instantiated, and destroyed when the class is torn down. */
     private var _connectionSession: URLSession! = nil
+    
+    /** This Dictionary will contain our session tasks while they are running. This will use the call URI - Method as a key. */
+    private var _connectionTasks: [String: URLSessionTask] = [:]
+    
+    /** This is the API Key (if logged in). */
+    private var _apiKey: String! = nil
     
     /* ################################################################## */
     // MARK: Public Properties
@@ -107,12 +112,22 @@ public class RVP_IOS_SDK: NSObject {
     */
     var isLoggedIn: Bool {
         let logged_in_time = Date().timeIntervalSince(self._loginTime)
-        return self._loggedIn && (nil != self._loginTimeout) && (self._loginTimeout! <= logged_in_time)
+        return (nil != self._apiKey) && (nil != self._loginTimeout) && (self._loginTimeout! <= logged_in_time)
     }
     
     /* ################################################################## */
     // MARK: Internal Instance Methods
     /* ################################################################## */
+    /**
+     */
+    private func _handleError (_ inError: Error) {
+    }
+    
+    /* ################################################################## */
+    /**
+     */
+    private func _handleHTTPError (_ inResponse: URLResponse?) {
+    }
 
     /* ################################################################## */
     // MARK: Public Instance Methods
@@ -122,54 +137,101 @@ public class RVP_IOS_SDK: NSObject {
      
      - parameter serverURI: (REQUIRED) A String, with the URI to a valid BAOBAB Server
      - parameter serverSecret: (REQUIRED) A String, with the Server secret for the target server.
+     - parameter delegate: (REQUIRED) A RVP_IOS_SDK_Delegate that will receive updates from the SDK instance.
      - parameter loginId: (OPTIONAL) A String, with a login ID. If provided, then you must also provide inPassword and inLoginTimeout.
      - parameter password: (OPTIONAL) A String, with a login password. If provided, then you must also provide inLoginId and inLoginTimeout.
      - parameter timeout: (OPTIONAL) A Floating-point value, with the number of seconds the login has to be active. If provided, then you must also provide inLoginId and inPassword.
      */
-    public init(serverURI inServerURI: String, serverSecret inServerSecret: String, loginID inLoginId: String! = nil, password inPassword: String! = nil, timeout inLoginTimeout: TimeInterval! = nil) {
+    public init(serverURI inServerURI: String, serverSecret inServerSecret: String, delegate inDelegate: RVP_IOS_SDK_Delegate, loginID inLoginId: String! = nil, password inPassword: String! = nil, timeout inLoginTimeout: TimeInterval! = nil) {
         super.init()
+        
+        self._delegate = inDelegate
+        
+        // Store the items we hang onto.
         self._server_uri = inServerURI
         self._server_secret = inServerSecret
         
+        // Set up our URL session.
+        let configuration = URLSessionConfiguration.ephemeral
+        configuration.waitsForConnectivity = true
+        configuration.allowsCellularAccess = true
+        self._connectionSession = URLSession(configuration: configuration, delegate: self, delegateQueue: nil)
+        
         // If any one of the optionals is provided, then they must ALL be provided.
-        if ((nil != inLoginId) || (nil != inPassword) || (nil != inLoginTimeout)) {
-            if ((nil == inLoginId) || (nil == inPassword) || (nil == inLoginTimeout)) {
+        if nil != inLoginId || nil != inPassword || nil != inLoginTimeout {
+            if nil == inLoginId || nil == inPassword || nil == inLoginTimeout {
                 return
             }
             
-            // Unsuccessful login is not good.
-            if (!self.login(inLoginId: inLoginId, inPassword: inPassword, inLoginTimeout: inLoginTimeout)) {
-                return
-            }
+            // If a login was provided, we attempt a login.
+            _ = self.login(loginId: inLoginId, password: inPassword, timeout: inLoginTimeout)
         }
-        
-        // If we made it here, we either didn't login, or we sucessfully logged in.
     }
     
-    /* ########################################################## */
+    /* ################################################################## */
     /**
      */
     deinit {
     }
     
-    /* ########################################################## */
+    /* ################################################################## */
     /**
      This is the standard login method.
      
-     - parameter inLoginId: (REQUIRED) A String, with a login ID.
-     - parameter inPassword: (REQUIRED) A String, with a login password.
-     - parameter inLoginTimeout: (REQUIRED) A Floating-point value, with the number of seconds the login has to be active.
+     - parameter loginId: (REQUIRED) A String, with a login ID.
+     - parameter password: (REQUIRED) A String, with a login password.
+     - parameter timeout: (REQUIRED) A Floating-point value, with the number of seconds the login has to be active.
      
-     - returns: true, if the login was successful.
+     - returns: true, if the login request was successful (NOTE: This is not a successful login. It merely indicates that the login was dispatched successfully).
      */
-    public func login(inLoginId: String, inPassword: String, inLoginTimeout: TimeInterval) -> Bool {
-        var ret: Bool
+    public func login(loginId inLoginId: String, password inPassword: String, timeout inLoginTimeout: TimeInterval) -> Bool {
+        var ret: Bool = false
         
-        self._loginTimeout = inLoginTimeout
-        self._loginTime = Date()
+        self._loginTimeout = inLoginTimeout // This is how long we'll have to be logged in, before the server kicks us out.
+        self._loginTime = Date()    // Starting now.
         
-        ret = false
+        // The login is a simple GET task, so we can just use a straight-up task for this.
+        if let login_id_object = inLoginId.urlEncodedString {
+            if let password_object = inPassword.urlEncodedString {
+                let url = self._server_uri + "/login?login_id=" + login_id_object + "&password=" + password_object
+                if let url_object = URL(string: url) {
+                    let loginTask = self._connectionSession.dataTask(with: url_object) { data, response, error in
+                        if let error = error {
+                            self._handleError(error)
+                            return
+                        }
+                        guard let httpResponse = response as? HTTPURLResponse,
+                            (200...299).contains(httpResponse.statusCode) else {
+                                self._handleHTTPError(response)
+                                return
+                        }
+                        if let mimeType = httpResponse.mimeType, mimeType == "text/html",
+                            let data = data,
+                            let apiKey = String(data: data, encoding: .utf8) {
+                            self._apiKey = apiKey
+                            
+                            if nil != self._delegate {
+                                self._delegate!.sdkInstance(self, loginValid: true)
+                            }
+                        }
+                    }
+                    
+                    ret = true
+                    
+                    loginTask.resume()
+                }
+            }
+        }
         
         return ret
+    }
+
+    /* ################################################################## */
+    /**
+     */
+    public func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
+        #if DEBUG
+        print(task.taskDescription ?? "ERROR")
+        #endif
     }
 }
