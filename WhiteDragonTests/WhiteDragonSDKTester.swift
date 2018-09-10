@@ -20,7 +20,86 @@
 */
 
 import Foundation
+import WhiteDragon
 
-class WhiteDragonSDKTester {
-  
+class WhiteDragonSDKTester: RVP_IOS_SDK_Delegate {
+    let uri: String = "https://littlegreenviper.com/fuggedaboudit/baobab/index.php"
+    let secret: String = "Supercalifragilisticexpialidocious"
+    
+    let adminLogin: String = "admin"
+    let normalTimeout: TimeInterval = 3600
+    let adminTimeout: TimeInterval = 600
+    var sdkInstance: RVP_IOS_SDK?
+    var loginID: String?
+    var password: String?
+
+    /* ################################################################## */
+    /**
+     */
+    private func _setupDBComplete() {
+        if nil != self.loginID && nil != self.password {
+            self.login(loginID: self.loginID!, password: self.password!)
+        }
+    }
+
+    /* ################################################################## */
+    /**
+     */
+    private func _setDBUp(_ inDBPrefix: String) {
+        if let db = inDBPrefix.urlEncodedString {
+            let url = "https://littlegreenviper.com/fuggedaboudit/set-db/index.php??l=2&s=Rambunkchous&d=" + db
+            if let url_object = URL(string: url) {
+                let configuration = URLSessionConfiguration.ephemeral
+                configuration.waitsForConnectivity = true
+                let connectionSession = URLSession(configuration: configuration, delegate: nil, delegateQueue: nil)
+                let loginInfoTask = connectionSession.dataTask(with: url_object) { data, response, error in
+                    self._setupDBComplete()
+                }
+                
+                loginInfoTask.resume()
+            }
+        }
+    }
+    
+    /* ################################################################## */
+    // MARK: - Public Instance Methods
+    /* ################################################################## */
+    /**
+     */
+    public init(dbPrefix inDBPrefix: String, loginID inLoginID: String? = nil, password inPassword: String? = nil) {
+        self.loginID = inLoginID
+        self.password = inPassword
+        self.sdkInstance = RVP_IOS_SDK(serverURI: self.uri, serverSecret: self.secret, delegate: self)
+        self._setDBUp(inDBPrefix)
+    }
+    
+    /* ################################################################## */
+    /**
+     */
+    func login(loginID inLoginId: String, password inPassword: String) {
+        if let sdkInstance = self.sdkInstance {
+            let timeout = (self.adminLogin == inLoginId ? self.adminTimeout : self.normalTimeout)
+            _ = sdkInstance.login(loginID: inLoginId, password: inPassword, timeout: timeout)
+        }
+    }
+    
+    /* ################################################################## */
+    // MARK: - RVP_IOS_SDK_Delegate Methods
+    /* ################################################################## */
+    /**
+     */
+    func sdkInstance(_ inSDKInstance: RVP_IOS_SDK, loginValid: Bool) {
+    }
+
+    /* ################################################################## */
+    /**
+     */
+    func sdkInstance(_ inSDKInstance: RVP_IOS_SDK, sessionDisconnectedBecause: RVP_IOS_SDK.Disconnection_Reason) {
+    }
+        
+    /* ################################################################## */
+    /**
+     */
+    func sdkInstance(_ inSDKInstance: RVP_IOS_SDK, sessionError: Error) {
+    }
 }
