@@ -263,6 +263,9 @@ public class RVP_IOS_SDK: NSObject, URLSessionTaskDelegate {
     /**
      */
     deinit {
+        if self.isLoggedIn {
+            self.logout()
+        }
     }
     
     /* ################################################################## */
@@ -312,6 +315,24 @@ public class RVP_IOS_SDK: NSObject, URLSessionTaskDelegate {
         }
         
         return ret
+    }
+
+    /* ################################################################## */
+    /**
+     */
+    public func logout() {
+        if let secret = self._server_secret.urlEncodedString {
+            if let apiKey = self._apiKey.urlEncodedString {
+                let url = self._server_uri + "/logout?login_server_secret=" + secret + "&login_api_key=" + apiKey
+                if let url_object = URL(string: url) {
+                    let logoutTask = self._connectionSession.dataTask(with: url_object) { data, response, error in
+                        self._callDelegateServerValid(false)
+                    }
+                    
+                    logoutTask.resume()
+                }
+            }
+        }
     }
 
     /* ################################################################## */

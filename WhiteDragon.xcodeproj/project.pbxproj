@@ -13,6 +13,27 @@
 		D477B405213EA86B0018AB45 /* WhiteDragon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D477B3FB213EA86B0018AB45 /* WhiteDragon.framework */; };
 		D477B40A213EA86B0018AB45 /* white_dragonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D477B409213EA86B0018AB45 /* white_dragonTests.swift */; };
 		D477B40C213EA86B0018AB45 /* white_dragon.h in Headers */ = {isa = PBXBuildFile; fileRef = D477B3FE213EA86B0018AB45 /* white_dragon.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D4807664214692DD00ACC0FE /* A_RVP_IOS_SDK_Object.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4807663214692DD00ACC0FE /* A_RVP_IOS_SDK_Object.swift */; };
+		D4807665214692DD00ACC0FE /* A_RVP_IOS_SDK_Object.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4807663214692DD00ACC0FE /* A_RVP_IOS_SDK_Object.swift */; };
+		D4807666214692DD00ACC0FE /* A_RVP_IOS_SDK_Object.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4807663214692DD00ACC0FE /* A_RVP_IOS_SDK_Object.swift */; };
+		D48076682146930400ACC0FE /* A_RVP_IOS_SDK_Data_Object.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48076672146930400ACC0FE /* A_RVP_IOS_SDK_Data_Object.swift */; };
+		D48076692146930400ACC0FE /* A_RVP_IOS_SDK_Data_Object.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48076672146930400ACC0FE /* A_RVP_IOS_SDK_Data_Object.swift */; };
+		D480766A2146930400ACC0FE /* A_RVP_IOS_SDK_Data_Object.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48076672146930400ACC0FE /* A_RVP_IOS_SDK_Data_Object.swift */; };
+		D480766C2146932800ACC0FE /* A_RVP_IOS_SDK_Security_Object.swift in Sources */ = {isa = PBXBuildFile; fileRef = D480766B2146932800ACC0FE /* A_RVP_IOS_SDK_Security_Object.swift */; };
+		D480766D2146932800ACC0FE /* A_RVP_IOS_SDK_Security_Object.swift in Sources */ = {isa = PBXBuildFile; fileRef = D480766B2146932800ACC0FE /* A_RVP_IOS_SDK_Security_Object.swift */; };
+		D480766E2146932800ACC0FE /* A_RVP_IOS_SDK_Security_Object.swift in Sources */ = {isa = PBXBuildFile; fileRef = D480766B2146932800ACC0FE /* A_RVP_IOS_SDK_Security_Object.swift */; };
+		D48076702146938800ACC0FE /* RVP_IOS_SDK_Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = D480766F2146938800ACC0FE /* RVP_IOS_SDK_Login.swift */; };
+		D48076712146938800ACC0FE /* RVP_IOS_SDK_Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = D480766F2146938800ACC0FE /* RVP_IOS_SDK_Login.swift */; };
+		D48076722146938800ACC0FE /* RVP_IOS_SDK_Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = D480766F2146938800ACC0FE /* RVP_IOS_SDK_Login.swift */; };
+		D4807674214693D800ACC0FE /* RVP_IOS_SDK_User.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4807673214693D700ACC0FE /* RVP_IOS_SDK_User.swift */; };
+		D4807675214693D800ACC0FE /* RVP_IOS_SDK_User.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4807673214693D700ACC0FE /* RVP_IOS_SDK_User.swift */; };
+		D4807676214693D800ACC0FE /* RVP_IOS_SDK_User.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4807673214693D700ACC0FE /* RVP_IOS_SDK_User.swift */; };
+		D48076782146B5DB00ACC0FE /* RVP_IOS_SDK_Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48076772146B5DB00ACC0FE /* RVP_IOS_SDK_Place.swift */; };
+		D48076792146B5DB00ACC0FE /* RVP_IOS_SDK_Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48076772146B5DB00ACC0FE /* RVP_IOS_SDK_Place.swift */; };
+		D480767A2146B5DB00ACC0FE /* RVP_IOS_SDK_Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48076772146B5DB00ACC0FE /* RVP_IOS_SDK_Place.swift */; };
+		D480767C2146B62400ACC0FE /* RVP_IOS_SDK_Thing.swift in Sources */ = {isa = PBXBuildFile; fileRef = D480767B2146B62400ACC0FE /* RVP_IOS_SDK_Thing.swift */; };
+		D480767D2146B62400ACC0FE /* RVP_IOS_SDK_Thing.swift in Sources */ = {isa = PBXBuildFile; fileRef = D480767B2146B62400ACC0FE /* RVP_IOS_SDK_Thing.swift */; };
+		D480767E2146B62400ACC0FE /* RVP_IOS_SDK_Thing.swift in Sources */ = {isa = PBXBuildFile; fileRef = D480767B2146B62400ACC0FE /* RVP_IOS_SDK_Thing.swift */; };
 		D48C37F921430FEE00570D27 /* RVP_IOS_SDK_Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4687FF52142EC3600293358 /* RVP_IOS_SDK_Utils.swift */; };
 		D4B94831213EEA6200A3560E /* RVP_IOS_SDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B94830213EEA6200A3560E /* RVP_IOS_SDK.swift */; };
 		D4B94835213EFBD100A3560E /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = D4B94834213EFBD100A3560E /* Podfile */; };
@@ -39,13 +60,20 @@
 		013808534F4BE80FA8E7DA44 /* Pods-WhiteDragon.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WhiteDragon.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WhiteDragon/Pods-WhiteDragon.debug.xcconfig"; sourceTree = "<group>"; };
 		69826259210E6D8098363362 /* Pods-WhiteDragon.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WhiteDragon.release.xcconfig"; path = "Pods/Target Support Files/Pods-WhiteDragon/Pods-WhiteDragon.release.xcconfig"; sourceTree = "<group>"; };
 		D4687FF32142E4D000293358 /* WhiteDragonSDKTester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteDragonSDKTester.swift; sourceTree = "<group>"; };
-		D4687FF52142EC3600293358 /* RVP_IOS_SDK_Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RVP_IOS_SDK_Utils.swift; path = Classes/RVP_IOS_SDK_Utils.swift; sourceTree = "<group>"; };
+		D4687FF52142EC3600293358 /* RVP_IOS_SDK_Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RVP_IOS_SDK_Utils.swift; sourceTree = "<group>"; };
 		D477B3FB213EA86B0018AB45 /* WhiteDragon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = WhiteDragon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D477B3FE213EA86B0018AB45 /* white_dragon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = white_dragon.h; sourceTree = "<group>"; };
 		D477B3FF213EA86B0018AB45 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D477B404213EA86B0018AB45 /* WhiteDragonTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WhiteDragonTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D477B409213EA86B0018AB45 /* white_dragonTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = white_dragonTests.swift; sourceTree = "<group>"; };
 		D477B40B213EA86B0018AB45 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D4807663214692DD00ACC0FE /* A_RVP_IOS_SDK_Object.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = A_RVP_IOS_SDK_Object.swift; sourceTree = "<group>"; };
+		D48076672146930400ACC0FE /* A_RVP_IOS_SDK_Data_Object.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = A_RVP_IOS_SDK_Data_Object.swift; sourceTree = "<group>"; };
+		D480766B2146932800ACC0FE /* A_RVP_IOS_SDK_Security_Object.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = A_RVP_IOS_SDK_Security_Object.swift; sourceTree = "<group>"; };
+		D480766F2146938800ACC0FE /* RVP_IOS_SDK_Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RVP_IOS_SDK_Login.swift; sourceTree = "<group>"; };
+		D4807673214693D700ACC0FE /* RVP_IOS_SDK_User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RVP_IOS_SDK_User.swift; sourceTree = "<group>"; };
+		D48076772146B5DB00ACC0FE /* RVP_IOS_SDK_Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RVP_IOS_SDK_Place.swift; sourceTree = "<group>"; };
+		D480767B2146B62400ACC0FE /* RVP_IOS_SDK_Thing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RVP_IOS_SDK_Thing.swift; sourceTree = "<group>"; };
 		D4B8A989213ECB18007CB311 /* WhiteDragon.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = WhiteDragon.podspec; sourceTree = "<group>"; };
 		D4B8A98A213ECB18007CB311 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		D4B8A98B213ECB18007CB311 /* LICENSE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
@@ -127,10 +155,10 @@
 		D477B3FD213EA86B0018AB45 /* WhiteDragon */ = {
 			isa = PBXGroup;
 			children = (
-				D4687FF52142EC3600293358 /* RVP_IOS_SDK_Utils.swift */,
 				D4B94830213EEA6200A3560E /* RVP_IOS_SDK.swift */,
-				D477B3FE213EA86B0018AB45 /* white_dragon.h */,
-				D477B3FF213EA86B0018AB45 /* Info.plist */,
+				D480767F2146B64000ACC0FE /* Instances */,
+				D48076812146B68000ACC0FE /* Extra */,
+				D48076802146B66A00ACC0FE /* Miscellaneous */,
 			);
 			path = WhiteDragon;
 			sourceTree = "<group>";
@@ -143,6 +171,37 @@
 				D477B40B213EA86B0018AB45 /* Info.plist */,
 			);
 			path = WhiteDragonTests;
+			sourceTree = "<group>";
+		};
+		D480767F2146B64000ACC0FE /* Instances */ = {
+			isa = PBXGroup;
+			children = (
+				D4807663214692DD00ACC0FE /* A_RVP_IOS_SDK_Object.swift */,
+				D480766B2146932800ACC0FE /* A_RVP_IOS_SDK_Security_Object.swift */,
+				D48076672146930400ACC0FE /* A_RVP_IOS_SDK_Data_Object.swift */,
+				D480766F2146938800ACC0FE /* RVP_IOS_SDK_Login.swift */,
+				D4807673214693D700ACC0FE /* RVP_IOS_SDK_User.swift */,
+				D48076772146B5DB00ACC0FE /* RVP_IOS_SDK_Place.swift */,
+				D480767B2146B62400ACC0FE /* RVP_IOS_SDK_Thing.swift */,
+			);
+			name = Instances;
+			sourceTree = "<group>";
+		};
+		D48076802146B66A00ACC0FE /* Miscellaneous */ = {
+			isa = PBXGroup;
+			children = (
+				D477B3FE213EA86B0018AB45 /* white_dragon.h */,
+				D477B3FF213EA86B0018AB45 /* Info.plist */,
+			);
+			path = Miscellaneous;
+			sourceTree = "<group>";
+		};
+		D48076812146B68000ACC0FE /* Extra */ = {
+			isa = PBXGroup;
+			children = (
+				D4687FF52142EC3600293358 /* RVP_IOS_SDK_Utils.swift */,
+			);
+			name = Extra;
 			sourceTree = "<group>";
 		};
 		D4B8A988213ECAF8007CB311 /* Miscellaneous */ = {
@@ -369,7 +428,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D4807664214692DD00ACC0FE /* A_RVP_IOS_SDK_Object.swift in Sources */,
+				D48076782146B5DB00ACC0FE /* RVP_IOS_SDK_Place.swift in Sources */,
+				D48076682146930400ACC0FE /* A_RVP_IOS_SDK_Data_Object.swift in Sources */,
+				D480767C2146B62400ACC0FE /* RVP_IOS_SDK_Thing.swift in Sources */,
+				D480766C2146932800ACC0FE /* A_RVP_IOS_SDK_Security_Object.swift in Sources */,
 				D4B94831213EEA6200A3560E /* RVP_IOS_SDK.swift in Sources */,
+				D48076702146938800ACC0FE /* RVP_IOS_SDK_Login.swift in Sources */,
+				D4807674214693D800ACC0FE /* RVP_IOS_SDK_User.swift in Sources */,
 				D4687FF62142EC3600293358 /* RVP_IOS_SDK_Utils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -378,7 +444,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D4807665214692DD00ACC0FE /* A_RVP_IOS_SDK_Object.swift in Sources */,
+				D48076792146B5DB00ACC0FE /* RVP_IOS_SDK_Place.swift in Sources */,
+				D48076692146930400ACC0FE /* A_RVP_IOS_SDK_Data_Object.swift in Sources */,
+				D480767D2146B62400ACC0FE /* RVP_IOS_SDK_Thing.swift in Sources */,
+				D480766D2146932800ACC0FE /* A_RVP_IOS_SDK_Security_Object.swift in Sources */,
 				D4687FF42142E4D000293358 /* WhiteDragonSDKTester.swift in Sources */,
+				D48076712146938800ACC0FE /* RVP_IOS_SDK_Login.swift in Sources */,
+				D4807675214693D800ACC0FE /* RVP_IOS_SDK_User.swift in Sources */,
 				D477B40A213EA86B0018AB45 /* white_dragonTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -390,7 +463,14 @@
 				D48C37F921430FEE00570D27 /* RVP_IOS_SDK_Utils.swift in Sources */,
 				D4E2686E2143031E002ECE12 /* WhiteDragonSDKTester.swift in Sources */,
 				D4E26860214302A2002ECE12 /* ViewController.swift in Sources */,
+				D4807676214693D800ACC0FE /* RVP_IOS_SDK_User.swift in Sources */,
+				D480766E2146932800ACC0FE /* A_RVP_IOS_SDK_Security_Object.swift in Sources */,
+				D4807666214692DD00ACC0FE /* A_RVP_IOS_SDK_Object.swift in Sources */,
+				D480767E2146B62400ACC0FE /* RVP_IOS_SDK_Thing.swift in Sources */,
 				D4D8703621446C0D001283D0 /* RVP_IOS_SDK.swift in Sources */,
+				D480766A2146930400ACC0FE /* A_RVP_IOS_SDK_Data_Object.swift in Sources */,
+				D48076722146938800ACC0FE /* RVP_IOS_SDK_Login.swift in Sources */,
+				D480767A2146B5DB00ACC0FE /* RVP_IOS_SDK_Place.swift in Sources */,
 				D4E2685E214302A2002ECE12 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
