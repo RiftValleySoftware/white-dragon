@@ -27,5 +27,26 @@ import Foundation
 /**
  */
 class A_RVP_IOS_SDK_Security_Object: A_RVP_IOS_SDK_Object {
-  
+    /* ################################################################## */
+    // MARK: - Public Methods and Calulated properties -
+    /* ################################################################## */
+    /**
+     */
+    public override init(sdkInstance inSDKInstance: RVP_IOS_SDK? = nil, objectInfoData inData: [String:Any]) {
+        super.init(sdkInstance: inSDKInstance, objectInfoData: inData)
+    }
+    
+    /* ################################################################## */
+    /**
+     - returns the object login ID, as a String
+     */
+    public var login_id: String {
+        var ret = ""
+        
+        if let login_id = self._myData["login_id"] as? String {
+            ret = login_id
+        }
+        
+        return ret
+    }
 }

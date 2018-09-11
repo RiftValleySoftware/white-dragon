@@ -27,5 +27,12 @@ import Foundation
 /**
  */
 class RVP_IOS_SDK_Thing: A_RVP_IOS_SDK_Data_Object {
-  
+    /* ################################################################## */
+    // MARK: - Public Methods and Calulated properties -
+    /* ################################################################## */
+    /**
+     */
+    public override init(sdkInstance inSDKInstance: RVP_IOS_SDK? = nil, objectInfoData inData: [String:Any]) {
+        super.init(sdkInstance: inSDKInstance, objectInfoData: inData)
+    }
 }
