@@ -169,6 +169,9 @@ public class RVP_IOS_SDK: NSObject, URLSessionTaskDelegate, Sequence {
     /** This is our user info. If we are logged in, we might have something. */
     private var _userInfo: RVP_IOS_SDK_User? = nil
 
+    /** This is our list of available plugins. */
+    private var _plugins: [String] = []
+    
     /* ################################################################## */
     // MARK: Public Properties and Calculated Properties
     /* ################################################################## */
@@ -178,10 +181,22 @@ public class RVP_IOS_SDK: NSObject, URLSessionTaskDelegate, Sequence {
      Logins only last so long, at which time a new API key should be fetched.
      
      - returns: true, if we are logged in, and the time interval has not passed.
-    */
+     */
     var isLoggedIn: Bool {
         let logged_in_time = Date().timeIntervalSince(self._loginTime)
         return (nil != self._apiKey) && (nil != self._loginTimeout) && (self._loginTimeout! >= logged_in_time)
+    }
+    
+    /* ################################################################## */
+    /**
+     This is a computed property that will return true if the server connection is valid (regardless of login status).
+     
+     NOTE: This will not be valid until after the preliminary communications have completed (the delegate has been called with sdkInstance(_:,loginValid:)).
+     
+     - returns: true, if we have a list of plugins, which means that we were able to communicate with the server.
+     */
+    var isValid: Bool {
+        return !self._plugins.isEmpty
     }
     
     /* ################################################################## */
@@ -194,7 +209,15 @@ public class RVP_IOS_SDK: NSObject, URLSessionTaskDelegate, Sequence {
     
     /* ################################################################## */
     /**
-     This allows the instance to be treated like a smple Array.
+     - returns true, if we have no items in our cache.
+     */
+    var isEmpty: Bool {
+        return self._dataItems.isEmpty
+    }
+
+    /* ################################################################## */
+    /**
+     This allows the instance to be treated like a simple Array.
      
      - parameter _: The 0-based index we are addressing.
      
@@ -245,46 +268,56 @@ public class RVP_IOS_SDK: NSObject, URLSessionTaskDelegate, Sequence {
     /* ################################################################## */
     /**
      */
-    private func _parseBaselineDictionary (_ inDictionary: [String: Any]) -> [A_RVP_IOS_SDK_Object?] {
-        let ret: [A_RVP_IOS_SDK_Object?] = []
+    private func _parseBaselineResponse (_ inData: Data) -> [String: Any] {
+        var ret: [String: Any] = [:]
         
-        print(inDictionary)
-
-        for (key, value) in inDictionary {
-            switch key {
-            case "plugins":
-                break
-                
-            case "tokens":
-                break
-                
-            case "people":
-                break
-                
-            case "places":
-                break
-                
-            case "things":
-                break
-                
-            case "search_location":
-                break
-                
-            case "serverinfo":
-                break
-                
-            case "token":
-                break
-                
-            case "id":
-                break
-                
-            case "bulk_upload":
-                break
-                
-            default:
-                break
+        do {    // Extract a usable object from the given JSON data.
+            let temp = try JSONSerialization.jsonObject(with: inData, options: [])
+            
+            if let main_object = temp as? [String: Any] {
+                if let baseline_response = main_object["baseline"] as? [String: Any] {
+                    for (key, value) in baseline_response {
+                        switch key {
+                        case "plugins":
+                            if let plugin_response = value as? [String] {
+                                ret = ["plugins": plugin_response]
+                            }
+                            break
+                            
+                        case "tokens":
+                            break
+                            
+                        case "people":
+                            break
+                            
+                        case "places":
+                            break
+                            
+                        case "things":
+                            break
+                            
+                        case "search_location":
+                            break
+                            
+                        case "serverinfo":
+                            break
+                            
+                        case "token":
+                            break
+                            
+                        case "id":
+                            break
+                            
+                        case "bulk_upload":
+                            break
+                            
+                        default:
+                            break
+                        }
+                    }
+                }
             }
+        } catch {   // We end up here if the response is not a proper JSON object.
         }
 
         return ret
@@ -333,10 +366,6 @@ public class RVP_IOS_SDK: NSObject, URLSessionTaskDelegate, Sequence {
         // First, see if we have a data item. If so, we simply go right to the factory.
         if nil != inParent, let _ = inDictionary.object(forKey: "id"), let _ = inDictionary.object(forKey: "name"), let _ = inDictionary.object(forKey: "lang"), let object_data = inDictionary as? [String: Any] {
             ret = [self._makeNewInstanceFromDictionary(object_data, parent: inParent)]
-        } else if let baseline_value = inDictionary.object(forKey: "baseline") { // Baseline plugin has some different rules.
-            if let cast_value = baseline_value as? [String: Any] {  // We cast into a simple Dictionary, then hand off to our parser function.
-                ret = self._parseBaselineDictionary(cast_value)
-            }
         } else { // Otherwise, we simply go down the rabbit-hole.
             for (key, value) in inDictionary {
                 if let forced_key = key as? String {
@@ -373,6 +402,9 @@ public class RVP_IOS_SDK: NSObject, URLSessionTaskDelegate, Sequence {
     /**
      */
     private func _handleError (_ inError: Error) {
+        #if DEBUG
+        print(inError)
+        #endif
         if nil != self._delegate {
             self._delegate!.sdkInstance(self, sessionError: inError)
         }
@@ -382,23 +414,23 @@ public class RVP_IOS_SDK: NSObject, URLSessionTaskDelegate, Sequence {
     /**
      */
     private func _handleHTTPError (_ inResponse: URLResponse?) {
+        #if DEBUG
+        print(inResponse ?? "HTTP ERROR")
+        #endif
         if nil != self._delegate {
-            #if DEBUG
-            print(inResponse ?? "ERROR")
-            #endif
         }
     }
 
     /* ################################################################## */
     /**
      */
-    private func _callDelegateServerValid (_ inIsValid: Bool) {
+    private func _callDelegateLoginValid (_ inIsLoggedIn: Bool) {
         #if DEBUG
-        print("Server is" + (inIsValid ? "" : " not") + " valid.")
+        print("Server is" + (inIsLoggedIn ? "" : " not") + " logged in.")
         #endif
         
         if let delegate = self._delegate {
-            delegate.sdkInstance(self, loginValid: inIsValid)
+            delegate.sdkInstance(self, loginValid: inIsLoggedIn)
         }
     }
 
@@ -459,7 +491,7 @@ public class RVP_IOS_SDK: NSObject, URLSessionTaskDelegate, Sequence {
                                     return
                             }
                             if 400 == httpResponse.statusCode { // If we get nothing but a 400, we assume there is no user info, and go straight to completion.
-                                self._callDelegateServerValid(true)
+                                self._getBaselinePlugins()
                             } else if let mimeType = httpResponse.mimeType, mimeType == "application/json",
                                 let data = data {
                                 if let object = self._makeInstance(data: data) as? [RVP_IOS_SDK_User] {
@@ -467,7 +499,7 @@ public class RVP_IOS_SDK: NSObject, URLSessionTaskDelegate, Sequence {
                                         self._userInfo = object[0]
                                     }
                                 }
-                                self._callDelegateServerValid(true)
+                                self._getBaselinePlugins()
                             }
                         }
                         
@@ -475,6 +507,37 @@ public class RVP_IOS_SDK: NSObject, URLSessionTaskDelegate, Sequence {
                     }
                 }
             }
+        }
+    }
+    
+    /* ################################################################## */
+    /**
+     */
+    private func _getBaselinePlugins() {
+        let url = self._server_uri + "/json/baseline"
+        if let url_object = URL(string: url) {
+            let baselineTask = self._connectionSession.dataTask(with: url_object) { data, response, error in
+                if let error = error {
+                    self._handleError(error)
+                    return
+                }
+                guard let httpResponse = response as? HTTPURLResponse,
+                    (200...299).contains(httpResponse.statusCode) else {
+                        self._handleHTTPError(response)
+                        return
+                }
+                if let mimeType = httpResponse.mimeType, mimeType == "application/json",
+                    let data = data {
+                    if let plugins = self._parseBaselineResponse(data) as? [String: [String]] {
+                        if let plugin_array = plugins["plugins"] {
+                            self._plugins = plugin_array
+                            self._callDelegateLoginValid(self.isLoggedIn)   // OK. We're done. Tell the delegate whether or not we are logged in.
+                        }
+                    }
+                }
+            }
+            
+            baselineTask.resume()
         }
     }
 
@@ -513,7 +576,9 @@ public class RVP_IOS_SDK: NSObject, URLSessionTaskDelegate, Sequence {
             }
             
             // If a login was provided, we attempt a login.
-            _ = self.login(loginID: inLoginId, password: inPassword, timeout: inLoginTimeout)
+            self.login(loginID: inLoginId, password: inPassword, timeout: inLoginTimeout)
+        } else {    // Otherwise, simply fetch the baseline plugins.
+            self._getBaselinePlugins()
         }
     }
     
@@ -525,20 +590,20 @@ public class RVP_IOS_SDK: NSObject, URLSessionTaskDelegate, Sequence {
             self.logout()
         }
     }
-    
+
     /* ################################################################## */
     /**
      This is the standard login method.
      
+     When we log in, we go through the process of getting the API key (sending the login info), then getting our login information, our user information (if available), and the baseline plugins.
+     
+     After all that, the delegate will be called with the login valid/invalid response.
+     
      - parameter loginID: (REQUIRED) A String, with a login ID.
      - parameter password: (REQUIRED) A String, with a login password.
      - parameter timeout: (REQUIRED) A Floating-point value, with the number of seconds the login has to be active.
-     
-     - returns: true, if the login request was successful (NOTE: This is not a successful login. It merely indicates that the login was dispatched successfully).
      */
-    public func login(loginID inLoginID: String, password inPassword: String, timeout inLoginTimeout: TimeInterval) -> Bool {
-        var ret: Bool = false
-        
+    public func login(loginID inLoginID: String, password inPassword: String, timeout inLoginTimeout: TimeInterval) {
         self._loginTimeout = inLoginTimeout // This is how long we'll have to be logged in, before the server kicks us out.
         self._loginTime = Date()    // Starting now.
         
@@ -565,14 +630,10 @@ public class RVP_IOS_SDK: NSObject, URLSessionTaskDelegate, Sequence {
                         }
                     }
                     
-                    ret = true
-                    
                     loginTask.resume()
                 }
             }
         }
-        
-        return ret
     }
 
     /* ################################################################## */
@@ -584,7 +645,7 @@ public class RVP_IOS_SDK: NSObject, URLSessionTaskDelegate, Sequence {
                 let url = self._server_uri + "/logout?login_server_secret=" + secret + "&login_api_key=" + apiKey
                 if let url_object = URL(string: url) {
                     let logoutTask = self._connectionSession.dataTask(with: url_object) { data, response, error in
-                        self._callDelegateServerValid(false)
+                        self._callDelegateLoginValid(false)
                     }
                     
                     logoutTask.resume()

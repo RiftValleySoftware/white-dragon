@@ -20,6 +20,5 @@ class white_dragonTests: XCTestCase {
     }
 
     func testSimpleInstantiation() {
-        let _ = WhiteDragonSDKTester(loginID: "admin", password: "CoreysGoryStory")
     }
 }
