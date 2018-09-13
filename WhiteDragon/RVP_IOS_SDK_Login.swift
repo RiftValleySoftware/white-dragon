@@ -32,7 +32,7 @@ class RVP_IOS_SDK_Login: A_RVP_IOS_SDK_Security_Object {
     /* ################################################################## */
     /**
      */
-    public override init(sdkInstance inSDKInstance: RVP_IOS_SDK? = nil, objectInfoData inData: [String:Any]) {
+    public override init(sdkInstance inSDKInstance: RVP_IOS_SDK? = nil, objectInfoData inData: [String: Any]) {
         super.init(sdkInstance: inSDKInstance, objectInfoData: inData)
     }
 }

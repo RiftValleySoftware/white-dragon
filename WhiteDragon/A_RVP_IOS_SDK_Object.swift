@@ -31,20 +31,20 @@ public class A_RVP_IOS_SDK_Object: NSObject {
     // MARK: - Internal Variables -
     /* ################################################################## */
     /** This is the SDK object that "owns" this instance. It may be nil for change history entries. */
-    internal var _sdkInstance: RVP_IOS_SDK? = nil
+    internal var _sdkInstance: RVP_IOS_SDK?
     
     /** This records changes made during the current instantiation (not before) of this object. It has a tuple with a "before" instance, and an "after" instance. */
     internal var _changeHistory: [(before: A_RVP_IOS_SDK_Object?, after: A_RVP_IOS_SDK_Object?)] = []
     
     /** This contains the actual JSON data that was read from the server for this record. */
-    internal var _myData: [String:Any] = [:]
+    internal var _myData: [String: Any] = [:]
     
     /* ################################################################## */
     // MARK: - Public Methods and Calulated properties -
     /* ################################################################## */
     /**
      */
-    public init(sdkInstance inSDKInstance: RVP_IOS_SDK? = nil, objectInfoData inData: [String:Any]) {
+    public init(sdkInstance inSDKInstance: RVP_IOS_SDK? = nil, objectInfoData inData: [String: Any]) {
         self._sdkInstance = inSDKInstance
         self._myData = inData
     }

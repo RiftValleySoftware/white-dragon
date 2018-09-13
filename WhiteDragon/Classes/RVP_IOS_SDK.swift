@@ -57,8 +57,10 @@ public protocol RVP_IOS_SDK_Delegate: class {
  
  This system works by caching retrieved objects in the main SDK instance, and referencing them. This is different from the PHP SDK, where each object
  is an independent instance and state.
+ 
+ This class follows the Sequence protocol, so it can be treated like an Array of data or security database instances. These instances are sorted by ID.
  */
-public class RVP_IOS_SDK: NSObject, URLSessionTaskDelegate, Sequence {
+public class RVP_IOS_SDK: NSObject, Sequence {
     /* ################################################################## */
     // MARK: - Public Enums
     /* ################################################################## */
@@ -133,7 +135,7 @@ public class RVP_IOS_SDK: NSObject, URLSessionTaskDelegate, Sequence {
     private var _dataItems: [A_RVP_IOS_SDK_Object] = []
     
     /** This is the delegate object. This instance is pretty much useless without a delegate. */
-    private var _delegate: RVP_IOS_SDK_Delegate?
+    private weak var _delegate: RVP_IOS_SDK_Delegate?
     
     /** This is the URI to the server. */
     private var _server_uri: String = ""
@@ -157,10 +159,10 @@ public class RVP_IOS_SDK: NSObject, URLSessionTaskDelegate, Sequence {
     private var _apiKey: String! = nil
     
     /** This is our login info. If we are logged in, this should always have something. */
-    private var _loginInfo: RVP_IOS_SDK_Login? = nil
+    private var _loginInfo: RVP_IOS_SDK_Login?
     
     /** This is our user info. If we are logged in, we might have something, but not always. */
-    private var _userInfo: RVP_IOS_SDK_User? = nil
+    private var _userInfo: RVP_IOS_SDK_User?
 
     /** This is our list of available plugins. It will be filled, regardless of login status. */
     private var _plugins: [String] = []
@@ -176,7 +178,7 @@ public class RVP_IOS_SDK: NSObject, URLSessionTaskDelegate, Sequence {
      - returns: true, if we are logged in, and the time interval has not passed.
      */
     var isLoggedIn: Bool {
-        if nil != self._loginTime && nil != self._apiKey && nil != self._loginTimeout{ // If we don't have a login time or API Key, then we're def not logged in.
+        if nil != self._loginTime && nil != self._apiKey && nil != self._loginTimeout { // If we don't have a login time or API Key, then we're def not logged in.
             let logged_in_time: TimeInterval = Date().timeIntervalSince(self._loginTime)    // See if we are still in the login window.
             return self._loginTimeout! >= logged_in_time
         }
@@ -232,6 +234,45 @@ public class RVP_IOS_SDK: NSObject, URLSessionTaskDelegate, Sequence {
     // MARK: - Private Instance Methods
     /* ################################################################## */
     /**
+     This sorts our instance Array by ID.
+     */
+    private func _sortDataItems() {
+        if !self.isEmpty {  // Nothing to do, if we have no items.
+            self._dataItems = self._dataItems.sorted {
+                var ret = $0.id < $1.id
+                
+                if !ret {   // Security objects get listed before data objects
+                    ret = $0 is A_RVP_IOS_SDK_Security_Object && $1 is A_RVP_IOS_SDK_Data_Object
+                }
+
+                return ret
+            }
+        }
+    }
+    
+    /* ################################################################## */
+    /**
+     This checks our Array of instances, looking for an item with the given database and ID.
+     
+     - parameter inCompInstance: An instance of a subclass of A_RVP_IOS_SDK_Object, to be compared.
+     
+     - returns: The instance, if found. nil, otherwise.
+     */
+    private func _findDataItem(compInstance inCompInstance: A_RVP_IOS_SDK_Object) -> A_RVP_IOS_SDK_Object? {
+        if !self.isEmpty {  // Nothing to do, if we have no items.
+            for item in self where item.id == inCompInstance.id {
+                // OK. The ID is unique in each database, so we check to see if an existing object and the given object are in the same database.
+                if (item is A_RVP_IOS_SDK_Security_Object && inCompInstance is A_RVP_IOS_SDK_Security_Object) || (item is A_RVP_IOS_SDK_Data_Object && inCompInstance is A_RVP_IOS_SDK_Data_Object) {
+                    return item // If so, we return the cached object.
+                }
+            }
+        }
+        
+        return nil
+    }
+    
+    /* ################################################################## */
+    /**
      This is a factory method for creating instances of data items.
      
      The goal of this function is to parse the returned data stream (JSON objects), and return one or more instances of
@@ -266,9 +307,9 @@ public class RVP_IOS_SDK: NSObject, URLSessionTaskDelegate, Sequence {
     
     /* ################################################################## */
     /**
-     This is a factory method for creating basline objects.
+     This is a factory method for creating baseline objects.
      
-     The baseline plugin can produce a variety of objects, so it needs to be handled differently.
+     The baseline plugin can produce a variety of objects, so it needs to be handled differently. These will not be cached.
      
      - parameter data: A Data object, with the JSON data (which will be parsed) returned from the server.
      
@@ -288,7 +329,6 @@ public class RVP_IOS_SDK: NSObject, URLSessionTaskDelegate, Sequence {
                             if let plugin_response = value as? [String] {
                                 ret = ["plugins": plugin_response]
                             }
-                            break
                             
                         case "tokens":
                             break
@@ -331,54 +371,83 @@ public class RVP_IOS_SDK: NSObject, URLSessionTaskDelegate, Sequence {
 
     /* ################################################################## */
     /**
+     This is a factory funtion that creates a new "leaf" instance (data item) from
+     a given Dictionary.
+     
+     It is assumed that the given Dictionary contains the fields necessary to describe a
+     standard data database or security database item. The Dictionary is first examined to
+     see if it is a security database item. If not, then the passed-in "parent" string is
+     required to determine the appropriate subclass.
+     
+     - parameter inDictionary: The Dictionary object with the item data.
+     - parameter parent: A String, with the key for the "parent" container.
+     
+     - returns: A new subclass instance of A_RVP_IOS_SDK_Object, or nil.
      */
     private func _makeNewInstanceFromDictionary(_ inDictionary: [String: Any], parent inParent: String) -> A_RVP_IOS_SDK_Object? {
-        var ret: A_RVP_IOS_SDK_Object? = nil
-        
-        if nil != inDictionary["login_id"] {    // We can easily determine whether or not this is a login. If so, we create a login object.
-            ret = RVP_IOS_SDK_Login(sdkInstance: self, objectInfoData: inDictionary)
+        var ret: A_RVP_IOS_SDK_Object?
+        var instance: A_RVP_IOS_SDK_Object?
+
+        if nil != inDictionary["login_id"] {    // We can easily determine whether or not this is a login. If so, we create a login object. This will be the only security database item.
+            instance = RVP_IOS_SDK_Login(sdkInstance: self, objectInfoData: inDictionary)
         } else {    // The login was low-hanging fruit. For the rest, we need to depend on the "parent" passed in.
             switch inParent {
             case "my_info", "people":
-                ret = RVP_IOS_SDK_User(sdkInstance: self, objectInfoData: inDictionary)
-                break
+                instance = RVP_IOS_SDK_User(sdkInstance: self, objectInfoData: inDictionary)
                 
             case "places":
-                ret = RVP_IOS_SDK_Place(sdkInstance: self, objectInfoData: inDictionary)
-                break
+                instance = RVP_IOS_SDK_Place(sdkInstance: self, objectInfoData: inDictionary)
                 
             case "things":
-                ret = RVP_IOS_SDK_Thing(sdkInstance: self, objectInfoData: inDictionary)
-                break
+                instance = RVP_IOS_SDK_Thing(sdkInstance: self, objectInfoData: inDictionary)
                 
             default:
                 break
             }
         }
         
-        if let print_run = ret {
-            print(print_run.id)
-            print(print_run.name)
+        // Assuming we got something, we compare the temporary allocation with what we have in our cache.
+        if nil != instance {
+            // If we already have this object, we return our cached instance, instead of the one we just allocated.
+            if let existingInstance = self._findDataItem(compInstance: instance!) {
+                ret = existingInstance
+            } else {    // Otherwise, we add our new instance to the cache, sort the cache, and return the instance.
+                self._dataItems.append(instance!)
+                self._sortDataItems()
+                ret = instance
+            }
         }
-        
+
         return ret
     }
     
     /* ################################################################## */
     /**
+     This is a second-level "factory" method for creating subclasses of data
+     returned from the JSON parser. It does a "quick triage" to determine
+     whether or not to generate a "leaf" instance, or to recursively
+     follow the Dictionary (which may have an Array).
+     
+     This "follows the breadcrumb trail" into the returned JSON, parsing Dictionaries
+     or Arrays, as necessary. It will instantiate data items, and store them in an Array.
+     
+     - parameter inDictionary: The Dictionary object with the item data.
+     - parameter parent: A String, with the key for the "parent" container.
+     
+     - returns: An Array of new subclass instances of A_RVP_IOS_SDK_Object.
      */
     private func _makeInstancesFromDictionary(_ inDictionary: NSDictionary, parent inParent: String! = nil) -> [A_RVP_IOS_SDK_Object?] {
         var ret: [A_RVP_IOS_SDK_Object?] = []
         // First, see if we have a data item. If so, we simply go right to the factory.
-        if nil != inParent, let _ = inDictionary.object(forKey: "id"), let _ = inDictionary.object(forKey: "name"), let _ = inDictionary.object(forKey: "lang"), let object_data = inDictionary as? [String: Any] {
+        if nil != inParent, nil != inDictionary.object(forKey: "id"), nil != inDictionary.object(forKey: "name"), nil != inDictionary.object(forKey: "lang"), let object_data = inDictionary as? [String: Any] {
             ret = [self._makeNewInstanceFromDictionary(object_data, parent: inParent)]
         } else { // Otherwise, we simply go down the rabbit-hole.
             for (key, value) in inDictionary {
-                if let forced_key = key as? String {
-                    if value is NSDictionary {
-                        ret = [ret, self._makeInstancesFromDictionary(value as! NSDictionary, parent: forced_key)].flatMap { $0 }
-                    } else if value is NSArray {
-                        ret = [ret, self._makeInstancesFromArray(value as! NSArray, parent: forced_key)].flatMap { $0 }
+                if let forced_key = key as? String {    // This will be the "parent" key for the next level down.
+                    if let forced_value = value as? NSDictionary {  // See whether we go Dictionary or Array.
+                        ret = [ret, self._makeInstancesFromDictionary(forced_value, parent: forced_key)].flatMap { $0 }   // The flatmap() method ensures that we merge the arrays "flat."
+                    } else if let forced_value = value as? NSArray {
+                        ret = [ret, self._makeInstancesFromArray(forced_value, parent: forced_key)].flatMap { $0 }
                     }
                 }
             }
@@ -389,15 +458,22 @@ public class RVP_IOS_SDK: NSObject, URLSessionTaskDelegate, Sequence {
 
     /* ################################################################## */
     /**
+     This is a factory method, much like _makeInstancesFromDictionary, but for
+     Arrays, not Dictionaries.
+     
+     - parameter inArray: The Array object with the items' data.
+     - parameter parent: A String, with the key for the "parent" container.
+     
+     - returns: An Array of new subclass instances of A_RVP_IOS_SDK_Object.
      */
     private func _makeInstancesFromArray(_ inArray: NSArray, parent inParent: String! = nil) -> [A_RVP_IOS_SDK_Object?] {
         var ret: [A_RVP_IOS_SDK_Object?] = []
-        // With Arrays, we don't have pernt keys, so we use the one that was originally passed in.
+        // With Arrays, we don't have parent keys, so we use the one that was originally passed in.
         for value in inArray {
-            if value is NSDictionary {
-                ret = [ret, self._makeInstancesFromDictionary(value as! NSDictionary, parent: inParent)].flatMap { $0 }
-            } else if value is NSArray {
-                ret = [ret, self._makeInstancesFromArray(value as! NSArray, parent: inParent)].flatMap { $0 }
+            if let forced_value = value as? NSDictionary {
+                ret = [ret, self._makeInstancesFromDictionary(forced_value, parent: inParent)].flatMap { $0 }
+            } else if let forced_value = value as? NSArray {
+                ret = [ret, self._makeInstancesFromArray(forced_value, parent: inParent)].flatMap { $0 }
             }
         }
         
@@ -472,7 +548,7 @@ public class RVP_IOS_SDK: NSObject, URLSessionTaskDelegate, Sequence {
                                     return
                             }
                             if let mimeType = httpResponse.mimeType, mimeType == "application/json",
-                                let data = data  {
+                                let data = data {
                                 if let object = self._makeInstance(data: data) as? [RVP_IOS_SDK_Login] {
                                     if 0 < object.count {
                                         self._loginInfo = object[0]
@@ -530,6 +606,7 @@ public class RVP_IOS_SDK: NSObject, URLSessionTaskDelegate, Sequence {
     
     /* ################################################################## */
     /**
+     This method fetches the plugin array from the server. This is used as a "validity" test. A valid server will always return this list.
      */
     private func _getBaselinePlugins() {
         let url = self._server_uri + "/json/baseline"
@@ -585,7 +662,7 @@ public class RVP_IOS_SDK: NSObject, URLSessionTaskDelegate, Sequence {
         let configuration = URLSessionConfiguration.ephemeral
         configuration.waitsForConnectivity = true
         configuration.allowsCellularAccess = true
-        self._connectionSession = URLSession(configuration: configuration, delegate: self, delegateQueue: nil)
+        self._connectionSession = URLSession(configuration: configuration, delegate: nil, delegateQueue: nil)
         
         // If any one of the optionals is provided, then they must ALL be provided.
         if nil != inLoginId || nil != inPassword || nil != inLoginTimeout {
@@ -662,7 +739,7 @@ public class RVP_IOS_SDK: NSObject, URLSessionTaskDelegate, Sequence {
             if let apiKey = self._apiKey.urlEncodedString {
                 let url = self._server_uri + "/logout?login_server_secret=" + secret + "&login_api_key=" + apiKey
                 if let url_object = URL(string: url) {
-                    let logoutTask = self._connectionSession.dataTask(with: url_object) { data, response, error in
+                    let logoutTask = self._connectionSession.dataTask(with: url_object) { _, _, _ in
                         self._callDelegateLoginValid(false)
                     }
                     
@@ -670,17 +747,6 @@ public class RVP_IOS_SDK: NSObject, URLSessionTaskDelegate, Sequence {
                 }
             }
         }
-    }
-
-    /* ################################################################## */
-    // MARK: - URLSessionTaskDelegate Methods
-    /* ################################################################## */
-    /**
-     */
-    public func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
-        #if DEBUG
-        print(task.taskDescription ?? "ERROR")
-        #endif
     }
     
     /* ################################################################## */

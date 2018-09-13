@@ -32,7 +32,7 @@ class A_RVP_IOS_SDK_Data_Object: A_RVP_IOS_SDK_Object {
     /* ################################################################## */
     /**
      */
-    public override init(sdkInstance inSDKInstance: RVP_IOS_SDK? = nil, objectInfoData inData: [String:Any]) {
+    public override init(sdkInstance inSDKInstance: RVP_IOS_SDK? = nil, objectInfoData inData: [String: Any]) {
         super.init(sdkInstance: inSDKInstance, objectInfoData: inData)
     }
 }

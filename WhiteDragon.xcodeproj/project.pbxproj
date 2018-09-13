@@ -297,6 +297,7 @@
 			buildConfigurationList = D4E2686C214302A4002ECE12 /* Build configuration list for PBXNativeTarget "WhiteDragonTestHarness" */;
 			buildPhases = (
 				D4E26857214302A2002ECE12 /* Sources */,
+				D41FAD0A214A9B0800194B95 /* SwiftLINT */,
 				D4E26858214302A2002ECE12 /* Frameworks */,
 				D4E26859214302A2002ECE12 /* Resources */,
 			);
@@ -402,6 +403,24 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
+		};
+		D41FAD0A214A9B0800194B95 /* SwiftLINT */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLINT;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PROJECT_DIR}/Pods/SwiftLint/swiftlint\"\n";
 		};
 		D4B94833213EFB8A00A3560E /* SwiftLINT */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -639,7 +658,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "$(SRCROOT)/WhiteDragon/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/WhiteDragon/Miscellaneous/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -667,7 +686,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "$(SRCROOT)/WhiteDragon/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/WhiteDragon/Miscellaneous/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

@@ -46,7 +46,7 @@ extension String {
     
     /* ################################################################## */
     /**
-     The following calculated property comes from this: http: //stackoverflow.com/a/27736118/879365
+     The following calculated property comes from this: http://stackoverflow.com/a/27736118/879365
      
      This extension function cleans up a URI string.
      
@@ -60,10 +60,39 @@ extension String {
             return ""
         }
     }
-    
+
     /* ################################################################## */
     /**
-     The following function comes from this: http: //stackoverflow.com/a/27736118/879365
+     This was cribbed from here: https://stackoverflow.com/a/48867619/879365
+     
+     This is a quick "classmaker" from a String. You assume the String is the name of
+     a class that you want to instantiate, so you use this to return a metatype that
+     can be used to create a class.
+     
+     - returns: a metatype for a class, or nil, if the class cannot be instantiated.
+     */
+    var asClass: AnyClass? {
+        // The first thing we do, is get the main app bundle. Failure retuend nil.
+        guard
+            let dict = Bundle.main.infoDictionary,
+            var appName = dict["CFBundleName"] as? String
+        else {
+            return nil
+        }
+        
+        // The app name will not tolerate spaces, so they are replaced with underscores.
+        appName = appName.replacingOccurrences(of: " ", with: "_")
+        
+        // The class name is simply a namespace-focused string.
+        let className = appName + "." + self
+        
+        // This looks through the app for the class being loaded. If it finds it, it returns the metatype for that class.
+        return NSClassFromString(className)
+    }
+
+    /* ################################################################## */
+    /**
+     The following function comes from this: http://stackoverflow.com/a/27736118/879365
      
      This extension function creates a URI query string from given parameters.
      

@@ -52,7 +52,7 @@ class WhiteDragonSDKTester: RVP_IOS_SDK_Delegate {
                 let configuration = URLSessionConfiguration.ephemeral
                 configuration.waitsForConnectivity = true
                 let connectionSession = URLSession(configuration: configuration, delegate: nil, delegateQueue: nil)
-                let loginInfoTask = connectionSession.dataTask(with: url_object) { data, response, error in
+                let loginInfoTask = connectionSession.dataTask(with: url_object) { _, _, _ in
                     self._setupDBComplete()
                 }
                 
