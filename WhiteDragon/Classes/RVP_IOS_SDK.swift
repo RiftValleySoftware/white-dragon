@@ -25,6 +25,7 @@ import Foundation
 // MARK: - Delegate Protocol -
 /* ###################################################################################################################################### */
 /**
+ This protocol needs to be applied to any class that will use the SDK. The SDK requires a delegate.
  */
 public protocol RVP_IOS_SDK_Delegate: class {
     /* ################################################################## */
@@ -66,10 +67,10 @@ public protocol RVP_IOS_SDK_Delegate: class {
  
  The SDK is a Swift-only shared framework for use by Swift applications, targeting iOS 10 or above.
  
- This system works by caching retrieved objects in the main SDK instance, and referencing them. This is different from the PHP SDK, where each object
- is an independent instance and state.
+ This system works by caching retrieved objects in the main SDK instance, and referencing them. This is different from the PHP SDK, where each object is an
+ independent instance and state. Swift likes objects to be referenced, as opposed to copied, so we honor that. Since the SDK is really an ORM, this makes sense.
  
- This class follows the Sequence protocol, so it can be treated like an Array of data or security database instances. These instances are sorted by ID.
+ This class follows the Sequence protocol, so its cached instances can be iterated and subscripted. These instances are kept sorted by ID and database.
  */
 public class RVP_IOS_SDK: NSObject, Sequence {
     /* ################################################################## */
@@ -130,7 +131,7 @@ public class RVP_IOS_SDK: NSObject, Sequence {
 
     /* ################################################################## */
     /**
-     This sorts our instance Array by ID.
+     This sorts our instance Array by ID and database.
      */
     private func _sortDataItems() {
         if !self.isEmpty {  // Nothing to do, if we have no items.
@@ -515,7 +516,8 @@ public class RVP_IOS_SDK: NSObject, Sequence {
     
     /* ################################################################## */
     /**
-     This method fetches the plugin array from the server. This is used as a "validity" test. A valid server will always return this list.
+     This method fetches the plugin array from the server. This is used as a "validity" test.
+     A valid server will always return this list, and you don't need to be logged in.
      */
     private func _getBaselinePlugins() {
         let url = self._server_uri + "/json/baseline"
@@ -573,7 +575,7 @@ public class RVP_IOS_SDK: NSObject, Sequence {
     }
     
     /* ################################################################## */
-    // MARK: - Public Properties and Calculated Properties
+    // MARK: - Public Calculated Properties
     /* ################################################################## */
     /**
      This is a computed property that will return true if the login is valid.
@@ -636,7 +638,7 @@ public class RVP_IOS_SDK: NSObject, Sequence {
     }
     
     /* ################################################################## */
-    // MARK: - Public Class Structs
+    // MARK: - Public Structs
     /* ################################################################## */
     /**
      This is a quick resolver for the basic HTTP status.
@@ -661,10 +663,8 @@ public class RVP_IOS_SDK: NSObject, Sequence {
     }
     
     /* ################################################################## */
-    // MARK: - Public Sequence Iterator Struct
-    /* ################################################################## */
     /**
-     We set this class up as a Sequence, so we can iterate over the saved data.
+     This is the Sequence Iterator Struct.
      */
     //: This is the iterator we'll use.
     public struct Iterator: IteratorProtocol {
