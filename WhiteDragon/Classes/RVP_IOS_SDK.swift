@@ -231,7 +231,20 @@ public class RVP_IOS_SDK: NSObject, Sequence {
     }
     
     /* ################################################################## */
-    // MARK: - Private Instance Methods
+    // MARK: - Private Instance Methods and Calculated Properties
+    /* ################################################################## */
+    /**
+     */
+    private var _loginParameters: String {
+        if let secret = self._server_secret.urlEncodedString {
+            if let apiKey = self._apiKey.urlEncodedString {
+                return "login_server_secret=" + secret + "&login_api_key=" + apiKey
+            }
+        }
+        
+        return ""
+    }
+
     /* ################################################################## */
     /**
      This sorts our instance Array by ID.
@@ -253,6 +266,8 @@ public class RVP_IOS_SDK: NSObject, Sequence {
     /* ################################################################## */
     /**
      This checks our Array of instances, looking for an item with the given database and ID.
+     
+     This is used to prevent multiple instances representing the same object in the server.
      
      - parameter inCompInstance: An instance of a subclass of A_RVP_IOS_SDK_Object, to be compared.
      
@@ -321,41 +336,25 @@ public class RVP_IOS_SDK: NSObject, Sequence {
         do {    // Extract a usable object from the given JSON data.
             let temp = try JSONSerialization.jsonObject(with: inData, options: [])
             
+            // We will return different Dictionaries, dependent on which response we got.
             if let main_object = temp as? [String: Any] {
                 if let baseline_response = main_object["baseline"] as? [String: Any] {
                     for (key, value) in baseline_response {
                         switch key {
-                        case "plugins":
-                            if let plugin_response = value as? [String] {
-                                ret = ["plugins": plugin_response]
+                        case "people", "places", "things":
+                            if let plugin_response = value as? [Int] {
+                                ret = [key: plugin_response]
                             }
                             
-                        case "tokens":
-                            break
+                        case "plugins":
+                            if let plugin_response = value as? [String] {
+                                ret = [key: plugin_response]
+                            }
                             
-                        case "people":
-                            break
-                            
-                        case "places":
-                            break
-                            
-                        case "things":
-                            break
-                            
-                        case "search_location":
-                            break
-                            
-                        case "serverinfo":
-                            break
-                            
-                        case "token":
-                            break
-                            
-                        case "id":
-                            break
-                            
-                        case "bulk_upload":
-                            break
+                        case "serverinfo", "search_location", "tokens", "bulk_upload", "token", "id":
+                            if let plugin_response = value as? [String: Any] {
+                                ret = [key: plugin_response]
+                            }
                             
                         default:
                             break
@@ -371,7 +370,7 @@ public class RVP_IOS_SDK: NSObject, Sequence {
 
     /* ################################################################## */
     /**
-     This is a factory funtion that creates a new "leaf" instance (data item) from
+     This is a factory method that creates a new "leaf" instance (data item) from
      a given Dictionary.
      
      It is assumed that the given Dictionary contains the fields necessary to describe a
@@ -530,76 +529,86 @@ public class RVP_IOS_SDK: NSObject, Sequence {
 
     /* ################################################################## */
     /**
+     This is to be called after a successful API Key fetch (login).
+     
+     We ask the server to send us our login object information.
+     
+     When we get the information, we parse it, create a new instance of the handler class
+     and cache that instance.
      */
     private func _getMyLoginInfo() {
         if self.isLoggedIn {
-            if let secret = self._server_secret.urlEncodedString {
-                if let apiKey = self._apiKey.urlEncodedString {
-                    let url = self._server_uri + "/json/people/logins/my_info?login_server_secret=" + secret + "&login_api_key=" + apiKey
-                    if let url_object = URL(string: url) {
-                        let loginInfoTask = self._connectionSession.dataTask(with: url_object) { data, response, error in
-                            if let error = error {
-                                self._handleError(error)
-                                return
-                            }
-                            guard let httpResponse = response as? HTTPURLResponse,
-                                (200...299).contains(httpResponse.statusCode) else {
-                                    self._handleHTTPError(response)
-                                    return
-                            }
-                            if let mimeType = httpResponse.mimeType, mimeType == "application/json",
-                                let data = data {
-                                if let object = self._makeInstance(data: data) as? [RVP_IOS_SDK_Login] {
-                                    if 0 < object.count {
-                                        self._loginInfo = object[0]
-                                    }
-                                }
+            let url = self._server_uri + "/json/people/logins/my_info?" + self._loginParameters
+            if let url_object = URL(string: url) {
+                // We handle the response in the closure.
+                let loginInfoTask = self._connectionSession.dataTask(with: url_object) { data, response, error in
+                    if let error = error {
+                        self._handleError(error)
+                        return
+                    }
+                    guard let httpResponse = response as? HTTPURLResponse,
+                        (200...299).contains(httpResponse.statusCode) else {
+                            self._handleHTTPError(response)
+                            return
+                    }
+                    if let mimeType = httpResponse.mimeType, mimeType == "application/json",
+                        let data = data {
+                        if let object = self._makeInstance(data: data) as? [RVP_IOS_SDK_Login] {
+                            if 1 == object.count {
+                                self._loginInfo = object[0]
+                                // Assuming all went well, we ask for any user information.
                                 self._getMyUserInfo()
+                            } else {
+                                
                             }
                         }
-                        
-                        loginInfoTask.resume()
                     }
                 }
+                
+                loginInfoTask.resume()
             }
         }
     }
 
     /* ################################################################## */
     /**
+     This is to be called after a successful API Key fetch (login) and a successful login info fetch.
+     
+     We ask the server to send us our user (data database) object information.
+     
+     When we get the information, we parse it, create a new instance of the handler class
+     and cache that instance.
      */
     private func _getMyUserInfo() {
         if self.isLoggedIn {
-            if let secret = self._server_secret.urlEncodedString {
-                if let apiKey = self._apiKey.urlEncodedString {
-                    let url = self._server_uri + "/json/people/people/my_info?login_server_secret=" + secret + "&login_api_key=" + apiKey
-                    if let url_object = URL(string: url) {
-                        let userInfoTask = self._connectionSession.dataTask(with: url_object) { data, response, error in
-                            if let error = error {
-                                self._handleError(error)
-                                return
-                            }
-                            guard let httpResponse = response as? HTTPURLResponse,
-                                (200...299).contains(httpResponse.statusCode) || (400 == httpResponse.statusCode) else {
-                                    self._handleHTTPError(response)
-                                    return
-                            }
-                            if 400 == httpResponse.statusCode { // If we get nothing but a 400, we assume there is no user info, and go straight to completion.
+            let url = self._server_uri + "/json/people/people/my_info" + self._loginParameters
+            if let url_object = URL(string: url) {
+                let userInfoTask = self._connectionSession.dataTask(with: url_object) { data, response, error in
+                    if let error = error {
+                        self._handleError(error)
+                        return
+                    }
+                    guard let httpResponse = response as? HTTPURLResponse,
+                        (200...299).contains(httpResponse.statusCode) || (400 == httpResponse.statusCode) else {
+                            self._handleHTTPError(response)
+                            return
+                    }
+                    if 400 == httpResponse.statusCode { // If we get nothing but a 400, we assume there is no user info, and go straight to completion.
+                        self._getBaselinePlugins()
+                    } else if let mimeType = httpResponse.mimeType, mimeType == "application/json",
+                        let data = data {
+                        if let object = self._makeInstance(data: data) as? [RVP_IOS_SDK_User] {
+                            if 1 == object.count {
+                                self._userInfo = object[0]
                                 self._getBaselinePlugins()
-                            } else if let mimeType = httpResponse.mimeType, mimeType == "application/json",
-                                let data = data {
-                                if let object = self._makeInstance(data: data) as? [RVP_IOS_SDK_User] {
-                                    if 0 < object.count {
-                                        self._userInfo = object[0]
-                                    }
-                                }
-                                self._getBaselinePlugins()
+                            } else {
+                                
                             }
                         }
-                        
-                        userInfoTask.resume()
                     }
                 }
+                
+                userInfoTask.resume()
             }
         }
     }
@@ -679,11 +688,10 @@ public class RVP_IOS_SDK: NSObject, Sequence {
     
     /* ################################################################## */
     /**
+     We simply make sure that we clean up after ourselves.
      */
     deinit {
-        if self.isLoggedIn {
-            self.logout()
-        }
+        self.logout()
     }
 
     /* ################################################################## */
@@ -733,18 +741,19 @@ public class RVP_IOS_SDK: NSObject, Sequence {
 
     /* ################################################################## */
     /**
+     This is the logout method.
+     
+     You must already be logged in for this to do anything. If so, is imply asks the server to log us out.
      */
     public func logout() {
-        if let secret = self._server_secret.urlEncodedString {
-            if let apiKey = self._apiKey.urlEncodedString {
-                let url = self._server_uri + "/logout?login_server_secret=" + secret + "&login_api_key=" + apiKey
-                if let url_object = URL(string: url) {
-                    let logoutTask = self._connectionSession.dataTask(with: url_object) { _, _, _ in
-                        self._callDelegateLoginValid(false)
-                    }
-                    
-                    logoutTask.resume()
+        if self.isLoggedIn {
+            let url = self._server_uri + "/logout?" + self._loginParameters
+            if let url_object = URL(string: url) {
+                let logoutTask = self._connectionSession.dataTask(with: url_object) { _, _, _ in
+                    self._callDelegateLoginValid(false)
                 }
+                
+                logoutTask.resume()
             }
         }
     }
@@ -753,6 +762,7 @@ public class RVP_IOS_SDK: NSObject, Sequence {
     // MARK: - Sequence Methods
     /* ################################################################## */
     /**
+     - returns: a new iterator for the instance.
      */
     public func makeIterator() -> RVP_IOS_SDK.Iterator {
         return Iterator(self._dataItems)
