@@ -33,17 +33,28 @@ public protocol RVP_IOS_SDK_Delegate: class {
     /**
      This is called when the server has completed its login sequence, and all is considered OK.
      The server should not be considered "usable" until after this method has been called with true.
+     
+     - parameter sdkInstance: This is the SDK instance making the call.
+     - parameter liginValid: A Bool, true, if the SDK is currently logged in.
      */
     func sdkInstance(_: RVP_IOS_SDK, loginValid: Bool)
     
     /* ################################################################## */
     /**
+     This is called when the SDK instance disconnects from the server.
+     
+     - parameter sdkInstance: This is the SDK instance making the call.
+     - parameter sessionDisconnectedBecause: The reason for the disconnection.
      */
-    func sdkInstance(_: RVP_IOS_SDK, sessionDisconnectedBecause: RVP_IOS_SDK.Disconnection_Reason)
+    func sdkInstance(_: RVP_IOS_SDK, sessionDisconnectedBecause: RVP_IOS_SDK.DisconnectionReason)
     
     /* ################################################################## */
     /**
-     */
+     This is called when there is an error in the SDK instance.
+     
+     - parameter sdkInstance: This is the SDK instance making the call.
+     - parameter sessionError: The error in question.
+    */
     func sdkInstance(_: RVP_IOS_SDK, sessionError: Error)
 }
 
@@ -61,73 +72,6 @@ public protocol RVP_IOS_SDK_Delegate: class {
  This class follows the Sequence protocol, so it can be treated like an Array of data or security database instances. These instances are sorted by ID.
  */
 public class RVP_IOS_SDK: NSObject, Sequence {
-    /* ################################################################## */
-    // MARK: - Public Enums
-    /* ################################################################## */
-    /**
-     This enum lists the various reasons that the server connection may be disconnected.
-     
-     These are supplied in the delegate method.
-     */
-    public enum Disconnection_Reason: Int {
-        /** Unkown reason. */
-        case Unknown = 0
-        /** The connection period has completed. */
-        case Timeout = 1
-        /** The server initiated the disconnection. */
-        case ServerDisconnected = 2
-        /** The client initiated the disconnection. */
-        case ClientDisconnected = 3
-        /** The server connection cannot be established. */
-        case ServerConnectionInvalid = 4
-    }
-    
-    /* ################################################################## */
-    // MARK: - Sequence Types
-    /* ################################################################## */
-    public typealias Element = A_RVP_IOS_SDK_Object
-    
-    /* ################################################################## */
-    // MARK: - Sequence Iterator Struct
-    /* ################################################################## */
-    /**
-     We set this class up as a Sequence, so we can iterate over the saved data.
-     */
-    //: This is the iterator we'll use.
-    public struct Iterator: IteratorProtocol {
-        /** This is the captured list that we're iterating. */
-        private let _iteratorList: [Element]
-        /** This is the current item in that list. */
-        private var _index: Int
-        
-        /* ############################################################## */
-        /**
-         The default initializer.
-         
-         - parameter _: The current list of instances at the time the iterator is created.
-         */
-        init(_ inCurrentState: [Element]) {
-            self._iteratorList = inCurrentState
-            self._index = 0
-        }
-        
-        /* ############################################################## */
-        /**
-         Simple "next" iterator method.
-         */
-        mutating public func next() -> Element? {
-            if self._index < self._iteratorList.count {
-                let ret = self._iteratorList[self._index]
-                
-                self._index += 1
-                
-                return ret
-            } else {
-                return nil
-            }
-        }
-    }
-
     /* ################################################################## */
     // MARK: - Private Properties
     /* ################################################################## */
@@ -168,72 +112,11 @@ public class RVP_IOS_SDK: NSObject, Sequence {
     private var _plugins: [String] = []
     
     /* ################################################################## */
-    // MARK: - Public Properties and Calculated Properties
-    /* ################################################################## */
-    /**
-     This is a computed property that will return true if the login is valid.
-     
-     Logins only last so long, at which time a new API key should be fetched.
-     
-     - returns: true, if we are logged in, and the time interval has not passed.
-     */
-    var isLoggedIn: Bool {
-        if nil != self._loginTime && nil != self._apiKey && nil != self._loginTimeout { // If we don't have a login time or API Key, then we're def not logged in.
-            let logged_in_time: TimeInterval = Date().timeIntervalSince(self._loginTime)    // See if we are still in the login window.
-            return self._loginTimeout! >= logged_in_time
-        }
-        
-        return false
-    }
-    
-    /* ################################################################## */
-    /**
-     This is a computed property that will return true if the server connection is valid (regardless of login status).
-     
-     NOTE: This will not be valid until after the preliminary communications have completed (the delegate has been called with sdkInstance(_:,loginValid:)).
-     
-     - returns: true, if we have a list of plugins, which means that we were able to communicate with the server.
-     */
-    var isValid: Bool {
-        return !self._plugins.isEmpty
-    }
-    
-    /* ################################################################## */
-    /**
-     - returns the number of data items in our cache.
-     */
-    var count: Int {
-        return self._dataItems.count
-    }
-    
-    /* ################################################################## */
-    /**
-     - returns true, if we have no items in our cache.
-     */
-    var isEmpty: Bool {
-        return self._dataItems.isEmpty
-    }
-
-    /* ################################################################## */
-    /**
-     This allows the instance to be treated like a simple Array.
-     
-     - parameter _: The 0-based index we are addressing.
-     
-     - returns the indexed item. Nil, if the index is out of range.
-     */
-    subscript(_ inIndex: Int) -> Element? {
-        if (0 <= inIndex) && (inIndex < self.count) {
-            return self._dataItems[inIndex]
-        }
-        
-        return nil
-    }
-    
-    /* ################################################################## */
     // MARK: - Private Instance Methods and Calculated Properties
     /* ################################################################## */
     /**
+     Returns a String, with the server secret and API Key alreay in URI form.
+     This should be appended to the URI, but be aware that it is not preceded by an ampersand (&).
      */
     private var _loginParameters: String {
         if let secret = self._server_secret.urlEncodedString {
@@ -481,6 +364,9 @@ public class RVP_IOS_SDK: NSObject, Sequence {
 
     /* ################################################################## */
     /**
+     This is called to send any errors back to the delegate.
+     
+     - parameter inError: The error being handled.
      */
     private func _handleError(_ inError: Error) {
         #if DEBUG
@@ -493,29 +379,43 @@ public class RVP_IOS_SDK: NSObject, Sequence {
 
     /* ################################################################## */
     /**
+     This is called to handle an HTTP Status error. It will call the _handleError() method.
+     
+     - parameter inResponse: The HTTP Response object being handled.
+     */
+    private func _handleHTTPError(_ inResponse: HTTPURLResponse?) {
+        #if DEBUG
+        print("HTTP Error: \(String(describing: inResponse))")
+        #endif
+        
+        if let response = inResponse {
+            let error = HTTPError(code: response.statusCode, description: "")
+            self._handleError(error)
+        }
+    }
+
+    /* ################################################################## */
+    /**
+     This is called if we determine the server connection to be invalid.
+     
+     If the delegate is valid, we call it with a notice that the session disconnected because of an invalid server connection.
      */
     private func _handleInvalidServer() {
         #if DEBUG
         print("Invalid Server!")
         #endif
         if nil != self._delegate {
-            self._delegate!.sdkInstance(self, sessionDisconnectedBecause: RVP_IOS_SDK.Disconnection_Reason.ServerConnectionInvalid)
+            self._delegate!.sdkInstance(self, sessionDisconnectedBecause: RVP_IOS_SDK.DisconnectionReason.ServerConnectionInvalid)
         }
     }
 
     /* ################################################################## */
     /**
-     */
-    private func _handleHTTPError(_ inResponse: URLResponse?) {
-        #if DEBUG
-        print(inResponse ?? "HTTP ERROR")
-        #endif
-        if nil != self._delegate {
-        }
-    }
-
-    /* ################################################################## */
-    /**
+     This is called after the server responds to a login or logout (in the case of a login, a lot of other stuff happens, as well).
+     
+     If the delegate is valid, we call it with a report of the current SDK instance login status.
+     
+     - parameter isLoggedIn: This is true, if the instance is currently logged into the server.
      */
     private func _callDelegateLoginValid(_ inIsLoggedIn: Bool) {
         #if DEBUG
@@ -548,7 +448,7 @@ public class RVP_IOS_SDK: NSObject, Sequence {
                     }
                     guard let httpResponse = response as? HTTPURLResponse,
                         (200...299).contains(httpResponse.statusCode) else {
-                            self._handleHTTPError(response)
+                            self._handleHTTPError(response as? HTTPURLResponse ?? nil)
                             return
                     }
                     if let mimeType = httpResponse.mimeType, mimeType == "application/json",
@@ -581,7 +481,7 @@ public class RVP_IOS_SDK: NSObject, Sequence {
      */
     private func _getMyUserInfo() {
         if self.isLoggedIn {
-            let url = self._server_uri + "/json/people/people/my_info" + self._loginParameters
+            let url = self._server_uri + "/json/people/people/my_info?" + self._loginParameters
             if let url_object = URL(string: url) {
                 let userInfoTask = self._connectionSession.dataTask(with: url_object) { data, response, error in
                     if let error = error {
@@ -590,7 +490,7 @@ public class RVP_IOS_SDK: NSObject, Sequence {
                     }
                     guard let httpResponse = response as? HTTPURLResponse,
                         (200...299).contains(httpResponse.statusCode) || (400 == httpResponse.statusCode) else {
-                            self._handleHTTPError(response)
+                            self._handleHTTPError(response as? HTTPURLResponse ?? nil)
                             return
                     }
                     if 400 == httpResponse.statusCode { // If we get nothing but a 400, we assume there is no user info, and go straight to completion.
@@ -602,7 +502,7 @@ public class RVP_IOS_SDK: NSObject, Sequence {
                                 self._userInfo = object[0]
                                 self._getBaselinePlugins()
                             } else {
-                                
+                                self._getBaselinePlugins()
                             }
                         }
                     }
@@ -627,7 +527,7 @@ public class RVP_IOS_SDK: NSObject, Sequence {
                 }
                 guard let httpResponse = response as? HTTPURLResponse,
                     (200...299).contains(httpResponse.statusCode) else {
-                        self._handleHTTPError(response)
+                        self._handleHTTPError(response as? HTTPURLResponse ?? nil)
                         return
                 }
                 if let mimeType = httpResponse.mimeType, mimeType == "application/json",
@@ -644,12 +544,168 @@ public class RVP_IOS_SDK: NSObject, Sequence {
             baselineTask.resume()
         }
     }
-
+    
+    /* ################################################################## */
+    // MARK: - Public Sequence Types
+    /* ################################################################## */
+    /** This is the element type for the Sequence protocol. */
+    public typealias Element = A_RVP_IOS_SDK_Object
+    
+    /* ################################################################## */
+    // MARK: - Public Enums
+    /* ################################################################## */
+    /**
+     This enum lists the various reasons that the server connection may be disconnected.
+     
+     These are supplied in the delegate method.
+     */
+    public enum DisconnectionReason: Int {
+        /** Unkown reason. */
+        case Unknown = 0
+        /** The connection period has completed. */
+        case Timeout = 1
+        /** The server initiated the disconnection. */
+        case ServerDisconnected = 2
+        /** The client initiated the disconnection. */
+        case ClientDisconnected = 3
+        /** The server connection cannot be established. */
+        case ServerConnectionInvalid = 4
+    }
+    
+    /* ################################################################## */
+    // MARK: - Public Properties and Calculated Properties
+    /* ################################################################## */
+    /**
+     This is a computed property that will return true if the login is valid.
+     
+     Logins only last so long, at which time a new API key should be fetched.
+     
+     Returns true, if we are logged in, and the time interval has not passed.
+     */
+    var isLoggedIn: Bool {
+        if nil != self._loginTime && nil != self._apiKey && nil != self._loginTimeout { // If we don't have a login time or API Key, then we're def not logged in.
+            let logged_in_time: TimeInterval = Date().timeIntervalSince(self._loginTime)    // See if we are still in the login window.
+            return self._loginTimeout! >= logged_in_time
+        }
+        
+        return false
+    }
+    
+    /* ################################################################## */
+    /**
+     This is a computed property that will return true if the server connection is valid (regardless of login status).
+     
+     NOTE: This will not be valid until after the preliminary communications have completed (the delegate has been called with sdkInstance(_:,loginValid:)).
+     
+     Returns true, if we have a list of plugins, which means that we were able to communicate with the server.
+     */
+    var isValid: Bool {
+        return !self._plugins.isEmpty
+    }
+    
+    /* ################################################################## */
+    /**
+     Returns the number of data items in our cache.
+     */
+    var count: Int {
+        return self._dataItems.count
+    }
+    
+    /* ################################################################## */
+    /**
+     Returns true, if we have no items in our cache.
+     */
+    var isEmpty: Bool {
+        return self._dataItems.isEmpty
+    }
+    
+    /* ################################################################## */
+    /**
+     This allows the instance to be treated like a simple Array.
+     
+     - parameter _: The 0-based index we are addressing.
+     
+     - returns the indexed item. Nil, if the index is out of range.
+     */
+    subscript(_ inIndex: Int) -> Element? {
+        if (0 <= inIndex) && (inIndex < self.count) {
+            return self._dataItems[inIndex]
+        }
+        
+        return nil
+    }
+    
+    /* ################################################################## */
+    // MARK: - Public Class Structs
+    /* ################################################################## */
+    /**
+     This is a quick resolver for the basic HTTP status.
+     */
+    public struct HTTPError: Error {
+        /** This is the HTTP response code for this error. */
+        var code: Int
+        /** This is an optional description string that can be added when instantiated. If it is given, then it will be returned in the response. */
+        var description: String?
+        
+        /* ############################################################## */
+        /**
+         - returns: A localized description for the instance HTTP code.
+         */
+        var localizedDescription: String {
+            if let desc = self.description {    // An explicitly-defined string has precedence.
+                return String(self.code) + ", " + desc
+            } else {    // Otherwise, use the system-localized version.
+                return String(self.code) + ", " + HTTPURLResponse.localizedString(forStatusCode: self.code)
+            }
+        }
+    }
+    
+    /* ################################################################## */
+    // MARK: - Public Sequence Iterator Struct
+    /* ################################################################## */
+    /**
+     We set this class up as a Sequence, so we can iterate over the saved data.
+     */
+    //: This is the iterator we'll use.
+    public struct Iterator: IteratorProtocol {
+        /** This is the captured list that we're iterating. */
+        private let _iteratorList: [Element]
+        /** This is the current item in that list. */
+        private var _index: Int
+        
+        /* ############################################################## */
+        /**
+         The default initializer.
+         
+         - parameter _: The current list of instances at the time the iterator is created.
+         */
+        init(_ inCurrentState: [Element]) {
+            self._iteratorList = inCurrentState
+            self._index = 0
+        }
+        
+        /* ############################################################## */
+        /**
+         Simple "next" iterator method.
+         */
+        mutating public func next() -> Element? {
+            if self._index < self._iteratorList.count {
+                let ret = self._iteratorList[self._index]
+                
+                self._index += 1
+                
+                return ret
+            } else {
+                return nil
+            }
+        }
+    }
+    
     /* ################################################################## */
     // MARK: - Public Instance Methods
     /* ################################################################## */
     /**
-     This is the default initializer. This is required.
+     This is the required default initializer.
      
      - parameter serverURI: (REQUIRED) A String, with the URI to a valid BAOBAB Server
      - parameter serverSecret: (REQUIRED) A String, with the Server secret for the target server.
@@ -722,7 +778,7 @@ public class RVP_IOS_SDK: NSObject, Sequence {
                         }
                         guard let httpResponse = response as? HTTPURLResponse,
                             (200...299).contains(httpResponse.statusCode) else {
-                                self._handleHTTPError(response)
+                                self._handleHTTPError(response as? HTTPURLResponse ?? nil)
                                 return
                         }
                         if let mimeType = httpResponse.mimeType, mimeType == "text/html",
@@ -743,7 +799,7 @@ public class RVP_IOS_SDK: NSObject, Sequence {
     /**
      This is the logout method.
      
-     You must already be logged in for this to do anything. If so, is imply asks the server to log us out.
+     You must already be logged in for this to do anything. If so, it simply asks the server to log us out.
      */
     public func logout() {
         if self.isLoggedIn {

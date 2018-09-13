@@ -94,7 +94,7 @@ class WhiteDragonSDKTester: RVP_IOS_SDK_Delegate {
     /* ################################################################## */
     /**
      */
-    func sdkInstance(_ inSDKInstance: RVP_IOS_SDK, sessionDisconnectedBecause: RVP_IOS_SDK.Disconnection_Reason) {
+    func sdkInstance(_ inSDKInstance: RVP_IOS_SDK, sessionDisconnectedBecause: RVP_IOS_SDK.DisconnectionReason) {
     }
         
     /* ################################################################## */

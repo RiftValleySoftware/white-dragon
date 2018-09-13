@@ -21,14 +21,14 @@ class ViewController: UIViewController, RVP_IOS_SDK_Delegate {
      */
     func sdkInstance(_ inSDKInstance: RVP_IOS_SDK, loginValid inLoginValid: Bool) {
         #if DEBUG
-        print("Login is" + (inLoginValid ? "" : " not") + " valid!")
+        print("Instance is" + (inLoginValid ? "" : " not") + " logged in!")
         #endif
     }
     
     /* ################################################################## */
     /**
      */
-    func sdkInstance(_ inSDKInstance: RVP_IOS_SDK, sessionDisconnectedBecause inReason: RVP_IOS_SDK.Disconnection_Reason) {
+    func sdkInstance(_ inSDKInstance: RVP_IOS_SDK, sessionDisconnectedBecause inReason: RVP_IOS_SDK.DisconnectionReason) {
         #if DEBUG
         print("Instance disconnected because \(inReason)!")
         #endif
