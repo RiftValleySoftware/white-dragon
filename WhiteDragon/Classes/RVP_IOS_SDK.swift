@@ -109,9 +109,6 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
     /** This is the connection session with the server. It is initiated at the time the class is instantiated, and destroyed when the class is torn down. */
     private var _connectionSession: URLSession! = nil
     
-    /** This Dictionary will contain our session tasks while they are running. This will use the call URI - Method as a key. */
-    private var _connectionTasks: [String: URLSessionTask] = [:]
-    
     /** This is the API Key (if logged in). */
     private var _apiKey: String! = nil
     
@@ -503,14 +500,29 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
                             return
                     }
                     if 400 == httpResponse.statusCode { // If we get nothing but a 400, we assume there is no user info, and go straight to completion.
-                        self._getBaselinePlugins()
+                        if self._plugins.isEmpty {
+                            self._getBaselinePlugins()
+                        } else {
+                            self._reportSessionValidity()   // We report whether or not this session is valid.
+                            self._callDelegateLoginValid(self.isLoggedIn)   // OK. We're done. Tell the delegate whether or not we are logged in.
+                        }
                     } else if let mimeType = httpResponse.mimeType, mimeType == "application/json", let data = data {
                         if let object = self._makeInstance(data: data) as? [RVP_IOS_SDK_User] {
                             if 1 == object.count {
                                 self._userInfo = object[0]
-                                self._getBaselinePlugins()
+                                if self._plugins.isEmpty {
+                                    self._getBaselinePlugins()
+                                } else {
+                                    self._reportSessionValidity()   // We report whether or not this session is valid.
+                                    self._callDelegateLoginValid(self.isLoggedIn)   // OK. We're done. Tell the delegate whether or not we are logged in.
+                                }
                             } else {
-                                self._getBaselinePlugins()
+                                if self._plugins.isEmpty {
+                                    self._getBaselinePlugins()
+                                } else {
+                                    self._reportSessionValidity()   // We report whether or not this session is valid.
+                                    self._callDelegateLoginValid(self.isLoggedIn)   // OK. We're done. Tell the delegate whether or not we are logged in.
+                                }
                             }
                         }
                     }
@@ -752,6 +764,7 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
      */
     deinit {
         self.logout()
+        self._connectionSession.finishTasksAndInvalidate()   // Take off and nuke the site from orbit. It's the only way to be sure.
     }
     
     /* ################################################################## */
@@ -772,7 +785,12 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
             // If a login was provided, we attempt a login.
             self.login(loginID: inLoginId, password: inPassword, timeout: inLoginTimeout)
         } else {    // Otherwise, simply fetch the baseline plugins, which will result in the delegate being called.
-            self._getBaselinePlugins()
+            if self._plugins.isEmpty {
+                self._getBaselinePlugins()
+            } else {
+                self._reportSessionValidity()   // We report whether or not this session is valid.
+                self._callDelegateLoginValid(self.isLoggedIn)   // OK. We're done. Tell the delegate whether or not we are logged in.
+            }
         }
     }
 
@@ -843,7 +861,7 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
                     
                     self._apiKey = nil
                     self._loginTime = nil
-                    self._callDelegateLoginValid(false)
+                    self._callDelegateLoginValid(false) // At this time, we are logged out, but the session is still valid.
                 }
                 
                 logoutTask.resume()
