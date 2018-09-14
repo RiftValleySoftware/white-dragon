@@ -7,15 +7,33 @@
 //
 
 import UIKit
-import WhiteDragon
 
 class ViewController: UIViewController, RVP_IOS_SDK_Delegate {
     var mySDKTester: WhiteDragonSDKTester?
+    @IBOutlet weak var loginButton: LucyButton!
+    @IBOutlet weak var activityScreen: UIView!
     
+    /* ################################################################## */
+    /**
+     */
     override func viewDidLoad() {
         super.viewDidLoad()
         self.mySDKTester = WhiteDragonSDKTester(dbPrefix: "sdk1", loginID: "MainAdmin", password: "CoreysGoryStory")
         self.mySDKTester!.delegate = self
+    }
+    
+    /* ################################################################## */
+    /**
+     */
+    @IBAction func lucyButtonHit(_ sender: LucyButton) {
+        if let tester = self.mySDKTester {
+            self.activityScreen.isHidden = false
+            if tester.isLoggedIn {
+                tester.logout()
+            } else {
+                tester.login()
+            }
+        }
     }
     
     /* ################################################################## */
@@ -34,7 +52,10 @@ class ViewController: UIViewController, RVP_IOS_SDK_Delegate {
         #if DEBUG
         print("Instance is" + (inLoginValid ? "" : " not") + " logged in!")
         #endif
-        self.logout()
+        DispatchQueue.main.async {
+            self.activityScreen.isHidden = true
+            self.loginButton.theDoctorIsIn = inLoginValid
+        }
     }
     
     /* ################################################################## */
@@ -44,6 +65,9 @@ class ViewController: UIViewController, RVP_IOS_SDK_Delegate {
         #if DEBUG
         print("Instance disconnected because \(inReason)!")
         #endif
+        DispatchQueue.main.async {
+            self.activityScreen.isHidden = true
+        }
     }
     
     /* ################################################################## */
@@ -53,5 +77,8 @@ class ViewController: UIViewController, RVP_IOS_SDK_Delegate {
         #if DEBUG
         print("Instance Error: \(inError)!")
         #endif
+        DispatchQueue.main.async {
+            self.activityScreen.isHidden = true
+        }
     }
 }

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		22FEC5AA2EB6675701FA7FBE /* Pods_WhiteDragon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DEA8986ABAA1BA586DC9A8CD /* Pods_WhiteDragon.framework */; };
+		D432E0D2214BE45E0018ED86 /* LucyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D432E0D1214BE45E0018ED86 /* LucyButton.swift */; };
 		D4687FF42142E4D000293358 /* WhiteDragonSDKTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4687FF32142E4D000293358 /* WhiteDragonSDKTester.swift */; };
 		D4687FF62142EC3600293358 /* RVP_IOS_SDK_Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4687FF52142EC3600293358 /* RVP_IOS_SDK_Utils.swift */; };
 		D477B405213EA86B0018AB45 /* WhiteDragon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D477B3FB213EA86B0018AB45 /* WhiteDragon.framework */; };
@@ -59,6 +60,7 @@
 /* Begin PBXFileReference section */
 		013808534F4BE80FA8E7DA44 /* Pods-WhiteDragon.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WhiteDragon.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WhiteDragon/Pods-WhiteDragon.debug.xcconfig"; sourceTree = "<group>"; };
 		69826259210E6D8098363362 /* Pods-WhiteDragon.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WhiteDragon.release.xcconfig"; path = "Pods/Target Support Files/Pods-WhiteDragon/Pods-WhiteDragon.release.xcconfig"; sourceTree = "<group>"; };
+		D432E0D1214BE45E0018ED86 /* LucyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LucyButton.swift; sourceTree = "<group>"; };
 		D4687FF32142E4D000293358 /* WhiteDragonSDKTester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteDragonSDKTester.swift; sourceTree = "<group>"; };
 		D4687FF52142EC3600293358 /* RVP_IOS_SDK_Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RVP_IOS_SDK_Utils.swift; sourceTree = "<group>"; };
 		D477B3FB213EA86B0018AB45 /* WhiteDragon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = WhiteDragon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -224,6 +226,7 @@
 			children = (
 				D4E2685D214302A2002ECE12 /* AppDelegate.swift */,
 				D4E2685F214302A2002ECE12 /* ViewController.swift */,
+				D432E0D1214BE45E0018ED86 /* LucyButton.swift */,
 				D4E26861214302A2002ECE12 /* Main.storyboard */,
 				D4E26864214302A3002ECE12 /* Assets.xcassets */,
 				D4E26866214302A3002ECE12 /* LaunchScreen.storyboard */,
@@ -491,6 +494,7 @@
 				D48076722146938800ACC0FE /* RVP_IOS_SDK_Login.swift in Sources */,
 				D480767A2146B5DB00ACC0FE /* RVP_IOS_SDK_Place.swift in Sources */,
 				D4E2685E214302A2002ECE12 /* AppDelegate.swift in Sources */,
+				D432E0D2214BE45E0018ED86 /* LucyButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -20,7 +20,6 @@
 */
 
 import Foundation
-import WhiteDragon
 
 class WhiteDragonSDKTester: RVP_IOS_SDK_Delegate {
     let uri: String = "https://littlegreenviper.com/fuggedaboudit/baobab/index.php"
@@ -38,12 +37,7 @@ class WhiteDragonSDKTester: RVP_IOS_SDK_Delegate {
     /**
      */
     private func _setupDBComplete() {
-        if nil != self.loginID && nil != self.password {
-            let timeout = (self.adminLogin == self.loginID ? self.adminTimeout : self.normalTimeout)
-            self.sdkInstance = RVP_IOS_SDK(serverURI: self.uri, serverSecret: self.secret, delegate: self, loginID: self.loginID!, password: self.password!, timeout: timeout)
-        } else {
-            self.sdkInstance = RVP_IOS_SDK(serverURI: self.uri, serverSecret: self.secret, delegate: self)
-        }
+        self.sdkInstance = RVP_IOS_SDK(serverURI: self.uri, serverSecret: self.secret, delegate: self)
     }
 
     /* ################################################################## */
@@ -56,13 +50,28 @@ class WhiteDragonSDKTester: RVP_IOS_SDK_Delegate {
                 let configuration = URLSessionConfiguration.ephemeral
                 configuration.waitsForConnectivity = true
                 let connectionSession = URLSession(configuration: configuration, delegate: nil, delegateQueue: nil)
-                let loginInfoTask = connectionSession.dataTask(with: url_object) { _, _, _ in
+                let setuBDTask = connectionSession.dataTask(with: url_object) { _, _, _ in
                     self._setupDBComplete()
                 }
                 
-                loginInfoTask.resume()
+                setuBDTask.resume()
             }
         }
+    }
+    
+    /* ################################################################## */
+    // MARK: - Public Calculated Properties
+    /* ################################################################## */
+    /**
+     */
+    var isLoggedIn: Bool {
+        if let sdkInstance = self.sdkInstance {
+            if sdkInstance.isLoggedIn {
+                return true
+            }
+        }
+        
+        return false
     }
     
     /* ################################################################## */
@@ -79,10 +88,30 @@ class WhiteDragonSDKTester: RVP_IOS_SDK_Delegate {
     /* ################################################################## */
     /**
      */
-    func login(loginID inLoginId: String, password inPassword: String) {
+    func login(loginID inLoginID: String! = nil, password inPassword: String! = nil) {
         if let sdkInstance = self.sdkInstance {
-            let timeout = (self.adminLogin == inLoginId ? self.adminTimeout : self.normalTimeout)
-            _ = sdkInstance.login(loginID: inLoginId, password: inPassword, timeout: timeout)
+            if sdkInstance.isLoggedIn {
+                sdkInstance.logout()
+            }
+            
+            if nil != inLoginID && nil != inPassword {
+                self.loginID = inLoginID
+                self.password = inPassword
+            }
+            
+            if let loginID = self.loginID, let password = self.password {
+                let timeout = (self.adminLogin == self.loginID ? self.adminTimeout : self.normalTimeout)
+                _ = sdkInstance.login(loginID: loginID, password: password, timeout: timeout)
+            }
+        }
+    }
+    
+    /* ################################################################## */
+    /**
+     */
+    func logout() {
+        if let sdkInstance = self.sdkInstance {
+            sdkInstance.logout()
         }
     }
     
