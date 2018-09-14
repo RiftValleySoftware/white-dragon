@@ -402,6 +402,18 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
 
     /* ################################################################## */
     /**
+     This is called to state the status of our session.
+     
+     If the delegate is valid, we call it with a notice that the session disconnected because of an invalid server connection.
+     */
+    private func _reportSessionValidity() {
+        if nil != self._delegate {
+            self._delegate!.sdkInstance(self, sessionConnectionIsValid: self.isValid)
+        }
+    }
+
+    /* ################################################################## */
+    /**
      This is called if we determine the server connection to be invalid.
      
      If the delegate is valid, we call it with a notice that the session disconnected because of an invalid server connection.
@@ -531,6 +543,7 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
                     if let plugins = self._parseBaselineResponse(data: data) as? [String: [String]] {
                         if let plugin_array = plugins["plugins"] {
                             self._plugins = plugin_array
+                            self._reportSessionValidity()   // We report whether or not this session is valid.
                             self._callDelegateLoginValid(self.isLoggedIn)   // OK. We're done. Tell the delegate whether or not we are logged in.
                         }
                     }
@@ -712,11 +725,11 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
      - parameter serverURI: (REQUIRED) A String, with the URI to a valid BAOBAB Server
      - parameter serverSecret: (REQUIRED) A String, with the Server secret for the target server.
      - parameter delegate: (REQUIRED) A RVP_IOS_SDK_Delegate that will receive updates from the SDK instance.
-     - parameter loginId: (OPTIONAL) A String, with a login ID. If provided, then you must also provide inPassword and inLoginTimeout.
+     - parameter loginID: (OPTIONAL) A String, with a login ID. If provided, then you must also provide inPassword and inLoginTimeout.
      - parameter password: (OPTIONAL) A String, with a login password. If provided, then you must also provide inLoginId and inLoginTimeout.
      - parameter timeout: (OPTIONAL) A Floating-point value, with the number of seconds the login has to be active. If provided, then you must also provide inLoginId and inPassword.
      */
-    public init(serverURI inServerURI: String, serverSecret inServerSecret: String, delegate inDelegate: RVP_IOS_SDK_Delegate, loginID inLoginId: String! = nil, password inPassword: String! = nil, timeout inLoginTimeout: TimeInterval! = nil) {
+    public init(serverURI inServerURI: String, serverSecret inServerSecret: String, delegate inDelegate: RVP_IOS_SDK_Delegate, loginID inLoginID: String! = nil, password inPassword: String! = nil, timeout inLoginTimeout: TimeInterval! = nil) {
         super.init()
         
         self._delegate = inDelegate
@@ -730,6 +743,7 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
         configuration.waitsForConnectivity = true
         configuration.allowsCellularAccess = true
         self._connectionSession = URLSession(configuration: configuration, delegate: self, delegateQueue: nil)
+        self.connect(loginID: inLoginID, password: inPassword, timeout: inLoginTimeout)
     }
     
     /* ################################################################## */
@@ -851,8 +865,16 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
     // MARK: - Internal URLSessionDelegate Protocol Methods
     /* ################################################################## */
     /**
+     This is called when the the session becomes invalid for any reason.
+     
+     - parameter session: The session calling this.
+     - parameter didBecomeInvalidWithError: The error (if any) that caused the invalidation.
      */
     internal func urlSession(_ session: URLSession, didBecomeInvalidWithError error: Error?) {
-        
+        self._plugins = []  // This makes the session invalid.
+        if let error = error {  // If there was an error, we report it first.
+            self._handleError(error)
+        }
+        self._reportSessionValidity()   // Report the invalid session.
     }
 }

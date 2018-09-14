@@ -21,6 +21,15 @@
 
 import Foundation
 
+protocol WhiteDragonSDKTester_Delegate: RVP_IOS_SDK_Delegate {
+/* ################################################################## */
+// MARK: - REQUIRED METHODS
+/* ################################################################## */
+/**
+*/
+    func databasesLoadedAndCaseysOnFirst(_: WhiteDragonSDKTester)
+}
+
 class WhiteDragonSDKTester: RVP_IOS_SDK_Delegate {
     let uri: String = "https://littlegreenviper.com/fuggedaboudit/baobab/index.php"
     let secret: String = "Supercalifragilisticexpialidocious"
@@ -31,12 +40,15 @@ class WhiteDragonSDKTester: RVP_IOS_SDK_Delegate {
     var sdkInstance: RVP_IOS_SDK?
     var loginID: String?
     var password: String?
-    weak var delegate: RVP_IOS_SDK_Delegate?
+    weak var delegate: WhiteDragonSDKTester_Delegate?
     
     /* ################################################################## */
     /**
      */
     private func _setupDBComplete() {
+        if nil != self.delegate {
+            self.delegate!.databasesLoadedAndCaseysOnFirst(self)
+        }
         self.sdkInstance = RVP_IOS_SDK(serverURI: self.uri, serverSecret: self.secret, delegate: self)
     }
 
@@ -45,7 +57,7 @@ class WhiteDragonSDKTester: RVP_IOS_SDK_Delegate {
      */
     private func _setDBUp(_ inDBPrefix: String) {
         if let db = inDBPrefix.urlEncodedString {
-            let url = "https://littlegreenviper.com/fuggedaboudit/set-db/index.php??l=2&s=Rambunkchous&d=" + db
+            let url = "https://littlegreenviper.com/fuggedaboudit/set-db/index.php?l=2&s=Rambunkchous&d=" + db
             if let url_object = URL(string: url) {
                 let configuration = URLSessionConfiguration.ephemeral
                 configuration.waitsForConnectivity = true

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, RVP_IOS_SDK_Delegate {
+class ViewController: UIViewController, WhiteDragonSDKTester_Delegate {
     var mySDKTester: WhiteDragonSDKTester?
     @IBOutlet weak var loginButton: LucyButton!
     @IBOutlet weak var activityScreen: UIView!
@@ -18,8 +18,8 @@ class ViewController: UIViewController, RVP_IOS_SDK_Delegate {
      */
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.mySDKTester = WhiteDragonSDKTester(dbPrefix: "sdk1", loginID: "MainAdmin", password: "CoreysGoryStory")
-        self.mySDKTester!.delegate = self
+        let tester = WhiteDragonSDKTester(dbPrefix: "sdk1", loginID: "MainAdmin", password: "CoreysGoryStory")
+        tester.delegate = self
     }
     
     /* ################################################################## */
@@ -89,5 +89,15 @@ class ViewController: UIViewController, RVP_IOS_SDK_Delegate {
         DispatchQueue.main.async {
             self.activityScreen.isHidden = true
         }
+    }
+    
+    /* ################################################################## */
+    /**
+     */
+    func databasesLoadedAndCaseysOnFirst(_ inTesterObject: WhiteDragonSDKTester) {
+        #if DEBUG
+        print("Databases Loaded!")
+        #endif
+        self.mySDKTester = inTesterObject
     }
 }
