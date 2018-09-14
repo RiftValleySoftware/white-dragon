@@ -120,6 +120,15 @@ class WhiteDragonSDKTester: RVP_IOS_SDK_Delegate {
     /* ################################################################## */
     /**
      */
+    func sdkInstance(_ inSDKInstance: RVP_IOS_SDK, sessionConnectionIsValid: Bool) {
+        if nil != self.delegate {
+            self.delegate!.sdkInstance(inSDKInstance, sessionConnectionIsValid: sessionConnectionIsValid)
+        }
+    }
+
+    /* ################################################################## */
+    /**
+     */
     func sdkInstance(_ inSDKInstance: RVP_IOS_SDK, loginValid: Bool) {
         if nil != self.delegate {
             self.delegate!.sdkInstance(inSDKInstance, loginValid: loginValid)

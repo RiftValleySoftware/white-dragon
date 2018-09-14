@@ -48,6 +48,15 @@ class ViewController: UIViewController, RVP_IOS_SDK_Delegate {
     /* ################################################################## */
     /**
      */
+    func sdkInstance(_ inSDKInstance: RVP_IOS_SDK, sessionConnectionIsValid inConnectionIsValid: Bool) {
+        #if DEBUG
+        print("Connection is" + (inConnectionIsValid ? "" : " not") + " valid!")
+        #endif
+    }
+
+    /* ################################################################## */
+    /**
+     */
     func sdkInstance(_ inSDKInstance: RVP_IOS_SDK, loginValid inLoginValid: Bool) {
         #if DEBUG
         print("Instance is" + (inLoginValid ? "" : " not") + " logged in!")

@@ -32,6 +32,16 @@ public protocol RVP_IOS_SDK_Delegate: class {
     // MARK: - REQUIRED METHODS
     /* ################################################################## */
     /**
+     This is called when a server session (not login) is started or ended.
+     If the connection was invalidated, then sessionDisconnectedBecause will also be called after this.
+     
+     - parameter sdkInstance: This is the SDK instance making the call.
+     - parameter sessionConnectionIsValid: A Bool, true, if the SDK is currently in a valid session with a server.
+     */
+    func sdkInstance(_: RVP_IOS_SDK, sessionConnectionIsValid: Bool)
+    
+    /* ################################################################## */
+    /**
      This is called when the server has completed its login sequence, and all is considered OK.
      The server should not be considered "usable" until after this method has been called with true.
      
@@ -74,7 +84,7 @@ public protocol RVP_IOS_SDK_Delegate: class {
  
  The SDK opens a session to the server upon instantiation, and maintains that throughout its lifecycle. This happens whether or not a login is done.
  */
-public class RVP_IOS_SDK: NSObject, Sequence {
+public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
     /* ################################################################## */
     // MARK: - Private Properties
     /* ################################################################## */
@@ -372,9 +382,6 @@ public class RVP_IOS_SDK: NSObject, Sequence {
      - parameter inError: The error being handled.
      */
     private func _handleError(_ inError: Error) {
-        #if DEBUG
-        print(inError)
-        #endif
         if nil != self._delegate {
             self._delegate!.sdkInstance(self, sessionError: inError)
         }
@@ -387,10 +394,6 @@ public class RVP_IOS_SDK: NSObject, Sequence {
      - parameter inResponse: The HTTP Response object being handled.
      */
     private func _handleHTTPError(_ inResponse: HTTPURLResponse?) {
-        #if DEBUG
-        print("HTTP Error: \(String(describing: inResponse))")
-        #endif
-        
         if let response = inResponse {
             let error = HTTPError(code: response.statusCode, description: "")
             self._handleError(error)
@@ -404,9 +407,6 @@ public class RVP_IOS_SDK: NSObject, Sequence {
      If the delegate is valid, we call it with a notice that the session disconnected because of an invalid server connection.
      */
     private func _handleInvalidServer() {
-        #if DEBUG
-        print("Invalid Server!")
-        #endif
         if nil != self._delegate {
             self._delegate!.sdkInstance(self, sessionDisconnectedBecause: RVP_IOS_SDK.DisconnectionReason.ServerConnectionInvalid)
         }
@@ -421,10 +421,6 @@ public class RVP_IOS_SDK: NSObject, Sequence {
      - parameter isLoggedIn: This is true, if the instance is currently logged into the server.
      */
     private func _callDelegateLoginValid(_ inIsLoggedIn: Bool) {
-        #if DEBUG
-        print("Server is" + (inIsLoggedIn ? "" : " not") + " logged in.")
-        #endif
-        
         if let delegate = self._delegate {
             delegate.sdkInstance(self, loginValid: inIsLoggedIn)
         }
@@ -733,8 +729,26 @@ public class RVP_IOS_SDK: NSObject, Sequence {
         let configuration = URLSessionConfiguration.ephemeral
         configuration.waitsForConnectivity = true
         configuration.allowsCellularAccess = true
-        self._connectionSession = URLSession(configuration: configuration, delegate: nil, delegateQueue: nil)
-        
+        self._connectionSession = URLSession(configuration: configuration, delegate: self, delegateQueue: nil)
+    }
+    
+    /* ################################################################## */
+    /**
+     We simply make sure that we clean up after ourselves.
+     */
+    deinit {
+        self.logout()
+    }
+    
+    /* ################################################################## */
+    /**
+     This will connect to the server. If login credentials are provided, then it will also log in.
+     
+     - parameter loginId: (OPTIONAL) A String, with a login ID. If provided, then you must also provide inPassword and inLoginTimeout.
+     - parameter password: (OPTIONAL) A String, with a login password. If provided, then you must also provide inLoginId and inLoginTimeout.
+     - parameter timeout: (OPTIONAL) A Floating-point value, with the number of seconds the login has to be active. If provided, then you must also provide inLoginId and inPassword.
+     */
+    public func connect(loginID inLoginId: String! = nil, password inPassword: String! = nil, timeout inLoginTimeout: TimeInterval! = nil) {
         // If any one of the optionals is provided, then they must ALL be provided.
         if nil != inLoginId || nil != inPassword || nil != inLoginTimeout {
             if nil == inLoginId || nil == inPassword || nil == inLoginTimeout {
@@ -746,14 +760,6 @@ public class RVP_IOS_SDK: NSObject, Sequence {
         } else {    // Otherwise, simply fetch the baseline plugins, which will result in the delegate being called.
             self._getBaselinePlugins()
         }
-    }
-    
-    /* ################################################################## */
-    /**
-     We simply make sure that we clean up after ourselves.
-     */
-    deinit {
-        self.logout()
     }
 
     /* ################################################################## */
@@ -839,5 +845,14 @@ public class RVP_IOS_SDK: NSObject, Sequence {
      */
     public func makeIterator() -> RVP_IOS_SDK.Iterator {
         return Iterator(self._dataItems)
+    }
+    
+    /* ################################################################## */
+    // MARK: - Internal URLSessionDelegate Protocol Methods
+    /* ################################################################## */
+    /**
+     */
+    internal func urlSession(_ session: URLSession, didBecomeInvalidWithError error: Error?) {
+        
     }
 }
