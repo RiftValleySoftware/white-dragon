@@ -71,6 +71,8 @@ public protocol RVP_IOS_SDK_Delegate: class {
  independent instance and state. Swift likes objects to be referenced, as opposed to copied, so we honor that. Since the SDK is really an ORM, this makes sense.
  
  This class follows the Sequence protocol, so its cached instances can be iterated and subscripted. These instances are kept sorted by ID and database.
+ 
+ The SDK opens a session to the server upon instantiation, and maintains that throughout its lifecycle. This happens whether or not a login is done.
  */
 public class RVP_IOS_SDK: NSObject, Sequence {
     /* ################################################################## */
@@ -452,8 +454,7 @@ public class RVP_IOS_SDK: NSObject, Sequence {
                             self._handleHTTPError(response as? HTTPURLResponse ?? nil)
                             return
                     }
-                    if let mimeType = httpResponse.mimeType, mimeType == "application/json",
-                        let data = data {
+                    if let mimeType = httpResponse.mimeType, mimeType == "application/json", let data = data {
                         if let object = self._makeInstance(data: data) as? [RVP_IOS_SDK_Login] {
                             if 1 == object.count {
                                 self._loginInfo = object[0]
@@ -477,8 +478,7 @@ public class RVP_IOS_SDK: NSObject, Sequence {
      
      We ask the server to send us our user (data database) object information.
      
-     When we get the information, we parse it, create a new instance of the handler class
-     and cache that instance.
+     When we get the information, we parse it, create a new instance of the handler class, and cache that instance.
      */
     private func _getMyUserInfo() {
         if self.isLoggedIn {
@@ -496,8 +496,7 @@ public class RVP_IOS_SDK: NSObject, Sequence {
                     }
                     if 400 == httpResponse.statusCode { // If we get nothing but a 400, we assume there is no user info, and go straight to completion.
                         self._getBaselinePlugins()
-                    } else if let mimeType = httpResponse.mimeType, mimeType == "application/json",
-                        let data = data {
+                    } else if let mimeType = httpResponse.mimeType, mimeType == "application/json", let data = data {
                         if let object = self._makeInstance(data: data) as? [RVP_IOS_SDK_User] {
                             if 1 == object.count {
                                 self._userInfo = object[0]
@@ -532,8 +531,7 @@ public class RVP_IOS_SDK: NSObject, Sequence {
                         self._handleHTTPError(response as? HTTPURLResponse ?? nil)
                         return
                 }
-                if let mimeType = httpResponse.mimeType, mimeType == "application/json",
-                    let data = data {
+                if let mimeType = httpResponse.mimeType, mimeType == "application/json", let data = data {
                     if let plugins = self._parseBaselineResponse(data: data) as? [String: [String]] {
                         if let plugin_array = plugins["plugins"] {
                             self._plugins = plugin_array
@@ -548,7 +546,7 @@ public class RVP_IOS_SDK: NSObject, Sequence {
     }
     
     /* ################################################################## */
-    // MARK: - Public Sequence Types
+    // MARK: - Public Types
     /* ################################################################## */
     /** This is the element type for the Sequence protocol. */
     public typealias Element = A_RVP_IOS_SDK_Object
@@ -623,6 +621,14 @@ public class RVP_IOS_SDK: NSObject, Sequence {
     
     /* ################################################################## */
     /**
+     Returns the Array of plugins (if the SDK is connected to a valid server).
+     */
+    var plugins: [String] {
+        return self._plugins
+    }
+    
+    /* ################################################################## */
+    /**
      This allows the instance to be treated like a simple Array.
      
      - parameter _: The 0-based index we are addressing.
@@ -636,7 +642,7 @@ public class RVP_IOS_SDK: NSObject, Sequence {
         
         return nil
     }
-    
+
     /* ################################################################## */
     // MARK: - Public Structs
     /* ################################################################## */
@@ -781,9 +787,7 @@ public class RVP_IOS_SDK: NSObject, Sequence {
                                 self._handleHTTPError(response as? HTTPURLResponse ?? nil)
                                 return
                         }
-                        if let mimeType = httpResponse.mimeType, mimeType == "text/html",
-                            let data = data,
-                            let apiKey = String(data: data, encoding: .utf8) {
+                        if let mimeType = httpResponse.mimeType, mimeType == "text/html", let data = data, let apiKey = String(data: data, encoding: .utf8) {
                             self._apiKey = apiKey
                             self._getMyLoginInfo()
                         }
@@ -805,7 +809,20 @@ public class RVP_IOS_SDK: NSObject, Sequence {
         if self.isLoggedIn {
             let url = self._server_uri + "/logout?" + self._loginParameters
             if let url_object = URL(string: url) {
-                let logoutTask = self._connectionSession.dataTask(with: url_object) { _, _, _ in
+                let logoutTask = self._connectionSession.dataTask(with: url_object) { _, response, error in
+                    if let error = error {
+                        self._handleError(error)
+                        return
+                    }
+                    
+                    guard let httpResponse = response as? HTTPURLResponse, 205 == httpResponse.statusCode
+                        else {
+                            self._handleHTTPError(response as? HTTPURLResponse ?? nil)
+                            return
+                    }
+                    
+                    self._apiKey = nil
+                    self._loginTime = nil
                     self._callDelegateLoginValid(false)
                 }
                 
@@ -815,7 +832,7 @@ public class RVP_IOS_SDK: NSObject, Sequence {
     }
     
     /* ################################################################## */
-    // MARK: - Sequence Methods
+    // MARK: - Public Sequence Protocol Methods
     /* ################################################################## */
     /**
      - returns: a new iterator for the instance.

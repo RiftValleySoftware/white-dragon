@@ -32,13 +32,17 @@ class WhiteDragonSDKTester: RVP_IOS_SDK_Delegate {
     var sdkInstance: RVP_IOS_SDK?
     var loginID: String?
     var password: String?
-
+    weak var delegate: RVP_IOS_SDK_Delegate?
+    
     /* ################################################################## */
     /**
      */
     private func _setupDBComplete() {
         if nil != self.loginID && nil != self.password {
-            self.login(loginID: self.loginID!, password: self.password!)
+            let timeout = (self.adminLogin == self.loginID ? self.adminTimeout : self.normalTimeout)
+            self.sdkInstance = RVP_IOS_SDK(serverURI: self.uri, serverSecret: self.secret, delegate: self, loginID: self.loginID!, password: self.password!, timeout: timeout)
+        } else {
+            self.sdkInstance = RVP_IOS_SDK(serverURI: self.uri, serverSecret: self.secret, delegate: self)
         }
     }
 
@@ -69,7 +73,6 @@ class WhiteDragonSDKTester: RVP_IOS_SDK_Delegate {
     public init(dbPrefix inDBPrefix: String, loginID inLoginID: String? = nil, password inPassword: String? = nil) {
         self.loginID = inLoginID
         self.password = inPassword
-        self.sdkInstance = RVP_IOS_SDK(serverURI: self.uri, serverSecret: self.secret, delegate: self)
         self._setDBUp(inDBPrefix)
     }
     
@@ -89,17 +92,26 @@ class WhiteDragonSDKTester: RVP_IOS_SDK_Delegate {
     /**
      */
     func sdkInstance(_ inSDKInstance: RVP_IOS_SDK, loginValid: Bool) {
+        if nil != self.delegate {
+            self.delegate!.sdkInstance(inSDKInstance, loginValid: loginValid)
+        }
     }
 
     /* ################################################################## */
     /**
      */
     func sdkInstance(_ inSDKInstance: RVP_IOS_SDK, sessionDisconnectedBecause: RVP_IOS_SDK.DisconnectionReason) {
+        if nil != self.delegate {
+            self.delegate!.sdkInstance(inSDKInstance, sessionDisconnectedBecause: sessionDisconnectedBecause)
+        }
     }
         
     /* ################################################################## */
     /**
      */
     func sdkInstance(_ inSDKInstance: RVP_IOS_SDK, sessionError: Error) {
+        if nil != self.delegate {
+            self.delegate!.sdkInstance(inSDKInstance, sessionError: sessionError)
+        }
     }
 }

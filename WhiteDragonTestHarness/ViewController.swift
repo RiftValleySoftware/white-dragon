@@ -10,10 +10,21 @@ import UIKit
 import WhiteDragon
 
 class ViewController: UIViewController, RVP_IOS_SDK_Delegate {
-
+    var mySDKTester: WhiteDragonSDKTester?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        let sdkTester = WhiteDragonSDKTester(dbPrefix: "sdk1", loginID: "MainAdmin", password: "CoreysGoryStory")
+        self.mySDKTester = WhiteDragonSDKTester(dbPrefix: "sdk1", loginID: "MainAdmin", password: "CoreysGoryStory")
+        self.mySDKTester!.delegate = self
+    }
+    
+    /* ################################################################## */
+    /**
+     */
+    func logout() {
+        if let sdkTester = self.mySDKTester, let sdkInstance = sdkTester.sdkInstance {
+            sdkInstance.logout()
+        }
     }
     
     /* ################################################################## */
@@ -23,6 +34,7 @@ class ViewController: UIViewController, RVP_IOS_SDK_Delegate {
         #if DEBUG
         print("Instance is" + (inLoginValid ? "" : " not") + " logged in!")
         #endif
+        self.logout()
     }
     
     /* ################################################################## */
