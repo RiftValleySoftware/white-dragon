@@ -208,6 +208,7 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
                 ret = self._makeInstancesFromArray(main_object)
             }
         } catch {   // We end up here if the response is not a proper JSON object.
+            self._handleError(SDK_Data_Errors.invalidData(inData))
         }
 
         return ret
@@ -250,12 +251,17 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
                             }
                             
                         default:
-                            break
+                            self._handleError(SDK_Data_Errors.invalidData(inData))
                         }
                     }
+                } else {
+                    self._handleError(SDK_Data_Errors.invalidData(inData))
                 }
+            } else {
+                self._handleError(SDK_Data_Errors.invalidData(inData))
             }
         } catch {   // We end up here if the response is not a proper JSON object.
+            self._handleError(SDK_Data_Errors.invalidData(inData))
         }
 
         return ret
@@ -294,7 +300,8 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
                 instance = RVP_IOS_SDK_Thing(sdkInstance: self, objectInfoData: inDictionary)
                 
             default:
-                break
+                let data: Data = NSKeyedArchiver.archivedData(withRootObject: inDictionary)
+                self._handleError(SDK_Data_Errors.invalidData(data))
             }
         }
         
@@ -341,6 +348,10 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
                     } else if let forced_value = value as? NSArray {
                         ret = [ret, self._makeInstancesFromArray(forced_value, parent: forced_key)].flatMap { $0 }
                     }
+                } else {
+                    let data: Data = NSKeyedArchiver.archivedData(withRootObject: inDictionary)
+                    self._handleError(SDK_Data_Errors.invalidData(data))
+                    break
                 }
             }
         }
@@ -366,6 +377,10 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
                 ret = [ret, self._makeInstancesFromDictionary(forced_value, parent: inParent)].flatMap { $0 }
             } else if let forced_value = value as? NSArray {
                 ret = [ret, self._makeInstancesFromArray(forced_value, parent: inParent)].flatMap { $0 }
+            } else {
+                let data: Data = NSKeyedArchiver.archivedData(withRootObject: inArray)
+                self._handleError(SDK_Data_Errors.invalidData(data))
+                break
             }
         }
         
@@ -417,7 +432,7 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
      */
     private func _handleInvalidServer() {
         if nil != self._delegate {
-            self._delegate!.sdkInstance(self, sessionDisconnectedBecause: RVP_IOS_SDK.DisconnectionReason.ServerConnectionInvalid)
+            self._delegate!.sdkInstance(self, sessionDisconnectedBecause: RVP_IOS_SDK.DisconnectionReason.serverConnectionInvalid)
         }
     }
 
@@ -466,13 +481,17 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
                                 // Assuming all went well, we ask for any user information.
                                 self._getMyUserInfo()
                             } else {
-                                
+                                self._handleError(SDK_Data_Errors.invalidData(data))
                             }
                         }
+                    } else {
+                        self._handleError(SDK_Data_Errors.invalidData(data))
                     }
                 }
                 
                 loginInfoTask.resume()
+            } else {
+                self._handleError(SDK_Connection_Errors.invalidServerURI(url))
             }
         }
     }
@@ -525,10 +544,14 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
                                 }
                             }
                         }
+                    } else {
+                        self._handleError(SDK_Data_Errors.invalidData(data))
                     }
                 }
                 
                 userInfoTask.resume()
+            } else {
+                self._handleError(SDK_Connection_Errors.invalidServerURI(url))
             }
         }
     }
@@ -559,10 +582,14 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
                             self._callDelegateLoginValid(self.isLoggedIn)   // OK. We're done. Tell the delegate whether or not we are logged in.
                         }
                     }
+                } else {
+                    self._handleError(SDK_Data_Errors.invalidData(data))
                 }
             }
             
             baselineTask.resume()
+        } else {
+            self._handleError(SDK_Connection_Errors.invalidServerURI(url))
         }
     }
     
@@ -582,17 +609,67 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
      */
     public enum DisconnectionReason: Int {
         /** Unkown reason. */
-        case Unknown = 0
+        case unknown = 0
         /** The connection period has completed. */
-        case Timeout = 1
+        case timeout = 1
         /** The server initiated the disconnection. */
-        case ServerDisconnected = 2
+        case serverDisconnected = 2
         /** The client initiated the disconnection. */
-        case ClientDisconnected = 3
+        case clientDisconnected = 3
         /** The server connection cannot be established. */
-        case ServerConnectionInvalid = 4
+        case serverConnectionInvalid = 4
     }
-    
+
+    /* ################################################################## */
+    /**
+     These are the errors that may occur when we are trying to connect to the server.
+     */
+    public enum SDK_Connection_Errors: Error {
+        /** Unkown error. The Int contains any associated error code. */
+        case unknown(Int)
+        /** The server URI is not valid. The String contains the invalid URI. */
+        case invalidServerURI(String)
+        /** The URI is valid, but the server is not. The string contains the URI. */
+        case invalidServer(String)
+    }
+
+    /* ################################################################## */
+    /**
+     These are the errors that may occur while we are trying to parse the data returned from the server.
+     */
+    public enum SDK_Data_Errors: Error {
+        /** Unkown error. The Int contains any associated error code. */
+        case unknown(Int)
+        /** The data is not there, or in an unexpected format. The Data may contain the unexpected data. */
+        case invalidData(Data?)
+    }
+
+    /* ################################################################## */
+    /**
+     These are errors in the SDK operation.
+     */
+    public enum SDK_Operation_Errors: Error {
+        /** Unkown error. The Int contains any associated error code. */
+        case unknown(Int)
+        /** Invalid Parameters Provided. */
+        case invalidParameters
+    }
+
+    /* ################################################################## */
+    /**
+     These are supplied in the delegate method.
+     */
+    public enum SDK_Error {
+        /** Unkown error. The associated value is any Error that was supplied. */
+        case unknown(_: Error?)
+        /** There was an error in the connection between the SDK and the server. */
+        case connectionError(_: SDK_Connection_Errors)
+        /** There was a problem with the data that was transferred from the server to the SDK. */
+        case dataError(_: SDK_Data_Errors)
+        /** There was a problem in the operation of the SDK. */
+        case operationalError(_: SDK_Operation_Errors)
+    }
+
     /* ################################################################## */
     // MARK: - Public Calculated Properties
     /* ################################################################## */
@@ -779,6 +856,7 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
         // If any one of the optionals is provided, then they must ALL be provided.
         if nil != inLoginId || nil != inPassword || nil != inLoginTimeout {
             if nil == inLoginId || nil == inPassword || nil == inLoginTimeout {
+                self._handleError(SDK_Operation_Errors.invalidParameters)
                 return
             }
             
@@ -828,12 +906,20 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
                         if let mimeType = httpResponse.mimeType, mimeType == "text/html", let data = data, let apiKey = String(data: data, encoding: .utf8) {
                             self._apiKey = apiKey
                             self._getMyLoginInfo()
+                        } else {
+                            self._handleError(SDK_Data_Errors.invalidData(data))
                         }
                     }
                     
                     loginTask.resume()
+                } else {
+                    self._handleError(SDK_Connection_Errors.invalidServerURI(url))
                 }
+            } else {
+                self._handleError(SDK_Operation_Errors.invalidParameters)
             }
+        } else {
+            self._handleError(SDK_Operation_Errors.invalidParameters)
         }
     }
 
@@ -865,6 +951,8 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
                 }
                 
                 logoutTask.resume()
+            } else {
+                self._handleError(SDK_Connection_Errors.invalidServerURI(url))
             }
         }
     }
