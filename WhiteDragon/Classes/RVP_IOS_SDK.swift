@@ -461,6 +461,7 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
      */
     private func _getMyLoginInfo() {
         if self.isLoggedIn {
+            // The my info request is a simple GET task, so we can just use a straight-up task for this.
             let url = self._server_uri + "/json/people/logins/my_info?" + self._loginParameters
             if let url_object = URL(string: url) {
                 // We handle the response in the closure.
@@ -507,6 +508,7 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
     private func _getMyUserInfo() {
         if self.isLoggedIn {
             let url = self._server_uri + "/json/people/people/my_info?" + self._loginParameters
+            // The my info request is a simple GET task, so we can just use a straight-up task for this.
             if let url_object = URL(string: url) {
                 let userInfoTask = self._connectionSession.dataTask(with: url_object) { data, response, error in
                     if let error = error {
@@ -563,7 +565,8 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
      */
     private func _getBaselinePlugins() {
         let url = self._server_uri + "/json/baseline"
-        if let url_object = URL(string: url) {
+        // The plugin list is a simple GET task, so we can just use a straight-up task for this.
+       if let url_object = URL(string: url) {
             let baselineTask = self._connectionSession.dataTask(with: url_object) { data, response, error in
                 if let error = error {
                     self._handleError(error)
@@ -781,7 +784,7 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
         /**
          The default initializer.
          
-         - parameter _: The current list of instances at the time the iterator is created.
+         - parameter inCurrentState: The current list of instances at the time the iterator is created. Since this is a struct, the Array is copied.
          */
         init(_ inCurrentState: [Element]) {
             self._iteratorList = inCurrentState
@@ -803,6 +806,34 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
                 return nil
             }
         }
+    }
+    
+    /* ################################################################## */
+    // MARK: - Internal Instance Methods
+    /* ################################################################## */
+    /**
+     We simply make sure that we clean up after ourselves.
+     */
+    deinit {
+        self.logout()
+        self._connectionSession.finishTasksAndInvalidate()   // Take off and nuke the site from orbit. It's the only way to be sure.
+    }
+    
+    /* ################################################################## */
+    // MARK: - Internal URLSessionDelegate Protocol Methods
+    /* ################################################################## */
+    /**
+     This is called when the the session becomes invalid for any reason.
+     
+     - parameter session: The session calling this.
+     - parameter didBecomeInvalidWithError: The error (if any) that caused the invalidation.
+     */
+    internal func urlSession(_ session: URLSession, didBecomeInvalidWithError error: Error?) {
+        self._plugins = []  // This makes the session invalid.
+        if let error = error {  // If there was an error, we report it first.
+            self._handleError(error)
+        }
+        self._reportSessionValidity()   // Report the invalid session.
     }
     
     /* ################################################################## */
@@ -833,15 +864,6 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
         configuration.allowsCellularAccess = true
         self._connectionSession = URLSession(configuration: configuration, delegate: self, delegateQueue: nil)
         self.connect(loginID: inLoginID, password: inPassword, timeout: inLoginTimeout)
-    }
-    
-    /* ################################################################## */
-    /**
-     We simply make sure that we clean up after ourselves.
-     */
-    deinit {
-        self.logout()
-        self._connectionSession.finishTasksAndInvalidate()   // Take off and nuke the site from orbit. It's the only way to be sure.
     }
     
     /* ################################################################## */
@@ -931,6 +953,7 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
      */
     public func logout() {
         if self.isLoggedIn {
+            // The logout is a simple GET task, so we can just use a straight-up task for this.
             let url = self._server_uri + "/logout?" + self._loginParameters
             if let url_object = URL(string: url) {
                 let logoutTask = self._connectionSession.dataTask(with: url_object) { _, response, error in
@@ -965,22 +988,5 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
      */
     public func makeIterator() -> RVP_IOS_SDK.Iterator {
         return Iterator(self._dataItems)
-    }
-    
-    /* ################################################################## */
-    // MARK: - Internal URLSessionDelegate Protocol Methods
-    /* ################################################################## */
-    /**
-     This is called when the the session becomes invalid for any reason.
-     
-     - parameter session: The session calling this.
-     - parameter didBecomeInvalidWithError: The error (if any) that caused the invalidation.
-     */
-    internal func urlSession(_ session: URLSession, didBecomeInvalidWithError error: Error?) {
-        self._plugins = []  // This makes the session invalid.
-        if let error = error {  // If there was an error, we report it first.
-            self._handleError(error)
-        }
-        self._reportSessionValidity()   // Report the invalid session.
     }
 }
