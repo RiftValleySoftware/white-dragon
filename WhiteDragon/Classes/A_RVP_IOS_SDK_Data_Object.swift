@@ -32,11 +32,15 @@ public class A_RVP_IOS_SDK_Data_Object: A_RVP_IOS_SDK_Object {
     // MARK: - Public Methods and Calulated properties -
     /* ################################################################## */
     /**
+     - returns all of the values for this object, as a Dictionary.
      */
-    public override init(sdkInstance inSDKInstance: RVP_IOS_SDK? = nil, objectInfoData inData: [String: Any]) {
-        super.init(sdkInstance: inSDKInstance, objectInfoData: inData)
+    override public var asDictionary: [String: Any?] {
+        var ret = super.asDictionary
+        ret ["location"] = self.location
+        
+        return ret
     }
-    
+
     /* ################################################################## */
     /**
      - returns the longitude and latitude as a coordinate. Be aware that they may not be available, in which case, it will be nil.
@@ -49,5 +53,12 @@ public class A_RVP_IOS_SDK_Data_Object: A_RVP_IOS_SDK_Object {
         }
         
         return ret
+    }
+    
+    /* ################################################################## */
+    /**
+     */
+    public override init(sdkInstance inSDKInstance: RVP_IOS_SDK? = nil, objectInfoData inData: [String: Any]) {
+        super.init(sdkInstance: inSDKInstance, objectInfoData: inData)
     }
 }

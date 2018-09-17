@@ -226,18 +226,34 @@
 			name = Miscellaneous;
 			sourceTree = "<group>";
 		};
-		D4E2685C214302A2002ECE12 /* WhiteDragonTestHarness */ = {
+		D4C64B842150531F000ADD52 /* App Files */ = {
 			isa = PBXGroup;
 			children = (
 				D4E2685D214302A2002ECE12 /* AppDelegate.swift */,
 				D4733D38214FB74A009D11BF /* MainDispatchNavController.swift */,
 				D4733D3A214FB866009D11BF /* DispatcherListController.swift */,
-				D4E2685F214302A2002ECE12 /* Test001SimpleLogin.swift */,
 				D432E0D1214BE45E0018ED86 /* LucyButton.swift */,
 				D4E26861214302A2002ECE12 /* Main.storyboard */,
 				D4E26864214302A3002ECE12 /* Assets.xcassets */,
 				D4E26866214302A3002ECE12 /* LaunchScreen.storyboard */,
 				D4E26869214302A4002ECE12 /* Info.plist */,
+			);
+			name = "App Files";
+			sourceTree = "<group>";
+		};
+		D4C64B8521505342000ADD52 /* Test Files */ = {
+			isa = PBXGroup;
+			children = (
+				D4E2685F214302A2002ECE12 /* Test001SimpleLogin.swift */,
+			);
+			name = "Test Files";
+			sourceTree = "<group>";
+		};
+		D4E2685C214302A2002ECE12 /* WhiteDragonTestHarness */ = {
+			isa = PBXGroup;
+			children = (
+				D4C64B8521505342000ADD52 /* Test Files */,
+				D4C64B842150531F000ADD52 /* App Files */,
 			);
 			path = WhiteDragonTestHarness;
 			sourceTree = "<group>";

@@ -22,6 +22,11 @@
 import UIKit
 
 @IBDesignable
+/* ###################################################################################################################################### */
+// MARK: - Main Class -
+/* ###################################################################################################################################### */
+/**
+ */
 class LucyButton: UIButton {
     @IBInspectable var theDoctorIsIn: Bool = false {
         didSet {
@@ -32,11 +37,11 @@ class LucyButton: UIButton {
     }
     
     override func layoutSubviews() {
+        super.layoutSubviews()
         let inImage = UIImage(named: "In")
         let outImage = UIImage(named: "Out")
         let displayImage = self.theDoctorIsIn ? inImage : outImage
         
         self.setBackgroundImage(displayImage, for: .normal)
-        super.layoutSubviews()
     }
 }

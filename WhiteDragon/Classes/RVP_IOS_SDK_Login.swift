@@ -31,14 +31,51 @@ public class RVP_IOS_SDK_Login: A_RVP_IOS_SDK_Security_Object {
     // MARK: - Public Methods and Calulated properties -
     /* ################################################################## */
     /**
+     - returns all of the values for this object, as a Dictionary.
      */
-    public override init(sdkInstance inSDKInstance: RVP_IOS_SDK? = nil, objectInfoData inData: [String: Any]) {
-        super.init(sdkInstance: inSDKInstance, objectInfoData: inData)
+    override public var asDictionary: [String: Any?] {
+        var ret = super.asDictionary
+        ret ["isManager"] = self.isManager
+        ret ["isMainAdmin"] = self.isMainAdmin
+        ret ["isLoggedIn"] = self.isLoggedIn
+        if let userObjectID = self.userObjectID {
+            ret ["userObjectID"] = userObjectID
+        }
+        
+        return ret
     }
-    
+
     /* ################################################################## */
     /**
-     - returns the object login ID, as a String
+     - returns the ID (Int) of any User Object associated with this login. nil, if there is none.
+     */
+    public var userObjectID: Int? {
+        var ret: Int?
+        
+        if let userObjectID = self._myData["user_object_id"] as? Int {
+            ret = userObjectID
+        }
+        
+        return ret
+    }
+
+    /* ################################################################## */
+    /**
+     - returns true, if this login is currently logged in.
+     */
+    public var isLoggedIn: Bool {
+        var ret = false
+        
+        if let isLoggedIn = self._myData["current_login"] as? Bool {
+            ret = isLoggedIn
+        }
+        
+        return ret
+    }
+
+    /* ################################################################## */
+    /**
+     - returns true, if this login is a Manager login.
      */
     public var isManager: Bool {
         var ret = false
@@ -48,5 +85,26 @@ public class RVP_IOS_SDK_Login: A_RVP_IOS_SDK_Security_Object {
         }
         
         return ret
+    }
+
+    /* ################################################################## */
+    /**
+     - returns true, if this login is a "God" (Main admin) login.
+     */
+    public var isMainAdmin: Bool {
+        var ret = false
+        
+        if let isMainAdmin = self._myData["is_main_admin"] as? Bool {
+            ret = isMainAdmin
+        }
+        
+        return ret
+    }
+
+    /* ################################################################## */
+    /**
+     */
+    public override init(sdkInstance inSDKInstance: RVP_IOS_SDK? = nil, objectInfoData inData: [String: Any]) {
+        super.init(sdkInstance: inSDKInstance, objectInfoData: inData)
     }
 }

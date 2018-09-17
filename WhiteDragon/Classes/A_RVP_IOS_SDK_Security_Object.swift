@@ -31,11 +31,16 @@ public class A_RVP_IOS_SDK_Security_Object: A_RVP_IOS_SDK_Object {
     // MARK: - Public Methods and Calulated properties -
     /* ################################################################## */
     /**
+     - returns all of the values for this object, as a Dictionary.
      */
-    public override init(sdkInstance inSDKInstance: RVP_IOS_SDK? = nil, objectInfoData inData: [String: Any]) {
-        super.init(sdkInstance: inSDKInstance, objectInfoData: inData)
+    override public var asDictionary: [String: Any?] {
+        var ret = super.asDictionary
+        ret ["loginID"] = self.loginID
+        ret ["securityTokens"] = self.securityTokens
+
+        return ret
     }
-    
+
     /* ################################################################## */
     /**
      - returns the object login ID, as a String
@@ -52,15 +57,25 @@ public class A_RVP_IOS_SDK_Security_Object: A_RVP_IOS_SDK_Object {
     
     /* ################################################################## */
     /**
-     - returns the object security tokens, as an Array of Int. NOTE: The tokens are sorted, from lowest to highest, and include (or may only be) the ID of the login item. "1" is the "any logged-in-user" token that all logins are implied to have.
+     - returns the object security tokens, as an Array of Int. NOTE: The tokens are sorted, from lowest to highest, and include the ID of the login item. "1" is the "any logged-in-user" token that all logins are implied to have.
      */
     public var securityTokens: [Int] {
         var ret: [Int] = []
         
         if let securityTokens = self._myData["security_tokens"] as? [Int] {
             ret = securityTokens.sorted()
+            if 1 != ret[0] {    // If 1 was not already there, we add it here.
+                ret.insert(1, at: 0)
+            }
         }
         
         return ret
+    }
+    
+    /* ################################################################## */
+    /**
+     */
+    public override init(sdkInstance inSDKInstance: RVP_IOS_SDK? = nil, objectInfoData inData: [String: Any]) {
+        super.init(sdkInstance: inSDKInstance, objectInfoData: inData)
     }
 }

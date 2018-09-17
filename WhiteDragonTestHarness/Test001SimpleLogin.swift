@@ -8,6 +8,11 @@
 
 import UIKit
 
+/* ###################################################################################################################################### */
+// MARK: - Main Class -
+/* ###################################################################################################################################### */
+/**
+ */
 class Test001SimpleLogin: UIViewController, WhiteDragonSDKTester_Delegate, UIPickerViewDataSource, UIPickerViewDelegate {
     private let _logins: [String] = ["admin", "MDAdmin", "VAAdmin", "DCAdmin", "WVAdmin", "DEAdmin", "MainAdmin", "Dilbert", "Wally", "Ted", "Alice", "Tina", "PHB", "MeLeet"]
     
@@ -79,46 +84,18 @@ class Test001SimpleLogin: UIViewController, WhiteDragonSDKTester_Delegate, UIPic
             self.resultsTextView.text = "Row: " + String(row) + "\n"
             
             if let loginInfo = sdkTester.sdkInstance?.myLoginInfo {
-                let loginID = loginInfo.loginID
-                let intLoginID = loginInfo.id
                 self.resultsTextView.text += "\nLOGIN INFO:\n"
                 
-                self.resultsTextView.text += "\tLogin ID: " + loginID + " (" + String(intLoginID) + ")\n"
-                
-                let loginName = loginInfo.name
-                self.resultsTextView.text += "\tLogin Name: " + loginName + "\n"
-                
-                if let readToken = loginInfo.readToken {
-                    self.resultsTextView.text += "\tLogin Read Token: " + String(readToken) + "\n"
+                for tup in loginInfo.asDictionary {
+                    self.resultsTextView.text += "\t" + tup.key + ": " + String(describing: tup.value) + "\n"
                 }
-                
-                if let writeToken = loginInfo.writeToken {
-                    self.resultsTextView.text += "\tLogin Write Token: " + String(writeToken) + "\n"
-                }
-                
-                let securityTokens = loginInfo.securityTokens
-                self.resultsTextView.text += "\tLogin Security Tokens: " + String(describing: securityTokens) + "\n"
-            
             }
             
             if let userInfo = sdkTester.sdkInstance?.myUserInfo {
                 self.resultsTextView.text += "\nUSER INFO:\n"
-                let userID = userInfo.id
-                self.resultsTextView.text += "\tUser ID: " + String(userID) + "\n"
-
-                let userName = userInfo.name
-                self.resultsTextView.text += "\tUser Name: " + userName + "\n"
-
-                if let readToken = userInfo.readToken {
-                    self.resultsTextView.text += "\tUser Read Token: " + String(readToken) + "\n"
-                }
                 
-                if let writeToken = userInfo.writeToken {
-                    self.resultsTextView.text += "\tUser Write Token: " + String(writeToken) + "\n"
-                }
-                
-                if let userLocation = userInfo.location {
-                    self.resultsTextView.text += "\tUser Location: (\(userLocation.latitude),\(userLocation.longitude))\n"
+                for tup in userInfo.asDictionary {
+                    self.resultsTextView.text += "\t" + tup.key + ": " + String(describing: tup.value) + "\n"
                 }
             }
        }

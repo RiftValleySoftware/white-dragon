@@ -43,12 +43,12 @@ public class A_RVP_IOS_SDK_Object: NSObject {
     // MARK: - Public Methods and Calulated properties -
     /* ################################################################## */
     /**
+     - returns all of the values for this object, as a Dictionary.
      */
-    public init(sdkInstance inSDKInstance: RVP_IOS_SDK? = nil, objectInfoData inData: [String: Any]) {
-        self._sdkInstance = inSDKInstance
-        self._myData = inData
+    public var asDictionary: [String: Any?] {
+        return ["id": self.id, "name": self.name, "readToken": self.readToken, "writeToken": self.writeToken]
     }
-
+    
     /* ################################################################## */
     /**
      - returns the object ID, as an Int
@@ -103,5 +103,13 @@ public class A_RVP_IOS_SDK_Object: NSObject {
         }
         
         return ret
+    }
+    
+    /* ################################################################## */
+    /**
+     */
+    public init(sdkInstance inSDKInstance: RVP_IOS_SDK? = nil, objectInfoData inData: [String: Any]) {
+        self._sdkInstance = inSDKInstance
+        self._myData = inData
     }
 }
