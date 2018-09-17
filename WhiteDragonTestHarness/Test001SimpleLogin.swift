@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, WhiteDragonSDKTester_Delegate {
+class Test001SimpleLogin: UIViewController, WhiteDragonSDKTester_Delegate {
     var mySDKTester: WhiteDragonSDKTester?
     @IBOutlet weak var loginButton: LucyButton!
     @IBOutlet weak var activityScreen: UIView!
@@ -22,6 +22,24 @@ class ViewController: UIViewController, WhiteDragonSDKTester_Delegate {
         tester.delegate = self
     }
     
+    /* ################################################################## */
+    /**
+     */
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.navigationBar.isHidden = false
+    }
+    
+    /* ################################################################## */
+    /**
+     */
+    override func viewWillDisappear(_ animated: Bool) {
+        if let tester = self.mySDKTester {
+            if tester.isLoggedIn {
+                tester.logout()
+            }
+        }
+    }
+
     /* ################################################################## */
     /**
      */

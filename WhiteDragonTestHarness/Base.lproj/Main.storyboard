@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Zpd-jn-8fu">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -10,16 +10,66 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
-        <scene sceneID="tne-QT-ifu">
+        <!--Main Dispatch Nav Controller-->
+        <scene sceneID="U1R-oK-YW7">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="WhiteDragonTestHarness" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                <navigationController id="Zpd-jn-8fu" customClass="MainDispatchNavController" customModule="WhiteDragonTestHarness" customModuleProvider="target" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="a9x-el-VBN">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="8aW-FC-wo6" kind="relationship" relationship="rootViewController" id="3Ss-oT-nAy"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uwi-b1-HOR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1450" y="64"/>
+        </scene>
+        <!--Dispatcher List Controller-->
+        <scene sceneID="3Sz-mZ-QcH">
+            <objects>
+                <viewController id="8aW-FC-wo6" customClass="DispatcherListController" customModule="WhiteDragonTestHarness" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="f1s-5N-j51">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kKU-EJ-7P7">
+                                <rect key="frame" x="0.0" y="20" width="375" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="o12-eY-2ZP"/>
+                                </constraints>
+                                <state key="normal" title="Test 001 - Simple Login"/>
+                                <connections>
+                                    <segue destination="BYZ-38-t0r" kind="show" id="6VL-7y-a7K"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="kKU-EJ-7P7" firstAttribute="top" secondItem="tkT-4r-X1c" secondAttribute="top" id="2f2-w0-Xac"/>
+                            <constraint firstItem="kKU-EJ-7P7" firstAttribute="leading" secondItem="tkT-4r-X1c" secondAttribute="leading" id="M8y-l2-PQ8"/>
+                            <constraint firstItem="tkT-4r-X1c" firstAttribute="trailing" secondItem="kKU-EJ-7P7" secondAttribute="trailing" id="aNg-MH-bFo"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="tkT-4r-X1c"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="iYe-CU-JH7"/>
+                    <nil key="simulatedTopBarMetrics"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dgS-hT-jMa" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-724" y="63"/>
+        </scene>
+        <!--Test001 Simple Login-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="Test001SimpleLogin" customModule="WhiteDragonTestHarness" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
                             <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UoL-Ek-w23" customClass="LucyButton" customModule="WhiteDragonTestHarness" customModuleProvider="target">
-                                <rect key="frame" x="139.5" y="28" width="96" height="123"/>
+                                <rect key="frame" x="139.5" y="8" width="96" height="123"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="123" id="7wb-UX-bnN"/>
@@ -33,10 +83,10 @@
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zma-nU-iYa">
-                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="583"/>
                                 <subviews>
                                     <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="Rm5-BZ-Bi7">
-                                        <rect key="frame" x="169" y="305" width="37" height="37"/>
+                                        <rect key="frame" x="169" y="273" width="37" height="37"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="37" id="LQb-XZ-2pw"/>
                                             <constraint firstAttribute="height" constant="37" id="iOv-14-6WL"/>
@@ -62,6 +112,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="activityScreen" destination="zma-nU-iYa" id="hDG-A5-oW0"/>
                         <outlet property="loginButton" destination="UoL-Ek-w23" id="qmm-Xj-B4t"/>
@@ -69,7 +120,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="133.59999999999999" y="133.5832083958021"/>
+            <point key="canvasLocation" x="10" y="63"/>
         </scene>
     </scenes>
 </document>

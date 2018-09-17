@@ -34,6 +34,8 @@
 		D43CC121214C4EB200548B8E /* RVP_IOS_SDK_Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43CC11F214C4EB200548B8E /* RVP_IOS_SDK_Utils.swift */; };
 		D43CC122214C4EB200548B8E /* RVP_IOS_SDK_Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43CC11F214C4EB200548B8E /* RVP_IOS_SDK_Utils.swift */; };
 		D4687FF42142E4D000293358 /* WhiteDragonSDKTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4687FF32142E4D000293358 /* WhiteDragonSDKTester.swift */; };
+		D4733D39214FB74A009D11BF /* MainDispatchNavController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4733D38214FB74A009D11BF /* MainDispatchNavController.swift */; };
+		D4733D3B214FB866009D11BF /* DispatcherListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4733D3A214FB866009D11BF /* DispatcherListController.swift */; };
 		D477B405213EA86B0018AB45 /* WhiteDragon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D477B3FB213EA86B0018AB45 /* WhiteDragon.framework */; };
 		D477B40A213EA86B0018AB45 /* white_dragonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D477B409213EA86B0018AB45 /* white_dragonTests.swift */; };
 		D477B40C213EA86B0018AB45 /* white_dragon.h in Headers */ = {isa = PBXBuildFile; fileRef = D477B3FE213EA86B0018AB45 /* white_dragon.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -41,7 +43,7 @@
 		D4B94835213EFBD100A3560E /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = D4B94834213EFBD100A3560E /* Podfile */; };
 		D4D8703621446C0D001283D0 /* RVP_IOS_SDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B94830213EEA6200A3560E /* RVP_IOS_SDK.swift */; };
 		D4E2685E214302A2002ECE12 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E2685D214302A2002ECE12 /* AppDelegate.swift */; };
-		D4E26860214302A2002ECE12 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E2685F214302A2002ECE12 /* ViewController.swift */; };
+		D4E26860214302A2002ECE12 /* Test001SimpleLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E2685F214302A2002ECE12 /* Test001SimpleLogin.swift */; };
 		D4E26863214302A2002ECE12 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4E26861214302A2002ECE12 /* Main.storyboard */; };
 		D4E26865214302A3002ECE12 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4E26864214302A3002ECE12 /* Assets.xcassets */; };
 		D4E26868214302A4002ECE12 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4E26866214302A3002ECE12 /* LaunchScreen.storyboard */; };
@@ -71,6 +73,8 @@
 		D43CC109214C4EA900548B8E /* RVP_IOS_SDK_Login.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RVP_IOS_SDK_Login.swift; path = Classes/RVP_IOS_SDK_Login.swift; sourceTree = "<group>"; };
 		D43CC11F214C4EB200548B8E /* RVP_IOS_SDK_Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RVP_IOS_SDK_Utils.swift; path = Classes/RVP_IOS_SDK_Utils.swift; sourceTree = "<group>"; };
 		D4687FF32142E4D000293358 /* WhiteDragonSDKTester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteDragonSDKTester.swift; sourceTree = "<group>"; };
+		D4733D38214FB74A009D11BF /* MainDispatchNavController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainDispatchNavController.swift; sourceTree = "<group>"; };
+		D4733D3A214FB866009D11BF /* DispatcherListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DispatcherListController.swift; sourceTree = "<group>"; };
 		D477B3FB213EA86B0018AB45 /* WhiteDragon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = WhiteDragon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D477B3FE213EA86B0018AB45 /* white_dragon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = white_dragon.h; sourceTree = "<group>"; };
 		D477B3FF213EA86B0018AB45 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -88,7 +92,7 @@
 		D4B94834213EFBD100A3560E /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
 		D4E2685B214302A2002ECE12 /* WhiteDragonTestHarness.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WhiteDragonTestHarness.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4E2685D214302A2002ECE12 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		D4E2685F214302A2002ECE12 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		D4E2685F214302A2002ECE12 /* Test001SimpleLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test001SimpleLogin.swift; sourceTree = "<group>"; };
 		D4E26862214302A2002ECE12 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D4E26864214302A3002ECE12 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D4E26867214302A3002ECE12 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -226,7 +230,9 @@
 			isa = PBXGroup;
 			children = (
 				D4E2685D214302A2002ECE12 /* AppDelegate.swift */,
-				D4E2685F214302A2002ECE12 /* ViewController.swift */,
+				D4733D38214FB74A009D11BF /* MainDispatchNavController.swift */,
+				D4733D3A214FB866009D11BF /* DispatcherListController.swift */,
+				D4E2685F214302A2002ECE12 /* Test001SimpleLogin.swift */,
 				D432E0D1214BE45E0018ED86 /* LucyButton.swift */,
 				D4E26861214302A2002ECE12 /* Main.storyboard */,
 				D4E26864214302A3002ECE12 /* Assets.xcassets */,
@@ -487,11 +493,13 @@
 				D43CC118214C4EA900548B8E /* RVP_IOS_SDK_Thing.swift in Sources */,
 				D43CC122214C4EB200548B8E /* RVP_IOS_SDK_Utils.swift in Sources */,
 				D4E2686E2143031E002ECE12 /* WhiteDragonSDKTester.swift in Sources */,
+				D4733D3B214FB866009D11BF /* DispatcherListController.swift in Sources */,
 				D43CC112214C4EA900548B8E /* RVP_IOS_SDK_Place.swift in Sources */,
 				D43CC10F214C4EA900548B8E /* RVP_IOS_SDK_User.swift in Sources */,
 				D43CC11B214C4EA900548B8E /* A_RVP_IOS_SDK_Object.swift in Sources */,
 				D43CC11E214C4EA900548B8E /* RVP_IOS_SDK_Login.swift in Sources */,
-				D4E26860214302A2002ECE12 /* ViewController.swift in Sources */,
+				D4E26860214302A2002ECE12 /* Test001SimpleLogin.swift in Sources */,
+				D4733D39214FB74A009D11BF /* MainDispatchNavController.swift in Sources */,
 				D4D8703621446C0D001283D0 /* RVP_IOS_SDK.swift in Sources */,
 				D43CC115214C4EA900548B8E /* A_RVP_IOS_SDK_Data_Object.swift in Sources */,
 				D4E2685E214302A2002ECE12 /* AppDelegate.swift in Sources */,
