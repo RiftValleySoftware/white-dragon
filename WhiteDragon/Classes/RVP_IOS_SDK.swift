@@ -837,6 +837,24 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
     }
     
     /* ################################################################## */
+    // MARK: - Public Properties and Calculated Properties
+    /* ################################################################## */
+    /**
+     This is the login info for our current login. Returns nil, if not logged in.
+     */
+    public var myLoginInfo: RVP_IOS_SDK_Login? {
+        return self._loginInfo
+    }
+    
+    /* ################################################################## */
+    /**
+     This is the user info for our current login. Returns nil, if not logged in, or we don't have any user info associated with the login.
+     */
+    public var myUserInfo: RVP_IOS_SDK_User? {
+        return self._userInfo
+    }
+    
+    /* ################################################################## */
     // MARK: - Public Instance Methods
     /* ################################################################## */
     /**
@@ -970,6 +988,8 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
                     
                     self._apiKey = nil
                     self._loginTime = nil
+                    self._loginInfo = nil
+                    self._userInfo = nil
                     self._callDelegateLoginValid(false) // At this time, we are logged out, but the session is still valid.
                 }
                 

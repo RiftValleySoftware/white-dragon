@@ -26,7 +26,7 @@ import Foundation
 /* ###################################################################################################################################### */
 /**
  */
-class RVP_IOS_SDK_Login: A_RVP_IOS_SDK_Security_Object {
+public class RVP_IOS_SDK_Login: A_RVP_IOS_SDK_Security_Object {
     /* ################################################################## */
     // MARK: - Public Methods and Calulated properties -
     /* ################################################################## */
@@ -34,5 +34,19 @@ class RVP_IOS_SDK_Login: A_RVP_IOS_SDK_Security_Object {
      */
     public override init(sdkInstance inSDKInstance: RVP_IOS_SDK? = nil, objectInfoData inData: [String: Any]) {
         super.init(sdkInstance: inSDKInstance, objectInfoData: inData)
+    }
+    
+    /* ################################################################## */
+    /**
+     - returns the object login ID, as a String
+     */
+    public var isManager: Bool {
+        var ret = false
+        
+        if let isManager = self._myData["is_manager"] as? Bool {
+            ret = isManager
+        }
+        
+        return ret
     }
 }

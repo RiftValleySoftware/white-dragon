@@ -20,13 +20,14 @@
 */
 
 import Foundation
+import MapKit
 
 /* ###################################################################################################################################### */
 // MARK: - Main Class -
 /* ###################################################################################################################################### */
 /**
  */
-class A_RVP_IOS_SDK_Data_Object: A_RVP_IOS_SDK_Object {
+public class A_RVP_IOS_SDK_Data_Object: A_RVP_IOS_SDK_Object {
     /* ################################################################## */
     // MARK: - Public Methods and Calulated properties -
     /* ################################################################## */
@@ -34,5 +35,19 @@ class A_RVP_IOS_SDK_Data_Object: A_RVP_IOS_SDK_Object {
      */
     public override init(sdkInstance inSDKInstance: RVP_IOS_SDK? = nil, objectInfoData inData: [String: Any]) {
         super.init(sdkInstance: inSDKInstance, objectInfoData: inData)
+    }
+    
+    /* ################################################################## */
+    /**
+     - returns the longitude and latitude as a coordinate. Be aware that they may not be available, in which case, it will be nil.
+     */
+    public var location: CLLocationCoordinate2D? {
+        var ret: CLLocationCoordinate2D?
+        
+        if let long = self._myData["longitude"] as? Double, let lat = self._myData["latitude"] as? Double {
+            ret = CLLocationCoordinate2D(latitude: lat, longitude: long)
+        }
+        
+        return ret
     }
 }

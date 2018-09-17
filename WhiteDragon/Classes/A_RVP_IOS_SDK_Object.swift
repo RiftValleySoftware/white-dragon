@@ -76,4 +76,32 @@ public class A_RVP_IOS_SDK_Object: NSObject {
         
         return ret
     }
+    
+    /* ################################################################## */
+    /**
+     - returns the read token, as an Int. Be aware that the read token may not be available, in which case, it will be nil.
+     */
+    public var readToken: Int? {
+        var ret: Int?
+        
+        if let id = self._myData["read_token"] as? Int {
+            ret = id
+        }
+        
+        return ret
+    }
+    
+    /* ################################################################## */
+    /**
+     - returns the write token, as an Int. Be aware that the write token may not be available, in which case, it will be nil.
+     */
+    public var writeToken: Int? {
+        var ret: Int?
+        
+        if let id = self._myData["write_token"] as? Int {
+            ret = id
+        }
+        
+        return ret
+    }
 }
