@@ -46,7 +46,7 @@ public class A_RVP_IOS_SDK_Object: NSObject {
      - returns all of the values for this object, as a Dictionary.
      */
     public var asDictionary: [String: Any?] {
-        return ["id": self.id, "name": self.name, "readToken": self.readToken, "writeToken": self.writeToken]
+        return ["id": self.id, "name": self.name, "readToken": self.readToken, "writeToken": self.writeToken, "lastAccess": self.lastAccess]
     }
     
     /* ################################################################## */
@@ -105,6 +105,23 @@ public class A_RVP_IOS_SDK_Object: NSObject {
         return ret
     }
     
+    /* ################################################################## */
+    /**
+     - returns the last time the object was accessed. Nil, if no date available.
+     */
+    public var lastAccess: Date? {
+        if let dateString = self._myData["last_access"] as? String {
+            let dateFormatter = ISO8601DateFormatter()
+            let options: ISO8601DateFormatter.Options = [.withYear, .withMonth, .withDay, .withDashSeparatorInDate, .withSpaceBetweenDateAndTime, .withTime, .withColonSeparatorInTime]
+            dateFormatter.formatOptions = options
+            if let date = dateFormatter.date(from: dateString) {
+                return date
+            }
+        }
+        
+        return nil
+    }
+
     /* ################################################################## */
     /**
      */

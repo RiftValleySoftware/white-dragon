@@ -14,7 +14,7 @@ import MapKit
 /* ###################################################################################################################################### */
 /**
  */
-class Test001SimpleLogin: UIViewController, WhiteDragonSDKTester_Delegate, UIPickerViewDataSource, UIPickerViewDelegate {
+class Test001SimpleLogin: UIViewController, WhiteDragonSDKTesterDelegate, UIPickerViewDataSource, UIPickerViewDelegate {
     private let _logins: [String] = ["admin", "MDAdmin", "VAAdmin", "DCAdmin", "WVAdmin", "DEAdmin", "MainAdmin", "Dilbert", "Wally", "Ted", "Alice", "Tina", "PHB", "MeLeet"]
     
     var mySDKTester: WhiteDragonSDKTester?

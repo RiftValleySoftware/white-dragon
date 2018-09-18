@@ -7,11 +7,50 @@
 //
 
 import UIKit
+import MapKit
 
-class Test002BasicUserListing: UIViewController, WhiteDragonSDKTester_Delegate {
+class Test002BasicUserListing: UIViewController, WhiteDragonSDKTesterDelegate, UIPickerViewDataSource, UIPickerViewDelegate {
+    private let _presets: [(name: String, values: [Int])] = [(name: "MDAdmin", values: [1725]),
+                                                             (name: "CEO", values: [1751]),
+                                                             (name: "DC Area Admins", values: [1725, 1726, 1727, 1728, 1729, 1730]),
+                                                             (name: "Restricted Admins", values: [1730, 1731]),
+                                                             (name: "DilbertCo", values: [1745, 1746, 1747, 1748, 1749, 1750, 1751, 1752, 1753, 1754])
+                                                            ]
+    private let _buttonStrings = ["LOGIN", "LOGOUT"]
+    private var _userList: [RVP_IOS_SDK_User] = []
+    
     var mySDKTester: WhiteDragonSDKTester?
     @IBOutlet weak var activityScreen: UIView!
-
+    @IBOutlet weak var fetchDataButton: UIButton!
+    @IBOutlet weak var userListPicker: UIPickerView!
+    @IBOutlet weak var specificationItemsView: UIView!
+    @IBOutlet weak var resultsTextView: UITextView!
+    @IBOutlet weak var loginMainAdminButton: UIButton!
+    
+    /* ################################################################## */
+    /**
+     */
+    @IBAction func loginMainAdminButtonPressed(_ sender: UIButton) {
+        if let tester = self.mySDKTester {
+            if let sdkInstance = tester.sdkInstance {
+                self.resultsTextView.text = ""
+                self.activityScreen?.isHidden = false
+                if sdkInstance.isLoggedIn {
+                    tester.logout()
+                } else {
+                    tester.login(loginID: "admin", password: "CoreysGoryStory")
+                }
+            }
+        }
+    }
+    
+    /* ################################################################## */
+    /**
+     */
+    @IBAction func fetchDataButtonPressed(_ sender: UIButton) {
+        self.getUsers()
+    }
+    
     /* ################################################################## */
     /**
      */
@@ -19,6 +58,7 @@ class Test002BasicUserListing: UIViewController, WhiteDragonSDKTester_Delegate {
         super.viewDidLoad()
         let tester = WhiteDragonSDKTester(dbPrefix: "sdk_1")
         tester.delegate = self
+        self.loginMainAdminButton.setTitle(self._buttonStrings[0], for: .normal)
     }
     
     /* ################################################################## */
@@ -35,6 +75,43 @@ class Test002BasicUserListing: UIViewController, WhiteDragonSDKTester_Delegate {
         if let tester = self.mySDKTester {
             if tester.isLoggedIn {
                 tester.logout()
+            }
+        }
+    }
+    
+    /* ################################################################## */
+    /**
+     */
+    func getUsers() {
+        self._userList = []
+        self.resultsTextView.text = ""
+        if let sdkInstance = self.mySDKTester?.sdkInstance {
+            let row = self.userListPicker.selectedRow(inComponent: 0)
+            let userIDList = self._presets[row].values
+            self.activityScreen?.isHidden = false
+            sdkInstance.fetchUsers(userIDList)
+        }
+    }
+    
+    /* ################################################################## */
+    /**
+     */
+    func populateTextView() {
+        self.resultsTextView.text = ""
+        
+        for userInfo in self._userList {
+            let userName = userInfo.name
+            self.resultsTextView.text += "\(userName)\n"
+            for tup in userInfo.asDictionary {
+                if let value = tup.value {
+                    if "location" == tup.key {
+                        if let val = value as? CLLocationCoordinate2D {
+                            self.resultsTextView.text += "\t" + tup.key + ": " + "(" + String(val.latitude) + "," + String(val.longitude) + ")\n"
+                        }
+                    } else {
+                        self.resultsTextView.text += "\t" + tup.key + ": " + String(describing: value) + "\n"
+                    }
+                }
             }
         }
     }
@@ -64,7 +141,10 @@ class Test002BasicUserListing: UIViewController, WhiteDragonSDKTester_Delegate {
         }
         #endif
         DispatchQueue.main.async {
-            self.activityScreen.isHidden = true
+            self.loginMainAdminButton.setTitle(inLoginValid ? self._buttonStrings[1] : self._buttonStrings[0], for: .normal)
+            self.activityScreen?.isHidden = true
+            self.loginMainAdminButton?.isHidden = false
+            self.specificationItemsView?.isHidden = false
         }
     }
     
@@ -97,6 +177,15 @@ class Test002BasicUserListing: UIViewController, WhiteDragonSDKTester_Delegate {
         #if DEBUG
         print("Fetched \(fetchedDataItems.count) Items!")
         #endif
+        
+        if let dataItems = fetchedDataItems as? [RVP_IOS_SDK_User] {
+            self._userList.append(contentsOf: dataItems)
+        }
+        
+        DispatchQueue.main.async {
+            self.activityScreen?.isHidden = true
+            self.populateTextView()
+        }
     }
     
     /* ################################################################## */
@@ -107,5 +196,26 @@ class Test002BasicUserListing: UIViewController, WhiteDragonSDKTester_Delegate {
         print("Databases Loaded!")
         #endif
         self.mySDKTester = inTesterObject
+    }
+    
+    /* ################################################################## */
+    /**
+     */
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    /* ################################################################## */
+    /**
+     */
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return self._presets.count
+    }
+    
+    /* ################################################################## */
+    /**
+     */
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return self._presets[row].name
     }
 }

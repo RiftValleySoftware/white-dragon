@@ -21,7 +21,7 @@
 
 import Foundation
 
-protocol WhiteDragonSDKTester_Delegate: RVP_IOS_SDK_Delegate {
+protocol WhiteDragonSDKTesterDelegate: RVP_IOS_SDK_Delegate {
 /* ################################################################## */
 // MARK: - REQUIRED METHODS
 /* ################################################################## */
@@ -40,7 +40,7 @@ class WhiteDragonSDKTester: RVP_IOS_SDK_Delegate {
     var sdkInstance: RVP_IOS_SDK?
     var loginID: String?
     var password: String?
-    weak var delegate: WhiteDragonSDKTester_Delegate?
+    weak var delegate: WhiteDragonSDKTesterDelegate?
     
     /* ################################################################## */
     /**

@@ -139,7 +139,7 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
      */
     private var _loginParameters: String {
         if let secret = self._server_secret.urlEncodedString {
-            if let apiKey = self._apiKey.urlEncodedString {
+            if let apiKey = self._apiKey?.urlEncodedString {
                 return "login_server_secret=" + secret + "&login_api_key=" + apiKey
             }
         }
@@ -586,34 +586,67 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
      - parameter inIntegerUserIDs: An Array of Int, with the user IDs.
      */
     private func _getUserInfo(_ inIntegerUserIDs: [Int]) {
-        let url = self._server_uri + "/json/people/people/people/" + (inIntegerUserIDs.map(String.init)).joined(separator: ",")
-        // The request is a simple GET task, so we can just use a straight-up task for this.
-        if let url_object = URL(string: url) {
-            let userInfoTask = self._connectionSession.dataTask(with: url_object) { data, response, error in
-                if let error = error {
-                    self._handleError(error)
-                    return
-                }
-                guard let httpResponse = response as? HTTPURLResponse,
-                    (200...299).contains(httpResponse.statusCode) else {
-                        self._handleHTTPError(response as? HTTPURLResponse ?? nil)
-                        return
-                }
-                
-                if let mimeType = httpResponse.mimeType, mimeType == "application/json", let data = data {
-                    if let objectArray = self._makeInstance(data: data) as? [RVP_IOS_SDK_User] {
-                        self._dataItems.append(contentsOf: objectArray)
-                        self._sortDataItems()
-                        self._sendItemsToDelegate(objectArray)
-                    }
-                } else {
-                    self._handleError(SDK_Data_Errors.invalidData(data))
+        var fetchUserIDs: [Int] = []
+        var cachedUserObjects: [RVP_IOS_SDK_User] = []
+        
+        // First, we look for cached instances. If we have them, we send them to the delegate.
+        for id in inIntegerUserIDs {
+            var needMore: Bool = true
+            
+            for dataItem in self._dataItems {   // See if we already have this user. If so, we immediately fetch it.
+                if let dataItem = dataItem as? RVP_IOS_SDK_User, dataItem.id == id {
+                    cachedUserObjects.append(dataItem)
+                    needMore = false
+                    break
                 }
             }
             
-            userInfoTask.resume()
-        } else {
-            self._handleError(SDK_Connection_Errors.invalidServerURI(url))
+            if needMore { // We'll need to fetch this one.
+                fetchUserIDs.append(id)
+            }
+        }
+        
+        if !cachedUserObjects.isEmpty {
+            self._sendItemsToDelegate(cachedUserObjects)   // We just send our cached items to the delegate right away.
+        }
+        
+        if !fetchUserIDs.isEmpty {  // If we didn't find everything we were looking for in the junk drawer, we will be asking the server for the remainder.
+            fetchUserIDs = fetchUserIDs.sorted()    // Just because we're anal...
+            var loginParams = self._loginParameters
+            
+            if !loginParams.isEmpty {
+                loginParams = "&" + loginParams
+            }
+            
+            let url = self._server_uri + "/json/people/people/" + (fetchUserIDs.map(String.init)).joined(separator: ",") + "?show_details" + loginParams   // We will be asking for the "full Monty".
+            // The request is a simple GET task, so we can just use a straight-up task for this.
+            if let url_object = URL(string: url) {
+                let userInfoTask = self._connectionSession.dataTask(with: url_object) { data, response, error in
+                    if let error = error {
+                        self._handleError(error)
+                        return
+                    }
+                    guard let httpResponse = response as? HTTPURLResponse,
+                        (200...299).contains(httpResponse.statusCode) else {
+                            self._handleHTTPError(response as? HTTPURLResponse ?? nil)
+                            return
+                    }
+                    
+                    if let mimeType = httpResponse.mimeType, mimeType == "application/json", let data = data {
+                        if let objectArray = self._makeInstance(data: data) as? [RVP_IOS_SDK_User] {
+                            self._dataItems.append(contentsOf: objectArray)
+                            self._sortDataItems()
+                            self._sendItemsToDelegate(objectArray)
+                        }
+                    } else {
+                        self._handleError(SDK_Data_Errors.invalidData(data))
+                    }
+                }
+                
+                userInfoTask.resume()
+            } else {
+                self._handleError(SDK_Connection_Errors.invalidServerURI(url))
+            }
         }
     }
 
@@ -1010,6 +1043,7 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
                         }
                     }
                     
+                    self._dataItems = []    // We nuke the cache when we log in.
                     loginTask.resume()
                 } else {
                     self._handleError(SDK_Connection_Errors.invalidServerURI(url))
@@ -1052,6 +1086,7 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
                     self._callDelegateLoginValid(false) // At this time, we are logged out, but the session is still valid.
                 }
                 
+                self._dataItems = []    // We nuke the cache when we log out.
                 logoutTask.resume()
             } else {
                 self._handleError(SDK_Connection_Errors.invalidServerURI(url))
@@ -1061,20 +1096,11 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
     
     /* ################################################################## */
     /**
-     - parameter inUserIntegerID: An Int, with the data database ID of the user object.
-     
-     - returns: a single user object, based on the numerical ID passed in. Nil, if the user is not already available, or needs to be fetched.
+     - parameter inUserIntegerID: An Array of Int, with the data database IDs of the user objects Requested.
      */
-    public func fetchUser(_ inUserIntegerID: Int) {
-        for dataItem in self._dataItems {   // See if we already have this user. If so, we immediately fetch it.
-            if let dataItem = dataItem as? RVP_IOS_SDK_User, dataItem.id == inUserIntegerID {
-                self._sendItemsToDelegate([dataItem])   // We just send our cached item to the delegate right away.
-                return
-            }
-        }
-        
+    public func fetchUsers(_ inUserIntegerIDArray: [Int]) {
         // If we got here, it means that we didn't find the user, and need to fetch the user from the server.
-        self._getUserInfo([inUserIntegerID])
+        self._getUserInfo(inUserIntegerIDArray)
     }
 
     /* ################################################################## */
