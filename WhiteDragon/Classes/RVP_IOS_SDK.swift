@@ -65,8 +65,17 @@ public protocol RVP_IOS_SDK_Delegate: class {
      
      - parameter sdkInstance: This is the SDK instance making the call.
      - parameter sessionError: The error in question.
-    */
+     */
     func sdkInstance(_: RVP_IOS_SDK, sessionError: Error)
+    
+    /* ################################################################## */
+    /**
+     This is called with one or more data items. Each item is a single object.
+     
+     - parameter sdkInstance: This is the SDK instance making the call.
+     - parameter fetchedDataItems: An array of subclasses of A_RVP_IOS_SDK_Object.
+     */
+    func sdkInstance(_: RVP_IOS_SDK, fetchedDataItems: [A_RVP_IOS_SDK_Object])
 }
 
 /* ###################################################################################################################################### */
@@ -426,6 +435,18 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
 
     /* ################################################################## */
     /**
+     This is called with a list of one or more data items to be sent to the delegate.
+     
+     - parameter inItemArray: An Array of concrete instances of subclasses of A_RVP_IOS_SDK_Object.
+     */
+    private func _sendItemsToDelegate(_ inItemArray: [A_RVP_IOS_SDK_Object]) {
+        if nil != self._delegate {
+            self._delegate!.sdkInstance(self, fetchedDataItems: inItemArray)
+        }
+    }
+
+    /* ################################################################## */
+    /**
      This is called if we determine the server connection to be invalid.
      
      If the delegate is valid, we call it with a notice that the session disconnected because of an invalid server connection.
@@ -557,7 +578,45 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
             }
         }
     }
-    
+
+    /* ################################################################## */
+    /**
+     This fetches user objects from the server.
+     
+     - parameter inIntegerUserIDs: An Array of Int, with the user IDs.
+     */
+    private func _getUserInfo(_ inIntegerUserIDs: [Int]) {
+        let url = self._server_uri + "/json/people/people/people/" + (inIntegerUserIDs.map(String.init)).joined(separator: ",")
+        // The request is a simple GET task, so we can just use a straight-up task for this.
+        if let url_object = URL(string: url) {
+            let userInfoTask = self._connectionSession.dataTask(with: url_object) { data, response, error in
+                if let error = error {
+                    self._handleError(error)
+                    return
+                }
+                guard let httpResponse = response as? HTTPURLResponse,
+                    (200...299).contains(httpResponse.statusCode) else {
+                        self._handleHTTPError(response as? HTTPURLResponse ?? nil)
+                        return
+                }
+                
+                if let mimeType = httpResponse.mimeType, mimeType == "application/json", let data = data {
+                    if let objectArray = self._makeInstance(data: data) as? [RVP_IOS_SDK_User] {
+                        self._dataItems.append(contentsOf: objectArray)
+                        self._sortDataItems()
+                        self._sendItemsToDelegate(objectArray)
+                    }
+                } else {
+                    self._handleError(SDK_Data_Errors.invalidData(data))
+                }
+            }
+            
+            userInfoTask.resume()
+        } else {
+            self._handleError(SDK_Connection_Errors.invalidServerURI(url))
+        }
+    }
+
     /* ################################################################## */
     /**
      This method fetches the plugin array from the server. This is used as a "validity" test.
@@ -853,7 +912,7 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
     public var myUserInfo: RVP_IOS_SDK_User? {
         return self._userInfo
     }
-    
+
     /* ################################################################## */
     // MARK: - Public Instance Methods
     /* ################################################################## */
@@ -1000,6 +1059,24 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
         }
     }
     
+    /* ################################################################## */
+    /**
+     - parameter inUserIntegerID: An Int, with the data database ID of the user object.
+     
+     - returns: a single user object, based on the numerical ID passed in. Nil, if the user is not already available, or needs to be fetched.
+     */
+    public func fetchUser(_ inUserIntegerID: Int) {
+        for dataItem in self._dataItems {   // See if we already have this user. If so, we immediately fetch it.
+            if let dataItem = dataItem as? RVP_IOS_SDK_User, dataItem.id == inUserIntegerID {
+                self._sendItemsToDelegate([dataItem])   // We just send our cached item to the delegate right away.
+                return
+            }
+        }
+        
+        // If we got here, it means that we didn't find the user, and need to fetch the user from the server.
+        self._getUserInfo([inUserIntegerID])
+    }
+
     /* ################################################################## */
     // MARK: - Public Sequence Protocol Methods
     /* ################################################################## */

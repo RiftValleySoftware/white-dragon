@@ -84,16 +84,6 @@ class Test001SimpleLogin: UIViewController, WhiteDragonSDKTester_Delegate, UIPic
             let row = self.loginPickerView.selectedRow(inComponent: 0)
             self.resultsTextView.text = "Row: " + String(row) + "\n"
             
-            if let loginInfo = sdkTester.sdkInstance?.myLoginInfo {
-                self.resultsTextView.text += "\nLOGIN INFO:\n"
-                
-                for tup in loginInfo.asDictionary {
-                    if let value = tup.value {
-                        self.resultsTextView.text += "\t" + tup.key + ": " + String(describing: value) + "\n"
-                    }
-                }
-            }
-            
             if let userInfo = sdkTester.sdkInstance?.myUserInfo {
                 self.resultsTextView.text += "\nUSER INFO:\n"
                 
@@ -106,6 +96,16 @@ class Test001SimpleLogin: UIViewController, WhiteDragonSDKTester_Delegate, UIPic
                         } else {
                             self.resultsTextView.text += "\t" + tup.key + ": " + String(describing: value) + "\n"
                         }
+                    }
+                }
+            }
+            
+            if let loginInfo = sdkTester.sdkInstance?.myLoginInfo {
+                self.resultsTextView.text += "\nLOGIN INFO:\n"
+                
+                for tup in loginInfo.asDictionary {
+                    if let value = tup.value {
+                        self.resultsTextView.text += "\t" + tup.key + ": " + String(describing: value) + "\n"
                     }
                 }
             }
@@ -171,6 +171,15 @@ class Test001SimpleLogin: UIViewController, WhiteDragonSDKTester_Delegate, UIPic
         }
     }
     
+    /* ################################################################## */
+    /**
+     */
+    func sdkInstance(_ inSDKInstance: RVP_IOS_SDK, fetchedDataItems: [A_RVP_IOS_SDK_Object]) {
+        #if DEBUG
+        print("Fetched \(fetchedDataItems.count) Items!")
+        #endif
+    }
+
     /* ################################################################## */
     /**
      */

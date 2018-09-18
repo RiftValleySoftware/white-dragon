@@ -48,6 +48,7 @@
 		D4E26865214302A3002ECE12 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4E26864214302A3002ECE12 /* Assets.xcassets */; };
 		D4E26868214302A4002ECE12 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4E26866214302A3002ECE12 /* LaunchScreen.storyboard */; };
 		D4E2686E2143031E002ECE12 /* WhiteDragonSDKTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4687FF32142E4D000293358 /* WhiteDragonSDKTester.swift */; };
+		D4FC297D21514BFB008271E4 /* Test002BasicUserListing.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FC297C21514BFB008271E4 /* Test002BasicUserListing.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -97,6 +98,7 @@
 		D4E26864214302A3002ECE12 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D4E26867214302A3002ECE12 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D4E26869214302A4002ECE12 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D4FC297C21514BFB008271E4 /* Test002BasicUserListing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test002BasicUserListing.swift; sourceTree = "<group>"; };
 		DEA8986ABAA1BA586DC9A8CD /* Pods_WhiteDragon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WhiteDragon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -245,6 +247,7 @@
 			isa = PBXGroup;
 			children = (
 				D4E2685F214302A2002ECE12 /* Test001SimpleLogin.swift */,
+				D4FC297C21514BFB008271E4 /* Test002BasicUserListing.swift */,
 			);
 			name = "Test Files";
 			sourceTree = "<group>";
@@ -511,6 +514,7 @@
 				D4E2686E2143031E002ECE12 /* WhiteDragonSDKTester.swift in Sources */,
 				D4733D3B214FB866009D11BF /* DispatcherListController.swift in Sources */,
 				D43CC112214C4EA900548B8E /* RVP_IOS_SDK_Place.swift in Sources */,
+				D4FC297D21514BFB008271E4 /* Test002BasicUserListing.swift in Sources */,
 				D43CC10F214C4EA900548B8E /* RVP_IOS_SDK_User.swift in Sources */,
 				D43CC11B214C4EA900548B8E /* A_RVP_IOS_SDK_Object.swift in Sources */,
 				D43CC11E214C4EA900548B8E /* RVP_IOS_SDK_Login.swift in Sources */,

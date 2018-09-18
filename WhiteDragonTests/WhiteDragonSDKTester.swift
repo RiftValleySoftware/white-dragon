@@ -164,4 +164,13 @@ class WhiteDragonSDKTester: RVP_IOS_SDK_Delegate {
             self.delegate!.sdkInstance(inSDKInstance, sessionError: sessionError)
         }
     }
+    
+    /* ################################################################## */
+    /**
+     */
+    func sdkInstance(_ inSDKInstance: RVP_IOS_SDK, fetchedDataItems: [A_RVP_IOS_SDK_Object]) {
+        if nil != self.delegate {
+            self.delegate!.sdkInstance(inSDKInstance, fetchedDataItems: fetchedDataItems)
+        }
+    }
 }
