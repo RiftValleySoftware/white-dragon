@@ -36,7 +36,50 @@ public class A_RVP_IOS_SDK_Data_Object: A_RVP_IOS_SDK_Object {
      */
     override public var asDictionary: [String: Any?] {
         var ret = super.asDictionary
-        ret ["location"] = self.location
+        
+        ret ["isFuzzy"] = self.isFuzzy
+        
+        if let fuzzFactor = self.fuzzFactor {
+            ret ["fuzzFactor"] = fuzzFactor
+        }
+        
+        if let location = self.location {
+            ret ["location"] = location
+        }
+        
+        if let rawLocation = self.rawLocation {
+            ret ["raw_location"] = rawLocation
+        }
+
+        return ret
+    }
+
+    /* ################################################################## */
+    /**
+     - returns true, if the instance is fuzzy.
+     */
+    public var isFuzzy: Bool {
+        var ret: Bool = false
+        
+        if let isFuzzy = self._myData["fuzzy"] as? Bool {
+            ret = isFuzzy
+        }
+        
+        return ret
+    }
+
+    /* ################################################################## */
+    /**
+     - returns a "fuzz factor," which is the number of Kilometers of "slop" that location obfuscation uses. Be aware that it may not be available, in which case, this will be nil.
+     */
+    public var fuzzFactor: Double? {
+        var ret: Double?
+        
+        if let isFuzzy = self._myData["fuzzy"] as? Bool, isFuzzy {
+            if let fuzzFactor = self._myData["fuzz_factor"] as? Double {
+                ret = fuzzFactor
+            }
+        }
         
         return ret
     }
@@ -54,7 +97,21 @@ public class A_RVP_IOS_SDK_Data_Object: A_RVP_IOS_SDK_Object {
         
         return ret
     }
-    
+
+    /* ################################################################## */
+    /**
+     - returns the "raw" longitude and latitude as a coordinate. Be aware that they may not be available, in which case, it will be nil.
+     */
+    public var rawLocation: CLLocationCoordinate2D? {
+        var ret: CLLocationCoordinate2D?
+        
+        if let long = self._myData["raw_longitude"] as? Double, let lat = self._myData["raw_latitude"] as? Double {
+            ret = CLLocationCoordinate2D(latitude: lat, longitude: long)
+        }
+        
+        return ret
+    }
+
     /* ################################################################## */
     /**
      */

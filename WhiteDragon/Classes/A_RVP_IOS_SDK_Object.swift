@@ -46,7 +46,21 @@ public class A_RVP_IOS_SDK_Object: NSObject {
      - returns all of the values for this object, as a Dictionary.
      */
     public var asDictionary: [String: Any?] {
-        return ["id": self.id, "name": self.name, "readToken": self.readToken, "writeToken": self.writeToken, "lastAccess": self.lastAccess]
+        var ret: [String: Any?] = ["id": self.id, "name": self.name]
+
+        if let readToken = self.readToken {
+            ret ["readToken"] = readToken
+        }
+        
+        if let writeToken = self.writeToken {
+            ret ["writeToken"] = writeToken
+        }
+        
+        if let lastAccess = self.lastAccess {
+            ret ["lastAccess"] = lastAccess
+        }
+        
+        return ret
     }
     
     /* ################################################################## */
