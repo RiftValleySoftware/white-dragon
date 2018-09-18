@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MapKit
 
 /* ###################################################################################################################################### */
 // MARK: - Main Class -
@@ -28,7 +29,7 @@ class Test001SimpleLogin: UIViewController, WhiteDragonSDKTester_Delegate, UIPic
      */
     override func viewDidLoad() {
         super.viewDidLoad()
-        let tester = WhiteDragonSDKTester(dbPrefix: "sdk1")
+        let tester = WhiteDragonSDKTester(dbPrefix: "sdk_1")
         tester.delegate = self
     }
     
@@ -87,7 +88,9 @@ class Test001SimpleLogin: UIViewController, WhiteDragonSDKTester_Delegate, UIPic
                 self.resultsTextView.text += "\nLOGIN INFO:\n"
                 
                 for tup in loginInfo.asDictionary {
-                    self.resultsTextView.text += "\t" + tup.key + ": " + String(describing: tup.value) + "\n"
+                    if let value = tup.value {
+                        self.resultsTextView.text += "\t" + tup.key + ": " + String(describing: value) + "\n"
+                    }
                 }
             }
             
@@ -95,10 +98,20 @@ class Test001SimpleLogin: UIViewController, WhiteDragonSDKTester_Delegate, UIPic
                 self.resultsTextView.text += "\nUSER INFO:\n"
                 
                 for tup in userInfo.asDictionary {
-                    self.resultsTextView.text += "\t" + tup.key + ": " + String(describing: tup.value) + "\n"
+                    if let value = tup.value {
+                        if "location" == tup.key {
+                            if let val = value as? CLLocationCoordinate2D {
+                                self.resultsTextView.text += "\t" + tup.key + ": " + "(" + String(val.latitude) + "," + String(val.longitude) + ")\n"
+                            }
+                        } else {
+                            self.resultsTextView.text += "\t" + tup.key + ": " + String(describing: value) + "\n"
+                        }
+                    }
                 }
             }
-       }
+        } else {
+            self.resultsTextView.text = ""
+        }
     }
 
     /* ################################################################## */
@@ -126,10 +139,7 @@ class Test001SimpleLogin: UIViewController, WhiteDragonSDKTester_Delegate, UIPic
         }
         #endif
         DispatchQueue.main.async {
-            if inLoginValid {
-                self.populateTextView()
-            }
-            
+            self.populateTextView()
             self.activityScreen.isHidden = true
             self.loginPickerView.isHidden = inLoginValid
             self.resultsTextView.isHidden = !inLoginValid
