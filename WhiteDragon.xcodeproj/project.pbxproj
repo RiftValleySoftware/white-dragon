@@ -39,6 +39,7 @@
 		D477B405213EA86B0018AB45 /* WhiteDragon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D477B3FB213EA86B0018AB45 /* WhiteDragon.framework */; };
 		D477B40A213EA86B0018AB45 /* white_dragonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D477B409213EA86B0018AB45 /* white_dragonTests.swift */; };
 		D477B40C213EA86B0018AB45 /* white_dragon.h in Headers */ = {isa = PBXBuildFile; fileRef = D477B3FE213EA86B0018AB45 /* white_dragon.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D4A5C3432152BA6500159EFF /* TestHarnessUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A5C3422152BA6500159EFF /* TestHarnessUtilities.swift */; };
 		D4B94831213EEA6200A3560E /* RVP_IOS_SDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B94830213EEA6200A3560E /* RVP_IOS_SDK.swift */; };
 		D4B94835213EFBD100A3560E /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = D4B94834213EFBD100A3560E /* Podfile */; };
 		D4D8703621446C0D001283D0 /* RVP_IOS_SDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B94830213EEA6200A3560E /* RVP_IOS_SDK.swift */; };
@@ -82,6 +83,7 @@
 		D477B404213EA86B0018AB45 /* WhiteDragonTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WhiteDragonTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D477B409213EA86B0018AB45 /* white_dragonTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = white_dragonTests.swift; sourceTree = "<group>"; };
 		D477B40B213EA86B0018AB45 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D4A5C3422152BA6500159EFF /* TestHarnessUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestHarnessUtilities.swift; sourceTree = "<group>"; };
 		D4B8A989213ECB18007CB311 /* WhiteDragon.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = WhiteDragon.podspec; sourceTree = "<group>"; };
 		D4B8A98A213ECB18007CB311 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		D4B8A98B213ECB18007CB311 /* LICENSE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
@@ -248,6 +250,7 @@
 			children = (
 				D4E2685F214302A2002ECE12 /* Test001SimpleLogin.swift */,
 				D4FC297C21514BFB008271E4 /* Test002BasicUserListing.swift */,
+				D4A5C3422152BA6500159EFF /* TestHarnessUtilities.swift */,
 			);
 			name = "Test Files";
 			sourceTree = "<group>";
@@ -525,6 +528,7 @@
 				D4E2685E214302A2002ECE12 /* AppDelegate.swift in Sources */,
 				D43CC10C214C4EA900548B8E /* A_RVP_IOS_SDK_Security_Object.swift in Sources */,
 				D432E0D2214BE45E0018ED86 /* LucyButton.swift in Sources */,
+				D4A5C3432152BA6500159EFF /* TestHarnessUtilities.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

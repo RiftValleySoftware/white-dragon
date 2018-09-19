@@ -37,26 +37,30 @@ public class A_RVP_IOS_SDK_Data_Object: A_RVP_IOS_SDK_Object {
     override public var asDictionary: [String: Any?] {
         var ret = super.asDictionary
         
-        ret ["isFuzzy"] = self.isFuzzy
+        ret["isFuzzy"] = self.isFuzzy
         
         if let fuzzFactor = self.fuzzFactor {
-            ret ["fuzzFactor"] = fuzzFactor
+            ret["fuzzFactor"] = fuzzFactor
         }
         
         if let location = self.location {
-            ret ["location"] = location
+            ret["location"] = location
         }
         
         if let rawLocation = self.rawLocation {
-            ret ["raw_location"] = rawLocation
+            ret["raw_location"] = rawLocation
         }
-
+        
+        if let canSeeThroughTheFuzz = self.canSeeThroughTheFuzz {
+            ret["canSeeThroughTheFuzz"] = canSeeThroughTheFuzz
+        }
+        
         return ret
     }
 
     /* ################################################################## */
     /**
-     - returns true, if the instance is fuzzy.
+     - returns true, if the instance is fuzzy. READ ONLY
      */
     public var isFuzzy: Bool {
         var ret: Bool = false
@@ -70,37 +74,78 @@ public class A_RVP_IOS_SDK_Data_Object: A_RVP_IOS_SDK_Object {
 
     /* ################################################################## */
     /**
-     - returns a "fuzz factor," which is the number of Kilometers of "slop" that location obfuscation uses. Be aware that it may not be available, in which case, this will be nil.
+     - returns a "fuzz factor," which is the number of Kilometers of "slop" that location obfuscation uses. Be aware that it may not be available, in which case, this will be nil. If you set (or clear) the fuzz factor, the "isFuzzy" value may be changed.
      */
     public var fuzzFactor: Double? {
-        var ret: Double?
-        
-        if let isFuzzy = self._myData["fuzzy"] as? Bool, isFuzzy {
-            if let fuzzFactor = self._myData["fuzz_factor"] as? Double {
-                ret = fuzzFactor
+        get {
+            var ret: Double?
+            
+            if let isFuzzy = self._myData["fuzzy"] as? Bool, isFuzzy {
+                if let fuzzFactor = self._myData["fuzz_factor"] as? Double {
+                    ret = fuzzFactor
+                }
             }
+            
+            return ret
         }
         
-        return ret
+        set {
+            if self.isWriteable {
+                self._myData["fuzz_factor"] = newValue
+                self._myData["fuzzy"] = 0.0 != newValue
+            }
+        }
     }
 
+    /* ################################################################## */
+    /**
+     - returns an Int, which is the token assigned as an "extra" token that "can see through the fuzz," meaning that holders of that token can see the "raw" location.
+     */
+    public var canSeeThroughTheFuzz: Int? {
+        get {
+            var ret: Int?
+            
+            if let canSeeThroughTheFuzz = self._myData["can_see_through_the_fuzz"] as? Int {
+                ret = canSeeThroughTheFuzz
+            }
+            
+            return ret
+        }
+        
+        // We cannot set any tokens that we don't have, ourselves.
+        set {
+            if self.isWriteable, let newVal = newValue, (self._sdkInstance?.securityTokens.contains(newVal))! {
+                self._myData["can_see_through_the_fuzz"] = newVal
+            }
+        }
+    }
+    
     /* ################################################################## */
     /**
      - returns the longitude and latitude as a coordinate. Be aware that they may not be available, in which case, it will be nil.
      */
     public var location: CLLocationCoordinate2D? {
-        var ret: CLLocationCoordinate2D?
-        
-        if let long = self._myData["longitude"] as? Double, let lat = self._myData["latitude"] as? Double {
-            ret = CLLocationCoordinate2D(latitude: lat, longitude: long)
+        get {
+            var ret: CLLocationCoordinate2D?
+            
+            if let long = self._myData["longitude"] as? Double, let lat = self._myData["latitude"] as? Double {
+                ret = CLLocationCoordinate2D(latitude: lat, longitude: long)
+            }
+            
+            return ret
         }
         
-        return ret
+        set {
+            if self.isWriteable, let newVal = newValue {
+                self._myData["longitude"] = newVal.longitude
+                self._myData["latitude"] = newVal.latitude
+            }
+        }
     }
 
     /* ################################################################## */
     /**
-     - returns the "raw" longitude and latitude as a coordinate. Be aware that they may not be available, in which case, it will be nil.
+     - returns the "raw" longitude and latitude as a coordinate. Be aware that they may not be available, in which case, it will be nil. READ ONLY
      */
     public var rawLocation: CLLocationCoordinate2D? {
         var ret: CLLocationCoordinate2D?

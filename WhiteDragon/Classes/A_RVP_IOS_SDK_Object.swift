@@ -31,7 +31,7 @@ public class A_RVP_IOS_SDK_Object: NSObject {
     // MARK: - Internal Variables -
     /* ################################################################## */
     /** This is the SDK object that "owns" this instance. It may be nil for change history entries. */
-    internal var _sdkInstance: RVP_IOS_SDK?
+    internal weak var _sdkInstance: RVP_IOS_SDK?
     
     /** This records changes made during the current instantiation (not before) of this object. It has a tuple with a "before" instance, and an "after" instance. */
     internal var _changeHistory: [(before: A_RVP_IOS_SDK_Object?, after: A_RVP_IOS_SDK_Object?)] = []
@@ -39,6 +39,9 @@ public class A_RVP_IOS_SDK_Object: NSObject {
     /** This contains the actual JSON data that was read from the server for this record. */
     internal var _myData: [String: Any] = [:]
     
+    /** This is used to detect "dirty" conditions. This is a Dictionary full of SHA values of the original data. */
+    internal var _myOriginalData: [String: Any] = [:]
+
     /* ################################################################## */
     // MARK: - Public Methods and Calulated properties -
     /* ################################################################## */
@@ -46,26 +49,62 @@ public class A_RVP_IOS_SDK_Object: NSObject {
      - returns all of the values for this object, as a Dictionary.
      */
     public var asDictionary: [String: Any?] {
-        var ret: [String: Any?] = ["id": self.id, "name": self.name]
+        var ret: [String: Any?] = ["id": self.id, "name": self.name, "isWriteable": self.isWriteable, "isDirty": self.isDirty]
 
         if let readToken = self.readToken {
-            ret ["readToken"] = readToken
+            ret["readToken"] = readToken
         }
         
         if let writeToken = self.writeToken {
-            ret ["writeToken"] = writeToken
+            ret["writeToken"] = writeToken
         }
         
         if let lastAccess = self.lastAccess {
-            ret ["lastAccess"] = lastAccess
+            ret["lastAccess"] = lastAccess
+        }
+
+        return ret
+    }
+
+    /* ################################################################## */
+    /**
+     - returns true, if the data in the object has been changed since it was first created. READ ONLY
+     */
+    public var isDirty: Bool {
+        var ret: Bool = false
+        
+        for item in self._myData {
+            // Everything can be cast to an NSObject, and we can compare them.
+            if let original = self._myOriginalData[item.key] as? NSObject {
+                if let current = item.value as? NSObject {
+                    if current != original {
+                        ret = true
+                        break
+                    }
+                } else {    // This should never happen.
+                    #if DEBUG
+                    print("There Is An Error in the Data! This should not have been encountered! The Data Object is not NSObject-Castable!")
+                    #endif
+                    ret = true
+                    break
+                }
+            } else {    // If the item is missing, then we are definitely dirty.
+                ret = true
+                break
+            }
+        }
+        
+        // We go through the original data as well, in case we deleted something.
+        for item in self._myOriginalData where !ret && (nil == self._myData[item.key]) {
+            ret = true
         }
         
         return ret
     }
-    
+
     /* ################################################################## */
     /**
-     - returns the object ID, as an Int
+     - returns the object ID, as an Int. READ ONLY
      */
     public var id: Int {
         var ret = 0
@@ -76,16 +115,16 @@ public class A_RVP_IOS_SDK_Object: NSObject {
         
         return ret
     }
-    
+
     /* ################################################################## */
     /**
-     - returns the object name, as a String
+     - returns true, if the current login can edit this record. READ ONLY
      */
-    public var name: String {
-        var ret = ""
+    public var isWriteable: Bool {
+        var ret = false
         
-        if let name = self._myData["name"] as? String {
-            ret = name
+        if let writeable = self._myData["writeable"] as? Bool {
+            ret = writeable
         }
         
         return ret
@@ -93,35 +132,7 @@ public class A_RVP_IOS_SDK_Object: NSObject {
     
     /* ################################################################## */
     /**
-     - returns the read token, as an Int. Be aware that the read token may not be available, in which case, it will be nil.
-     */
-    public var readToken: Int? {
-        var ret: Int?
-        
-        if let id = self._myData["read_token"] as? Int {
-            ret = id
-        }
-        
-        return ret
-    }
-    
-    /* ################################################################## */
-    /**
-     - returns the write token, as an Int. Be aware that the write token may not be available, in which case, it will be nil.
-     */
-    public var writeToken: Int? {
-        var ret: Int?
-        
-        if let id = self._myData["write_token"] as? Int {
-            ret = id
-        }
-        
-        return ret
-    }
-    
-    /* ################################################################## */
-    /**
-     - returns the last time the object was accessed. Nil, if no date available.
+     - returns the last time the object was accessed. Nil, if no date available. READ ONLY
      */
     public var lastAccess: Date? {
         if let dateString = self._myData["last_access"] as? String {
@@ -138,9 +149,76 @@ public class A_RVP_IOS_SDK_Object: NSObject {
 
     /* ################################################################## */
     /**
+     - returns the object name, as a String
+     */
+    public var name: String {
+        get {
+            var ret = ""
+            
+            if let name = self._myData["name"] as? String {
+                ret = name
+            }
+            
+            return ret
+        }
+        
+        set {
+            if self.isWriteable {
+                self._myData["name"] = newValue
+            }
+        }
+    }
+    
+    /* ################################################################## */
+    /**
+     - returns the read token, as an Int. Be aware that the read token may not be available, in which case, it will be nil.
+     */
+    public var readToken: Int? {
+        get {
+            var ret: Int?
+            
+            if let id = self._myData["read_token"] as? Int {
+                ret = id
+            }
+        
+            return ret
+        }
+        
+        set {
+            if self.isWriteable {
+                self._myData["read_token"] = newValue
+            }
+        }
+    }
+    
+    /* ################################################################## */
+    /**
+     - returns the write token, as an Int. Be aware that the write token may not be available, in which case, it will be nil.
+     */
+    public var writeToken: Int? {
+        get {
+            var ret: Int?
+            
+            if let id = self._myData["write_token"] as? Int {
+                ret = id
+            }
+            
+            return ret
+        }
+        
+        set {
+            if self.isWriteable {
+                self._myData["write_token"] = newValue
+            }
+        }
+    }
+    
+    /* ################################################################## */
+    /**
      */
     public init(sdkInstance inSDKInstance: RVP_IOS_SDK? = nil, objectInfoData inData: [String: Any]) {
         self._sdkInstance = inSDKInstance
         self._myData = inData
+        self._myOriginalData = inData
     }
 }

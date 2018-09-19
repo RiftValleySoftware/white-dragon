@@ -486,7 +486,7 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
             let url = self._server_uri + "/json/people/logins/my_info?" + self._loginParameters
             if let url_object = URL(string: url) {
                 // We handle the response in the closure.
-                let loginInfoTask = self._connectionSession.dataTask(with: url_object) { data, response, error in
+                let loginInfoTask = self._connectionSession.dataTask(with: url_object) { [unowned self] data, response, error in
                     if let error = error {
                         self._handleError(error)
                         return
@@ -531,7 +531,7 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
             let url = self._server_uri + "/json/people/people/my_info?" + self._loginParameters
             // The my info request is a simple GET task, so we can just use a straight-up task for this.
             if let url_object = URL(string: url) {
-                let userInfoTask = self._connectionSession.dataTask(with: url_object) { data, response, error in
+                let userInfoTask = self._connectionSession.dataTask(with: url_object) { [unowned self] data, response, error in
                     if let error = error {
                         self._handleError(error)
                         return
@@ -621,7 +621,7 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
             let url = self._server_uri + "/json/people/people/" + (fetchUserIDs.map(String.init)).joined(separator: ",") + "?show_details" + loginParams   // We will be asking for the "full Monty".
             // The request is a simple GET task, so we can just use a straight-up task for this.
             if let url_object = URL(string: url) {
-                let userInfoTask = self._connectionSession.dataTask(with: url_object) { data, response, error in
+                let userInfoTask = self._connectionSession.dataTask(with: url_object) { [unowned self] data, response, error in
                     if let error = error {
                         self._handleError(error)
                         return
@@ -775,7 +775,7 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
      
      Returns true, if we are logged in, and the time interval has not passed.
      */
-    var isLoggedIn: Bool {
+    public var isLoggedIn: Bool {
         if nil != self._loginTime && nil != self._apiKey && nil != self._loginTimeout { // If we don't have a login time or API Key, then we're def not logged in.
             let logged_in_time: TimeInterval = Date().timeIntervalSince(self._loginTime)    // See if we are still in the login window.
             return self._loginTimeout! >= logged_in_time
@@ -784,6 +784,34 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
         return false
     }
     
+    /* ################################################################## */
+    /**
+     This is a test to see if the currently logged-in user is a manager.
+     
+     Returns true, if we are logged in as at least a manager user.
+     */
+    public var isManager: Bool {
+        if self.isLoggedIn, let myLoginInfo = self.myLoginInfo, myLoginInfo.isManager {
+            return true
+        }
+        
+        return false
+    }
+    
+    /* ################################################################## */
+    /**
+     This is a test to see if the currently logged-in user is a manager.
+     
+     Returns true, if we are logged in as the main ("God") user.
+     */
+    public var isMainAdmin: Bool {
+        if self.isLoggedIn, let myLoginInfo = self.myLoginInfo, myLoginInfo.isMainAdmin {
+            return true
+        }
+        
+        return false
+    }
+
     /* ################################################################## */
     /**
      This is a computed property that will return true if the server connection is valid (regardless of login status).
@@ -798,12 +826,26 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
     
     /* ################################################################## */
     /**
+     Returns an Array of Int, with the current tokens. If logged in, then this will be at least 1, and the current ID of the login. If not logged in, this will return an empty Array.
+     */
+    var securityTokens: [Int] {
+        var ret: [Int] = []
+        
+        if self.isLoggedIn, let myInfo = self.myLoginInfo {
+            ret = myInfo.securityTokens
+        }
+        
+        return ret
+    }
+    
+    /* ################################################################## */
+    /**
      Returns the number of data items in our cache.
      */
     var count: Int {
         return self._dataItems.count
     }
-    
+
     /* ################################################################## */
     /**
      Returns true, if we have no items in our cache.
@@ -909,6 +951,7 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
     deinit {
         self.logout()
         self._connectionSession.finishTasksAndInvalidate()   // Take off and nuke the site from orbit. It's the only way to be sure.
+        self._connectionSession = nil
     }
     
     /* ################################################################## */
@@ -970,8 +1013,6 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
         
         // Set up our URL session.
         let configuration = URLSessionConfiguration.ephemeral
-        configuration.waitsForConnectivity = true
-        configuration.allowsCellularAccess = true
         self._connectionSession = URLSession(configuration: configuration, delegate: self, delegateQueue: nil)
         self.connect(loginID: inLoginID, password: inPassword, timeout: inLoginTimeout)
     }
@@ -1067,7 +1108,7 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
             // The logout is a simple GET task, so we can just use a straight-up task for this.
             let url = self._server_uri + "/logout?" + self._loginParameters
             if let url_object = URL(string: url) {
-                let logoutTask = self._connectionSession.dataTask(with: url_object) { _, response, error in
+                let logoutTask = self._connectionSession.dataTask(with: url_object) { [unowned self] _, response, error in
                     if let error = error {
                         self._handleError(error)
                         return

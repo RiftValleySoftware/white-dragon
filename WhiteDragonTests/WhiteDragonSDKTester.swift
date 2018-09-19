@@ -46,10 +46,12 @@ class WhiteDragonSDKTester: RVP_IOS_SDK_Delegate {
     /**
      */
     private func _setupDBComplete() {
-        if nil != self.delegate {
-            self.delegate!.databasesLoadedAndCaseysOnFirst(self)
-        }
         self.sdkInstance = RVP_IOS_SDK(serverURI: self.uri, serverSecret: self.secret, delegate: self)
+        if nil != self.delegate {
+            DispatchQueue.main.async {
+                self.delegate!.databasesLoadedAndCaseysOnFirst(self)
+            }
+        }
     }
 
     /* ################################################################## */
@@ -59,14 +61,28 @@ class WhiteDragonSDKTester: RVP_IOS_SDK_Delegate {
         if let db = inDBPrefix.urlEncodedString {
             let url = "https://littlegreenviper.com/fuggedaboudit/set-db/index.php?l=2&s=Rambunkchous&d=" + db
             if let url_object = URL(string: url) {
-                let configuration = URLSessionConfiguration.ephemeral
+                let configuration = URLSessionConfiguration.default
                 configuration.waitsForConnectivity = true
                 let connectionSession = URLSession(configuration: configuration, delegate: nil, delegateQueue: nil)
-                let setuBDTask = connectionSession.dataTask(with: url_object) { _, _, _ in
-                    self._setupDBComplete()
-                }
+                let setuBDTask = connectionSession.dataTask(with: url_object) { [unowned self] _, response, error in
+                            if let error = error {
+                                #if DEBUG
+                                print("DB Setup Error: \(error)!")
+                                #endif
+                                return
+                            }
+                            guard let httpResponse = response as? HTTPURLResponse,
+                                (200...299).contains(httpResponse.statusCode) else {
+                                    #if DEBUG
+                                    print("DB Setup Response Issue: \(String(describing: response))!")
+                                    #endif
+                                    return
+                            }
+                            self._setupDBComplete()
+                        }
                 
                 setuBDTask.resume()
+                connectionSession.finishTasksAndInvalidate()
             }
         }
     }
@@ -95,6 +111,13 @@ class WhiteDragonSDKTester: RVP_IOS_SDK_Delegate {
         self.loginID = inLoginID
         self.password = inPassword
         self._setDBUp(inDBPrefix)
+    }
+    
+    /* ################################################################## */
+    /**
+     */
+    deinit {
+        self.sdkInstance = nil
     }
     
     /* ################################################################## */

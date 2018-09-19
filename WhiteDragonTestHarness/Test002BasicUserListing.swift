@@ -56,8 +56,8 @@ class Test002BasicUserListing: UIViewController, WhiteDragonSDKTesterDelegate, U
      */
     override func viewDidLoad() {
         super.viewDidLoad()
-        let tester = WhiteDragonSDKTester(dbPrefix: "sdk_1")
-        tester.delegate = self
+        self.mySDKTester = WhiteDragonSDKTester(dbPrefix: "sdk_1")
+        self.mySDKTester!.delegate = self
         self.loginMainAdminButton.setTitle(self._buttonStrings[0], for: .normal)
     }
     
@@ -93,29 +93,6 @@ class Test002BasicUserListing: UIViewController, WhiteDragonSDKTesterDelegate, U
         }
     }
     
-    /* ################################################################## */
-    /**
-     */
-    func populateTextView() {
-        self.resultsTextView.text = ""
-        
-        for userInfo in self._userList {
-            let userName = userInfo.name
-            self.resultsTextView.text += "\(userName)\n"
-            for tup in userInfo.asDictionary {
-                if let value = tup.value {
-                    if "location" == tup.key {
-                        if let val = value as? CLLocationCoordinate2D {
-                            self.resultsTextView.text += "\t" + tup.key + ": " + "(" + String(val.latitude) + "," + String(val.longitude) + ")\n"
-                        }
-                    } else {
-                        self.resultsTextView.text += "\t" + tup.key + ": " + String(describing: value) + "\n"
-                    }
-                }
-            }
-        }
-    }
-
     /* ################################################################## */
     /**
      */
@@ -184,7 +161,7 @@ class Test002BasicUserListing: UIViewController, WhiteDragonSDKTesterDelegate, U
         
         DispatchQueue.main.async {
             self.activityScreen?.isHidden = true
-            self.populateTextView()
+            utilPopulateTextView(self.resultsTextView, objectArray: self._userList)
         }
     }
     
@@ -195,7 +172,6 @@ class Test002BasicUserListing: UIViewController, WhiteDragonSDKTesterDelegate, U
         #if DEBUG
         print("Databases Loaded!")
         #endif
-        self.mySDKTester = inTesterObject
     }
     
     /* ################################################################## */

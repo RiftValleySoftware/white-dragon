@@ -29,8 +29,8 @@ class Test001SimpleLogin: UIViewController, WhiteDragonSDKTesterDelegate, UIPick
      */
     override func viewDidLoad() {
         super.viewDidLoad()
-        let tester = WhiteDragonSDKTester(dbPrefix: "sdk_1")
-        tester.delegate = self
+        self.mySDKTester =  WhiteDragonSDKTester(dbPrefix: "sdk_1")
+        self.mySDKTester!.delegate = self
     }
     
     /* ################################################################## */
@@ -75,44 +75,6 @@ class Test001SimpleLogin: UIViewController, WhiteDragonSDKTesterDelegate, UIPick
             sdkInstance.logout()
         }
     }
-    
-    /* ################################################################## */
-    /**
-     */
-    func populateTextView() {
-        if let sdkTester = self.mySDKTester, let sdkInstance = sdkTester.sdkInstance, sdkInstance.isLoggedIn {
-            let row = self.loginPickerView.selectedRow(inComponent: 0)
-            self.resultsTextView.text = "Row: " + String(row) + "\n"
-            
-            if let userInfo = sdkTester.sdkInstance?.myUserInfo {
-                self.resultsTextView.text += "\nUSER INFO:\n"
-                
-                for tup in userInfo.asDictionary {
-                    if let value = tup.value {
-                        if "location" == tup.key {
-                            if let val = value as? CLLocationCoordinate2D {
-                                self.resultsTextView.text += "\t" + tup.key + ": " + "(" + String(val.latitude) + "," + String(val.longitude) + ")\n"
-                            }
-                        } else {
-                            self.resultsTextView.text += "\t" + tup.key + ": " + String(describing: value) + "\n"
-                        }
-                    }
-                }
-            }
-            
-            if let loginInfo = sdkTester.sdkInstance?.myLoginInfo {
-                self.resultsTextView.text += "\nLOGIN INFO:\n"
-                
-                for tup in loginInfo.asDictionary {
-                    if let value = tup.value {
-                        self.resultsTextView.text += "\t" + tup.key + ": " + String(describing: value) + "\n"
-                    }
-                }
-            }
-        } else {
-            self.resultsTextView.text = ""
-        }
-    }
 
     /* ################################################################## */
     /**
@@ -139,7 +101,16 @@ class Test001SimpleLogin: UIViewController, WhiteDragonSDKTesterDelegate, UIPick
         }
         #endif
         DispatchQueue.main.async {
-            self.populateTextView()
+            if let loginInfo = inSDKInstance.myLoginInfo, let userInfo = inSDKInstance.myUserInfo {
+                utilPopulateTextView(self.resultsTextView, objectArray: [loginInfo, userInfo])
+                if inSDKInstance.isMainAdmin {
+                    self.resultsTextView.text = "LOGGED IN AS MAIN ADMIN\n\n" + self.resultsTextView.text
+                } else if inSDKInstance.isManager {
+                    self.resultsTextView.text = "LOGGED IN AS A MANAGER\n\n" + self.resultsTextView.text
+                } else {
+                    self.resultsTextView.text = "LOGGED IN AS A REGULAR USER\n\n" + self.resultsTextView.text
+                }
+            }
             self.activityScreen.isHidden = true
             self.loginPickerView.isHidden = inLoginValid
             self.resultsTextView.isHidden = !inLoginValid
@@ -187,7 +158,6 @@ class Test001SimpleLogin: UIViewController, WhiteDragonSDKTesterDelegate, UIPick
         #if DEBUG
         print("Databases Loaded!")
         #endif
-        self.mySDKTester = inTesterObject
     }
     
     /* ################################################################## */

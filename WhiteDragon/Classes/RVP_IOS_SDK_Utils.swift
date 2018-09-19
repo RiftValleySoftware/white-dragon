@@ -126,8 +126,7 @@ extension String {
     /**
      "Cleans" a URI
      
-     - returns: an implicitly unwrapped optional String. This is the given URI, "cleaned up."
-     "http[s]: //" may be prefixed.
+     - returns: an implicitly unwrapped optional String. This is the given URI, "cleaned up" ("http[s]://" may be prefixed).
      */
     func cleanURI() -> String! {
         return self.cleanURI(sslRequired: false)
@@ -139,8 +138,7 @@ extension String {
      
      - parameter sslRequired: If true, then we insist on SSL.
      
-     - returns: an implicitly unwrapped optional String. This is the given URI, "cleaned up."
-     "http[s]: //" may be prefixed.
+     - returns: an implicitly unwrapped optional String. This is the given URI, "cleaned up" ("http[s]://" may be prefixed)
      */
     func cleanURI(sslRequired: Bool) -> String! {
         var ret: String! = self.urlEncodedString
@@ -160,18 +158,5 @@ extension String {
         
         return ret
     }
-}
-
-/* ###################################################################################################################################### */
-/**
- This is used to get the app name from the bundle.
- */
-extension Bundle {
-    /* ################################################################## */
-    /**
-     - returns: the bundle app name.
-     */
-    var appName: String? {
-        return object(forInfoDictionaryKey: "CFBundleDisplayName") as? String
-    }
+    
 }

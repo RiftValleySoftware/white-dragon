@@ -31,8 +31,126 @@ public class RVP_IOS_SDK_User: A_RVP_IOS_SDK_Data_Object {
     // MARK: - Public Methods and Calulated properties -
     /* ################################################################## */
     /**
+     - returns all of the values for this object, as a Dictionary.
+     */
+    override public var asDictionary: [String: Any?] {
+        var ret = super.asDictionary
+        
+        if let surname = self.surname {
+            ret["surname"] = surname
+        }
+        
+        if let middleName = self.middleName {
+            ret["middleName"] = middleName
+        }
+        
+        if let givenName = self.givenName {
+            ret["givenName"] = givenName
+        }
+        
+        if let nickame = self.nickame {
+            ret["nickame"] = nickame
+        }
+        
+        if let prefix = self.prefix {
+            ret["prefix"] = prefix
+        }
+        
+        if let suffix = self.suffix {
+            ret["suffix"] = suffix
+        }
+
+        return ret
+    }
+    
+    /* ################################################################## */
+    /**
      */
     public override init(sdkInstance inSDKInstance: RVP_IOS_SDK? = nil, objectInfoData inData: [String: Any]) {
         super.init(sdkInstance: inSDKInstance, objectInfoData: inData)
+    }
+    
+    /* ################################################################## */
+    /**
+     - returns the user surname, as an optional String
+     */
+    public var surname: String? {
+        var ret: String?
+        
+        if let name = self._myData["surname"] as? String {
+            ret = name
+        }
+        
+        return ret
+    }
+    
+    /* ################################################################## */
+    /**
+     - returns the user middle name, as an optional String
+     */
+    public var middleName: String? {
+        var ret: String?
+        
+        if let name = self._myData["middle_name"] as? String {
+            ret = name
+        }
+        
+        return ret
+    }
+    
+    /* ################################################################## */
+    /**
+     - returns the user given (first) name, as an optional String
+     */
+    public var givenName: String? {
+        var ret: String?
+        
+        if let name = self._myData["given_name"] as? String {
+            ret = name
+        }
+        
+        return ret
+    }
+    
+    /* ################################################################## */
+    /**
+     - returns the user nickame, as an optional String
+     */
+    public var nickame: String? {
+        var ret: String?
+        
+        if let name = self._myData["nickame"] as? String {
+            ret = name
+        }
+        
+        return ret
+    }
+    
+    /* ################################################################## */
+    /**
+     - returns the user prefix, as an optional String
+     */
+    public var prefix: String? {
+        var ret: String?
+        
+        if let prefix = self._myData["prefix"] as? String {
+            ret = prefix
+        }
+        
+        return ret
+    }
+    
+    /* ################################################################## */
+    /**
+     - returns the user suffix, as an optional String
+     */
+    public var suffix: String? {
+        var ret: String?
+        
+        if let prefix = self._myData["suffix"] as? String {
+            ret = prefix
+        }
+        
+        return ret
     }
 }
