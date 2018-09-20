@@ -139,28 +139,40 @@
                                             <action selector="fetchDataButtonPressed:" destination="NoU-S8-adh" eventType="touchUpInside" id="xEj-Nf-6be"/>
                                         </connections>
                                     </button>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="eZZ-hX-KJJ">
+                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HXl-OI-nBS">
                                         <rect key="frame" x="0.0" y="118" width="375" height="455"/>
+                                        <subviews>
+                                            <view contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="ilT-dG-tqx">
+                                                <rect key="frame" x="0.0" y="0.0" width="375" height="455"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </view>
+                                        </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                    </textView>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="ilT-dG-tqx" secondAttribute="trailing" id="66N-jf-dyU"/>
+                                            <constraint firstItem="ilT-dG-tqx" firstAttribute="top" secondItem="HXl-OI-nBS" secondAttribute="top" priority="250" id="CCZ-bG-BmA"/>
+                                            <constraint firstItem="ilT-dG-tqx" firstAttribute="width" secondItem="HXl-OI-nBS" secondAttribute="width" id="ZjB-KS-FdP"/>
+                                            <constraint firstAttribute="bottom" secondItem="ilT-dG-tqx" secondAttribute="bottom" priority="250" id="aBi-dR-y41"/>
+                                            <constraint firstItem="ilT-dG-tqx" firstAttribute="leading" secondItem="HXl-OI-nBS" secondAttribute="leading" id="djU-cA-cWT"/>
+                                            <constraint firstItem="ilT-dG-tqx" firstAttribute="height" secondItem="HXl-OI-nBS" secondAttribute="height" priority="250" id="yUv-Cl-fBi"/>
+                                        </constraints>
+                                    </scrollView>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="43N-aJ-4LO" secondAttribute="trailing" id="0vM-fW-9wu"/>
-                                    <constraint firstItem="eZZ-hX-KJJ" firstAttribute="leading" secondItem="d0U-ig-Vsi" secondAttribute="leading" id="5W6-6N-EhF"/>
+                                    <constraint firstAttribute="bottom" secondItem="HXl-OI-nBS" secondAttribute="bottom" id="3Fk-Vi-HQm"/>
                                     <constraint firstAttribute="trailing" secondItem="eFU-Eg-Ciy" secondAttribute="trailing" id="8my-C0-saO"/>
                                     <constraint firstItem="43N-aJ-4LO" firstAttribute="leading" secondItem="d0U-ig-Vsi" secondAttribute="leading" id="CyX-cH-Tnq"/>
                                     <constraint firstItem="43N-aJ-4LO" firstAttribute="leading" secondItem="d0U-ig-Vsi" secondAttribute="leading" id="KH8-Ft-Uiw"/>
                                     <constraint firstItem="43N-aJ-4LO" firstAttribute="top" secondItem="d0U-ig-Vsi" secondAttribute="top" id="KZh-kC-ZgG"/>
                                     <constraint firstItem="43N-aJ-4LO" firstAttribute="top" secondItem="d0U-ig-Vsi" secondAttribute="top" id="QHf-I8-QWh"/>
-                                    <constraint firstItem="eZZ-hX-KJJ" firstAttribute="top" secondItem="eFU-Eg-Ciy" secondAttribute="bottom" constant="8" id="Qpo-4I-gJv"/>
+                                    <constraint firstItem="HXl-OI-nBS" firstAttribute="leading" secondItem="d0U-ig-Vsi" secondAttribute="leading" id="VKN-0g-lAo"/>
                                     <constraint firstAttribute="trailing" secondItem="43N-aJ-4LO" secondAttribute="trailing" id="aY1-3C-0yc"/>
+                                    <constraint firstAttribute="trailing" secondItem="HXl-OI-nBS" secondAttribute="trailing" id="b9x-lp-7Hz"/>
                                     <constraint firstItem="eFU-Eg-Ciy" firstAttribute="top" secondItem="43N-aJ-4LO" secondAttribute="bottom" id="jKD-Fv-sNV"/>
+                                    <constraint firstItem="HXl-OI-nBS" firstAttribute="top" secondItem="eFU-Eg-Ciy" secondAttribute="bottom" constant="8" id="rY3-4k-ctG"/>
                                     <constraint firstItem="eFU-Eg-Ciy" firstAttribute="leading" secondItem="d0U-ig-Vsi" secondAttribute="leading" id="vLC-Va-DXz"/>
-                                    <constraint firstAttribute="bottom" secondItem="eZZ-hX-KJJ" secondAttribute="bottom" id="ye1-Rz-xOy"/>
-                                    <constraint firstAttribute="trailing" secondItem="eZZ-hX-KJJ" secondAttribute="trailing" id="zdt-B6-etG"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pBS-8p-kGs">
@@ -201,9 +213,10 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="activityScreen" destination="pBS-8p-kGs" id="kRL-IG-n8J"/>
+                        <outlet property="displayResultsScrollView" destination="HXl-OI-nBS" id="Joj-9e-fAA"/>
+                        <outlet property="displayResultsView" destination="ilT-dG-tqx" id="a6m-gR-tcq"/>
                         <outlet property="fetchDataButton" destination="eFU-Eg-Ciy" id="SFU-0W-FmB"/>
                         <outlet property="loginMainAdminButton" destination="SZ7-ca-1uH" id="DNS-1M-ajn"/>
-                        <outlet property="resultsTextView" destination="eZZ-hX-KJJ" id="vlm-k6-dT1"/>
                         <outlet property="specificationItemsView" destination="d0U-ig-Vsi" id="wDm-C7-eoC"/>
                         <outlet property="userListPicker" destination="43N-aJ-4LO" id="HV5-Ro-JQ5"/>
                     </connections>

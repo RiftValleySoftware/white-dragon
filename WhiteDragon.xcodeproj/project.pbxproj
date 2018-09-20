@@ -50,6 +50,7 @@
 		D4E26868214302A4002ECE12 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4E26866214302A3002ECE12 /* LaunchScreen.storyboard */; };
 		D4E2686E2143031E002ECE12 /* WhiteDragonSDKTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4687FF32142E4D000293358 /* WhiteDragonSDKTester.swift */; };
 		D4FC297D21514BFB008271E4 /* Test002BasicUserListing.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FC297C21514BFB008271E4 /* Test002BasicUserListing.swift */; };
+		D4FF8B6521542E9F0051A0B8 /* RVP_DisplayElementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FF8B6421542E9F0051A0B8 /* RVP_DisplayElementView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -101,6 +102,7 @@
 		D4E26867214302A3002ECE12 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D4E26869214302A4002ECE12 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D4FC297C21514BFB008271E4 /* Test002BasicUserListing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test002BasicUserListing.swift; sourceTree = "<group>"; };
+		D4FF8B6421542E9F0051A0B8 /* RVP_DisplayElementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RVP_DisplayElementView.swift; sourceTree = "<group>"; };
 		DEA8986ABAA1BA586DC9A8CD /* Pods_WhiteDragon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WhiteDragon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -236,6 +238,7 @@
 				D4E2685D214302A2002ECE12 /* TestHarnessAppDelegate.swift */,
 				D4733D38214FB74A009D11BF /* MainDispatchNavController.swift */,
 				D4733D3A214FB866009D11BF /* DispatcherListController.swift */,
+				D4FF8B6421542E9F0051A0B8 /* RVP_DisplayElementView.swift */,
 				D4A5C3422152BA6500159EFF /* TestHarnessUtilities.swift */,
 				D432E0D1214BE45E0018ED86 /* LucyButton.swift */,
 				D4E26861214302A2002ECE12 /* Main.storyboard */,
@@ -513,6 +516,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D43CC118214C4EA900548B8E /* RVP_IOS_SDK_Thing.swift in Sources */,
+				D4FF8B6521542E9F0051A0B8 /* RVP_DisplayElementView.swift in Sources */,
 				D43CC122214C4EB200548B8E /* RVP_IOS_SDK_Utils.swift in Sources */,
 				D4E2686E2143031E002ECE12 /* WhiteDragonSDKTester.swift in Sources */,
 				D4733D3B214FB866009D11BF /* DispatcherListController.swift in Sources */,
