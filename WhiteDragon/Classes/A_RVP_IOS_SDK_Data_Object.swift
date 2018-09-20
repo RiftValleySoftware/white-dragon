@@ -37,9 +37,15 @@ public class A_RVP_IOS_SDK_Data_Object: A_RVP_IOS_SDK_Object {
     override public var asDictionary: [String: Any?] {
         var ret = super.asDictionary
         
-        ret["isFuzzy"] = self.isFuzzy
+        if self.isFuzzy {
+            ret["isFuzzy"] = true
+        }
         
-        if let fuzzFactor = self.fuzzFactor {
+        if !self.childrenIDs.isEmpty {
+            ret["childrenIDs"] = self.childrenIDs
+        }
+
+        if let fuzzFactor = self.fuzzFactor, 0.0 < fuzzFactor {
             ret["fuzzFactor"] = fuzzFactor
         }
         
@@ -54,10 +60,24 @@ public class A_RVP_IOS_SDK_Data_Object: A_RVP_IOS_SDK_Object {
         if let canSeeThroughTheFuzz = self.canSeeThroughTheFuzz {
             ret["canSeeThroughTheFuzz"] = canSeeThroughTheFuzz
         }
+
+        return ret
+    }
+    
+    /* ################################################################## */
+    /**
+     - returns a Dictionary of Arrays of Int, with the IDs (not objects) of "children" records. The possible Dictionary keys are "people", "places" and "things". Each of the values will be an Array of Int, with the Children IDs. READ ONLY
+     */
+    public var childrenIDs: [String: [Int]] {
+        var ret: [String: [Int]] = [:]
+        
+        if let childrenIDs = self._myData["children"] as? [String: [Int]] {
+            ret = childrenIDs
+        }
         
         return ret
     }
-
+    
     /* ################################################################## */
     /**
      - returns true, if the instance is fuzzy. READ ONLY

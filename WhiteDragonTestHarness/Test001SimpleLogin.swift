@@ -100,8 +100,12 @@ class Test001SimpleLogin: UIViewController, RVP_IOS_SDK_Delegate, UIPickerViewDa
         }
         #endif
         DispatchQueue.main.async {
-            if let loginInfo = inSDKInstance.myLoginInfo, let userInfo = inSDKInstance.myUserInfo {
-                utilPopulateTextView(self.resultsTextView, objectArray: [loginInfo, userInfo])
+            if let loginInfo = inSDKInstance.myLoginInfo {
+                var itemList: [A_RVP_IOS_SDK_Object] = [loginInfo]
+                if let userInfo = inSDKInstance.myUserInfo {
+                    itemList.append(userInfo)
+                }
+                utilPopulateTextView(self.resultsTextView, objectArray: itemList)
                 if inSDKInstance.isMainAdmin {
                     self.resultsTextView.text = "LOGGED IN AS MAIN ADMIN\n\n" + self.resultsTextView.text
                 } else if inSDKInstance.isManager {
