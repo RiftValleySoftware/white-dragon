@@ -215,8 +215,12 @@ public class A_RVP_IOS_SDK_Object: NSObject {
     
     /* ################################################################## */
     /**
+     This is the default initializer.
+     
+     - parameter sdkInstance: REQUIRED (Can be nil) This is the SDK instance that "owns" this object. It may be nil for history instances.
+     - parameter objectInfoData: REQUIRED This is the parsed JSON data for this object, as a Dictionary.
      */
-    public init(sdkInstance inSDKInstance: RVP_IOS_SDK? = nil, objectInfoData inData: [String: Any]) {
+    public init(sdkInstance inSDKInstance: RVP_IOS_SDK?, objectInfoData inData: [String: Any]) {
         self._sdkInstance = inSDKInstance
         self._myData = inData
         self._myOriginalData = inData

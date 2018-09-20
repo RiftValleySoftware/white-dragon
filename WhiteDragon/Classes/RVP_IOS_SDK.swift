@@ -206,10 +206,10 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
      
      - parameter data: The Data item returned from the server.
      
-     - returns: An array of new instances of concrete subclasses of A_RVP_IOS_SDK_Object.
+     - returns: An optional array of new instances of concrete subclasses of A_RVP_IOS_SDK_Object.
      */
-    private func _makeInstance(data inData: Data) -> [A_RVP_IOS_SDK_Object?] {
-        var ret: [A_RVP_IOS_SDK_Object?] = []
+    private func _makeInstance(data inData: Data) -> [A_RVP_IOS_SDK_Object]? {
+        var ret: [A_RVP_IOS_SDK_Object] = []
         
         do {    // Extract a usable object from the given JSON data.
             let temp = try JSONSerialization.jsonObject(with: inData, options: [])
@@ -347,11 +347,13 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
      
      - returns: An Array of new subclass instances of A_RVP_IOS_SDK_Object.
      */
-    private func _makeInstancesFromDictionary(_ inDictionary: NSDictionary, parent inParent: String! = nil) -> [A_RVP_IOS_SDK_Object?] {
-        var ret: [A_RVP_IOS_SDK_Object?] = []
+    private func _makeInstancesFromDictionary(_ inDictionary: NSDictionary, parent inParent: String! = nil) -> [A_RVP_IOS_SDK_Object] {
+        var ret: [A_RVP_IOS_SDK_Object] = []
         // First, see if we have a data item. If so, we simply go right to the factory.
         if nil != inParent, nil != inDictionary.object(forKey: "id"), nil != inDictionary.object(forKey: "name"), nil != inDictionary.object(forKey: "lang"), let object_data = inDictionary as? [String: Any] {
-            ret = [self._makeNewInstanceFromDictionary(object_data, parent: inParent)]
+            if let object = self._makeNewInstanceFromDictionary(object_data, parent: inParent) {
+                ret = [object]
+            }
         } else { // Otherwise, we simply go down the rabbit-hole.
             for (key, value) in inDictionary {
                 if let forced_key = key as? String {    // This will be the "parent" key for the next level down.
@@ -381,8 +383,8 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
      
      - returns: An Array of new subclass instances of A_RVP_IOS_SDK_Object.
      */
-    private func _makeInstancesFromArray(_ inArray: NSArray, parent inParent: String! = nil) -> [A_RVP_IOS_SDK_Object?] {
-        var ret: [A_RVP_IOS_SDK_Object?] = []
+    private func _makeInstancesFromArray(_ inArray: NSArray, parent inParent: String! = nil) -> [A_RVP_IOS_SDK_Object] {
+        var ret: [A_RVP_IOS_SDK_Object] = []
         // With Arrays, we don't have parent keys, so we use the one that was originally passed in.
         for value in inArray {
             if let forced_value = value as? NSDictionary {
@@ -584,47 +586,50 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
 
     /* ################################################################## */
     /**
-     This fetches user objects from the server.
+     This fetches objects from the data database server.
      
-     - parameter inIntegerUserIDs: An Array of Int, with the user IDs.
+     - parameter inIntegerIDs: An Array of Int, with the data database item IDs.
      */
-    private func _getUserInfo(_ inIntegerUserIDs: [Int]) {
-        var fetchUserIDs: [Int] = []
-        var cachedUserObjects: [RVP_IOS_SDK_User] = []
+    private func _getDataItems(_ inIntegerIDs: [Int], plugin inPlugin: String ) {
+        var fetchIDs: [Int] = []
+        var cachedObjects: [A_RVP_IOS_SDK_Data_Object] = []
+        var plugin = inPlugin
+        
+        if "people" == inPlugin {
+            plugin += "/" + plugin
+        }
         
         // First, we look for cached instances. If we have them, we send them to the delegate.
-        for id in inIntegerUserIDs {
-            var needMore: Bool = true
-            
+        for var id in inIntegerIDs {
             for dataItem in self._dataItems {   // See if we already have this user. If so, we immediately fetch it.
-                if let dataItem = dataItem as? RVP_IOS_SDK_User, dataItem.id == id {
-                    cachedUserObjects.append(dataItem)
-                    needMore = false
+                if let dataItem = dataItem as? A_RVP_IOS_SDK_Data_Object, dataItem.id == id {
+                    cachedObjects.append(dataItem)
+                    id = 0
                     break
                 }
             }
             
-            if needMore { // We'll need to fetch this one.
-                fetchUserIDs.append(id)
+            if 0 < id { // We'll need to fetch this one.
+                fetchIDs.append(id)
             }
         }
         
-        if !cachedUserObjects.isEmpty {
-            self._sendItemsToDelegate(cachedUserObjects)   // We just send our cached items to the delegate right away.
+        if !cachedObjects.isEmpty {
+            self._sendItemsToDelegate(cachedObjects)   // We just send our cached items to the delegate right away.
         }
         
-        if !fetchUserIDs.isEmpty {  // If we didn't find everything we were looking for in the junk drawer, we will be asking the server for the remainder.
-            fetchUserIDs = fetchUserIDs.sorted()    // Just because we're anal...
+        if !fetchIDs.isEmpty {  // If we didn't find everything we were looking for in the junk drawer, we will be asking the server for the remainder.
+            fetchIDs = fetchIDs.sorted()    // Just because we're anal...
             var loginParams = self._loginParameters
             
             if !loginParams.isEmpty {
                 loginParams = "&" + loginParams
             }
             
-            let url = self._server_uri + "/json/people/people/" + (fetchUserIDs.map(String.init)).joined(separator: ",") + "?show_details" + loginParams   // We will be asking for the "full Monty".
+            let url = self._server_uri + "/json/" + plugin + "/" + (fetchIDs.map(String.init)).joined(separator: ",") + "?show_details" + loginParams   // We will be asking for the "full Monty".
             // The request is a simple GET task, so we can just use a straight-up task for this.
             if let url_object = URL(string: url) {
-                let userInfoTask = self._connectionSession.dataTask(with: url_object) { [unowned self] data, response, error in
+                let fetchTask = self._connectionSession.dataTask(with: url_object) { [unowned self] data, response, error in
                     if let error = error {
                         self._handleError(error)
                         return
@@ -635,8 +640,8 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
                             return
                     }
                     
-                    if let mimeType = httpResponse.mimeType, mimeType == "application/json", let data = data {
-                        if let objectArray = self._makeInstance(data: data) as? [RVP_IOS_SDK_User] {
+                    if let mimeType = httpResponse.mimeType, mimeType == "application/json", let myData = data {
+                        if let objectArray = self._makeInstance(data: myData) {
                             self._dataItems.append(contentsOf: objectArray)
                             self._sortDataItems()
                             self._sendItemsToDelegate(objectArray)
@@ -646,7 +651,7 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
                     }
                 }
                 
-                userInfoTask.resume()
+                fetchTask.resume()
             } else {
                 self._handleError(SDK_Connection_Errors.invalidServerURI(url))
             }
@@ -1153,8 +1158,16 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
      - parameter inUserIntegerID: An Array of Int, with the data database IDs of the user objects Requested.
      */
     public func fetchUsers(_ inUserIntegerIDArray: [Int]) {
-        // If we got here, it means that we didn't find the user, and need to fetch the user from the server.
-        self._getUserInfo(inUserIntegerIDArray)
+        self._getDataItems(inUserIntegerIDArray, plugin: "people")
+    }
+    
+    /* ################################################################## */
+    /**
+     - parameter inIntegerIDs: An Array of Int, with the data database IDs of the data database objects Requested.
+     - parameter andPlugin: A String, with the required plugin ("people", "places" or "things").
+     */
+    public func fetchDataItemsByIDs(_ inIntegerIDs: [Int], andPlugin inPlugin: String ) {
+        self._getDataItems(inIntegerIDs, plugin: inPlugin)
     }
 
     /* ################################################################## */

@@ -236,6 +236,7 @@
 				D4E2685D214302A2002ECE12 /* TestHarnessAppDelegate.swift */,
 				D4733D38214FB74A009D11BF /* MainDispatchNavController.swift */,
 				D4733D3A214FB866009D11BF /* DispatcherListController.swift */,
+				D4A5C3422152BA6500159EFF /* TestHarnessUtilities.swift */,
 				D432E0D1214BE45E0018ED86 /* LucyButton.swift */,
 				D4E26861214302A2002ECE12 /* Main.storyboard */,
 				D4E26864214302A3002ECE12 /* Assets.xcassets */,
@@ -250,7 +251,6 @@
 			children = (
 				D4E2685F214302A2002ECE12 /* Test001SimpleLogin.swift */,
 				D4FC297C21514BFB008271E4 /* Test002BasicUserListing.swift */,
-				D4A5C3422152BA6500159EFF /* TestHarnessUtilities.swift */,
 			);
 			name = "Test Files";
 			sourceTree = "<group>";

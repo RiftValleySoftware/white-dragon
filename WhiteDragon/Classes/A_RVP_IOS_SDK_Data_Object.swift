@@ -179,8 +179,27 @@ public class A_RVP_IOS_SDK_Data_Object: A_RVP_IOS_SDK_Object {
 
     /* ################################################################## */
     /**
+     This is the default initializer.
+     
+     - parameter sdkInstance: REQUIRED (Can be nil) This is the SDK instance that "owns" this object. It may be nil for history instances.
+     - parameter objectInfoData: REQUIRED This is the parsed JSON data for this object, as a Dictionary.
      */
-    public override init(sdkInstance inSDKInstance: RVP_IOS_SDK? = nil, objectInfoData inData: [String: Any]) {
+    public override init(sdkInstance inSDKInstance: RVP_IOS_SDK?, objectInfoData inData: [String: Any]) {
         super.init(sdkInstance: inSDKInstance, objectInfoData: inData)
+    }
+    
+    /* ################################################################## */
+    /**
+     This asks the server to return all of the "children" objects. It could result in a fairly large response.
+     */
+    public func fetchChildrenObjects() {
+        let childObjects = self.childrenIDs
+        
+        // We go through each of the plugin types, and ask for all the children for each plugin.
+        for tup in childObjects {
+            if let sdkInstance = self._sdkInstance {
+                sdkInstance.fetchDataItemsByIDs(tup.value, andPlugin: tup.key)
+            }
+        }
     }
 }
