@@ -28,14 +28,24 @@ import Foundation
 /* ###################################################################### */
 /**
  This was cribbed from here: https://stackoverflow.com/a/41799559/879365
+ 
+ The purpose of this extension is to add "chunk" functionality to Array.
+ We use this when forming URIs, in order to prevent them from getting too long.
  */
 extension Array {
-    // Use this extension method to get subArray [[1,2,3,4,5], [6,7,8,9,10],...]
+    /* ################################################################## */
+    /**
+     This expresses a monolithic Array as an aggregate of Arrays, with each sub-Array being an Array of Element, up to chunkSize Elements long.
+     
+     - parameter chunkSize: The 1-based size (in Array elements) of each chunk.
+     
+     - returns an Array of Arrays. Each element of the main Array is a smaller Array up to chunkSize Elements.
+     */
     func chunk(_ chunkSize: Int) -> [[Element]] {
-        return stride(from: 0, to: self.count, by: chunkSize).map({ (startIndex) -> [Element] in
-            let endIndex = (startIndex.advanced(by: chunkSize) > self.count) ? self.count-startIndex : chunkSize
+        return stride(from: 0, to: self.count, by: chunkSize).map { (startIndex) -> [Element] in
+            let endIndex = (startIndex.advanced(by: chunkSize) > self.count) ? self.count - startIndex : chunkSize
             return Array(self[startIndex..<startIndex.advanced(by: endIndex)])
-        })
+        }
     }
 }
 
