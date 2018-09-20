@@ -24,6 +24,22 @@ import Foundation
 /* ###################################################################################################################################### */
 // MARK: - Class Extensions -
 /* ###################################################################################################################################### */
+
+/* ###################################################################### */
+/**
+ This was cribbed from here: https://stackoverflow.com/a/41799559/879365
+ */
+extension Array {
+    // Use this extension method to get subArray [[1,2,3,4,5], [6,7,8,9,10],...]
+    func chunk(_ chunkSize: Int) -> [[Element]] {
+        return stride(from: 0, to: self.count, by: chunkSize).map({ (startIndex) -> [Element] in
+            let endIndex = (startIndex.advanced(by: chunkSize) > self.count) ? self.count-startIndex : chunkSize
+            return Array(self[startIndex..<startIndex.advanced(by: endIndex)])
+        })
+    }
+}
+
+/* ###################################################################### */
 /**
  This adds various functionality to the String class.
  */
@@ -158,5 +174,4 @@ extension String {
         
         return ret
     }
-    
 }

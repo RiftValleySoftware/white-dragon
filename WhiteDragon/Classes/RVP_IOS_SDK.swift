@@ -620,40 +620,44 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
         
         if !fetchIDs.isEmpty {  // If we didn't find everything we were looking for in the junk drawer, we will be asking the server for the remainder.
             fetchIDs = fetchIDs.sorted()    // Just because we're anal...
-            var loginParams = self._loginParameters
             
-            if !loginParams.isEmpty {
-                loginParams = "&" + loginParams
-            }
+            // This uses our extension to break the array up. This is to reduce the size of the GET URI.
+            for idArray in fetchIDs.chunk(10) {
+                var loginParams = self._loginParameters
             
-            let url = self._server_uri + "/json/" + plugin + "/" + (fetchIDs.map(String.init)).joined(separator: ",") + "?show_details" + loginParams   // We will be asking for the "full Monty".
-            // The request is a simple GET task, so we can just use a straight-up task for this.
-            if let url_object = URL(string: url) {
-                let fetchTask = self._connectionSession.dataTask(with: url_object) { [unowned self] data, response, error in
-                    if let error = error {
-                        self._handleError(error)
-                        return
-                    }
-                    guard let httpResponse = response as? HTTPURLResponse,
-                        (200...299).contains(httpResponse.statusCode) else {
-                            self._handleHTTPError(response as? HTTPURLResponse ?? nil)
-                            return
-                    }
-                    
-                    if let mimeType = httpResponse.mimeType, mimeType == "application/json", let myData = data {
-                        if let objectArray = self._makeInstance(data: myData) {
-                            self._dataItems.append(contentsOf: objectArray)
-                            self._sortDataItems()
-                            self._sendItemsToDelegate(objectArray)
-                        }
-                    } else {
-                        self._handleError(SDK_Data_Errors.invalidData(data))
-                    }
+                if !loginParams.isEmpty {
+                    loginParams = "&" + loginParams
                 }
                 
-                fetchTask.resume()
-            } else {
-                self._handleError(SDK_Connection_Errors.invalidServerURI(url))
+                let url = self._server_uri + "/json/" + plugin + "/" + (idArray.map(String.init)).joined(separator: ",") + "?show_details" + loginParams   // We will be asking for the "full Monty".
+                // The request is a simple GET task, so we can just use a straight-up task for this.
+                if let url_object = URL(string: url) {
+                    let fetchTask = self._connectionSession.dataTask(with: url_object) { [unowned self] data, response, error in
+                        if let error = error {
+                            self._handleError(error)
+                            return
+                        }
+                        guard let httpResponse = response as? HTTPURLResponse,
+                            (200...299).contains(httpResponse.statusCode) else {
+                                self._handleHTTPError(response as? HTTPURLResponse ?? nil)
+                                return
+                        }
+                        
+                        if let mimeType = httpResponse.mimeType, mimeType == "application/json", let myData = data {
+                            if let objectArray = self._makeInstance(data: myData) {
+                                self._dataItems.append(contentsOf: objectArray)
+                                self._sortDataItems()
+                                self._sendItemsToDelegate(objectArray)
+                            }
+                        } else {
+                            self._handleError(SDK_Data_Errors.invalidData(data))
+                        }
+                    }
+                    
+                    fetchTask.resume()
+                } else {
+                    self._handleError(SDK_Connection_Errors.invalidServerURI(url))
+                }
             }
         }
     }
