@@ -21,39 +21,30 @@
 
 import Foundation
 
-protocol WhiteDragonSDKTesterDelegate: RVP_IOS_SDK_Delegate {
-/* ################################################################## */
-// MARK: - REQUIRED METHODS
-/* ################################################################## */
-/**
-*/
-    func databasesLoadedAndCaseysOnFirst(_: WhiteDragonSDKTester)
-}
-
-class WhiteDragonSDKTester: RVP_IOS_SDK_Delegate {
+class WhiteDragonSDKTester {
+    private var _connectionSession: URLSession?
+    private weak var _delegate: RVP_IOS_SDK_Delegate?
+    private var _newSession: Bool = false
+    
     let uri: String = "https://littlegreenviper.com/fuggedaboudit/baobab/index.php"
     let secret: String = "Supercalifragilisticexpialidocious"
-    
     let adminLogin: String = "admin"
     let normalTimeout: TimeInterval = 3600
     let adminTimeout: TimeInterval = 600
+    
     var sdkInstance: RVP_IOS_SDK?
     var loginID: String?
     var password: String?
-    weak var delegate: WhiteDragonSDKTesterDelegate?
-    
+
     /* ################################################################## */
     /**
      */
     private func _setupDBComplete() {
-        self.sdkInstance = RVP_IOS_SDK(serverURI: self.uri, serverSecret: self.secret, delegate: self)
-        if nil != self.delegate {
-            DispatchQueue.main.async {
-                self.delegate!.databasesLoadedAndCaseysOnFirst(self)
-            }
+        if let delegate = self._delegate, nil != self._connectionSession {
+            self.sdkInstance = RVP_IOS_SDK(serverURI: self.uri, serverSecret: self.secret, delegate: delegate, session: self._connectionSession)
         }
     }
-
+    
     /* ################################################################## */
     /**
      */
@@ -61,10 +52,7 @@ class WhiteDragonSDKTester: RVP_IOS_SDK_Delegate {
         if let db = inDBPrefix.urlEncodedString {
             let url = "https://littlegreenviper.com/fuggedaboudit/set-db/index.php?l=2&s=Rambunkchous&d=" + db
             if let url_object = URL(string: url) {
-                let configuration = URLSessionConfiguration.default
-                configuration.waitsForConnectivity = true
-                let connectionSession = URLSession(configuration: configuration, delegate: nil, delegateQueue: nil)
-                let setuBDTask = connectionSession.dataTask(with: url_object) { [unowned self] _, response, error in
+                if let setuBDTask = (self._connectionSession?.dataTask(with: url_object) { [unowned self] _, response, error in
                             if let error = error {
                                 #if DEBUG
                                 print("DB Setup Error: \(error)!")
@@ -79,10 +67,9 @@ class WhiteDragonSDKTester: RVP_IOS_SDK_Delegate {
                                     return
                             }
                             self._setupDBComplete()
-                        }
-                
-                setuBDTask.resume()
-                connectionSession.finishTasksAndInvalidate()
+                    }) {
+                    setuBDTask.resume()
+                }
             }
         }
     }
@@ -107,9 +94,17 @@ class WhiteDragonSDKTester: RVP_IOS_SDK_Delegate {
     /* ################################################################## */
     /**
      */
-    public init(dbPrefix inDBPrefix: String, loginID inLoginID: String? = nil, password inPassword: String? = nil) {
+    public init(dbPrefix inDBPrefix: String, loginID inLoginID: String? = nil, password inPassword: String? = nil, delegate inDelegate: RVP_IOS_SDK_Delegate, session inSession: URLSession? = nil) {
+        self._delegate = inDelegate
         self.loginID = inLoginID
         self.password = inPassword
+        if nil != inSession {
+            self._newSession = false
+            self._connectionSession = inSession
+        } else {
+            self._newSession = true
+            self._connectionSession = URLSession(configuration: URLSessionConfiguration.ephemeral, delegate: nil, delegateQueue: nil)
+        }
         self._setDBUp(inDBPrefix)
     }
     
@@ -117,6 +112,10 @@ class WhiteDragonSDKTester: RVP_IOS_SDK_Delegate {
     /**
      */
     deinit {
+        if nil != self._connectionSession, self._newSession {
+            self._connectionSession!.finishTasksAndInvalidate()
+        }
+        self._connectionSession = nil
         self.sdkInstance = nil
     }
     
@@ -147,53 +146,6 @@ class WhiteDragonSDKTester: RVP_IOS_SDK_Delegate {
     func logout() {
         if let sdkInstance = self.sdkInstance {
             sdkInstance.logout()
-        }
-    }
-    
-    /* ################################################################## */
-    // MARK: - RVP_IOS_SDK_Delegate Methods
-    /* ################################################################## */
-    /**
-     */
-    func sdkInstance(_ inSDKInstance: RVP_IOS_SDK, sessionConnectionIsValid: Bool) {
-        if nil != self.delegate {
-            self.delegate!.sdkInstance(inSDKInstance, sessionConnectionIsValid: sessionConnectionIsValid)
-        }
-    }
-
-    /* ################################################################## */
-    /**
-     */
-    func sdkInstance(_ inSDKInstance: RVP_IOS_SDK, loginValid: Bool) {
-        if nil != self.delegate {
-            self.delegate!.sdkInstance(inSDKInstance, loginValid: loginValid)
-        }
-    }
-
-    /* ################################################################## */
-    /**
-     */
-    func sdkInstance(_ inSDKInstance: RVP_IOS_SDK, sessionDisconnectedBecause: RVP_IOS_SDK.DisconnectionReason) {
-        if nil != self.delegate {
-            self.delegate!.sdkInstance(inSDKInstance, sessionDisconnectedBecause: sessionDisconnectedBecause)
-        }
-    }
-        
-    /* ################################################################## */
-    /**
-     */
-    func sdkInstance(_ inSDKInstance: RVP_IOS_SDK, sessionError: Error) {
-        if nil != self.delegate {
-            self.delegate!.sdkInstance(inSDKInstance, sessionError: sessionError)
-        }
-    }
-    
-    /* ################################################################## */
-    /**
-     */
-    func sdkInstance(_ inSDKInstance: RVP_IOS_SDK, fetchedDataItems: [A_RVP_IOS_SDK_Object]) {
-        if nil != self.delegate {
-            self.delegate!.sdkInstance(inSDKInstance, fetchedDataItems: fetchedDataItems)
         }
     }
 }

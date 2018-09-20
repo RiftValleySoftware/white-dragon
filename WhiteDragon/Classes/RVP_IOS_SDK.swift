@@ -130,6 +130,9 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
     /** This is our list of available plugins. It will be filled, regardless of login status. */
     private var _plugins: [String] = []
     
+    /** This is set to true, if we created our own session (as opposed to using one passed in). */
+    private var _newSession: Bool = false
+    
     /* ################################################################## */
     // MARK: - Private Instance Methods and Calculated Properties
     /* ################################################################## */
@@ -949,9 +952,13 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
      We simply make sure that we clean up after ourselves.
      */
     deinit {
-        self.logout()
-        self._connectionSession.finishTasksAndInvalidate()   // Take off and nuke the site from orbit. It's the only way to be sure.
-        self._connectionSession = nil
+        if nil != self._connectionSession {
+            self.logout()
+            if self._newSession {   // We only nuke the session if we created it.
+                self._connectionSession.finishTasksAndInvalidate()   // Take off and nuke the site from orbit. It's the only way to be sure.
+            }
+            self._connectionSession = nil   // We had a strong reference, so we need to make sure we delete our reference.
+        }
     }
     
     /* ################################################################## */
@@ -1001,8 +1008,9 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
      - parameter loginID: (OPTIONAL) A String, with a login ID. If provided, then you must also provide inPassword and inLoginTimeout.
      - parameter password: (OPTIONAL) A String, with a login password. If provided, then you must also provide inLoginId and inLoginTimeout.
      - parameter timeout: (OPTIONAL) A Floating-point value, with the number of seconds the login has to be active. If provided, then you must also provide inLoginId and inPassword.
+     - parameter session: (OPTIONAL) This allows the caller to have their own URLSession established (often, there is only one per app), so we can hitch a ride with that session. Otherwise, we create our own.
      */
-    public init(serverURI inServerURI: String, serverSecret inServerSecret: String, delegate inDelegate: RVP_IOS_SDK_Delegate, loginID inLoginID: String! = nil, password inPassword: String! = nil, timeout inLoginTimeout: TimeInterval! = nil) {
+    public init(serverURI inServerURI: String, serverSecret inServerSecret: String, delegate inDelegate: RVP_IOS_SDK_Delegate, loginID inLoginID: String! = nil, password inPassword: String! = nil, timeout inLoginTimeout: TimeInterval! = nil, session inURLSession: URLSession? = nil) {
         super.init()
         
         self._delegate = inDelegate
@@ -1012,8 +1020,13 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
         self._server_secret = inServerSecret
         
         // Set up our URL session.
-        let configuration = URLSessionConfiguration.ephemeral
-        self._connectionSession = URLSession(configuration: configuration, delegate: self, delegateQueue: nil)
+        if nil != inURLSession {
+            self._newSession = false
+            self._connectionSession = inURLSession
+        } else {
+            self._newSession = true
+            self._connectionSession = URLSession(configuration: .ephemeral, delegate: self, delegateQueue: nil)
+        }
         self.connect(loginID: inLoginID, password: inPassword, timeout: inLoginTimeout)
     }
     

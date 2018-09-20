@@ -43,7 +43,7 @@
 		D4B94831213EEA6200A3560E /* RVP_IOS_SDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B94830213EEA6200A3560E /* RVP_IOS_SDK.swift */; };
 		D4B94835213EFBD100A3560E /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = D4B94834213EFBD100A3560E /* Podfile */; };
 		D4D8703621446C0D001283D0 /* RVP_IOS_SDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B94830213EEA6200A3560E /* RVP_IOS_SDK.swift */; };
-		D4E2685E214302A2002ECE12 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E2685D214302A2002ECE12 /* AppDelegate.swift */; };
+		D4E2685E214302A2002ECE12 /* TestHarnessAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E2685D214302A2002ECE12 /* TestHarnessAppDelegate.swift */; };
 		D4E26860214302A2002ECE12 /* Test001SimpleLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E2685F214302A2002ECE12 /* Test001SimpleLogin.swift */; };
 		D4E26863214302A2002ECE12 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4E26861214302A2002ECE12 /* Main.storyboard */; };
 		D4E26865214302A3002ECE12 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4E26864214302A3002ECE12 /* Assets.xcassets */; };
@@ -94,7 +94,7 @@
 		D4B94830213EEA6200A3560E /* RVP_IOS_SDK.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RVP_IOS_SDK.swift; path = Classes/RVP_IOS_SDK.swift; sourceTree = "<group>"; };
 		D4B94834213EFBD100A3560E /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
 		D4E2685B214302A2002ECE12 /* WhiteDragonTestHarness.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WhiteDragonTestHarness.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		D4E2685D214302A2002ECE12 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		D4E2685D214302A2002ECE12 /* TestHarnessAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestHarnessAppDelegate.swift; sourceTree = "<group>"; };
 		D4E2685F214302A2002ECE12 /* Test001SimpleLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test001SimpleLogin.swift; sourceTree = "<group>"; };
 		D4E26862214302A2002ECE12 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D4E26864214302A3002ECE12 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -233,7 +233,7 @@
 		D4C64B842150531F000ADD52 /* App Files */ = {
 			isa = PBXGroup;
 			children = (
-				D4E2685D214302A2002ECE12 /* AppDelegate.swift */,
+				D4E2685D214302A2002ECE12 /* TestHarnessAppDelegate.swift */,
 				D4733D38214FB74A009D11BF /* MainDispatchNavController.swift */,
 				D4733D3A214FB866009D11BF /* DispatcherListController.swift */,
 				D432E0D1214BE45E0018ED86 /* LucyButton.swift */,
@@ -525,7 +525,7 @@
 				D4733D39214FB74A009D11BF /* MainDispatchNavController.swift in Sources */,
 				D4D8703621446C0D001283D0 /* RVP_IOS_SDK.swift in Sources */,
 				D43CC115214C4EA900548B8E /* A_RVP_IOS_SDK_Data_Object.swift in Sources */,
-				D4E2685E214302A2002ECE12 /* AppDelegate.swift in Sources */,
+				D4E2685E214302A2002ECE12 /* TestHarnessAppDelegate.swift in Sources */,
 				D43CC10C214C4EA900548B8E /* A_RVP_IOS_SDK_Security_Object.swift in Sources */,
 				D432E0D2214BE45E0018ED86 /* LucyButton.swift in Sources */,
 				D4A5C3432152BA6500159EFF /* TestHarnessUtilities.swift in Sources */,

@@ -14,7 +14,7 @@ import MapKit
 /* ###################################################################################################################################### */
 /**
  */
-class Test001SimpleLogin: UIViewController, WhiteDragonSDKTesterDelegate, UIPickerViewDataSource, UIPickerViewDelegate {
+class Test001SimpleLogin: UIViewController, RVP_IOS_SDK_Delegate, UIPickerViewDataSource, UIPickerViewDelegate {
     private let _logins: [String] = ["admin", "MDAdmin", "VAAdmin", "DCAdmin", "WVAdmin", "DEAdmin", "MainAdmin", "Dilbert", "Wally", "Ted", "Alice", "Tina", "PHB", "MeLeet"]
     
     var mySDKTester: WhiteDragonSDKTester?
@@ -29,8 +29,7 @@ class Test001SimpleLogin: UIViewController, WhiteDragonSDKTesterDelegate, UIPick
      */
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.mySDKTester =  WhiteDragonSDKTester(dbPrefix: "sdk_1")
-        self.mySDKTester!.delegate = self
+        self.mySDKTester =  WhiteDragonSDKTester(dbPrefix: "sdk_1", delegate: self, session: TestHarnessAppDelegate.testHarnessDelegate.connectionSession)
     }
     
     /* ################################################################## */
@@ -148,15 +147,6 @@ class Test001SimpleLogin: UIViewController, WhiteDragonSDKTesterDelegate, UIPick
     func sdkInstance(_ inSDKInstance: RVP_IOS_SDK, fetchedDataItems: [A_RVP_IOS_SDK_Object]) {
         #if DEBUG
         print("Fetched \(fetchedDataItems.count) Items!")
-        #endif
-    }
-
-    /* ################################################################## */
-    /**
-     */
-    func databasesLoadedAndCaseysOnFirst(_ inTesterObject: WhiteDragonSDKTester) {
-        #if DEBUG
-        print("Databases Loaded!")
         #endif
     }
     

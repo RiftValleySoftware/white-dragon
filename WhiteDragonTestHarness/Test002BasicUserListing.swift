@@ -9,7 +9,7 @@
 import UIKit
 import MapKit
 
-class Test002BasicUserListing: UIViewController, WhiteDragonSDKTesterDelegate, UIPickerViewDataSource, UIPickerViewDelegate {
+class Test002BasicUserListing: UIViewController, RVP_IOS_SDK_Delegate, UIPickerViewDataSource, UIPickerViewDelegate {
     private let _presets: [(name: String, values: [Int])] = [(name: "MDAdmin", values: [1725]),
                                                              (name: "CEO", values: [1751]),
                                                              (name: "DC Area Admins", values: [1725, 1726, 1727, 1728, 1729, 1730]),
@@ -56,8 +56,7 @@ class Test002BasicUserListing: UIViewController, WhiteDragonSDKTesterDelegate, U
      */
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.mySDKTester = WhiteDragonSDKTester(dbPrefix: "sdk_1")
-        self.mySDKTester!.delegate = self
+        self.mySDKTester = WhiteDragonSDKTester(dbPrefix: "sdk_1", delegate: self, session: TestHarnessAppDelegate.testHarnessDelegate.connectionSession)
         self.loginMainAdminButton.setTitle(self._buttonStrings[0], for: .normal)
     }
     
