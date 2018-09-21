@@ -34,8 +34,8 @@ class Test001SimpleLogin: UIViewController, RVP_IOS_SDK_Delegate, UIPickerViewDa
     @IBOutlet weak var loginButton: LucyButton!
     @IBOutlet weak var activityScreen: UIView!
     @IBOutlet weak var selectionDisplayView: UIView!
-    @IBOutlet weak var resultsTextView: UITextView!
     @IBOutlet weak var loginPickerView: UIPickerView!
+    @IBOutlet weak var displayResultsScrollView: RVP_DisplayResultsScrollView!
     
     /* ################################################################## */
     /**
@@ -50,6 +50,7 @@ class Test001SimpleLogin: UIViewController, RVP_IOS_SDK_Delegate, UIPickerViewDa
      */
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.navigationBar.isHidden = false
+        self.clearResults()
     }
     
     /* ################################################################## */
@@ -68,12 +69,12 @@ class Test001SimpleLogin: UIViewController, RVP_IOS_SDK_Delegate, UIPickerViewDa
      */
     @IBAction func lucyButtonHit(_ sender: LucyButton) {
         if let tester = self.mySDKTester {
+            self.clearResults()
             self.activityScreen.isHidden = false
             if tester.isLoggedIn {
                 tester.logout()
             } else {
                 let row = self.loginPickerView.selectedRow(inComponent: 0)
-                self.resultsTextView.text = ""
                 tester.login(loginID: self._logins[row], password: "CoreysGoryStory")
             }
         }
@@ -84,8 +85,18 @@ class Test001SimpleLogin: UIViewController, RVP_IOS_SDK_Delegate, UIPickerViewDa
      */
     func logout() {
         if let sdkTester = self.mySDKTester, let sdkInstance = sdkTester.sdkInstance {
+            self.clearResults()
             sdkInstance.logout()
         }
+    }
+    
+    /* ################################################################## */
+    /**
+     */
+    func clearResults() {
+        self.displayResultsScrollView.subviews.forEach({ $0.removeFromSuperview() })
+        self.displayResultsScrollView.contentView = nil
+        self.displayResultsScrollView.results = []
     }
 
     /* ################################################################## */
@@ -105,6 +116,16 @@ class Test001SimpleLogin: UIViewController, RVP_IOS_SDK_Delegate, UIPickerViewDa
         if inLoginValid {
             if let loginID = inSDKInstance.myLoginInfo?.loginID {
                 print("Instance is logged in as " + loginID + "!")
+                
+                DispatchQueue.main.async {
+                    if let loginInfo = inSDKInstance.myLoginInfo {
+                        self.displayResultsScrollView.results.append(loginInfo)
+                    }
+                    if let userInfo = inSDKInstance.myUserInfo {
+                        self.displayResultsScrollView.results.append(userInfo)
+                    }
+                    self.displayResultsScrollView.setNeedsLayout()
+                }
             } else {
                 print("ERROR!")
             }
@@ -113,23 +134,9 @@ class Test001SimpleLogin: UIViewController, RVP_IOS_SDK_Delegate, UIPickerViewDa
         }
         #endif
         DispatchQueue.main.async {
-            if let loginInfo = inSDKInstance.myLoginInfo {
-                var itemList: [A_RVP_IOS_SDK_Object] = [loginInfo]
-                if let userInfo = inSDKInstance.myUserInfo {
-                    itemList.append(userInfo)
-                }
-                utilPopulateTextView(self.resultsTextView, objectArray: itemList)
-                if inSDKInstance.isMainAdmin {
-                    self.resultsTextView.text = "LOGGED IN AS MAIN ADMIN\n\n" + self.resultsTextView.text
-                } else if inSDKInstance.isManager {
-                    self.resultsTextView.text = "LOGGED IN AS A MANAGER\n\n" + self.resultsTextView.text
-                } else {
-                    self.resultsTextView.text = "LOGGED IN AS A REGULAR USER\n\n" + self.resultsTextView.text
-                }
-            }
             self.activityScreen.isHidden = true
+            self.displayResultsScrollView.isHidden = !inLoginValid
             self.loginPickerView.isHidden = inLoginValid
-            self.resultsTextView.isHidden = !inLoginValid
             self.loginButton.theDoctorIsIn = inLoginValid
         }
     }

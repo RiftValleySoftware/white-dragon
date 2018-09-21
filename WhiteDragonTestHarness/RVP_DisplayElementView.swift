@@ -29,7 +29,7 @@ class RVP_DisplayElementView: UIView {
             self.establishSubviews()
         }
     }
-    
+
     /* ################################################################## */
     /**
      */
@@ -91,6 +91,8 @@ class RVP_DisplayElementView: UIView {
                         self.addItemLabel(label: key, value: boolVal ? "true" : "false")
                     } else if let intVal = value as? Int {
                         self.addItemLabel(label: key, value: String(intVal))
+                    } else if let intArrayVal = value as? [Int] {
+                        self.addItemLabel(label: key, value: intArrayVal.map(String.init).joined(separator: ","))
                     } else if let floatVal = value as? Float {
                         self.addItemLabel(label: key, value: String(floatVal))
                     } else if let locVal = value as? CLLocationCoordinate2D {

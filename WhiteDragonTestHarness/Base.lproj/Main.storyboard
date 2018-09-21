@@ -245,22 +245,20 @@
                                             <outlet property="delegate" destination="BYZ-38-t0r" id="PwA-FJ-Foj"/>
                                         </connections>
                                     </pickerView>
-                                    <textView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="eQT-Im-c20">
+                                    <scrollView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IuV-1W-gNc" customClass="RVP_DisplayResultsScrollView" customModule="WhiteDragonTestHarness" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="472"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                    </textView>
+                                    </scrollView>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="eQT-Im-c20" secondAttribute="bottom" id="CSg-U7-ivv"/>
+                                    <constraint firstItem="IuV-1W-gNc" firstAttribute="top" secondItem="f2F-Qm-qu7" secondAttribute="top" id="7aQ-xe-kDw"/>
                                     <constraint firstItem="9Ni-pR-T7b" firstAttribute="top" secondItem="f2F-Qm-qu7" secondAttribute="top" id="DFX-e8-qBG"/>
+                                    <constraint firstAttribute="trailing" secondItem="IuV-1W-gNc" secondAttribute="trailing" id="GHE-Bl-OOd"/>
                                     <constraint firstItem="9Ni-pR-T7b" firstAttribute="leading" secondItem="f2F-Qm-qu7" secondAttribute="leading" id="PMD-3g-Sbl"/>
+                                    <constraint firstItem="IuV-1W-gNc" firstAttribute="leading" secondItem="f2F-Qm-qu7" secondAttribute="leading" id="SRV-ma-MKZ"/>
                                     <constraint firstAttribute="trailing" secondItem="9Ni-pR-T7b" secondAttribute="trailing" id="fG4-v4-Fmp"/>
-                                    <constraint firstAttribute="trailing" secondItem="eQT-Im-c20" secondAttribute="trailing" id="g78-kx-Y0X"/>
-                                    <constraint firstItem="eQT-Im-c20" firstAttribute="leading" secondItem="f2F-Qm-qu7" secondAttribute="leading" id="oaD-aD-naw"/>
-                                    <constraint firstItem="eQT-Im-c20" firstAttribute="top" secondItem="f2F-Qm-qu7" secondAttribute="top" id="qqF-KG-RXO"/>
+                                    <constraint firstAttribute="bottom" secondItem="IuV-1W-gNc" secondAttribute="bottom" id="xBz-GR-L3C"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zma-nU-iYa">
@@ -300,9 +298,9 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="activityScreen" destination="zma-nU-iYa" id="hDG-A5-oW0"/>
+                        <outlet property="displayResultsScrollView" destination="IuV-1W-gNc" id="ziq-16-aRy"/>
                         <outlet property="loginButton" destination="UoL-Ek-w23" id="qmm-Xj-B4t"/>
                         <outlet property="loginPickerView" destination="9Ni-pR-T7b" id="3Ki-9Y-V8B"/>
-                        <outlet property="resultsTextView" destination="eQT-Im-c20" id="I6b-FS-IHh"/>
                         <outlet property="selectionDisplayView" destination="f2F-Qm-qu7" id="ORv-bk-o2U"/>
                     </connections>
                 </viewController>

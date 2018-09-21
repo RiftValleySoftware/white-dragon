@@ -30,6 +30,9 @@ class RVP_DisplayResultsScrollView: UIScrollView {
         }
     }
     
+    /* ################################################################## */
+    /**
+     */
     func establishSubviews() {
         if nil == self.contentView {
             self.contentView = UIView()
