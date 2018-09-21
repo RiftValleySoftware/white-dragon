@@ -22,7 +22,6 @@
 import UIKit
 import MapKit
 
-@IBDesignable
 class RVP_DisplayElementView: UIView {
     var displayedElement: A_RVP_IOS_SDK_Object? {
         didSet {
@@ -91,12 +90,16 @@ class RVP_DisplayElementView: UIView {
                         self.addItemLabel(label: key, value: boolVal ? "true" : "false")
                     } else if let intVal = value as? Int {
                         self.addItemLabel(label: key, value: String(intVal))
-                    } else if let intArrayVal = value as? [Int] {
-                        self.addItemLabel(label: key, value: intArrayVal.map(String.init).joined(separator: ","))
                     } else if let floatVal = value as? Float {
                         self.addItemLabel(label: key, value: String(floatVal))
                     } else if let locVal = value as? CLLocationCoordinate2D {
                         self.addItemLabel(label: key, value: "(" + String(locVal.latitude) + "," + String(locVal.longitude) + ")")
+                    } else if let intArrayVal = value as? [Int] {
+                        self.addItemLabel(label: key, value: intArrayVal.map(String.init).joined(separator: ","))
+                    } else if let floatArrayVal = value as? [Float] {
+                        self.addItemLabel(label: key, value: floatArrayVal.map(String.init).joined(separator: ","))
+                    } else if let stringArrayVal = value as? [String] {
+                        self.addItemLabel(label: key, value: "'" + stringArrayVal.joined(separator: "','") + "'")
                     }
                 }
             }
