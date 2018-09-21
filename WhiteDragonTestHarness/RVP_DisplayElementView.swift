@@ -20,6 +20,7 @@
  */
 
 import UIKit
+import MapKit
 
 @IBDesignable
 class RVP_DisplayElementView: UIView {
@@ -37,21 +38,23 @@ class RVP_DisplayElementView: UIView {
         self.subviews.forEach({ $0.removeFromSuperview() })
         if let displayedElement = self.displayedElement {
             self.addTopLabel(name: displayedElement.name, id: displayedElement.id)
-            self.addBoolLabel(label: "Modified", value: displayedElement.isDirty)
-            self.addBoolLabel(label: "Writeable", value: displayedElement.isWriteable)
+            self.addItemLabel(label: "Modified", value: displayedElement.isDirty ? "true" : "false")
+            self.addItemLabel(label: "Writeable", value: displayedElement.isWriteable ? "true" : "false")
             if let token = displayedElement.readToken {
-                self.addIntLabel(label: "Read Token", value: token)
+                self.addItemLabel(label: "Read Token", value: String(token))
             }
             if let token = displayedElement.writeToken {
-                self.addIntLabel(label: "Write Token", value: token)
+                self.addItemLabel(label: "Write Token", value: String(token))
             }
             if let lastAccess = displayedElement.lastAccess {
                 let dateFormatter = DateFormatter()
                 dateFormatter.dateStyle = .short
                 dateFormatter.timeStyle = .short
                 dateFormatter.locale = Locale(identifier: "en_US")
-                self.addStringLabel(label: "Last Access", value: dateFormatter.string(from: lastAccess))
+                self.addItemLabel(label: "Last Access", value: dateFormatter.string(from: lastAccess))
             }
+            
+            self.displayitemDictionary(displayedElement.asDictionary)
         }
         
         if let lastView = self.subviews.last {
@@ -62,10 +65,35 @@ class RVP_DisplayElementView: UIView {
                                    toItem: self,
                                    attribute: .bottom,
                                    multiplier: 1.0,
-                                   constant: 0)])
+                                   constant: -10)])
         }
         
         self.setNeedsLayout()
+    }
+    
+    /* ################################################################## */
+    /**
+     */
+    func displayitemDictionary(_ inDictionary: [String: Any?]) {
+        for tup in inDictionary {
+            if let value = tup.value as? NSObject {
+                let key = tup.key
+                
+                if !(["id", "name", "isDirty", "isWriteable", "readToken", "writeToken", "lastAccess"]).contains(key) {
+                    if let strVal = value as? String {
+                        self.addItemLabel(label: key, value: strVal)
+                    } else if let boolVal = value as? Bool {
+                        self.addItemLabel(label: key, value: boolVal ? "true" : "false")
+                    } else if let intVal = value as? Int {
+                        self.addItemLabel(label: key, value: String(intVal))
+                    } else if let floatVal = value as? Float {
+                        self.addItemLabel(label: key, value: String(floatVal))
+                    } else if let locVal = value as? CLLocationCoordinate2D {
+                        self.addItemLabel(label: key, value: "(" + String(locVal.latitude) + "," + String(locVal.longitude) + ")")
+                    }
+                }
+            }
+        }
     }
     
     /* ################################################################## */
@@ -85,37 +113,11 @@ class RVP_DisplayElementView: UIView {
         
         self.addConstraints(thisElement: topLabel, height: topLabel.oneLineHeight)
     }
-    
+
     /* ################################################################## */
     /**
      */
-    func addIntLabel(label inLabel: String, value inValue: Int) {
-        let theLabel = UILabel()
-        
-        theLabel.text = inLabel + ": " + String(inValue)
-        theLabel.font = UIFont.systemFont(ofSize: 12)
-        theLabel.textAlignment = .center
-        
-        self.addConstraints(thisElement: theLabel, height: theLabel.oneLineHeight)
-    }
-    
-    /* ################################################################## */
-    /**
-     */
-    func addBoolLabel(label inLabel: String, value inValue: Bool) {
-        let theLabel = UILabel()
-        
-        theLabel.text = inLabel + ": " + (inValue ? "true" : "false")
-        theLabel.font = UIFont.systemFont(ofSize: 12)
-        theLabel.textAlignment = .center
-        
-        self.addConstraints(thisElement: theLabel, height: theLabel.oneLineHeight)
-    }
-    
-    /* ################################################################## */
-    /**
-     */
-    func addStringLabel(label inLabel: String, value inValue: String) {
+    func addItemLabel(label inLabel: String, value inValue: String) {
         let theLabel = UILabel()
         
         theLabel.text = inLabel + ": " + inValue
