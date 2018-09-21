@@ -37,6 +37,32 @@ class RVP_DisplayElementView: UIView {
         self.subviews.forEach({ $0.removeFromSuperview() })
         if let displayedElement = self.displayedElement {
             self.addTopLabel(name: displayedElement.name, id: displayedElement.id)
+            self.addBoolLabel(label: "Modified", value: displayedElement.isDirty)
+            self.addBoolLabel(label: "Writeable", value: displayedElement.isWriteable)
+            if let token = displayedElement.readToken {
+                self.addIntLabel(label: "Read Token", value: token)
+            }
+            if let token = displayedElement.writeToken {
+                self.addIntLabel(label: "Write Token", value: token)
+            }
+            if let lastAccess = displayedElement.lastAccess {
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateStyle = .short
+                dateFormatter.timeStyle = .short
+                dateFormatter.locale = Locale(identifier: "en_US")
+                self.addStringLabel(label: "Last Access", value: dateFormatter.string(from: lastAccess))
+            }
+        }
+        
+        if let lastView = self.subviews.last {
+            self.addConstraints([
+                NSLayoutConstraint(item: lastView,
+                                   attribute: .bottom,
+                                   relatedBy: .equal,
+                                   toItem: self,
+                                   attribute: .bottom,
+                                   multiplier: 1.0,
+                                   constant: 0)])
         }
         
         self.setNeedsLayout()
@@ -57,36 +83,104 @@ class RVP_DisplayElementView: UIView {
         topLabel.font = UIFont.boldSystemFont(ofSize: 12)
         topLabel.textAlignment = .center
         
-        self.addSubview(topLabel)
-        topLabel.translatesAutoresizingMaskIntoConstraints = false
+        self.addConstraints(thisElement: topLabel, height: topLabel.oneLineHeight)
+    }
+    
+    /* ################################################################## */
+    /**
+     */
+    func addIntLabel(label inLabel: String, value inValue: Int) {
+        let theLabel = UILabel()
+        
+        theLabel.text = inLabel + ": " + String(inValue)
+        theLabel.font = UIFont.systemFont(ofSize: 12)
+        theLabel.textAlignment = .center
+        
+        self.addConstraints(thisElement: theLabel, height: theLabel.oneLineHeight)
+    }
+    
+    /* ################################################################## */
+    /**
+     */
+    func addBoolLabel(label inLabel: String, value inValue: Bool) {
+        let theLabel = UILabel()
+        
+        theLabel.text = inLabel + ": " + (inValue ? "true" : "false")
+        theLabel.font = UIFont.systemFont(ofSize: 12)
+        theLabel.textAlignment = .center
+        
+        self.addConstraints(thisElement: theLabel, height: theLabel.oneLineHeight)
+    }
+    
+    /* ################################################################## */
+    /**
+     */
+    func addStringLabel(label inLabel: String, value inValue: String) {
+        let theLabel = UILabel()
+        
+        theLabel.text = inLabel + ": " + inValue
+        theLabel.font = UIFont.systemFont(ofSize: 12)
+        theLabel.textAlignment = .center
+        
+        self.addConstraints(thisElement: theLabel, height: theLabel.oneLineHeight)
+    }
+
+    /* ################################################################## */
+    /**
+     */
+    func addConstraints(thisElement inThisElement: UIView, height inHeight: CGFloat) {
+        var previousView: UIView!
+        
+        if !self.subviews.isEmpty {
+            previousView = self.subviews.last
+        }
+        
+        self.addSubview(inThisElement)
+        inThisElement.translatesAutoresizingMaskIntoConstraints = false
+        
+        if nil != previousView {
+            self.addConstraints([
+                NSLayoutConstraint(item: inThisElement,
+                                   attribute: .top,
+                                   relatedBy: .equal,
+                                   toItem: previousView,
+                                   attribute: .bottom,
+                                   multiplier: 1.0,
+                                   constant: 4)])
+        } else {
+            self.addConstraints([
+                NSLayoutConstraint(item: inThisElement,
+                                   attribute: .top,
+                                   relatedBy: .equal,
+                                   toItem: self,
+                                   attribute: .top,
+                                   multiplier: 1.0,
+                                   constant: 0)])
+        }
+
         self.addConstraints([
-            NSLayoutConstraint(item: topLabel,
-                               attribute: .top,
-                               relatedBy: .equal,
-                               toItem: self,
-                               attribute: .top,
-                               multiplier: 1.0,
-                               constant: 0.0),
-            NSLayoutConstraint(item: topLabel,
+            NSLayoutConstraint(item: inThisElement,
                                attribute: .centerX,
                                relatedBy: .equal,
                                toItem: self,
                                attribute: .centerX,
                                multiplier: 1.0,
                                constant: 0.0),
-            NSLayoutConstraint(item: topLabel,
+            NSLayoutConstraint(item: inThisElement,
                                attribute: .width,
                                relatedBy: .equal,
                                toItem: self,
                                attribute: .width,
                                multiplier: 1.0,
-                               constant: 0.0),
-            NSLayoutConstraint(item: topLabel,
+                               constant: 0.0)])
+        
+        self.addConstraints([
+            NSLayoutConstraint(item: inThisElement,
                                attribute: .height,
                                relatedBy: .equal,
                                toItem: nil,
                                attribute: .notAnAttribute,
                                multiplier: 1.0,
-                               constant: 30)])
+                               constant: inHeight)])
     }
 }

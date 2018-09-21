@@ -91,14 +91,7 @@ class RVP_DisplayResultsScrollView: UIScrollView {
                                    toItem: self.contentView,
                                    attribute: .width,
                                    multiplier: 1.0,
-                                   constant: 0.0),
-                NSLayoutConstraint(item: view,
-                                   attribute: .height,
-                                   relatedBy: .equal,
-                                   toItem: nil,
-                                   attribute: .notAnAttribute,
-                                   multiplier: 1.0,
-                                   constant: 30)])
+                                   constant: 0.0)])
             
             if nil == previousViewElement {
                 self.contentView.addConstraint(
@@ -108,7 +101,7 @@ class RVP_DisplayResultsScrollView: UIScrollView {
                                        toItem: self.contentView,
                                        attribute: .top,
                                        multiplier: 1.0,
-                                       constant: 0))
+                                       constant: 4))
             } else {
                 self.contentView.addConstraint(
                     NSLayoutConstraint(item: view,
@@ -117,7 +110,7 @@ class RVP_DisplayResultsScrollView: UIScrollView {
                                        toItem: previousViewElement,
                                        attribute: .bottom,
                                        multiplier: 1.0,
-                                       constant: 4))
+                                       constant: 10))
             }
             
             previousViewElement = view
@@ -131,7 +124,7 @@ class RVP_DisplayResultsScrollView: UIScrollView {
                                    toItem: self.contentView,
                                    attribute: .bottom,
                                    multiplier: 1.0,
-                                   constant: 0))
+                                   constant: 4))
         }
         
         self.setNeedsLayout()

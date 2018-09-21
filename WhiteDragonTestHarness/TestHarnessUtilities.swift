@@ -67,3 +67,20 @@ func utilPopulateTextView(_ inTextView: UITextView, objectArray inObjectList: [A
         }
     }
 }
+
+extension UILabel {
+    /* ################################################################## */
+    /**
+     */
+    var oneLineHeight: CGFloat {
+        if let font = self.font {
+            let attributes = [NSAttributedString.Key.font: font]
+            
+            if let text = self.text {
+                return ceil(text.boundingRect(with: CGSize(width: 1000, height: 1000), options: NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin), attributes: attributes, context: nil).height)
+            }
+        }
+        
+        return 0
+    }
+}
