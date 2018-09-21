@@ -139,23 +139,9 @@
                                             <action selector="fetchDataButtonPressed:" destination="NoU-S8-adh" eventType="touchUpInside" id="xEj-Nf-6be"/>
                                         </connections>
                                     </button>
-                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HXl-OI-nBS">
+                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HXl-OI-nBS" customClass="RVP_DisplayResultsScrollView" customModule="WhiteDragonTestHarness" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="118" width="375" height="455"/>
-                                        <subviews>
-                                            <view contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="ilT-dG-tqx">
-                                                <rect key="frame" x="0.0" y="0.0" width="375" height="455"/>
-                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            </view>
-                                        </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <constraints>
-                                            <constraint firstAttribute="trailing" secondItem="ilT-dG-tqx" secondAttribute="trailing" id="66N-jf-dyU"/>
-                                            <constraint firstItem="ilT-dG-tqx" firstAttribute="top" secondItem="HXl-OI-nBS" secondAttribute="top" priority="250" id="CCZ-bG-BmA"/>
-                                            <constraint firstItem="ilT-dG-tqx" firstAttribute="width" secondItem="HXl-OI-nBS" secondAttribute="width" id="ZjB-KS-FdP"/>
-                                            <constraint firstAttribute="bottom" secondItem="ilT-dG-tqx" secondAttribute="bottom" priority="250" id="aBi-dR-y41"/>
-                                            <constraint firstItem="ilT-dG-tqx" firstAttribute="leading" secondItem="HXl-OI-nBS" secondAttribute="leading" id="djU-cA-cWT"/>
-                                            <constraint firstItem="ilT-dG-tqx" firstAttribute="height" secondItem="HXl-OI-nBS" secondAttribute="height" priority="250" id="yUv-Cl-fBi"/>
-                                        </constraints>
                                     </scrollView>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -214,7 +200,6 @@
                     <connections>
                         <outlet property="activityScreen" destination="pBS-8p-kGs" id="kRL-IG-n8J"/>
                         <outlet property="displayResultsScrollView" destination="HXl-OI-nBS" id="Joj-9e-fAA"/>
-                        <outlet property="displayResultsView" destination="ilT-dG-tqx" id="a6m-gR-tcq"/>
                         <outlet property="fetchDataButton" destination="eFU-Eg-Ciy" id="SFU-0W-FmB"/>
                         <outlet property="loginMainAdminButton" destination="SZ7-ca-1uH" id="DNS-1M-ajn"/>
                         <outlet property="specificationItemsView" destination="d0U-ig-Vsi" id="wDm-C7-eoC"/>

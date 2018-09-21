@@ -38,8 +38,7 @@ class Test002BasicUserListing: UIViewController, RVP_IOS_SDK_Delegate, UIPickerV
     @IBOutlet weak var userListPicker: UIPickerView!
     @IBOutlet weak var specificationItemsView: UIView!
     @IBOutlet weak var loginMainAdminButton: UIButton!
-    @IBOutlet weak var displayResultsView: UIView!
-    @IBOutlet weak var displayResultsScrollView: UIScrollView!
+    @IBOutlet weak var displayResultsScrollView: RVP_DisplayResultsScrollView!
     
     /* ################################################################## */
     /**
@@ -97,40 +96,17 @@ class Test002BasicUserListing: UIViewController, RVP_IOS_SDK_Delegate, UIPickerV
     /**
      */
     func clearResults() {
-        self.displayResultsView.subviews.forEach({ $0.removeFromSuperview() })
-        self.displayResultsView.frame.size.height = 0
-        self.displayResultsScrollView.contentSize.height = 0
+        self.displayResultsScrollView.subviews.forEach({ $0.removeFromSuperview() })
+        self.displayResultsScrollView.contentView = nil
+        self.displayResultsScrollView.results = []
     }
     
     /* ################################################################## */
     /**
      */
     func addOneItemToTheResults(_ inItem: A_RVP_IOS_SDK_Object) {
-        let height: CGFloat = 30
-        
-        self.displayResultsScrollView.contentSize.height += height
-        self.displayResultsView.heightAnchor.constraint(equalToConstant: self.displayResultsScrollView.contentSize.height).isActive = true
-
-        self.displayResultsScrollView.contentOffset = CGPoint.zero
-        
-        var anchor: NSLayoutAnchor = self.displayResultsView.topAnchor
-        var constant: CGFloat = 0
-        
-        if !self.displayResultsView.subviews.isEmpty, let lastSubView = self.displayResultsView.subviews.last {
-            anchor = lastSubView.bottomAnchor
-            constant = 8
-        }
-
-        let newItem = RVP_DisplayElementView(frame: CGRect.zero)
-        newItem.displayedElement = inItem
-        
-        self.displayResultsView.addSubview(newItem)
-        
-        newItem.translatesAutoresizingMaskIntoConstraints = false
-        newItem.topAnchor.constraint(equalTo: anchor, constant: constant).isActive = true
-        newItem.heightAnchor.constraint(equalToConstant: height).isActive = true
-        newItem.leadingAnchor.constraint(equalTo: self.displayResultsView.leadingAnchor).isActive = true
-        newItem.trailingAnchor.constraint(equalTo: self.displayResultsView.trailingAnchor).isActive = true
+        self.displayResultsScrollView.results.append(inItem)
+        self.displayResultsScrollView.setNeedsLayout()
     }
 
     /* ################################################################## */

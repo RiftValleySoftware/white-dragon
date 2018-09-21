@@ -25,20 +25,21 @@ import UIKit
 class RVP_DisplayElementView: UIView {
     var displayedElement: A_RVP_IOS_SDK_Object? {
         didSet {
-            self.setNeedsLayout()
+            self.establishSubviews()
         }
     }
     
     /* ################################################################## */
     /**
      */
-    override func layoutSubviews() {
+    func establishSubviews() {
         // We start by "clearing the decks." We remove all of our subviews.
         self.subviews.forEach({ $0.removeFromSuperview() })
         if let displayedElement = self.displayedElement {
             self.addTopLabel(name: displayedElement.name, id: displayedElement.id)
         }
-        super.layoutSubviews()
+        
+        self.setNeedsLayout()
     }
     
     /* ################################################################## */
@@ -50,18 +51,42 @@ class RVP_DisplayElementView: UIView {
             nameString = inName + " (" + nameString + ")"
         }
         
-        let topLabel = UILabel(frame: CGRect.zero)
+        let topLabel = UILabel()
         
         topLabel.text = nameString
         topLabel.font = UIFont.boldSystemFont(ofSize: 12)
         topLabel.textAlignment = .center
         
         self.addSubview(topLabel)
-        
         topLabel.translatesAutoresizingMaskIntoConstraints = false
-        topLabel.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        topLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        topLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
-        topLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
+        self.addConstraints([
+            NSLayoutConstraint(item: topLabel,
+                               attribute: .top,
+                               relatedBy: .equal,
+                               toItem: self,
+                               attribute: .top,
+                               multiplier: 1.0,
+                               constant: 0.0),
+            NSLayoutConstraint(item: topLabel,
+                               attribute: .centerX,
+                               relatedBy: .equal,
+                               toItem: self,
+                               attribute: .centerX,
+                               multiplier: 1.0,
+                               constant: 0.0),
+            NSLayoutConstraint(item: topLabel,
+                               attribute: .width,
+                               relatedBy: .equal,
+                               toItem: self,
+                               attribute: .width,
+                               multiplier: 1.0,
+                               constant: 0.0),
+            NSLayoutConstraint(item: topLabel,
+                               attribute: .height,
+                               relatedBy: .equal,
+                               toItem: nil,
+                               attribute: .notAnAttribute,
+                               multiplier: 1.0,
+                               constant: 30)])
     }
 }

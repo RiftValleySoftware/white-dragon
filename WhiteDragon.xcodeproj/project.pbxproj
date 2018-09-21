@@ -33,12 +33,14 @@
 		D43CC120214C4EB200548B8E /* RVP_IOS_SDK_Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43CC11F214C4EB200548B8E /* RVP_IOS_SDK_Utils.swift */; };
 		D43CC121214C4EB200548B8E /* RVP_IOS_SDK_Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43CC11F214C4EB200548B8E /* RVP_IOS_SDK_Utils.swift */; };
 		D43CC122214C4EB200548B8E /* RVP_IOS_SDK_Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43CC11F214C4EB200548B8E /* RVP_IOS_SDK_Utils.swift */; };
+		D444087221550797002CCA50 /* RevealServer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D444087121550797002CCA50 /* RevealServer.framework */; };
 		D4687FF42142E4D000293358 /* WhiteDragonSDKTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4687FF32142E4D000293358 /* WhiteDragonSDKTester.swift */; };
 		D4733D39214FB74A009D11BF /* MainDispatchNavController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4733D38214FB74A009D11BF /* MainDispatchNavController.swift */; };
 		D4733D3B214FB866009D11BF /* DispatcherListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4733D3A214FB866009D11BF /* DispatcherListController.swift */; };
 		D477B405213EA86B0018AB45 /* WhiteDragon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D477B3FB213EA86B0018AB45 /* WhiteDragon.framework */; };
 		D477B40A213EA86B0018AB45 /* white_dragonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D477B409213EA86B0018AB45 /* white_dragonTests.swift */; };
 		D477B40C213EA86B0018AB45 /* white_dragon.h in Headers */ = {isa = PBXBuildFile; fileRef = D477B3FE213EA86B0018AB45 /* white_dragon.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D4885EE42155216F00DF9862 /* RVP_DisplayResultsScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4885EE32155216F00DF9862 /* RVP_DisplayResultsScrollView.swift */; };
 		D4A5C3432152BA6500159EFF /* TestHarnessUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A5C3422152BA6500159EFF /* TestHarnessUtilities.swift */; };
 		D4B94831213EEA6200A3560E /* RVP_IOS_SDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B94830213EEA6200A3560E /* RVP_IOS_SDK.swift */; };
 		D4B94835213EFBD100A3560E /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = D4B94834213EFBD100A3560E /* Podfile */; };
@@ -51,6 +53,7 @@
 		D4E2686E2143031E002ECE12 /* WhiteDragonSDKTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4687FF32142E4D000293358 /* WhiteDragonSDKTester.swift */; };
 		D4FC297D21514BFB008271E4 /* Test002BasicUserListing.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FC297C21514BFB008271E4 /* Test002BasicUserListing.swift */; };
 		D4FF8B6521542E9F0051A0B8 /* RVP_DisplayElementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FF8B6421542E9F0051A0B8 /* RVP_DisplayElementView.swift */; };
+		FB0D7457C5D1D9F41AC47A78 /* Pods_WhiteDragonTestHarness.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B21EEF1DC1244C81AFC29F73 /* Pods_WhiteDragonTestHarness.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,7 +68,10 @@
 
 /* Begin PBXFileReference section */
 		013808534F4BE80FA8E7DA44 /* Pods-WhiteDragon.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WhiteDragon.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WhiteDragon/Pods-WhiteDragon.debug.xcconfig"; sourceTree = "<group>"; };
+		1311765B7C586B24ACE13307 /* Pods-WhiteDragonTestHarness.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WhiteDragonTestHarness.release.xcconfig"; path = "Pods/Target Support Files/Pods-WhiteDragonTestHarness/Pods-WhiteDragonTestHarness.release.xcconfig"; sourceTree = "<group>"; };
 		69826259210E6D8098363362 /* Pods-WhiteDragon.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WhiteDragon.release.xcconfig"; path = "Pods/Target Support Files/Pods-WhiteDragon/Pods-WhiteDragon.release.xcconfig"; sourceTree = "<group>"; };
+		6D791B6D79927B976A7E510C /* Pods-WhiteDragonTestHarness.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WhiteDragonTestHarness.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WhiteDragonTestHarness/Pods-WhiteDragonTestHarness.debug.xcconfig"; sourceTree = "<group>"; };
+		B21EEF1DC1244C81AFC29F73 /* Pods_WhiteDragonTestHarness.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WhiteDragonTestHarness.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D432E0D1214BE45E0018ED86 /* LucyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LucyButton.swift; sourceTree = "<group>"; };
 		D43CC103214C4EA900548B8E /* A_RVP_IOS_SDK_Security_Object.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = A_RVP_IOS_SDK_Security_Object.swift; path = Classes/A_RVP_IOS_SDK_Security_Object.swift; sourceTree = "<group>"; };
 		D43CC104214C4EA900548B8E /* RVP_IOS_SDK_User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RVP_IOS_SDK_User.swift; path = Classes/RVP_IOS_SDK_User.swift; sourceTree = "<group>"; };
@@ -75,6 +81,7 @@
 		D43CC108214C4EA900548B8E /* A_RVP_IOS_SDK_Object.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = A_RVP_IOS_SDK_Object.swift; path = Classes/A_RVP_IOS_SDK_Object.swift; sourceTree = "<group>"; };
 		D43CC109214C4EA900548B8E /* RVP_IOS_SDK_Login.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RVP_IOS_SDK_Login.swift; path = Classes/RVP_IOS_SDK_Login.swift; sourceTree = "<group>"; };
 		D43CC11F214C4EB200548B8E /* RVP_IOS_SDK_Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RVP_IOS_SDK_Utils.swift; path = Classes/RVP_IOS_SDK_Utils.swift; sourceTree = "<group>"; };
+		D444087121550797002CCA50 /* RevealServer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RevealServer.framework; path = "Pods/Reveal-SDK/RevealServer-18/iOS/RevealServer.framework"; sourceTree = "<group>"; };
 		D4687FF32142E4D000293358 /* WhiteDragonSDKTester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteDragonSDKTester.swift; sourceTree = "<group>"; };
 		D4733D38214FB74A009D11BF /* MainDispatchNavController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainDispatchNavController.swift; sourceTree = "<group>"; };
 		D4733D3A214FB866009D11BF /* DispatcherListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DispatcherListController.swift; sourceTree = "<group>"; };
@@ -84,6 +91,7 @@
 		D477B404213EA86B0018AB45 /* WhiteDragonTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WhiteDragonTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D477B409213EA86B0018AB45 /* white_dragonTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = white_dragonTests.swift; sourceTree = "<group>"; };
 		D477B40B213EA86B0018AB45 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D4885EE32155216F00DF9862 /* RVP_DisplayResultsScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RVP_DisplayResultsScrollView.swift; sourceTree = "<group>"; };
 		D4A5C3422152BA6500159EFF /* TestHarnessUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestHarnessUtilities.swift; sourceTree = "<group>"; };
 		D4B8A989213ECB18007CB311 /* WhiteDragon.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = WhiteDragon.podspec; sourceTree = "<group>"; };
 		D4B8A98A213ECB18007CB311 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -93,7 +101,7 @@
 		D4B8A98E213ECB25007CB311 /* .swift-version */ = {isa = PBXFileReference; lastKnownFileType = text; path = ".swift-version"; sourceTree = "<group>"; };
 		D4B8A98F213ECB25007CB311 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; };
 		D4B94830213EEA6200A3560E /* RVP_IOS_SDK.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RVP_IOS_SDK.swift; path = Classes/RVP_IOS_SDK.swift; sourceTree = "<group>"; };
-		D4B94834213EFBD100A3560E /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
+		D4B94834213EFBD100A3560E /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		D4E2685B214302A2002ECE12 /* WhiteDragonTestHarness.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WhiteDragonTestHarness.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4E2685D214302A2002ECE12 /* TestHarnessAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestHarnessAppDelegate.swift; sourceTree = "<group>"; };
 		D4E2685F214302A2002ECE12 /* Test001SimpleLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test001SimpleLogin.swift; sourceTree = "<group>"; };
@@ -127,6 +135,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D444087221550797002CCA50 /* RevealServer.framework in Frameworks */,
+				FB0D7457C5D1D9F41AC47A78 /* Pods_WhiteDragonTestHarness.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,6 +148,8 @@
 			children = (
 				013808534F4BE80FA8E7DA44 /* Pods-WhiteDragon.debug.xcconfig */,
 				69826259210E6D8098363362 /* Pods-WhiteDragon.release.xcconfig */,
+				6D791B6D79927B976A7E510C /* Pods-WhiteDragonTestHarness.debug.xcconfig */,
+				1311765B7C586B24ACE13307 /* Pods-WhiteDragonTestHarness.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -238,6 +250,7 @@
 				D4E2685D214302A2002ECE12 /* TestHarnessAppDelegate.swift */,
 				D4733D38214FB74A009D11BF /* MainDispatchNavController.swift */,
 				D4733D3A214FB866009D11BF /* DispatcherListController.swift */,
+				D4885EE32155216F00DF9862 /* RVP_DisplayResultsScrollView.swift */,
 				D4FF8B6421542E9F0051A0B8 /* RVP_DisplayElementView.swift */,
 				D4A5C3422152BA6500159EFF /* TestHarnessUtilities.swift */,
 				D432E0D1214BE45E0018ED86 /* LucyButton.swift */,
@@ -270,7 +283,9 @@
 		E3C5D3B5C8389DED8CDB8D36 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D444087121550797002CCA50 /* RevealServer.framework */,
 				DEA8986ABAA1BA586DC9A8CD /* Pods_WhiteDragon.framework */,
+				B21EEF1DC1244C81AFC29F73 /* Pods_WhiteDragonTestHarness.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -331,10 +346,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D4E2686C214302A4002ECE12 /* Build configuration list for PBXNativeTarget "WhiteDragonTestHarness" */;
 			buildPhases = (
+				9B07FAEA05E67CFFDF90BC84 /* [CP] Check Pods Manifest.lock */,
 				D4E26857214302A2002ECE12 /* Sources */,
 				D41FAD0A214A9B0800194B95 /* SwiftLINT */,
 				D4E26858214302A2002ECE12 /* Frameworks */,
 				D4E26859214302A2002ECE12 /* Resources */,
+				0E0E5C2AC9E816C252836EE6 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -417,6 +434,28 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		0E0E5C2AC9E816C252836EE6 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-WhiteDragonTestHarness/Pods-WhiteDragonTestHarness-frameworks.sh",
+				"${PODS_ROOT}/Reveal-SDK/RevealServer-18/iOS/RevealServer.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RevealServer.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-WhiteDragonTestHarness/Pods-WhiteDragonTestHarness-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		66DDBFAEFEC6F9ADE0F70673 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -433,6 +472,28 @@
 			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-WhiteDragon-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9B07FAEA05E67CFFDF90BC84 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-WhiteDragonTestHarness-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -523,6 +584,7 @@
 				D43CC112214C4EA900548B8E /* RVP_IOS_SDK_Place.swift in Sources */,
 				D4FC297D21514BFB008271E4 /* Test002BasicUserListing.swift in Sources */,
 				D43CC10F214C4EA900548B8E /* RVP_IOS_SDK_User.swift in Sources */,
+				D4885EE42155216F00DF9862 /* RVP_DisplayResultsScrollView.swift in Sources */,
 				D43CC11B214C4EA900548B8E /* A_RVP_IOS_SDK_Object.swift in Sources */,
 				D43CC11E214C4EA900548B8E /* RVP_IOS_SDK_Login.swift in Sources */,
 				D4E26860214302A2002ECE12 /* Test001SimpleLogin.swift in Sources */,
@@ -783,10 +845,15 @@
 		};
 		D4E2686A214302A4002ECE12 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6D791B6D79927B976A7E510C /* Pods-WhiteDragonTestHarness.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = P53V4JS928;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Pods/Reveal-SDK/RevealServer-18/iOS",
+				);
 				INFOPLIST_FILE = WhiteDragonTestHarness/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -802,10 +869,15 @@
 		};
 		D4E2686B214302A4002ECE12 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1311765B7C586B24ACE13307 /* Pods-WhiteDragonTestHarness.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = P53V4JS928;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Pods/Reveal-SDK/RevealServer-18/iOS",
+				);
 				INFOPLIST_FILE = WhiteDragonTestHarness/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
