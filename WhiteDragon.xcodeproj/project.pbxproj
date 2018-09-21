@@ -33,7 +33,7 @@
 		D43CC120214C4EB200548B8E /* RVP_IOS_SDK_Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43CC11F214C4EB200548B8E /* RVP_IOS_SDK_Utils.swift */; };
 		D43CC121214C4EB200548B8E /* RVP_IOS_SDK_Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43CC11F214C4EB200548B8E /* RVP_IOS_SDK_Utils.swift */; };
 		D43CC122214C4EB200548B8E /* RVP_IOS_SDK_Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43CC11F214C4EB200548B8E /* RVP_IOS_SDK_Utils.swift */; };
-		D444087221550797002CCA50 /* RevealServer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D444087121550797002CCA50 /* RevealServer.framework */; };
+		D444087221550797002CCA50 /* RevealServer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D444087121550797002CCA50 /* RevealServer.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		D4687FF42142E4D000293358 /* WhiteDragonSDKTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4687FF32142E4D000293358 /* WhiteDragonSDKTester.swift */; };
 		D4733D39214FB74A009D11BF /* MainDispatchNavController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4733D38214FB74A009D11BF /* MainDispatchNavController.swift */; };
 		D4733D3B214FB866009D11BF /* DispatcherListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4733D3A214FB866009D11BF /* DispatcherListController.swift */; };

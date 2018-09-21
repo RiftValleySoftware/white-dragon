@@ -76,7 +76,7 @@ class RVP_DisplayElementView: UIView {
      */
     func displayitemDictionary(_ inDictionary: [String: Any?]) {
         for tup in inDictionary {
-            if let value = tup.value as? NSObject {
+            if let value = tup.value {
                 let key = tup.key
                 
                 if !(["id", "name", "isDirty", "isWriteable", "readToken", "writeToken", "lastAccess"]).contains(key) {
