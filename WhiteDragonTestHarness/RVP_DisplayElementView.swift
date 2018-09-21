@@ -54,7 +54,12 @@ class RVP_DisplayElementView: UIView {
                 self.addItemLabel(label: "Last Access", value: dateFormatter.string(from: lastAccess))
             }
             
-            self.displayitemDictionary(displayedElement.asDictionary)
+            let dictionary = displayedElement.asDictionary
+            self.displayitemDictionary(dictionary)
+            
+            if let children = dictionary["childrenIDs"] as? [String: [Int]] {
+                self.addChildrenLabels(children)
+            }
         }
         
         if let lastView = self.subviews.last {
@@ -79,7 +84,7 @@ class RVP_DisplayElementView: UIView {
             if let value = tup.value {
                 let key = tup.key
                 
-                if !(["id", "name", "isDirty", "isWriteable", "readToken", "writeToken", "lastAccess"]).contains(key) {
+                if !(["id", "name", "isDirty", "isWriteable", "readToken", "writeToken", "lastAccess", "children"]).contains(key) {
                     if let strVal = value as? String {
                         self.addItemLabel(label: key, value: strVal)
                     } else if let boolVal = value as? Bool {
@@ -113,14 +118,66 @@ class RVP_DisplayElementView: UIView {
         
         self.addConstraints(thisElement: topLabel, height: topLabel.oneLineHeight)
     }
+    
+    /* ################################################################## */
+    /**
+     */
+    func addChildrenLabels(_ inChildrenDictionary: [String: [Int]]) {
+        let topLabel = UILabel()
+        
+        topLabel.text = "CHILDREN"
+        topLabel.font = UIFont.systemFont(ofSize: 12)
+        topLabel.textAlignment = .center
+        
+        self.addConstraints(thisElement: topLabel, height: topLabel.oneLineHeight)
+        
+        if let people = inChildrenDictionary["people"], !people.isEmpty {
+            let newLabel = UILabel()
+            newLabel.text = "people"
+            newLabel.font = UIFont.italicSystemFont(ofSize: 12)
+            newLabel.textAlignment = .center
+            self.addConstraints(thisElement: newLabel, height: topLabel.oneLineHeight)
+
+            for item in people.chunk(8) {
+                let strVal = item.map(String.init).joined(separator: ",")
+                self.addItemLabel(value: strVal)
+            }
+        }
+        
+        if let places = inChildrenDictionary["places"], !places.isEmpty {
+            let newLabel = UILabel()
+            newLabel.text = "places"
+            newLabel.font = UIFont.italicSystemFont(ofSize: 12)
+            newLabel.textAlignment = .center
+            self.addConstraints(thisElement: newLabel, height: topLabel.oneLineHeight)
+
+            for item in places.chunk(8) {
+                let strVal = item.map(String.init).joined(separator: ",")
+                self.addItemLabel(value: strVal)
+            }
+        }
+        
+        if let things = inChildrenDictionary["things"], !things.isEmpty {
+            let newLabel = UILabel()
+            newLabel.text = "things"
+            newLabel.font = UIFont.italicSystemFont(ofSize: 12)
+            newLabel.textAlignment = .center
+            self.addConstraints(thisElement: newLabel, height: topLabel.oneLineHeight)
+
+            for item in things.chunk(8) {
+                let strVal = item.map(String.init).joined(separator: ",")
+                self.addItemLabel(value: strVal)
+            }
+        }
+    }
 
     /* ################################################################## */
     /**
      */
-    func addItemLabel(label inLabel: String, value inValue: String) {
+    func addItemLabel(label inLabel: String = "", value inValue: String) {
         let theLabel = UILabel()
         
-        theLabel.text = inLabel + ": " + inValue
+        theLabel.text = (inLabel.isEmpty ? "" : inLabel + ": ") + inValue
         theLabel.font = UIFont.systemFont(ofSize: 12)
         theLabel.textAlignment = .center
         
