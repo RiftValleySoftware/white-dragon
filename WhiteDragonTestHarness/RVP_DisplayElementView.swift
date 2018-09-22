@@ -121,7 +121,7 @@ class RVP_DisplayElementView: UIView {
         topLabel.font = UIFont.boldSystemFont(ofSize: 12)
         topLabel.textAlignment = .center
         
-        self.addConstraints(thisElement: topLabel, height: topLabel.oneLineHeight)
+        self.applyConstraints(thisElement: topLabel, height: topLabel.oneLineHeight)
     }
     
     /* ################################################################## */
@@ -134,14 +134,14 @@ class RVP_DisplayElementView: UIView {
         topLabel.font = UIFont.systemFont(ofSize: 12)
         topLabel.textAlignment = .center
         
-        self.addConstraints(thisElement: topLabel, height: topLabel.oneLineHeight)
+        self.applyConstraints(thisElement: topLabel, height: topLabel.oneLineHeight)
         
         if let people = inChildrenDictionary["people"], !people.isEmpty {
             let newLabel = UILabel()
             newLabel.text = "people"
             newLabel.font = UIFont.italicSystemFont(ofSize: 12)
             newLabel.textAlignment = .center
-            self.addConstraints(thisElement: newLabel, height: topLabel.oneLineHeight)
+            self.applyConstraints(thisElement: newLabel, height: topLabel.oneLineHeight)
 
             for item in people.chunk(8) {
                 let strVal = item.map(String.init).joined(separator: ",")
@@ -154,7 +154,7 @@ class RVP_DisplayElementView: UIView {
             newLabel.text = "places"
             newLabel.font = UIFont.italicSystemFont(ofSize: 12)
             newLabel.textAlignment = .center
-            self.addConstraints(thisElement: newLabel, height: topLabel.oneLineHeight)
+            self.applyConstraints(thisElement: newLabel, height: topLabel.oneLineHeight)
 
             for item in places.chunk(8) {
                 let strVal = item.map(String.init).joined(separator: ",")
@@ -167,7 +167,7 @@ class RVP_DisplayElementView: UIView {
             newLabel.text = "things"
             newLabel.font = UIFont.italicSystemFont(ofSize: 12)
             newLabel.textAlignment = .center
-            self.addConstraints(thisElement: newLabel, height: topLabel.oneLineHeight)
+            self.applyConstraints(thisElement: newLabel, height: topLabel.oneLineHeight)
 
             for item in things.chunk(8) {
                 let strVal = item.map(String.init).joined(separator: ",")
@@ -186,13 +186,13 @@ class RVP_DisplayElementView: UIView {
         theLabel.font = UIFont.systemFont(ofSize: 12)
         theLabel.textAlignment = .center
         
-        self.addConstraints(thisElement: theLabel, height: theLabel.oneLineHeight)
+        self.applyConstraints(thisElement: theLabel, height: theLabel.oneLineHeight)
     }
 
     /* ################################################################## */
     /**
      */
-    func addConstraints(thisElement inThisElement: UIView, height inHeight: CGFloat) {
+    func applyConstraints(thisElement inThisElement: UIView, height inHeight: CGFloat) {
         var previousView: UIView!
         
         if !self.subviews.isEmpty {

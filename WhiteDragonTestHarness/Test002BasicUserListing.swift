@@ -115,7 +115,65 @@ class Test002BasicUserListing: UIViewController, RVP_IOS_SDK_Delegate, UIPickerV
             sdkInstance.fetchUsers(userIDList)
         }
     }
+
+    /* ################################################################## */
+    /**
+     */
+    func applyConstraints(thisElement inThisElement: UIView, height inHeight: CGFloat, container inContainerElement: UITableViewCell) {
+        inContainerElement.addSubview(inThisElement)
+        inThisElement.translatesAutoresizingMaskIntoConstraints = false
+        
+        inContainerElement.addConstraints([
+            NSLayoutConstraint(item: inThisElement,
+                               attribute: .top,
+                               relatedBy: .equal,
+                               toItem: inContainerElement,
+                               attribute: .top,
+                               multiplier: 1.0,
+                               constant: 0),
+            NSLayoutConstraint(item: inThisElement,
+                               attribute: .centerX,
+                               relatedBy: .equal,
+                               toItem: inContainerElement,
+                               attribute: .centerX,
+                               multiplier: 1.0,
+                               constant: 0.0),
+            NSLayoutConstraint(item: inThisElement,
+                               attribute: .width,
+                               relatedBy: .equal,
+                               toItem: inContainerElement,
+                               attribute: .width,
+                               multiplier: 1.0,
+                               constant: 0.0),
+            NSLayoutConstraint(item: inThisElement,
+                               attribute: .height,
+                               relatedBy: .equal,
+                               toItem: nil,
+                               attribute: .notAnAttribute,
+                               multiplier: 1.0,
+                               constant: inHeight)
+            ])
+    }
     
+    /* ################################################################## */
+    /**
+     */
+    private func _showUserDetails(_ inUserObject: A_RVP_IOS_SDK_Object) {
+        self.performSegue(withIdentifier: "show-user-details", sender: inUserObject)
+    }
+    
+    /* ################################################################## */
+    /**
+     */
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let destination = segue.destination as? RVP_DisplayResultsScreenViewController {
+            if let node = sender as? A_RVP_IOS_SDK_Object {
+                destination.resultsArray = [node]
+            }
+        }
+        super.prepare(for: segue, sender: nil)
+    }
+
     /* ################################################################## */
     /**
      */
@@ -179,6 +237,7 @@ class Test002BasicUserListing: UIViewController, RVP_IOS_SDK_Delegate, UIPickerV
         #endif
         
         self._userList.append(contentsOf: fetchedDataItems)
+        
         DispatchQueue.main.async {
             self.resultsTableView.reloadData()
             self.activityScreen?.isHidden = true
@@ -238,54 +297,26 @@ class Test002BasicUserListing: UIViewController, RVP_IOS_SDK_Delegate, UIPickerV
             let topLabel = UILabel()
             
             topLabel.text = nameString
-            topLabel.font = UIFont.boldSystemFont(ofSize: 12)
+            topLabel.font = UIFont.boldSystemFont(ofSize: 16)
             topLabel.textAlignment = .center
             let height: CGFloat = topLabel.oneLineHeight
             var frame = tableView.bounds
             frame.size.height = height
             ret = UITableViewCell(frame: frame)
-            self.addConstraints(thisElement: topLabel, height: height, container: ret)
+            self.applyConstraints(thisElement: topLabel, height: height, container: ret)
         }
         
         return ret
     }
-
+    
     /* ################################################################## */
     /**
      */
-    func addConstraints(thisElement inThisElement: UIView, height inHeight: CGFloat, container inContainerElement: UITableViewCell) {
-        inContainerElement.addSubview(inThisElement)
-        inThisElement.translatesAutoresizingMaskIntoConstraints = false
-        
-        inContainerElement.addConstraints([
-            NSLayoutConstraint(item: inThisElement,
-                               attribute: .top,
-                               relatedBy: .equal,
-                               toItem: inContainerElement,
-                               attribute: .top,
-                               multiplier: 1.0,
-                               constant: 0),
-            NSLayoutConstraint(item: inThisElement,
-                               attribute: .centerX,
-                               relatedBy: .equal,
-                               toItem: inContainerElement,
-                               attribute: .centerX,
-                               multiplier: 1.0,
-                               constant: 0.0),
-            NSLayoutConstraint(item: inThisElement,
-                               attribute: .width,
-                               relatedBy: .equal,
-                               toItem: inContainerElement,
-                               attribute: .width,
-                               multiplier: 1.0,
-                               constant: 0.0),
-            NSLayoutConstraint(item: inThisElement,
-                               attribute: .height,
-                               relatedBy: .equal,
-                               toItem: nil,
-                               attribute: .notAnAttribute,
-                               multiplier: 1.0,
-                               constant: inHeight)
-            ])
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if 0 < self._userList.count, indexPath.row < self._userList.count {
+            tableView.deselectRow(at: indexPath, animated: true)
+            let rowObject = self._userList[indexPath.row]
+            self._showUserDetails(rowObject)
+        }
     }
 }
