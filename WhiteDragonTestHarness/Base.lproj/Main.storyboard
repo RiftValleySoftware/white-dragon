@@ -129,6 +129,14 @@
                                             <outlet property="delegate" destination="NoU-S8-adh" id="7pK-yc-sjy"/>
                                         </connections>
                                     </pickerView>
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="20" estimatedRowHeight="20" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="hzC-CK-8Ff">
+                                        <rect key="frame" x="0.0" y="110" width="375" height="463"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <connections>
+                                            <outlet property="dataSource" destination="NoU-S8-adh" id="7h7-O1-kxl"/>
+                                            <outlet property="delegate" destination="NoU-S8-adh" id="7PM-ue-hAB"/>
+                                        </connections>
+                                    </tableView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eFU-Eg-Ciy">
                                         <rect key="frame" x="0.0" y="80" width="375" height="30"/>
                                         <constraints>
@@ -139,25 +147,21 @@
                                             <action selector="fetchDataButtonPressed:" destination="NoU-S8-adh" eventType="touchUpInside" id="xEj-Nf-6be"/>
                                         </connections>
                                     </button>
-                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HXl-OI-nBS" customClass="RVP_DisplayResultsScrollView" customModule="WhiteDragonTestHarness" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="118" width="375" height="455"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    </scrollView>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="43N-aJ-4LO" secondAttribute="trailing" id="0vM-fW-9wu"/>
-                                    <constraint firstAttribute="bottom" secondItem="HXl-OI-nBS" secondAttribute="bottom" id="3Fk-Vi-HQm"/>
                                     <constraint firstAttribute="trailing" secondItem="eFU-Eg-Ciy" secondAttribute="trailing" id="8my-C0-saO"/>
                                     <constraint firstItem="43N-aJ-4LO" firstAttribute="leading" secondItem="d0U-ig-Vsi" secondAttribute="leading" id="CyX-cH-Tnq"/>
                                     <constraint firstItem="43N-aJ-4LO" firstAttribute="leading" secondItem="d0U-ig-Vsi" secondAttribute="leading" id="KH8-Ft-Uiw"/>
                                     <constraint firstItem="43N-aJ-4LO" firstAttribute="top" secondItem="d0U-ig-Vsi" secondAttribute="top" id="KZh-kC-ZgG"/>
+                                    <constraint firstItem="hzC-CK-8Ff" firstAttribute="top" secondItem="eFU-Eg-Ciy" secondAttribute="bottom" id="Lte-U4-BFj"/>
                                     <constraint firstItem="43N-aJ-4LO" firstAttribute="top" secondItem="d0U-ig-Vsi" secondAttribute="top" id="QHf-I8-QWh"/>
-                                    <constraint firstItem="HXl-OI-nBS" firstAttribute="leading" secondItem="d0U-ig-Vsi" secondAttribute="leading" id="VKN-0g-lAo"/>
+                                    <constraint firstAttribute="bottom" secondItem="hzC-CK-8Ff" secondAttribute="bottom" id="T4Z-hR-xEX"/>
+                                    <constraint firstItem="hzC-CK-8Ff" firstAttribute="leading" secondItem="d0U-ig-Vsi" secondAttribute="leading" id="TA8-xY-uHk"/>
                                     <constraint firstAttribute="trailing" secondItem="43N-aJ-4LO" secondAttribute="trailing" id="aY1-3C-0yc"/>
-                                    <constraint firstAttribute="trailing" secondItem="HXl-OI-nBS" secondAttribute="trailing" id="b9x-lp-7Hz"/>
                                     <constraint firstItem="eFU-Eg-Ciy" firstAttribute="top" secondItem="43N-aJ-4LO" secondAttribute="bottom" id="jKD-Fv-sNV"/>
-                                    <constraint firstItem="HXl-OI-nBS" firstAttribute="top" secondItem="eFU-Eg-Ciy" secondAttribute="bottom" constant="8" id="rY3-4k-ctG"/>
+                                    <constraint firstAttribute="trailing" secondItem="hzC-CK-8Ff" secondAttribute="trailing" id="piG-vm-Co8"/>
                                     <constraint firstItem="eFU-Eg-Ciy" firstAttribute="leading" secondItem="d0U-ig-Vsi" secondAttribute="leading" id="vLC-Va-DXz"/>
                                 </constraints>
                             </view>
@@ -199,9 +203,9 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="activityScreen" destination="pBS-8p-kGs" id="kRL-IG-n8J"/>
-                        <outlet property="displayResultsScrollView" destination="HXl-OI-nBS" id="Joj-9e-fAA"/>
                         <outlet property="fetchDataButton" destination="eFU-Eg-Ciy" id="SFU-0W-FmB"/>
                         <outlet property="loginMainAdminButton" destination="SZ7-ca-1uH" id="DNS-1M-ajn"/>
+                        <outlet property="resultsTableView" destination="hzC-CK-8Ff" id="szv-tT-aTh"/>
                         <outlet property="specificationItemsView" destination="d0U-ig-Vsi" id="wDm-C7-eoC"/>
                         <outlet property="userListPicker" destination="43N-aJ-4LO" id="HV5-Ro-JQ5"/>
                     </connections>
@@ -307,6 +311,37 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="8.8000000000000007" y="62.518740629685162"/>
+        </scene>
+        <!--Display Results Screen View Controller-->
+        <scene sceneID="cxf-7J-jz5">
+            <objects>
+                <viewController storyboardIdentifier="display-results-view-controller" id="lZe-K9-CEg" customClass="RVP_DisplayResultsScreenViewController" customModule="WhiteDragonTestHarness" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="TCc-82-K4t">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MrC-ei-tLi" customClass="RVP_DisplayResultsScrollView" customModule="WhiteDragonTestHarness" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="MrC-ei-tLi" firstAttribute="top" secondItem="wMj-x9-Iol" secondAttribute="top" id="2CS-0f-2nw"/>
+                            <constraint firstItem="MrC-ei-tLi" firstAttribute="bottom" secondItem="wMj-x9-Iol" secondAttribute="bottom" id="9EB-iT-gt2"/>
+                            <constraint firstItem="MrC-ei-tLi" firstAttribute="leading" secondItem="wMj-x9-Iol" secondAttribute="leading" id="U7a-fG-2VU"/>
+                            <constraint firstItem="MrC-ei-tLi" firstAttribute="trailing" secondItem="wMj-x9-Iol" secondAttribute="trailing" id="xVt-KK-34K"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="wMj-x9-Iol"/>
+                    </view>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO"/>
+                    <connections>
+                        <outlet property="resultsScrollView" destination="MrC-ei-tLi" id="S9C-3Q-jOu"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="185-bF-61J" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="924" y="834"/>
         </scene>
     </scenes>
 </document>

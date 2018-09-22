@@ -22,7 +22,7 @@
 import UIKit
 import MapKit
 
-class Test002BasicUserListing: UIViewController, RVP_IOS_SDK_Delegate, UIPickerViewDataSource, UIPickerViewDelegate {
+class Test002BasicUserListing: UIViewController, RVP_IOS_SDK_Delegate, UIPickerViewDataSource, UIPickerViewDelegate, UITableViewDelegate, UITableViewDataSource {
     private let _presets: [(name: String, values: [Int])] = [(name: "MDAdmin", values: [1725]),
                                                              (name: "CEO", values: [1751]),
                                                              (name: "DC Area Admins", values: [1725, 1726, 1727, 1728, 1729, 1730]),
@@ -30,7 +30,7 @@ class Test002BasicUserListing: UIViewController, RVP_IOS_SDK_Delegate, UIPickerV
                                                              (name: "DilbertCo", values: [1745, 1746, 1747, 1748, 1749, 1750, 1751, 1752, 1753, 1754])
                                                             ]
     private let _buttonStrings = ["LOGIN", "LOGOUT"]
-    private var _userList: [RVP_IOS_SDK_User] = []
+    private var _userList: [A_RVP_IOS_SDK_Object] = []
     
     var mySDKTester: WhiteDragonSDKTester?
     @IBOutlet weak var activityScreen: UIView!
@@ -38,7 +38,7 @@ class Test002BasicUserListing: UIViewController, RVP_IOS_SDK_Delegate, UIPickerV
     @IBOutlet weak var userListPicker: UIPickerView!
     @IBOutlet weak var specificationItemsView: UIView!
     @IBOutlet weak var loginMainAdminButton: UIButton!
-    @IBOutlet weak var displayResultsScrollView: RVP_DisplayResultsScrollView!
+    @IBOutlet weak var resultsTableView: UITableView!
     
     /* ################################################################## */
     /**
@@ -96,19 +96,12 @@ class Test002BasicUserListing: UIViewController, RVP_IOS_SDK_Delegate, UIPickerV
     /**
      */
     func clearResults() {
-        self.displayResultsScrollView.subviews.forEach({ $0.removeFromSuperview() })
-        self.displayResultsScrollView.contentView = nil
-        self.displayResultsScrollView.results = []
+        self._userList = []
+        DispatchQueue.main.async {
+            self.resultsTableView.reloadData()
+        }
     }
     
-    /* ################################################################## */
-    /**
-     */
-    func addOneItemToTheResults(_ inItem: A_RVP_IOS_SDK_Object) {
-        self.displayResultsScrollView.results.append(inItem)
-        self.displayResultsScrollView.setNeedsLayout()
-    }
-
     /* ################################################################## */
     /**
      */
@@ -185,16 +178,9 @@ class Test002BasicUserListing: UIViewController, RVP_IOS_SDK_Delegate, UIPickerV
         print("Fetched \(fetchedDataItems.count) Items!")
         #endif
         
-        if let dataItems = fetchedDataItems as? [RVP_IOS_SDK_User] {
-            self._userList.append(contentsOf: dataItems)
-            for item in dataItems {
-                DispatchQueue.main.async {
-                    self.addOneItemToTheResults(item)
-                }
-            }
-        }
-        
+        self._userList.append(contentsOf: fetchedDataItems)
         DispatchQueue.main.async {
+            self.resultsTableView.reloadData()
             self.activityScreen?.isHidden = true
         }
     }
@@ -227,5 +213,79 @@ class Test002BasicUserListing: UIViewController, RVP_IOS_SDK_Delegate, UIPickerV
      */
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return self._presets[row].name
+    }
+
+    /* ################################################################## */
+    /**
+     */
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self._userList.count
+    }
+    
+    /* ################################################################## */
+    /**
+     */
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        var ret: UITableViewCell!   // If we don't have anything, then this will cause the method to crash; which is what we want. It shouldn't be called if we have nothing.
+        
+        if 0 < self._userList.count, indexPath.row < self._userList.count {
+            let rowObject = self._userList[indexPath.row]
+            var nameString = String(rowObject.id)
+            if !rowObject.name.isEmpty {
+                nameString = rowObject.name + " (" + nameString + ")"
+            }
+            
+            let topLabel = UILabel()
+            
+            topLabel.text = nameString
+            topLabel.font = UIFont.boldSystemFont(ofSize: 12)
+            topLabel.textAlignment = .center
+            let height: CGFloat = topLabel.oneLineHeight
+            var frame = tableView.bounds
+            frame.size.height = height
+            ret = UITableViewCell(frame: frame)
+            self.addConstraints(thisElement: topLabel, height: height, container: ret)
+        }
+        
+        return ret
+    }
+
+    /* ################################################################## */
+    /**
+     */
+    func addConstraints(thisElement inThisElement: UIView, height inHeight: CGFloat, container inContainerElement: UITableViewCell) {
+        inContainerElement.addSubview(inThisElement)
+        inThisElement.translatesAutoresizingMaskIntoConstraints = false
+        
+        inContainerElement.addConstraints([
+            NSLayoutConstraint(item: inThisElement,
+                               attribute: .top,
+                               relatedBy: .equal,
+                               toItem: inContainerElement,
+                               attribute: .top,
+                               multiplier: 1.0,
+                               constant: 0),
+            NSLayoutConstraint(item: inThisElement,
+                               attribute: .centerX,
+                               relatedBy: .equal,
+                               toItem: inContainerElement,
+                               attribute: .centerX,
+                               multiplier: 1.0,
+                               constant: 0.0),
+            NSLayoutConstraint(item: inThisElement,
+                               attribute: .width,
+                               relatedBy: .equal,
+                               toItem: inContainerElement,
+                               attribute: .width,
+                               multiplier: 1.0,
+                               constant: 0.0),
+            NSLayoutConstraint(item: inThisElement,
+                               attribute: .height,
+                               relatedBy: .equal,
+                               toItem: nil,
+                               attribute: .notAnAttribute,
+                               multiplier: 1.0,
+                               constant: inHeight)
+            ])
     }
 }
