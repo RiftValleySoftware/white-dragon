@@ -100,6 +100,9 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
     /** This is an array of data instances. They are cached here. */
     private var _dataItems: [A_RVP_IOS_SDK_Object] = []
     
+    /** This is an array of login instances. They are cached here. */
+    private var _loginItems: [RVP_IOS_SDK_Login] = []
+    
     /** This is the delegate object. This instance is pretty much useless without a delegate. */
     private weak var _delegate: RVP_IOS_SDK_Delegate?
     
@@ -664,6 +667,122 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
 
     /* ################################################################## */
     /**
+     This fetches objects from the security database server.
+     
+     - parameter inIDString: An Array of Int, with the security database item IDs.
+     */
+    private func _fetchLoginItems(_ inIDString: String ) {
+        var loginParams = self._loginParameters
+        
+        if !loginParams.isEmpty {
+            loginParams = "&" + loginParams
+        }
+        
+        let url = self._server_uri + "/json/people/logins/" + inIDString + "?show_details" + loginParams   // We will be asking for the "full Monty".
+        // The request is a simple GET task, so we can just use a straight-up task for this.
+        if let url_object = URL(string: url) {
+            let fetchTask = self._connectionSession.dataTask(with: url_object) { [unowned self] data, response, error in
+                if let error = error {
+                    self._handleError(error)
+                    return
+                }
+                guard let httpResponse = response as? HTTPURLResponse,
+                    (200...299).contains(httpResponse.statusCode) else {
+                        self._handleHTTPError(response as? HTTPURLResponse ?? nil)
+                        return
+                }
+                
+                if let mimeType = httpResponse.mimeType, mimeType == "application/json", let myData = data {
+                    if let objectArray = self._makeInstance(data: myData) {
+                        self._dataItems.append(contentsOf: objectArray)
+                        self._sortDataItems()
+                        self._sendItemsToDelegate(objectArray)
+                    }
+                } else {
+                    self._handleError(SDK_Data_Errors.invalidData(data))
+                }
+            }
+            
+            fetchTask.resume()
+        } else {
+            self._handleError(SDK_Connection_Errors.invalidServerURI(url))
+        }
+    }
+
+    /* ################################################################## */
+    /**
+     This fetches objects from the security database server.
+     
+     - parameter inIntegerIDs: An Array of Int, with the security database item IDs.
+     */
+    private func _getLoginItems(_ inIntegerIDs: [Int] ) {
+        var fetchIDs: [Int] = []
+        var cachedObjects: [RVP_IOS_SDK_Login] = []
+        
+        // First, we look for cached instances. If we have them, we send them to the delegate.
+        for var id in inIntegerIDs {
+            for dataItem in self._loginItems where dataItem.id == id {
+                cachedObjects.append(dataItem)
+                id = 0
+            }
+            
+            if 0 < id { // We'll need to fetch this one.
+                fetchIDs.append(id)
+            }
+        }
+        
+        if !cachedObjects.isEmpty {
+            self._sendItemsToDelegate(cachedObjects)   // We just send our cached items to the delegate right away.
+        }
+        
+        if !fetchIDs.isEmpty {  // If we didn't find everything we were looking for in the junk drawer, we will be asking the server for the remainder.
+            fetchIDs = fetchIDs.sorted()    // Just because we're anal...
+            
+            // This uses our extension to break the array up. This is to reduce the size of the GET URI.
+            for idArray in fetchIDs.chunk(10) {
+                self._fetchLoginItems((idArray.map(String.init)).joined(separator: ","))
+            }
+        }
+    }
+
+    /* ################################################################## */
+    /**
+     This fetches objects from the security database server.
+     
+     - parameter inLoginIDs: An Array of String, with the login string IDs.
+     */
+    private func _getLoginItems(_ inLoginIDs: [String] ) {
+        var fetchIDs: [String] = []
+        var cachedObjects: [RVP_IOS_SDK_Login] = []
+        
+        // First, we look for cached instances. If we have them, we send them to the delegate.
+        for var id in inLoginIDs {
+            for dataItem in self._loginItems where dataItem.loginID == id {
+                cachedObjects.append(dataItem)
+                id = ""
+            }
+            
+            if !id.isEmpty { // We'll need to fetch this one.
+                fetchIDs.append(id)
+            }
+        }
+        
+        if !cachedObjects.isEmpty {
+            self._sendItemsToDelegate(cachedObjects)   // We just send our cached items to the delegate right away.
+        }
+        
+        if !fetchIDs.isEmpty {  // If we didn't find everything we were looking for in the junk drawer, we will be asking the server for the remainder.
+            fetchIDs = fetchIDs.sorted()    // Just because we're anal...
+            
+            // This uses our extension to break the array up. This is to reduce the size of the GET URI.
+            for idArray in fetchIDs.chunk(10) {
+                self._fetchLoginItems(idArray.joined(separator: ","))
+            }
+        }
+    }
+
+    /* ################################################################## */
+    /**
      This method fetches the plugin array from the server. This is used as a "validity" test.
      A valid server will always return this list, and you don't need to be logged in.
      */
@@ -1159,12 +1278,24 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
     
     /* ################################################################## */
     /**
+     This method will initiate a fetch of user objects, based upon a list of IDs.
+     
      - parameter inUserIntegerID: An Array of Int, with the data database IDs of the user objects Requested.
      */
     public func fetchUsers(_ inUserIntegerIDArray: [Int]) {
         self._getDataItems(inUserIntegerIDArray, plugin: "people")
     }
     
+    /* ################################################################## */
+    /**
+     This method will initiate a fetch of login objects, based upon a list of IDs.
+     
+     - parameter inLoginIntegerID: An Array of Int, with the security database IDs of the login objects Requested.
+     */
+    public func fetchLogins(_ inLoginIntegerIDArray: [Int]) {
+        self._getLoginItems(inLoginIntegerIDArray)
+    }
+
     /* ################################################################## */
     /**
      - parameter inIntegerIDs: An Array of Int, with the data database IDs of the data database objects Requested.
