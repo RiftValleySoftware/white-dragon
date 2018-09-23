@@ -35,6 +35,8 @@ public protocol RVP_IOS_SDK_Delegate: class {
      This is called when a server session (not login) is started or ended.
      If the connection was invalidated, then sessionDisconnectedBecause will also be called after this.
      
+     **NOTE:** This is not guaranteed to be called in the main thread!
+     
      - parameter sdkInstance: This is the SDK instance making the call.
      - parameter sessionConnectionIsValid: A Bool, true, if the SDK is currently in a valid session with a server.
      */
@@ -45,6 +47,8 @@ public protocol RVP_IOS_SDK_Delegate: class {
      This is called when the server has completed its login sequence, and all is considered OK.
      The server should not be considered "usable" until after this method has been called with true.
      
+     **NOTE:** This is not guaranteed to be called in the main thread!
+
      - parameter sdkInstance: This is the SDK instance making the call.
      - parameter liginValid: A Bool, true, if the SDK is currently logged in.
      */
@@ -54,6 +58,8 @@ public protocol RVP_IOS_SDK_Delegate: class {
     /**
      This is called when the SDK instance disconnects from the server.
      
+     **NOTE:** This is not guaranteed to be called in the main thread!
+
      - parameter sdkInstance: This is the SDK instance making the call.
      - parameter sessionDisconnectedBecause: The reason for the disconnection.
      */
@@ -63,6 +69,8 @@ public protocol RVP_IOS_SDK_Delegate: class {
     /**
      This is called when there is an error in the SDK instance.
      
+     **NOTE:** This is not guaranteed to be called in the main thread!
+
      - parameter sdkInstance: This is the SDK instance making the call.
      - parameter sessionError: The error in question.
      */
@@ -72,6 +80,8 @@ public protocol RVP_IOS_SDK_Delegate: class {
     /**
      This is called with one or more data items. Each item is a single object.
      
+     **NOTE:** This is not guaranteed to be called in the main thread!
+
      - parameter sdkInstance: This is the SDK instance making the call.
      - parameter fetchedDataItems: An array of subclasses of A_RVP_IOS_SDK_Object.
      */
@@ -82,7 +92,7 @@ public protocol RVP_IOS_SDK_Delegate: class {
 // MARK: - Main Library Interface Class -
 /* ###################################################################################################################################### */
 /**
- This class represents the public interface to the White Dragon Greate Rift Valley Platform BAOBAB Server iOS SDK framework.
+ This class represents the public interface to the White Dragon Great Rift Valley Platform BAOBAB Server iOS SDK framework.
  
  The SDK is a Swift-only shared framework for use by Swift applications, targeting iOS 10 or above.
  

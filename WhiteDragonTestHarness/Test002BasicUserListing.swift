@@ -85,7 +85,7 @@ class Test002BasicUserListing: UIViewController, RVP_IOS_SDK_Delegate, UIPickerV
     /**
      */
     override func viewWillDisappear(_ animated: Bool) {
-        if let tester = self.mySDKTester {
+        if self.isMovingFromParent, let tester = self.mySDKTester {
             if tester.isLoggedIn {
                 tester.logout()
             }
@@ -176,6 +176,7 @@ class Test002BasicUserListing: UIViewController, RVP_IOS_SDK_Delegate, UIPickerV
         if let destination = segue.destination as? RVP_DisplayResultsScreenViewController {
             if let node = sender as? A_RVP_IOS_SDK_Object {
                 destination.resultsArray = [node]
+                destination.sdkInstance = self.mySDKTester?.sdkInstance
             }
         }
         super.prepare(for: segue, sender: nil)
@@ -243,11 +244,33 @@ class Test002BasicUserListing: UIViewController, RVP_IOS_SDK_Delegate, UIPickerV
         print("Fetched \(fetchedDataItems.count) Items!")
         #endif
         
-        self._userList.append(contentsOf: fetchedDataItems)
+        if self._userList.isEmpty {
+            self._userList.append(contentsOf: fetchedDataItems)
+        } else {
+            var toBeAdded: [A_RVP_IOS_SDK_Object] = []
+            
+            for item in fetchedDataItems {
+                if !self._userList.contains { [item] element in
+                    return element.id == item.id && type(of: element) == type(of: item)
+                    } {
+                        toBeAdded.append(item)
+                }
+            }
+            
+            if !toBeAdded.isEmpty {
+                self._userList.append(contentsOf: toBeAdded)
+            }
+        }
+        
         self.sortList()
         
         DispatchQueue.main.async {
             self.resultsTableView.reloadData()
+            
+            if let topper = getTopmostViewController() as? RVP_DisplayResultsScreenViewController {
+                topper.addNewItems(fetchedDataItems)
+            }
+            
             self.activityScreen?.isHidden = true
         }
     }

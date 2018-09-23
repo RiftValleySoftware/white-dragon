@@ -22,7 +22,65 @@
 import UIKit
 import MapKit
 
+@IBDesignable
+class RVP_LoginButton: UIButton {
+    @IBInspectable var loginID: Int = 0
+    var sdkInstance: RVP_IOS_SDK!
+    
+    init(_ inLoginID: Int) {
+        self.loginID = inLoginID
+        super.init(frame: CGRect.zero)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        self.subviews.forEach({ $0.removeFromSuperview() })
+        let innerLabel = UILabel()
+        innerLabel.text = "Login ID: \(self.loginID)"
+        self.addSubview(innerLabel)
+        innerLabel.translatesAutoresizingMaskIntoConstraints = false
+        innerLabel.textAlignment = .center
+
+        self.addConstraints([
+            NSLayoutConstraint(item: innerLabel,
+                               attribute: .top,
+                               relatedBy: .equal,
+                               toItem: self,
+                               attribute: .top,
+                               multiplier: 1.0,
+                               constant: 0),
+            NSLayoutConstraint(item: innerLabel,
+                               attribute: .bottom,
+                               relatedBy: .equal,
+                               toItem: self,
+                               attribute: .bottom,
+                               multiplier: 1.0,
+                               constant: 0),
+            NSLayoutConstraint(item: innerLabel,
+                               attribute: .centerX,
+                               relatedBy: .equal,
+                               toItem: self,
+                               attribute: .centerX,
+                               multiplier: 1.0,
+                               constant: 0.0),
+            NSLayoutConstraint(item: innerLabel,
+                               attribute: .width,
+                               relatedBy: .equal,
+                               toItem: self,
+                               attribute: .width,
+                               multiplier: 1.0,
+                               constant: 0.0)])
+    }
+}
+
+@IBDesignable
 class RVP_DisplayElementView: UIView {
+    var myController: RVP_DisplayResultsScreenViewController!
+
     var displayedElement: A_RVP_IOS_SDK_Object? {
         didSet {
             self.establishSubviews()
@@ -42,9 +100,11 @@ class RVP_DisplayElementView: UIView {
             if let token = displayedElement.readToken {
                 self.addItemLabel(label: "Read Token", value: String(token))
             }
+            
             if let token = displayedElement.writeToken {
                 self.addItemLabel(label: "Write Token", value: String(token))
             }
+            
             if let lastAccess = displayedElement.lastAccess {
                 let dateFormatter = DateFormatter()
                 dateFormatter.dateStyle = .short
@@ -55,6 +115,12 @@ class RVP_DisplayElementView: UIView {
             
             let dictionary = displayedElement.asDictionary
             self.displayitemDictionary(dictionary)
+            
+            if let userItem = displayedElement as? RVP_IOS_SDK_User {
+                if 0 < userItem.loginID {
+                    self.addLoginButton(userItem.loginID)
+                }
+            }
             
             if let children = dictionary["childrenIDs"] as? [String: [Int]] {
                 self.addChildrenLabels(children)
@@ -83,7 +149,7 @@ class RVP_DisplayElementView: UIView {
             if let value = tup.value {
                 let key = tup.key
                 
-                if !(["id", "name", "isDirty", "isWriteable", "readToken", "writeToken", "lastAccess", "children"]).contains(key) {
+                if !(["id", "name", "isDirty", "isWriteable", "readToken", "writeToken", "lastAccess", "children", "associated_login_id"]).contains(key) {
                     if let strVal = value as? String {
                         self.addItemLabel(label: key, value: strVal)
                     } else if let boolVal = value as? Bool {
@@ -124,6 +190,21 @@ class RVP_DisplayElementView: UIView {
         self.applyConstraints(thisElement: topLabel, height: topLabel.oneLineHeight)
     }
     
+    /* ################################################################## */
+    /**
+     */
+    func addLoginButton(_ inID: Int) {
+        let nameString = "Login Object: " + String(inID)
+        
+        let calloutButton = RVP_LoginButton(inID)
+        calloutButton.sdkInstance = self.myController.sdkInstance
+        calloutButton.setTitle(nameString, for: .normal)
+        
+        calloutButton.addTarget(self.myController, action: Selector(("fetchLoginForUser:")), for: .touchUpInside)
+        
+        self.applyConstraints(thisElement: calloutButton, height: 30)
+    }
+
     /* ################################################################## */
     /**
      */

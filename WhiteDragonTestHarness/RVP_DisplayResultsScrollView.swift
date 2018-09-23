@@ -23,13 +23,17 @@ import UIKit
 
 @IBDesignable
 class RVP_DisplayResultsScrollView: UIScrollView {
+    @IBOutlet var myViewController: RVP_DisplayResultsScreenViewController!
+
     var contentView: UIView!
+    var sdkInstance: RVP_IOS_SDK!
+    
     var results: [A_RVP_IOS_SDK_Object] = [] {
         didSet {
             self.establishSubviews()
         }
     }
-    
+
     /* ################################################################## */
     /**
      */
@@ -77,6 +81,7 @@ class RVP_DisplayResultsScrollView: UIScrollView {
         
         for item in self.results {
             let view = RVP_DisplayElementView()
+            view.myController = self.myViewController
             view.displayedElement = item
             self.contentView.addSubview(view)
             view.translatesAutoresizingMaskIntoConstraints = false

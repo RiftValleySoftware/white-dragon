@@ -36,6 +36,10 @@ public class RVP_IOS_SDK_User: A_RVP_IOS_SDK_Data_Object {
     override public var asDictionary: [String: Any?] {
         var ret = super.asDictionary
         
+        if 0 < self.loginID {
+            ret["loginID"] = self.loginID
+        }
+        
         if let surname = self.surname {
             ret["surname"] = surname
         }
@@ -149,6 +153,20 @@ public class RVP_IOS_SDK_User: A_RVP_IOS_SDK_Data_Object {
     
     /* ################################################################## */
     /**
+     - returns the associated login ID (if any). 0, if no associated login.
+     */
+    public var loginID: Int {
+        var ret: Int = 0
+        
+        if let id = self._myData["associated_login_id"] as? Int {
+            ret = id
+        }
+        
+        return ret
+    }
+
+    /* ################################################################## */
+    /**
      This is the default initializer.
      
      - parameter sdkInstance: REQUIRED (Can be nil) This is the SDK instance that "owns" this object. It may be nil for history instances.
@@ -156,5 +174,24 @@ public class RVP_IOS_SDK_User: A_RVP_IOS_SDK_Data_Object {
      */
     public override init(sdkInstance inSDKInstance: RVP_IOS_SDK?, objectInfoData inData: [String: Any]) {
         super.init(sdkInstance: inSDKInstance, objectInfoData: inData)
+    }
+    
+    /* ################################################################## */
+    /**
+     This method tells the SDK to fetch the associated login object.
+     
+     Nothing happens, if this user does not have an associated login.
+     
+     - returns: true, if we have an instance, and have requested it be fetched. False, if we have no instance.
+     */
+    public func fetchLoginInstance() -> Bool {
+        var ret = false
+        
+        if 0 < self.loginID {
+            self._sdkInstance?.fetchLogins([self.loginID])
+            ret = true
+        }
+        
+        return ret
     }
 }
