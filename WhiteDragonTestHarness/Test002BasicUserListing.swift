@@ -95,13 +95,20 @@ class Test002BasicUserListing: UIViewController, RVP_IOS_SDK_Delegate, UIPickerV
     /* ################################################################## */
     /**
      */
+    func sortList() {
+        self._userList = self._userList.sorted(by: { $0.id < $1.id })
+    }
+    
+    /* ################################################################## */
+    /**
+     */
     func clearResults() {
         self._userList = []
         DispatchQueue.main.async {
             self.resultsTableView.reloadData()
         }
     }
-    
+
     /* ################################################################## */
     /**
      */
@@ -130,7 +137,7 @@ class Test002BasicUserListing: UIViewController, RVP_IOS_SDK_Delegate, UIPickerV
                                toItem: inContainerElement,
                                attribute: .top,
                                multiplier: 1.0,
-                               constant: 0),
+                               constant: 3),
             NSLayoutConstraint(item: inThisElement,
                                attribute: .centerX,
                                relatedBy: .equal,
@@ -237,6 +244,7 @@ class Test002BasicUserListing: UIViewController, RVP_IOS_SDK_Delegate, UIPickerV
         #endif
         
         self._userList.append(contentsOf: fetchedDataItems)
+        self.sortList()
         
         DispatchQueue.main.async {
             self.resultsTableView.reloadData()
@@ -297,12 +305,13 @@ class Test002BasicUserListing: UIViewController, RVP_IOS_SDK_Delegate, UIPickerV
             let topLabel = UILabel()
             
             topLabel.text = nameString
-            topLabel.font = UIFont.boldSystemFont(ofSize: 16)
+            topLabel.font = UIFont.boldSystemFont(ofSize: 20)
             topLabel.textAlignment = .center
             let height: CGFloat = topLabel.oneLineHeight
             var frame = tableView.bounds
             frame.size.height = height
             ret = UITableViewCell(frame: frame)
+            ret.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: ((0 == indexPath.row % 2) ? 0 : 0.05))
             self.applyConstraints(thisElement: topLabel, height: height, container: ret)
         }
         

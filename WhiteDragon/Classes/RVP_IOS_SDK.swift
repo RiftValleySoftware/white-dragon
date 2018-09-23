@@ -100,9 +100,6 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
     /** This is an array of data instances. They are cached here. */
     private var _dataItems: [A_RVP_IOS_SDK_Object] = []
     
-    /** This is an array of login instances. They are cached here. */
-    private var _loginItems: [RVP_IOS_SDK_Login] = []
-    
     /** This is the delegate object. This instance is pretty much useless without a delegate. */
     private weak var _delegate: RVP_IOS_SDK_Delegate?
     
@@ -181,7 +178,7 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
      
      - returns: The instance, if found. nil, otherwise.
      */
-    private func _findDataItem(compInstance inCompInstance: A_RVP_IOS_SDK_Object) -> A_RVP_IOS_SDK_Object? {
+    private func _findDatabaseItem(compInstance inCompInstance: A_RVP_IOS_SDK_Object) -> A_RVP_IOS_SDK_Object? {
         if !self.isEmpty {  // Nothing to do, if we have no items.
             for item in self where item.id == inCompInstance.id {
                 // OK. The ID is unique in each database, so we check to see if an existing object and the given object are in the same database.
@@ -193,42 +190,7 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
         
         return nil
     }
-    
-    /* ################################################################## */
-    /**
-     This is a factory method for creating instances of data items.
-     
-     The goal of this function is to parse the returned data stream (JSON objects), and return one or more instances of
-     concrete A_RVP_IOS_SDK_Object subclasses.
-     
-     The standard plugins all return data that can be handled with a common hierarchy, so we sort out the data,
-     and instantiate the appropriate subclass for the data.
-     
-     I wanted to keep all the parsing in a few big, ugly methods in one file, instead of delegating it, because I find that it is
-     difficult to properly debug heavily-nested delegated parsers.
-     
-     - parameter data: The Data item returned from the server.
-     
-     - returns: An optional array of new instances of concrete subclasses of A_RVP_IOS_SDK_Object.
-     */
-    private func _makeInstance(data inData: Data) -> [A_RVP_IOS_SDK_Object]? {
-        var ret: [A_RVP_IOS_SDK_Object] = []
-        
-        do {    // Extract a usable object from the given JSON data.
-            let temp = try JSONSerialization.jsonObject(with: inData, options: [])
-            
-            if let main_object = temp as? NSDictionary {
-                ret = self._makeInstancesFromDictionary(main_object)
-            } else if let main_object = temp as? NSArray {
-                ret = self._makeInstancesFromArray(main_object)
-            }
-        } catch {   // We end up here if the response is not a proper JSON object.
-            self._handleError(SDK_Data_Errors.invalidData(inData))
-        }
 
-        return ret
-    }
-    
     /* ################################################################## */
     /**
      This is a factory method for creating baseline objects.
@@ -278,6 +240,41 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
         } catch {   // We end up here if the response is not a proper JSON object.
             self._handleError(SDK_Data_Errors.invalidData(inData))
         }
+        
+        return ret
+    }
+
+    /* ################################################################## */
+    /**
+     This is a factory method for creating instances of data items.
+     
+     The goal of this function is to parse the returned data stream (JSON objects), and return one or more instances of
+     concrete A_RVP_IOS_SDK_Object subclasses.
+     
+     The standard plugins all return data that can be handled with a common hierarchy, so we sort out the data,
+     and instantiate the appropriate subclass for the data.
+     
+     I wanted to keep all the parsing in a few big, ugly methods in one file, instead of delegating it, because I find that it is
+     difficult to properly debug heavily-nested delegated parsers.
+     
+     - parameter data: The Data item returned from the server.
+     
+     - returns: An optional array of new instances of concrete subclasses of A_RVP_IOS_SDK_Object.
+     */
+    private func _makeInstance(data inData: Data) -> [A_RVP_IOS_SDK_Object]? {
+        var ret: [A_RVP_IOS_SDK_Object] = []
+        
+        do {    // Extract a usable object from the given JSON data.
+            let temp = try JSONSerialization.jsonObject(with: inData, options: [])
+            
+            if let main_object = temp as? NSDictionary {
+                ret = self._makeInstancesFromDictionary(main_object)
+            } else if let main_object = temp as? NSArray {
+                ret = self._makeInstancesFromArray(main_object)
+            }
+        } catch {   // We end up here if the response is not a proper JSON object.
+            self._handleError(SDK_Data_Errors.invalidData(inData))
+        }
 
         return ret
     }
@@ -323,7 +320,7 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
         // Assuming we got something, we compare the temporary allocation with what we have in our cache.
         if nil != instance {
             // If we already have this object, we return our cached instance, instead of the one we just allocated.
-            if let existingInstance = self._findDataItem(compInstance: instance!) {
+            if let existingInstance = self._findDatabaseItem(compInstance: instance!) {
                 ret = existingInstance
             } else {    // Otherwise, we add our new instance to the cache, sort the cache, and return the instance.
                 self._dataItems.append(instance!)
@@ -488,7 +485,7 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
      When we get the information, we parse it, create a new instance of the handler class
      and cache that instance.
      */
-    private func _getMyLoginInfo() {
+    private func _fetchMyLoginInfo() {
         if self.isLoggedIn {
             // The my info request is a simple GET task, so we can just use a straight-up task for this.
             let url = self._server_uri + "/json/people/logins/my_info?" + self._loginParameters
@@ -509,7 +506,7 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
                             if 1 == object.count {
                                 self._loginInfo = object[0]
                                 // Assuming all went well, we ask for any user information.
-                                self._getMyUserInfo()
+                                self._fetchMyUserInfo()
                             } else {
                                 self._handleError(SDK_Data_Errors.invalidData(data))
                             }
@@ -534,7 +531,7 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
      
      When we get the information, we parse it, create a new instance of the handler class, and cache that instance.
      */
-    private func _getMyUserInfo() {
+    private func _fetchMyUserInfo() {
         if self.isLoggedIn {
             let url = self._server_uri + "/json/people/people/my_info?" + self._loginParameters
             // The my info request is a simple GET task, so we can just use a straight-up task for this.
@@ -551,7 +548,7 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
                     }
                     if 400 == httpResponse.statusCode { // If we get nothing but a 400, we assume there is no user info, and go straight to completion.
                         if self._plugins.isEmpty {
-                            self._getBaselinePlugins()
+                            self._fetchBaselinePlugins()
                         } else {
                             self._reportSessionValidity()   // We report whether or not this session is valid.
                             self._callDelegateLoginValid(self.isLoggedIn)   // OK. We're done. Tell the delegate whether or not we are logged in.
@@ -561,14 +558,14 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
                             if 1 == object.count {
                                 self._userInfo = object[0]
                                 if self._plugins.isEmpty {
-                                    self._getBaselinePlugins()
+                                    self._fetchBaselinePlugins()
                                 } else {
                                     self._reportSessionValidity()   // We report whether or not this session is valid.
                                     self._callDelegateLoginValid(self.isLoggedIn)   // OK. We're done. Tell the delegate whether or not we are logged in.
                                 }
                             } else {
                                 if self._plugins.isEmpty {
-                                    self._getBaselinePlugins()
+                                    self._fetchBaselinePlugins()
                                 } else {
                                     self._reportSessionValidity()   // We report whether or not this session is valid.
                                     self._callDelegateLoginValid(self.isLoggedIn)   // OK. We're done. Tell the delegate whether or not we are logged in.
@@ -593,7 +590,7 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
      
      - parameter inIntegerIDs: An Array of Int, with the data database item IDs.
      */
-    private func _getDataItems(_ inIntegerIDs: [Int], plugin inPlugin: String ) {
+    private func _fetchDataItems(_ inIntegerIDs: [Int], plugin inPlugin: String ) {
         var fetchIDs: [Int] = []
         var cachedObjects: [A_RVP_IOS_SDK_Data_Object] = []
         var plugin = inPlugin
@@ -667,11 +664,12 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
 
     /* ################################################################## */
     /**
-     This fetches objects from the security database server.
+     This fetches objects from the security database server (low-level fetch).
+     This method does the actual server query.
      
      - parameter inIDString: An Array of Int, with the security database item IDs.
      */
-    private func _fetchLoginItems(_ inIDString: String ) {
+    private func _fetchLoginItemsFromServer(_ inIDString: String ) {
         var loginParams = self._loginParameters
         
         if !loginParams.isEmpty {
@@ -715,13 +713,13 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
      
      - parameter inIntegerIDs: An Array of Int, with the security database item IDs.
      */
-    private func _getLoginItems(_ inIntegerIDs: [Int] ) {
+    private func _fetchLoginItems(_ inIntegerIDs: [Int] ) {
         var fetchIDs: [Int] = []
-        var cachedObjects: [RVP_IOS_SDK_Login] = []
+        var cachedObjects: [A_RVP_IOS_SDK_Object] = []
         
         // First, we look for cached instances. If we have them, we send them to the delegate.
         for var id in inIntegerIDs {
-            for dataItem in self._loginItems where dataItem.id == id {
+            for dataItem in self._dataItems where dataItem is A_RVP_IOS_SDK_Security_Object && dataItem.id == id {
                 cachedObjects.append(dataItem)
                 id = 0
             }
@@ -740,26 +738,28 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
             
             // This uses our extension to break the array up. This is to reduce the size of the GET URI.
             for idArray in fetchIDs.chunk(10) {
-                self._fetchLoginItems((idArray.map(String.init)).joined(separator: ","))
+                self._fetchLoginItemsFromServer((idArray.map(String.init)).joined(separator: ","))
             }
         }
     }
-
+    
     /* ################################################################## */
     /**
      This fetches objects from the security database server.
      
      - parameter inLoginIDs: An Array of String, with the login string IDs.
      */
-    private func _getLoginItems(_ inLoginIDs: [String] ) {
+    private func _fetchLoginItems(_ inLoginIDs: [String] ) {
         var fetchIDs: [String] = []
-        var cachedObjects: [RVP_IOS_SDK_Login] = []
-        
+        var cachedObjects: [A_RVP_IOS_SDK_Object] = []
+
         // First, we look for cached instances. If we have them, we send them to the delegate.
         for var id in inLoginIDs {
-            for dataItem in self._loginItems where dataItem.loginID == id {
-                cachedObjects.append(dataItem)
-                id = ""
+            for dataItem in self._dataItems where dataItem is A_RVP_IOS_SDK_Security_Object {
+                if let secItem = dataItem as? A_RVP_IOS_SDK_Security_Object, secItem.loginID == id {
+                    cachedObjects.append(dataItem)
+                    id = ""
+                }
             }
             
             if !id.isEmpty { // We'll need to fetch this one.
@@ -776,7 +776,7 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
             
             // This uses our extension to break the array up. This is to reduce the size of the GET URI.
             for idArray in fetchIDs.chunk(10) {
-                self._fetchLoginItems(idArray.joined(separator: ","))
+                self._fetchLoginItemsFromServer(idArray.joined(separator: ","))
             }
         }
     }
@@ -786,7 +786,7 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
      This method fetches the plugin array from the server. This is used as a "validity" test.
      A valid server will always return this list, and you don't need to be logged in.
      */
-    private func _getBaselinePlugins() {
+    private func _fetchBaselinePlugins() {
         let url = self._server_uri + "/json/baseline"
         // The plugin list is a simple GET task, so we can just use a straight-up task for this.
        if let url_object = URL(string: url) {
@@ -1178,7 +1178,7 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
             self.login(loginID: inLoginId, password: inPassword, timeout: inLoginTimeout)
         } else {    // Otherwise, simply fetch the baseline plugins, which will result in the delegate being called.
             if self._plugins.isEmpty {
-                self._getBaselinePlugins()
+                self._fetchBaselinePlugins()
             } else {
                 self._reportSessionValidity()   // We report whether or not this session is valid.
                 self._callDelegateLoginValid(self.isLoggedIn)   // OK. We're done. Tell the delegate whether or not we are logged in.
@@ -1219,7 +1219,7 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
                         }
                         if let mimeType = httpResponse.mimeType, mimeType == "text/html", let data = data, let apiKey = String(data: data, encoding: .utf8) {
                             self._apiKey = apiKey
-                            self._getMyLoginInfo()
+                            self._fetchMyLoginInfo()
                         } else {
                             self._handleError(SDK_Data_Errors.invalidData(data))
                         }
@@ -1283,7 +1283,7 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
      - parameter inUserIntegerID: An Array of Int, with the data database IDs of the user objects Requested.
      */
     public func fetchUsers(_ inUserIntegerIDArray: [Int]) {
-        self._getDataItems(inUserIntegerIDArray, plugin: "people")
+        self._fetchDataItems(inUserIntegerIDArray, plugin: "people")
     }
     
     /* ################################################################## */
@@ -1293,7 +1293,7 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
      - parameter inLoginIntegerID: An Array of Int, with the security database IDs of the login objects Requested.
      */
     public func fetchLogins(_ inLoginIntegerIDArray: [Int]) {
-        self._getLoginItems(inLoginIntegerIDArray)
+        self._fetchLoginItems(inLoginIntegerIDArray)
     }
 
     /* ################################################################## */
@@ -1302,7 +1302,7 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
      - parameter andPlugin: A String, with the required plugin ("people", "places" or "things").
      */
     public func fetchDataItemsByIDs(_ inIntegerIDs: [Int], andPlugin inPlugin: String ) {
-        self._getDataItems(inIntegerIDs, plugin: inPlugin)
+        self._fetchDataItems(inIntegerIDs, plugin: inPlugin)
     }
 
     /* ################################################################## */
