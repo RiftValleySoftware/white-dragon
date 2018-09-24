@@ -27,15 +27,16 @@ import MapKit
 /* ###################################################################################################################################### */
 /**
  */
-class Test001SimpleLogin: UIViewController, RVP_IOS_SDK_Delegate, UIPickerViewDataSource, UIPickerViewDelegate {
+class Test001SimpleLogin: UIViewController, RVP_IOS_SDK_Delegate, UIPickerViewDataSource, UIPickerViewDelegate, UITableViewDelegate, UITableViewDataSource {
     private let _logins: [String] = ["admin", "MDAdmin", "VAAdmin", "DCAdmin", "WVAdmin", "DEAdmin", "MainAdmin", "Dilbert", "Wally", "Ted", "Alice", "Tina", "PHB", "MeLeet"]
+    private var _objects: [A_RVP_IOS_SDK_Object] = []
     
     var mySDKTester: WhiteDragonSDKTester?
     @IBOutlet weak var loginButton: LucyButton!
     @IBOutlet weak var activityScreen: UIView!
     @IBOutlet weak var selectionDisplayView: UIView!
     @IBOutlet weak var loginPickerView: UIPickerView!
-    @IBOutlet weak var displayResultsScrollView: RVP_DisplayResultsScrollView!
+    @IBOutlet weak var displayTableView: UITableView!
     
     /* ################################################################## */
     /**
@@ -43,6 +44,7 @@ class Test001SimpleLogin: UIViewController, RVP_IOS_SDK_Delegate, UIPickerViewDa
     override func viewDidLoad() {
         super.viewDidLoad()
         self.mySDKTester =  WhiteDragonSDKTester(dbPrefix: "sdk_1", delegate: self, session: TestHarnessAppDelegate.testHarnessDelegate.connectionSession)
+        self.logout()
     }
     
     /* ################################################################## */
@@ -50,18 +52,30 @@ class Test001SimpleLogin: UIViewController, RVP_IOS_SDK_Delegate, UIPickerViewDa
      */
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.navigationBar.isHidden = false
-        self.clearResults()
     }
     
     /* ################################################################## */
     /**
      */
     override func viewWillDisappear(_ animated: Bool) {
-        if let tester = self.mySDKTester {
+        if self.isMovingFromParent, let tester = self.mySDKTester {
             if tester.isLoggedIn {
                 tester.logout()
             }
         }
+    }
+    
+    /* ################################################################## */
+    /**
+     */
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let destination = segue.destination as? RVP_DisplayResultsScreenViewController {
+            if let node = sender as? A_RVP_IOS_SDK_Object {
+                destination.resultsArray = [node]
+                destination.sdkInstance = self.mySDKTester?.sdkInstance
+            }
+        }
+        super.prepare(for: segue, sender: nil)
     }
 
     /* ################################################################## */
@@ -84,9 +98,14 @@ class Test001SimpleLogin: UIViewController, RVP_IOS_SDK_Delegate, UIPickerViewDa
     /**
      */
     func logout() {
-        if let sdkTester = self.mySDKTester, let sdkInstance = sdkTester.sdkInstance {
-            self.clearResults()
+        self.clearResults()
+        if let sdkTester = self.mySDKTester, let sdkInstance = sdkTester.sdkInstance, sdkInstance.isLoggedIn {
             sdkInstance.logout()
+        } else {
+            self.activityScreen.isHidden = true
+            self.displayTableView.isHidden = true
+            self.loginPickerView.isHidden = false
+            self.loginButton.theDoctorIsIn = false
         }
     }
     
@@ -94,11 +113,56 @@ class Test001SimpleLogin: UIViewController, RVP_IOS_SDK_Delegate, UIPickerViewDa
     /**
      */
     func clearResults() {
-        self.displayResultsScrollView.subviews.forEach({ $0.removeFromSuperview() })
-        self.displayResultsScrollView.contentView = nil
-        self.displayResultsScrollView.results = []
+        self._objects = []
+        self.displayTableView.reloadData()
+    }
+    
+    /* ################################################################## */
+    /**
+     */
+    private func _showLoginDetails(_ inLoginObject: A_RVP_IOS_SDK_Object) {
+        self.performSegue(withIdentifier: "show-object-details", sender: inLoginObject)
     }
 
+    /* ################################################################## */
+    /**
+     */
+    func applyConstraints(thisElement inThisElement: UIView, height inHeight: CGFloat, container inContainerElement: UITableViewCell) {
+        inContainerElement.addSubview(inThisElement)
+        inThisElement.translatesAutoresizingMaskIntoConstraints = false
+        
+        inContainerElement.addConstraints([
+            NSLayoutConstraint(item: inThisElement,
+                               attribute: .top,
+                               relatedBy: .equal,
+                               toItem: inContainerElement,
+                               attribute: .top,
+                               multiplier: 1.0,
+                               constant: 3),
+            NSLayoutConstraint(item: inThisElement,
+                               attribute: .centerX,
+                               relatedBy: .equal,
+                               toItem: inContainerElement,
+                               attribute: .centerX,
+                               multiplier: 1.0,
+                               constant: 0.0),
+            NSLayoutConstraint(item: inThisElement,
+                               attribute: .width,
+                               relatedBy: .equal,
+                               toItem: inContainerElement,
+                               attribute: .width,
+                               multiplier: 1.0,
+                               constant: 0.0),
+            NSLayoutConstraint(item: inThisElement,
+                               attribute: .height,
+                               relatedBy: .equal,
+                               toItem: nil,
+                               attribute: .notAnAttribute,
+                               multiplier: 1.0,
+                               constant: inHeight)
+            ])
+    }
+    
     /* ################################################################## */
     /**
      */
@@ -119,12 +183,11 @@ class Test001SimpleLogin: UIViewController, RVP_IOS_SDK_Delegate, UIPickerViewDa
                 
                 DispatchQueue.main.async {
                     if let loginInfo = inSDKInstance.myLoginInfo {
-                        self.displayResultsScrollView.results.append(loginInfo)
+                        self.sdkInstance(inSDKInstance, fetchedDataItems: [loginInfo])
                     }
                     if let userInfo = inSDKInstance.myUserInfo {
-                        self.displayResultsScrollView.results.append(userInfo)
+                        self.sdkInstance(inSDKInstance, fetchedDataItems: [userInfo])
                     }
-                    self.displayResultsScrollView.setNeedsLayout()
                 }
             } else {
                 print("ERROR!")
@@ -135,7 +198,7 @@ class Test001SimpleLogin: UIViewController, RVP_IOS_SDK_Delegate, UIPickerViewDa
         #endif
         DispatchQueue.main.async {
             self.activityScreen.isHidden = true
-            self.displayResultsScrollView.isHidden = !inLoginValid
+            self.displayTableView.isHidden = !inLoginValid
             self.loginPickerView.isHidden = inLoginValid
             self.loginButton.theDoctorIsIn = inLoginValid
         }
@@ -172,8 +235,38 @@ class Test001SimpleLogin: UIViewController, RVP_IOS_SDK_Delegate, UIPickerViewDa
         #if DEBUG
         print("Fetched \(fetchedDataItems.count) Items!")
         #endif
+        
+        if self._objects.isEmpty {
+            self._objects.append(contentsOf: fetchedDataItems)
+        } else {
+            var toBeAdded: [A_RVP_IOS_SDK_Object] = []
+            
+            for item in fetchedDataItems {
+                if !self._objects.contains { [item] element in
+                    return element.id == item.id && type(of: element) == type(of: item)
+                    } {
+                    toBeAdded.append(item)
+                }
+            }
+            
+            if !toBeAdded.isEmpty {
+                self._objects.append(contentsOf: toBeAdded)
+            }
+        }
+        
+        self._objects = self._objects.sorted(by: { $0.id < $1.id })
+
+        DispatchQueue.main.async {
+            self.displayTableView.reloadData()
+            
+            if let topper = getTopmostViewController() as? RVP_DisplayResultsScreenViewController {
+                topper.addNewItems(fetchedDataItems)
+            }
+            
+            self.activityScreen?.isHidden = true
+        }
     }
-    
+
     /* ################################################################## */
     /**
      */
@@ -193,5 +286,52 @@ class Test001SimpleLogin: UIViewController, RVP_IOS_SDK_Delegate, UIPickerViewDa
      */
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return self._logins[row]
+    }
+
+    /* ################################################################## */
+    /**
+     */
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self._objects.count
+    }
+    
+    /* ################################################################## */
+    /**
+     */
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        var ret: UITableViewCell!   // If we don't have anything, then this will cause the method to crash; which is what we want. It shouldn't be called if we have nothing.
+        
+        if 0 < self._objects.count, indexPath.row < self._objects.count {
+            let rowObject = self._objects[indexPath.row]
+            var nameString = String(rowObject.id)
+            if !rowObject.name.isEmpty {
+                nameString = rowObject.name + " (" + nameString + ")"
+            }
+            
+            let topLabel = UILabel()
+            
+            topLabel.text = nameString
+            topLabel.font = UIFont.boldSystemFont(ofSize: 20)
+            topLabel.textAlignment = .center
+            let height: CGFloat = topLabel.oneLineHeight
+            var frame = tableView.bounds
+            frame.size.height = height
+            ret = UITableViewCell(frame: frame)
+            ret.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: ((0 == indexPath.row % 2) ? 0 : 0.05))
+            self.applyConstraints(thisElement: topLabel, height: height, container: ret)
+        }
+        
+        return ret
+    }
+    
+    /* ################################################################## */
+    /**
+     */
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if 0 < self._objects.count, indexPath.row < self._objects.count {
+            tableView.deselectRow(at: indexPath, animated: true)
+            let rowObject = self._objects[indexPath.row]
+            self._showLoginDetails(rowObject)
+        }
     }
 }

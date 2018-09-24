@@ -43,6 +43,13 @@ class Test002BasicUserListing: UIViewController, RVP_IOS_SDK_Delegate, UIPickerV
     /* ################################################################## */
     /**
      */
+    private func _showUserDetails(_ inUserObject: A_RVP_IOS_SDK_Object) {
+        self.performSegue(withIdentifier: "show-user-details", sender: inUserObject)
+    }
+
+    /* ################################################################## */
+    /**
+     */
     @IBAction func loginMainAdminButtonPressed(_ sender: UIButton) {
         if let tester = self.mySDKTester {
             if let sdkInstance = tester.sdkInstance {
@@ -160,13 +167,6 @@ class Test002BasicUserListing: UIViewController, RVP_IOS_SDK_Delegate, UIPickerV
                                multiplier: 1.0,
                                constant: inHeight)
             ])
-    }
-    
-    /* ################################################################## */
-    /**
-     */
-    private func _showUserDetails(_ inUserObject: A_RVP_IOS_SDK_Object) {
-        self.performSegue(withIdentifier: "show-user-details", sender: inUserObject)
     }
     
     /* ################################################################## */

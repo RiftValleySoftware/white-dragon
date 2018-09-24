@@ -24,7 +24,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uwi-b1-HOR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1450" y="64"/>
+            <point key="canvasLocation" x="-1586" y="439"/>
         </scene>
         <!--Dispatcher List Controller-->
         <scene sceneID="3Sz-mZ-QcH">
@@ -96,7 +96,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dgS-hT-jMa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-724" y="62.518740629685162"/>
+            <point key="canvasLocation" x="-774" y="439"/>
         </scene>
         <!--Test002 Basic User Listing-->
         <scene sceneID="dCD-om-ydb">
@@ -249,20 +249,24 @@
                                             <outlet property="delegate" destination="BYZ-38-t0r" id="PwA-FJ-Foj"/>
                                         </connections>
                                     </pickerView>
-                                    <scrollView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IuV-1W-gNc" customClass="RVP_DisplayResultsScrollView" customModule="WhiteDragonTestHarness" customModuleProvider="target">
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="30" estimatedRowHeight="30" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="FXX-AA-DIC">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="472"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    </scrollView>
+                                        <connections>
+                                            <outlet property="dataSource" destination="BYZ-38-t0r" id="eHt-dn-6sq"/>
+                                            <outlet property="delegate" destination="BYZ-38-t0r" id="A99-gE-GPN"/>
+                                        </connections>
+                                    </tableView>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstItem="IuV-1W-gNc" firstAttribute="top" secondItem="f2F-Qm-qu7" secondAttribute="top" id="7aQ-xe-kDw"/>
                                     <constraint firstItem="9Ni-pR-T7b" firstAttribute="top" secondItem="f2F-Qm-qu7" secondAttribute="top" id="DFX-e8-qBG"/>
-                                    <constraint firstAttribute="trailing" secondItem="IuV-1W-gNc" secondAttribute="trailing" id="GHE-Bl-OOd"/>
+                                    <constraint firstAttribute="trailing" secondItem="FXX-AA-DIC" secondAttribute="trailing" id="ECz-Mo-3PK"/>
                                     <constraint firstItem="9Ni-pR-T7b" firstAttribute="leading" secondItem="f2F-Qm-qu7" secondAttribute="leading" id="PMD-3g-Sbl"/>
-                                    <constraint firstItem="IuV-1W-gNc" firstAttribute="leading" secondItem="f2F-Qm-qu7" secondAttribute="leading" id="SRV-ma-MKZ"/>
+                                    <constraint firstItem="FXX-AA-DIC" firstAttribute="top" secondItem="f2F-Qm-qu7" secondAttribute="top" id="Qsq-AK-FxE"/>
+                                    <constraint firstItem="FXX-AA-DIC" firstAttribute="leading" secondItem="f2F-Qm-qu7" secondAttribute="leading" id="Yqi-vE-8Dk"/>
                                     <constraint firstAttribute="trailing" secondItem="9Ni-pR-T7b" secondAttribute="trailing" id="fG4-v4-Fmp"/>
-                                    <constraint firstAttribute="bottom" secondItem="IuV-1W-gNc" secondAttribute="bottom" id="xBz-GR-L3C"/>
+                                    <constraint firstAttribute="bottom" secondItem="FXX-AA-DIC" secondAttribute="bottom" id="v99-3i-8il"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zma-nU-iYa">
@@ -302,10 +306,11 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="activityScreen" destination="zma-nU-iYa" id="hDG-A5-oW0"/>
-                        <outlet property="displayResultsScrollView" destination="IuV-1W-gNc" id="ziq-16-aRy"/>
+                        <outlet property="displayTableView" destination="FXX-AA-DIC" id="92E-qs-LrI"/>
                         <outlet property="loginButton" destination="UoL-Ek-w23" id="qmm-Xj-B4t"/>
                         <outlet property="loginPickerView" destination="9Ni-pR-T7b" id="3Ki-9Y-V8B"/>
                         <outlet property="selectionDisplayView" destination="f2F-Qm-qu7" id="ORv-bk-o2U"/>
+                        <segue destination="lZe-K9-CEg" kind="presentation" identifier="show-object-details" id="HqP-7G-Lqo"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -361,7 +366,10 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="185-bF-61J" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="924" y="833.43328335832086"/>
+            <point key="canvasLocation" x="791" y="439"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="HqP-7G-Lqo"/>
+    </inferredMetricsTieBreakers>
 </document>
