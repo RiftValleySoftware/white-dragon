@@ -366,7 +366,10 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
             }
         } else { // Otherwise, we simply go down the rabbit-hole.
             for (key, value) in inDictionary {
-                if let forced_key = key as? String {    // This will be the "parent" key for the next level down.
+                if var forced_key = key as? String {    // This will be the "parent" key for the next level down.
+                    if "results" == forced_key {    // This is a special case for searches.
+                        forced_key = inParent
+                    }
                     if let forced_value = value as? NSDictionary {  // See whether we go Dictionary or Array.
                         ret = [ret, self._makeInstancesFromDictionary(forced_value, parent: forced_key)].flatMap { $0 }   // The flatmap() method ensures that we merge the arrays "flat."
                     } else if let forced_value = value as? NSArray {
@@ -1288,6 +1291,16 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
     
     /* ################################################################## */
     /**
+     This method will initiate a fetch of place objects, based upon a list of IDs.
+     
+     - parameter inUserIntegerID: An Array of Int, with the data database IDs of the place objects Requested.
+     */
+    public func fetchPlaces(_ inPlaceIDArray: [Int]) {
+        self._fetchDataItems(inPlaceIDArray, plugin: "places")
+    }
+    
+    /* ################################################################## */
+    /**
      This method will initiate a fetch of user objects, based upon a list of IDs.
      
      - parameter inUserIntegerID: An Array of Int, with the data database IDs of the user objects Requested.
@@ -1295,7 +1308,7 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
     public func fetchUsers(_ inUserIntegerIDArray: [Int]) {
         self._fetchDataItems(inUserIntegerIDArray, plugin: "people")
     }
-    
+
     /* ################################################################## */
     /**
      This method will initiate a fetch of login objects, based upon a list of IDs.
