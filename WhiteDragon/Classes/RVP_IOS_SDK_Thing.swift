@@ -31,6 +31,68 @@ public class RVP_IOS_SDK_Thing: A_RVP_IOS_SDK_Data_Object {
     // MARK: - Public Methods and Calulated properties -
     /* ################################################################## */
     /**
+     - returns all of the values for this object, as a Dictionary.
+     */
+    override public var asDictionary: [String: Any?] {
+        var ret = super.asDictionary
+        
+        if !self.thingKey.isEmpty {
+            ret["thingKey"] = self.thingKey
+        }
+        
+        if !self.thingDescription.isEmpty {
+            ret["thingDescription"] = self.thingDescription
+        }
+        
+        return ret
+    }
+    
+    /* ################################################################## */
+    /**
+     - returns the thing key String.
+     */
+    public var thingKey: String {
+        get {
+            var ret: String = ""
+            
+            if let key = self._myData["key"] as? String {
+                ret = key
+            }
+            
+            return ret
+        }
+        
+        set {
+            if self.isWriteable {
+                self._myData["key"] = newValue
+            }
+        }
+    }
+    
+    /* ################################################################## */
+    /**
+     - returns the thing description String.
+     */
+    public var thingDescription: String {
+        get {
+            var ret: String = ""
+            
+            if let desc = self._myData["description"] as? String {
+                ret = desc
+            }
+            
+            return ret
+        }
+        
+        set {
+            if self.isWriteable {
+                self._myData["description"] = newValue
+            }
+        }
+    }
+    
+    /* ################################################################## */
+    /**
      This is the default initializer.
      
      - parameter sdkInstance: REQUIRED (Can be nil) This is the SDK instance that "owns" this object. It may be nil for history instances.
