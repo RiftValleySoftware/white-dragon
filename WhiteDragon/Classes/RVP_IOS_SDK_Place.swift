@@ -31,6 +31,160 @@ public class RVP_IOS_SDK_Place: A_RVP_IOS_SDK_Data_Object {
     // MARK: - Public Methods and Calulated properties -
     /* ################################################################## */
     /**
+     - returns all of the values for this object, as a Dictionary.
+     */
+    override public var asDictionary: [String: Any?] {
+        var ret = super.asDictionary
+        
+        if !self.venue.isEmpty {
+            ret["venue"] = self.venue
+        }
+        
+        if !self.streetAddress.isEmpty {
+            ret["streetAddress"] = self.streetAddress
+        }
+        
+        if !self.extraInformation.isEmpty {
+            ret["extraInformation"] = self.extraInformation
+        }
+        
+        if !self.town.isEmpty {
+            ret["town"] = self.town
+        }
+        
+        if !self.county.isEmpty {
+            ret["county"] = self.county
+        }
+        
+        if !self.state.isEmpty {
+            ret["state"] = self.state
+        }
+        
+        if !self.postalCode.isEmpty {
+            ret["postalCode"] = self.postalCode
+        }
+        
+        if !self.nation.isEmpty {
+            ret["nation"] = self.nation
+        }
+
+        return ret
+    }
+
+    /* ################################################################## */
+    /**
+     - returns the venue name String.
+     */
+    public var venue: String {
+        var ret: String = ""
+        
+        if let addressElems = self._myData["address_elements"] as? [String: String], let name = addressElems["venue"] {
+            ret = name
+        }
+        
+        return ret
+    }
+
+    /* ################################################################## */
+    /**
+     - returns the street address String.
+     */
+    public var streetAddress: String {
+        var ret: String = ""
+        
+        if let addressElems = self._myData["address_elements"] as? [String: String], let name = addressElems["street_address"] {
+            ret = name
+        }
+        
+        return ret
+    }
+
+    /* ################################################################## */
+    /**
+     - returns the extra information String.
+     */
+    public var extraInformation: String {
+        var ret: String = ""
+        
+        if let addressElems = self._myData["address_elements"] as? [String: String], let name = addressElems["extra_information"] {
+            ret = name
+        }
+        
+        return ret
+    }
+
+    /* ################################################################## */
+    /**
+     - returns the town/city/municipality String.
+     */
+    public var town: String {
+        var ret: String = ""
+        
+        if let addressElems = self._myData["address_elements"] as? [String: String], let name = addressElems["town"] {
+            ret = name
+        }
+        
+        return ret
+    }
+
+    /* ################################################################## */
+    /**
+     - returns the county/sub-municipality String.
+     */
+    public var county: String {
+        var ret: String = ""
+        
+        if let addressElems = self._myData["address_elements"] as? [String: String], let name = addressElems["county"] {
+            ret = name
+        }
+        
+        return ret
+    }
+
+    /* ################################################################## */
+    /**
+     - returns the state/province String.
+     */
+    public var state: String {
+        var ret: String = ""
+        
+        if let addressElems = self._myData["address_elements"] as? [String: String], let name = addressElems["state"] {
+            ret = name
+        }
+        
+        return ret
+    }
+
+    /* ################################################################## */
+    /**
+     - returns the postal/zip code String.
+     */
+    public var postalCode: String {
+        var ret: String = ""
+        
+        if let addressElems = self._myData["address_elements"] as? [String: String], let name = addressElems["postal_code"] {
+            ret = name
+        }
+        
+        return ret
+    }
+
+    /* ################################################################## */
+    /**
+     - returns the nation String.
+     */
+    public var nation: String {
+        var ret: String = ""
+        
+        if let addressElems = self._myData["address_elements"] as? [String: String], let name = addressElems["nation"] {
+            ret = name
+        }
+        
+        return ret
+    }
+
+    /* ################################################################## */
+    /**
      This is the default initializer.
      
      - parameter sdkInstance: REQUIRED (Can be nil) This is the SDK instance that "owns" this object. It may be nil for history instances.
