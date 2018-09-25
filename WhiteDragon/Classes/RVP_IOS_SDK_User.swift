@@ -72,13 +72,21 @@ public class RVP_IOS_SDK_User: A_RVP_IOS_SDK_Data_Object {
      - returns the user surname, as an optional String
      */
     public var surname: String? {
-        var ret: String?
-        
-        if let name = self._myData["surname"] as? String {
-            ret = name
+        get {
+            var ret: String?
+            
+            if let name = self._myData["surname"] as? String {
+                ret = name
+            }
+            
+            return ret
         }
         
-        return ret
+        set {
+            if self.isWriteable {
+                self._myData["surname"] = newValue
+            }
+        }
     }
     
     /* ################################################################## */
@@ -86,13 +94,21 @@ public class RVP_IOS_SDK_User: A_RVP_IOS_SDK_Data_Object {
      - returns the user middle name, as an optional String
      */
     public var middleName: String? {
-        var ret: String?
-        
-        if let name = self._myData["middle_name"] as? String {
-            ret = name
+        get {
+            var ret: String?
+            
+            if let name = self._myData["middle_name"] as? String {
+                ret = name
+            }
+            
+            return ret
         }
         
-        return ret
+        set {
+            if self.isWriteable {
+                self._myData["middle_name"] = newValue
+            }
+        }
     }
     
     /* ################################################################## */
@@ -100,13 +116,21 @@ public class RVP_IOS_SDK_User: A_RVP_IOS_SDK_Data_Object {
      - returns the user given (first) name, as an optional String
      */
     public var givenName: String? {
-        var ret: String?
-        
-        if let name = self._myData["given_name"] as? String {
-            ret = name
+        get {
+            var ret: String?
+            
+            if let name = self._myData["given_name"] as? String {
+                ret = name
+            }
+            
+            return ret
         }
         
-        return ret
+        set {
+            if self.isWriteable {
+                self._myData["given_name"] = newValue
+            }
+        }
     }
     
     /* ################################################################## */
@@ -114,13 +138,21 @@ public class RVP_IOS_SDK_User: A_RVP_IOS_SDK_Data_Object {
      - returns the user nickame, as an optional String
      */
     public var nickame: String? {
-        var ret: String?
-        
-        if let name = self._myData["nickame"] as? String {
-            ret = name
+        get {
+            var ret: String?
+            
+            if let name = self._myData["nickame"] as? String {
+                ret = name
+            }
+            
+            return ret
         }
         
-        return ret
+        set {
+            if self.isWriteable {
+                self._myData["nickname"] = newValue
+            }
+        }
     }
     
     /* ################################################################## */
@@ -128,13 +160,21 @@ public class RVP_IOS_SDK_User: A_RVP_IOS_SDK_Data_Object {
      - returns the user prefix, as an optional String
      */
     public var prefix: String? {
-        var ret: String?
-        
-        if let prefix = self._myData["prefix"] as? String {
-            ret = prefix
+        get {
+            var ret: String?
+            
+            if let prefix = self._myData["prefix"] as? String {
+                ret = prefix
+            }
+            
+            return ret
         }
         
-        return ret
+        set {
+            if self.isWriteable {
+                self._myData["prefix"] = newValue
+            }
+        }
     }
     
     /* ################################################################## */
@@ -142,27 +182,45 @@ public class RVP_IOS_SDK_User: A_RVP_IOS_SDK_Data_Object {
      - returns the user suffix, as an optional String
      */
     public var suffix: String? {
-        var ret: String?
-        
-        if let prefix = self._myData["suffix"] as? String {
-            ret = prefix
+        get {
+            var ret: String?
+            
+            if let prefix = self._myData["suffix"] as? String {
+                ret = prefix
+            }
+            
+            return ret
         }
         
-        return ret
+        set {
+            if self.isWriteable {
+                self._myData["suffix"] = newValue
+            }
+        }
     }
     
     /* ################################################################## */
     /**
+     **NOTE:** Although this will let anyone with write permission set the ID, it will not be accepted on the server, unless the admin also has at least read permissions for the login object.
+     
      - returns the associated login ID (if any). 0, if no associated login.
      */
     public var loginID: Int {
-        var ret: Int = 0
-        
-        if let id = self._myData["associated_login_id"] as? Int {
-            ret = id
+        get {
+            var ret: Int = 0
+            
+            if let id = self._myData["associated_login_id"] as? Int {
+                ret = id
+            }
+            
+            return ret
         }
         
-        return ret
+        set {
+            if self.isWriteable {
+                self._myData["associated_login_id"] = newValue
+            }
+        }
     }
 
     /* ################################################################## */

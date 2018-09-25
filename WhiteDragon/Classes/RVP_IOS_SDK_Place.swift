@@ -36,10 +36,14 @@ public class RVP_IOS_SDK_Place: A_RVP_IOS_SDK_Data_Object {
     override public var asDictionary: [String: Any?] {
         var ret = super.asDictionary
         
+        if !self.basicAddress.isEmpty {
+            ret["basicAddress"] = self.basicAddress
+        }
+        
         if !self.venue.isEmpty {
             ret["venue"] = self.venue
         }
-        
+
         if !self.streetAddress.isEmpty {
             ret["streetAddress"] = self.streetAddress
         }
@@ -76,13 +80,27 @@ public class RVP_IOS_SDK_Place: A_RVP_IOS_SDK_Data_Object {
      - returns the venue name String.
      */
     public var venue: String {
-        var ret: String = ""
-        
-        if let addressElems = self._myData["address_elements"] as? [String: String], let name = addressElems["venue"] {
-            ret = name
+        get {
+            var ret: String = ""
+            
+            if let addressElems = self._myData["address_elements"] as? [String: String], let name = addressElems["venue"] {
+                ret = name
+            }
+            
+            return ret
         }
         
-        return ret
+        set {
+            if self.isWriteable {
+                var newElements: [String: String] = [:]
+                if let newElems = self._myData["address_elements"] as? [String: String] {
+                   newElements = newElems
+                }
+                
+                newElements["venue"] = newValue
+                self._myData["address_elements"] = newElements
+            }
+        }
     }
 
     /* ################################################################## */
@@ -90,13 +108,27 @@ public class RVP_IOS_SDK_Place: A_RVP_IOS_SDK_Data_Object {
      - returns the street address String.
      */
     public var streetAddress: String {
-        var ret: String = ""
-        
-        if let addressElems = self._myData["address_elements"] as? [String: String], let name = addressElems["street_address"] {
-            ret = name
+        get {
+            var ret: String = ""
+            
+            if let addressElems = self._myData["address_elements"] as? [String: String], let name = addressElems["street_address"] {
+                ret = name
+            }
+            
+            return ret
         }
         
-        return ret
+        set {
+            if self.isWriteable {
+                var newElements: [String: String] = [:]
+                if let newElems = self._myData["address_elements"] as? [String: String] {
+                    newElements = newElems
+                }
+                
+                newElements["street_address"] = newValue
+                self._myData["address_elements"] = newElements
+            }
+        }
     }
 
     /* ################################################################## */
@@ -104,13 +136,27 @@ public class RVP_IOS_SDK_Place: A_RVP_IOS_SDK_Data_Object {
      - returns the extra information String.
      */
     public var extraInformation: String {
-        var ret: String = ""
-        
-        if let addressElems = self._myData["address_elements"] as? [String: String], let name = addressElems["extra_information"] {
-            ret = name
+        get {
+            var ret: String = ""
+            
+            if let addressElems = self._myData["address_elements"] as? [String: String], let name = addressElems["extra_information"] {
+                ret = name
+            }
+            
+            return ret
         }
         
-        return ret
+        set {
+            if self.isWriteable {
+                var newElements: [String: String] = [:]
+                if let newElems = self._myData["address_elements"] as? [String: String] {
+                    newElements = newElems
+                }
+                
+                newElements["extra_information"] = newValue
+                self._myData["address_elements"] = newElements
+            }
+        }
     }
 
     /* ################################################################## */
@@ -118,13 +164,27 @@ public class RVP_IOS_SDK_Place: A_RVP_IOS_SDK_Data_Object {
      - returns the town/city/municipality String.
      */
     public var town: String {
-        var ret: String = ""
-        
-        if let addressElems = self._myData["address_elements"] as? [String: String], let name = addressElems["town"] {
-            ret = name
+        get {
+            var ret: String = ""
+            
+            if let addressElems = self._myData["address_elements"] as? [String: String], let name = addressElems["town"] {
+                ret = name
+            }
+            
+            return ret
         }
         
-        return ret
+        set {
+            if self.isWriteable {
+                var newElements: [String: String] = [:]
+                if let newElems = self._myData["address_elements"] as? [String: String] {
+                    newElements = newElems
+                }
+                
+                newElements["town"] = newValue
+                self._myData["address_elements"] = newElements
+            }
+        }
     }
 
     /* ################################################################## */
@@ -132,13 +192,27 @@ public class RVP_IOS_SDK_Place: A_RVP_IOS_SDK_Data_Object {
      - returns the county/sub-municipality String.
      */
     public var county: String {
-        var ret: String = ""
-        
-        if let addressElems = self._myData["address_elements"] as? [String: String], let name = addressElems["county"] {
-            ret = name
+        get {
+            var ret: String = ""
+            
+            if let addressElems = self._myData["address_elements"] as? [String: String], let name = addressElems["county"] {
+                ret = name
+            }
+            
+            return ret
         }
         
-        return ret
+        set {
+            if self.isWriteable {
+                var newElements: [String: String] = [:]
+                if let newElems = self._myData["address_elements"] as? [String: String] {
+                    newElements = newElems
+                }
+                
+                newElements["county"] = newValue
+                self._myData["address_elements"] = newElements
+            }
+        }
     }
 
     /* ################################################################## */
@@ -146,13 +220,27 @@ public class RVP_IOS_SDK_Place: A_RVP_IOS_SDK_Data_Object {
      - returns the state/province String.
      */
     public var state: String {
-        var ret: String = ""
-        
-        if let addressElems = self._myData["address_elements"] as? [String: String], let name = addressElems["state"] {
-            ret = name
+        get {
+            var ret: String = ""
+            
+            if let addressElems = self._myData["address_elements"] as? [String: String], let name = addressElems["state"] {
+                ret = name
+            }
+            
+            return ret
         }
         
-        return ret
+        set {
+            if self.isWriteable {
+                var newElements: [String: String] = [:]
+                if let newElems = self._myData["address_elements"] as? [String: String] {
+                    newElements = newElems
+                }
+                
+                newElements["state"] = newValue
+                self._myData["address_elements"] = newElements
+            }
+        }
     }
 
     /* ################################################################## */
@@ -160,13 +248,27 @@ public class RVP_IOS_SDK_Place: A_RVP_IOS_SDK_Data_Object {
      - returns the postal/zip code String.
      */
     public var postalCode: String {
-        var ret: String = ""
-        
-        if let addressElems = self._myData["address_elements"] as? [String: String], let name = addressElems["postal_code"] {
-            ret = name
+        get {
+            var ret: String = ""
+            
+            if let addressElems = self._myData["address_elements"] as? [String: String], let name = addressElems["postal_code"] {
+                ret = name
+            }
+            
+            return ret
         }
         
-        return ret
+        set {
+            if self.isWriteable {
+                var newElements: [String: String] = [:]
+                if let newElems = self._myData["address_elements"] as? [String: String] {
+                    newElements = newElems
+                }
+                
+                newElements["postal_code"] = newValue
+                self._myData["address_elements"] = newElements
+            }
+        }
     }
 
     /* ################################################################## */
@@ -174,10 +276,38 @@ public class RVP_IOS_SDK_Place: A_RVP_IOS_SDK_Data_Object {
      - returns the nation String.
      */
     public var nation: String {
+        get {
+            var ret: String = ""
+            
+            if let addressElems = self._myData["address_elements"] as? [String: String], let name = addressElems["nation"] {
+                ret = name
+            }
+            
+            return ret
+        }
+        
+        set {
+            if self.isWriteable {
+                var newElements: [String: String] = [:]
+                if let newElems = self._myData["address_elements"] as? [String: String] {
+                    newElements = newElems
+                }
+                
+                newElements["nation"] = newValue
+                self._myData["address_elements"] = newElements
+            }
+        }
+    }
+
+    /* ################################################################## */
+    /**
+     - returns the basic address String. READ ONLY
+     */
+    public var basicAddress: String {
         var ret: String = ""
         
-        if let addressElems = self._myData["address_elements"] as? [String: String], let name = addressElems["nation"] {
-            ret = name
+        if let address = self._myData["address"] as? String {
+            ret = address
         }
         
         return ret

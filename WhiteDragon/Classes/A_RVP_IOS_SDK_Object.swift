@@ -171,6 +171,8 @@ public class A_RVP_IOS_SDK_Object: NSObject {
     
     /* ################################################################## */
     /**
+     **NOTE:** Although this will let anyone with write permission set the token, it will not be accepted on the server, unless the admin also has the token.
+     
      - returns the read token, as an Int. Be aware that the read token may not be available, in which case, it will be nil.
      */
     public var readToken: Int? {
@@ -193,6 +195,8 @@ public class A_RVP_IOS_SDK_Object: NSObject {
     
     /* ################################################################## */
     /**
+     **NOTE:** Although this will let anyone with write permission set the token, it will not be accepted on the server, unless the admin also has the token.
+     
      - returns the write token, as an Int. Be aware that the write token may not be available, in which case, it will be nil.
      */
     public var writeToken: Int? {

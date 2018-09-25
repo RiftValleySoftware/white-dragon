@@ -47,21 +47,31 @@ public class RVP_IOS_SDK_Login: A_RVP_IOS_SDK_Security_Object {
 
     /* ################################################################## */
     /**
+     **NOTE:** Although this will let anyone with write permission set the ID, it will not be accepted on the server, unless the admin also has at least read permissions for the user object.
+     
      - returns the ID (Int) of any User Object associated with this login. nil, if there is none.
      */
     public var userObjectID: Int? {
-        var ret: Int?
-        
-        if let userObjectID = self._myData["user_object_id"] as? Int {
-            ret = userObjectID
+        get {
+            var ret: Int?
+            
+            if let userObjectID = self._myData["user_object_id"] as? Int {
+                ret = userObjectID
+            }
+            
+            return ret
         }
         
-        return ret
+        set {
+            if self.isWriteable {
+                self._myData["user_object_id"] = newValue
+            }
+        }
     }
 
     /* ################################################################## */
     /**
-     - returns true, if this login is currently logged in.
+     - returns true, if this login is currently logged in. READ ONLY
      */
     public var isLoggedIn: Bool {
         var ret = false
@@ -75,7 +85,7 @@ public class RVP_IOS_SDK_Login: A_RVP_IOS_SDK_Security_Object {
 
     /* ################################################################## */
     /**
-     - returns true, if this login is a Manager login.
+     - returns true, if this login is a Manager login. READ ONLY
      */
     public var isManager: Bool {
         var ret = false
@@ -89,7 +99,7 @@ public class RVP_IOS_SDK_Login: A_RVP_IOS_SDK_Security_Object {
 
     /* ################################################################## */
     /**
-     - returns true, if this login is a "God" (Main admin) login.
+     - returns true, if this login is a "God" (Main admin) login. READ ONLY
      */
     public var isMainAdmin: Bool {
         var ret = false
