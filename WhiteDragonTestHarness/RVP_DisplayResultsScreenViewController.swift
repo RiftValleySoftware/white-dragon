@@ -27,10 +27,28 @@ class RVP_DisplayResultsScreenViewController: UIViewController {
         inButton.sdkInstance.fetchUsers([inButton.loginID])
     }
     
+    /* ################################################################## */
+    /**
+     */
+    @IBAction func getMapForLocation(_ sender: RVP_LocationButton) {
+        let dstLL = String(format: "sll=%f,%f", sender.location.latitude, sender.location.longitude)
+        let baselineURI = "?" + dstLL
+        let uri = "https://maps.apple.com/" + baselineURI
+        if let openLink = URL(string: uri) {
+            UIApplication.shared.open(openLink, options: [:], completionHandler: nil)
+        }
+    }
+
+    /* ################################################################## */
+    /**
+     */
     @IBAction func doneButtonHit(_ sender: UIBarButtonItem) {
         self.dismiss(animated: true, completion: nil)
     }
     
+    /* ################################################################## */
+    /**
+     */
     override func viewWillAppear(_ animated: Bool) {
         self.resultsScrollView.results = self.resultsArray
         self.resultsScrollView.sdkInstance = self.sdkInstance
@@ -38,6 +56,9 @@ class RVP_DisplayResultsScreenViewController: UIViewController {
         super.viewWillAppear(animated)
     }
     
+    /* ################################################################## */
+    /**
+     */
     func addNewItems(_ fetchedDataItems: [A_RVP_IOS_SDK_Object]) {
         var toBeAdded: [A_RVP_IOS_SDK_Object] = []
         

@@ -133,6 +133,63 @@ class RVP_UserButton: UIButton {
 }
 
 @IBDesignable
+class RVP_LocationButton: UIButton {
+    var location: CLLocationCoordinate2D
+    var title: String = ""
+
+    init(_ inLocation: CLLocationCoordinate2D, title inTitle: String) {
+        self.location = inLocation
+        self.title = inTitle
+        super.init(frame: CGRect.zero)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        self.location = CLLocationCoordinate2D()
+        super.init(coder: aDecoder)
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        self.subviews.forEach({ $0.removeFromSuperview() })
+        let innerLabel = UILabel()
+        innerLabel.text = self.title + ": (" + String(self.location.latitude) + "," + String(self.location.longitude) + ")"
+        self.addSubview(innerLabel)
+        innerLabel.translatesAutoresizingMaskIntoConstraints = false
+        innerLabel.textAlignment = .center
+        
+        self.addConstraints([
+            NSLayoutConstraint(item: innerLabel,
+                               attribute: .top,
+                               relatedBy: .equal,
+                               toItem: self,
+                               attribute: .top,
+                               multiplier: 1.0,
+                               constant: 0),
+            NSLayoutConstraint(item: innerLabel,
+                               attribute: .bottom,
+                               relatedBy: .equal,
+                               toItem: self,
+                               attribute: .bottom,
+                               multiplier: 1.0,
+                               constant: 0),
+            NSLayoutConstraint(item: innerLabel,
+                               attribute: .centerX,
+                               relatedBy: .equal,
+                               toItem: self,
+                               attribute: .centerX,
+                               multiplier: 1.0,
+                               constant: 0.0),
+            NSLayoutConstraint(item: innerLabel,
+                               attribute: .width,
+                               relatedBy: .equal,
+                               toItem: self,
+                               attribute: .width,
+                               multiplier: 1.0,
+                               constant: 0.0)])
+    }
+}
+
+@IBDesignable
 class RVP_DisplayElementView: UIView {
     var myController: RVP_DisplayResultsScreenViewController!
 
@@ -182,6 +239,14 @@ class RVP_DisplayElementView: UIView {
                     self.addUserButton(userID)
                 }
             }
+            
+            if let item = displayedElement as? A_RVP_IOS_SDK_Data_Object, let location = item.location {
+                self.addLocationButton(location, title: "location")
+            }
+            
+            if let item = displayedElement as? A_RVP_IOS_SDK_Data_Object, let location = item.rawLocation {
+                self.addLocationButton(location, title: "rawlocation")
+            }
 
             if let children = dictionary["childrenIDs"] as? [String: [Int]] {
                 self.addChildrenLabels(children)
@@ -210,7 +275,7 @@ class RVP_DisplayElementView: UIView {
             if let value = tup.value {
                 let key = tup.key
                 
-                if !(["id", "name", "isDirty", "isWriteable", "readToken", "writeToken", "lastAccess", "children", "loginID", "userObjectID"]).contains(key) {
+                if !(["id", "name", "isDirty", "isWriteable", "readToken", "writeToken", "lastAccess", "children", "loginID", "userObjectID", "location", "rawLocation"]).contains(key) {
                     if let strVal = value as? String {
                         self.addItemLabel(label: key, value: strVal)
                     } else if let boolVal = value as? Bool {
@@ -254,14 +319,10 @@ class RVP_DisplayElementView: UIView {
     /* ################################################################## */
     /**
      */
-    func addLoginButton(_ inID: Int) {
-//        let nameString = "Login Object: " + String(inID)
+    func addLocationButton(_ inLocation: CLLocationCoordinate2D, title inTitle: String) {
+        let calloutButton = RVP_LocationButton(inLocation, title: inTitle)
         
-        let calloutButton = RVP_LoginButton(inID)
-        calloutButton.sdkInstance = self.myController.sdkInstance
-//        calloutButton.setTitle(nameString, for: .normal)
-        
-        calloutButton.addTarget(self.myController, action: Selector(("fetchLoginForUser:")), for: .touchUpInside)
+        calloutButton.addTarget(self.myController, action: Selector(("getMapForLocation:")), for: .touchUpInside)
         
         self.applyConstraints(thisElement: calloutButton, height: 30)
     }
@@ -269,12 +330,22 @@ class RVP_DisplayElementView: UIView {
     /* ################################################################## */
     /**
      */
+    func addLoginButton(_ inID: Int) {
+        let calloutButton = RVP_LoginButton(inID)
+        calloutButton.sdkInstance = self.myController.sdkInstance
+        
+        calloutButton.addTarget(self.myController, action: Selector(("fetchLoginForUser:")), for: .touchUpInside)
+        
+        self.applyConstraints(thisElement: calloutButton, height: 30)
+    }
+
+    /* ################################################################## */
+    /**
+     */
     func addUserButton(_ inID: Int) {
-//        let nameString = "User Object: " + String(inID)
         
         let calloutButton = RVP_UserButton(inID)
         calloutButton.sdkInstance = self.myController.sdkInstance
-//        calloutButton.setTitle(nameString, for: .normal)
         
         calloutButton.addTarget(self.myController, action: Selector(("fetchUserForLogin:")), for: .touchUpInside)
         
