@@ -19,7 +19,14 @@ class RVP_DisplayResultsScreenViewController: UIViewController {
     @objc func fetchLoginForUser(_ inButton: RVP_LoginButton) {
         inButton.sdkInstance.fetchLogins([inButton.loginID])
     }
-
+    
+    /* ################################################################## */
+    /**
+     */
+    @objc func fetchUserForLogin(_ inButton: RVP_LoginButton) {
+        inButton.sdkInstance.fetchUsers([inButton.loginID])
+    }
+    
     @IBAction func doneButtonHit(_ sender: UIBarButtonItem) {
         self.dismiss(animated: true, completion: nil)
     }

@@ -44,7 +44,62 @@ class RVP_LoginButton: UIButton {
         self.addSubview(innerLabel)
         innerLabel.translatesAutoresizingMaskIntoConstraints = false
         innerLabel.textAlignment = .center
+        
+        self.addConstraints([
+            NSLayoutConstraint(item: innerLabel,
+                               attribute: .top,
+                               relatedBy: .equal,
+                               toItem: self,
+                               attribute: .top,
+                               multiplier: 1.0,
+                               constant: 0),
+            NSLayoutConstraint(item: innerLabel,
+                               attribute: .bottom,
+                               relatedBy: .equal,
+                               toItem: self,
+                               attribute: .bottom,
+                               multiplier: 1.0,
+                               constant: 0),
+            NSLayoutConstraint(item: innerLabel,
+                               attribute: .centerX,
+                               relatedBy: .equal,
+                               toItem: self,
+                               attribute: .centerX,
+                               multiplier: 1.0,
+                               constant: 0.0),
+            NSLayoutConstraint(item: innerLabel,
+                               attribute: .width,
+                               relatedBy: .equal,
+                               toItem: self,
+                               attribute: .width,
+                               multiplier: 1.0,
+                               constant: 0.0)])
+    }
+}
 
+@IBDesignable
+class RVP_UserButton: UIButton {
+    @IBInspectable var userID: Int = 0
+    var sdkInstance: RVP_IOS_SDK!
+    
+    init(_ inUserID: Int) {
+        self.userID = inUserID
+        super.init(frame: CGRect.zero)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        self.subviews.forEach({ $0.removeFromSuperview() })
+        let innerLabel = UILabel()
+        innerLabel.text = "User ID: \(self.userID)"
+        self.addSubview(innerLabel)
+        innerLabel.translatesAutoresizingMaskIntoConstraints = false
+        innerLabel.textAlignment = .center
+        
         self.addConstraints([
             NSLayoutConstraint(item: innerLabel,
                                attribute: .top,
@@ -122,6 +177,12 @@ class RVP_DisplayElementView: UIView {
                 }
             }
             
+            if let loginItem = displayedElement as? RVP_IOS_SDK_Login {
+                if let userID = loginItem.userObjectID {
+                    self.addUserButton(userID)
+                }
+            }
+
             if let children = dictionary["childrenIDs"] as? [String: [Int]] {
                 self.addChildrenLabels(children)
             }
@@ -149,7 +210,7 @@ class RVP_DisplayElementView: UIView {
             if let value = tup.value {
                 let key = tup.key
                 
-                if !(["id", "name", "isDirty", "isWriteable", "readToken", "writeToken", "lastAccess", "children", "associated_login_id"]).contains(key) {
+                if !(["id", "name", "isDirty", "isWriteable", "readToken", "writeToken", "lastAccess", "children", "loginID", "userObjectID"]).contains(key) {
                     if let strVal = value as? String {
                         self.addItemLabel(label: key, value: strVal)
                     } else if let boolVal = value as? Bool {
@@ -194,13 +255,28 @@ class RVP_DisplayElementView: UIView {
     /**
      */
     func addLoginButton(_ inID: Int) {
-        let nameString = "Login Object: " + String(inID)
+//        let nameString = "Login Object: " + String(inID)
         
         let calloutButton = RVP_LoginButton(inID)
         calloutButton.sdkInstance = self.myController.sdkInstance
-        calloutButton.setTitle(nameString, for: .normal)
+//        calloutButton.setTitle(nameString, for: .normal)
         
         calloutButton.addTarget(self.myController, action: Selector(("fetchLoginForUser:")), for: .touchUpInside)
+        
+        self.applyConstraints(thisElement: calloutButton, height: 30)
+    }
+    
+    /* ################################################################## */
+    /**
+     */
+    func addUserButton(_ inID: Int) {
+//        let nameString = "User Object: " + String(inID)
+        
+        let calloutButton = RVP_UserButton(inID)
+        calloutButton.sdkInstance = self.myController.sdkInstance
+//        calloutButton.setTitle(nameString, for: .normal)
+        
+        calloutButton.addTarget(self.myController, action: Selector(("fetchUserForLogin:")), for: .touchUpInside)
         
         self.applyConstraints(thisElement: calloutButton, height: 30)
     }
