@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		22FEC5AA2EB6675701FA7FBE /* Pods_WhiteDragon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DEA8986ABAA1BA586DC9A8CD /* Pods_WhiteDragon.framework */; };
+		D415A1C4215BF4AE00FE4991 /* Test004BasicThingListing.swift in Sources */ = {isa = PBXBuildFile; fileRef = D415A1C3215BF4AE00FE4991 /* Test004BasicThingListing.swift */; };
 		D432E0D2214BE45E0018ED86 /* LucyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D432E0D1214BE45E0018ED86 /* LucyButton.swift */; };
 		D43CC10A214C4EA900548B8E /* A_RVP_IOS_SDK_Security_Object.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43CC103214C4EA900548B8E /* A_RVP_IOS_SDK_Security_Object.swift */; };
 		D43CC10B214C4EA900548B8E /* A_RVP_IOS_SDK_Security_Object.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43CC103214C4EA900548B8E /* A_RVP_IOS_SDK_Security_Object.swift */; };
@@ -74,6 +75,7 @@
 		69826259210E6D8098363362 /* Pods-WhiteDragon.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WhiteDragon.release.xcconfig"; path = "Pods/Target Support Files/Pods-WhiteDragon/Pods-WhiteDragon.release.xcconfig"; sourceTree = "<group>"; };
 		6D791B6D79927B976A7E510C /* Pods-WhiteDragonTestHarness.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WhiteDragonTestHarness.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WhiteDragonTestHarness/Pods-WhiteDragonTestHarness.debug.xcconfig"; sourceTree = "<group>"; };
 		B21EEF1DC1244C81AFC29F73 /* Pods_WhiteDragonTestHarness.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WhiteDragonTestHarness.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D415A1C3215BF4AE00FE4991 /* Test004BasicThingListing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test004BasicThingListing.swift; sourceTree = "<group>"; };
 		D432E0D1214BE45E0018ED86 /* LucyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LucyButton.swift; sourceTree = "<group>"; };
 		D43CC103214C4EA900548B8E /* A_RVP_IOS_SDK_Security_Object.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = A_RVP_IOS_SDK_Security_Object.swift; path = Classes/A_RVP_IOS_SDK_Security_Object.swift; sourceTree = "<group>"; };
 		D43CC104214C4EA900548B8E /* RVP_IOS_SDK_User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RVP_IOS_SDK_User.swift; path = Classes/RVP_IOS_SDK_User.swift; sourceTree = "<group>"; };
@@ -273,6 +275,7 @@
 				D4E2685F214302A2002ECE12 /* Test001SimpleLogin.swift */,
 				D4FC297C21514BFB008271E4 /* Test002BasicUserListing.swift */,
 				D4CA3279215943D900A63DAD /* Test003BasicPlaceListing.swift */,
+				D415A1C3215BF4AE00FE4991 /* Test004BasicThingListing.swift */,
 			);
 			name = "Test Files";
 			sourceTree = "<group>";
@@ -603,6 +606,7 @@
 				D43CC10C214C4EA900548B8E /* A_RVP_IOS_SDK_Security_Object.swift in Sources */,
 				D432E0D2214BE45E0018ED86 /* LucyButton.swift in Sources */,
 				D4A5C3432152BA6500159EFF /* TestHarnessUtilities.swift in Sources */,
+				D415A1C4215BF4AE00FE4991 /* Test004BasicThingListing.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

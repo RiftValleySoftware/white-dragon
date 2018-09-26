@@ -66,6 +66,29 @@ public class A_RVP_IOS_SDK_Data_Object: A_RVP_IOS_SDK_Object {
     
     /* ################################################################## */
     /**
+     - returns the payload. If possible, as an object (images are UIImage).
+     */
+    public var payload: Any? {
+        var ret: Any?
+        
+        if  let payloadType = self._myData["payload_type"] as? String,
+            let payload = self._myData["payload_type"] as? String,
+            let decodedData = NSData(base64Encoded: payload, options: NSData.Base64DecodingOptions(rawValue: 0)) as Data? {
+
+            switch payloadType {
+            case "image/jpeg", "image/png":
+                ret = UIImage(data: decodedData)
+                
+            default:
+                break
+            }
+        }
+        
+        return ret
+    }
+    
+    /* ################################################################## */
+    /**
      - returns a Dictionary of Arrays of Int, with the IDs (not objects) of "children" records. The possible Dictionary keys are "people", "places" and "things". Each of the values will be an Array of Int, with the Children IDs. READ ONLY
      */
     public var childrenIDs: [String: [Int]] {
