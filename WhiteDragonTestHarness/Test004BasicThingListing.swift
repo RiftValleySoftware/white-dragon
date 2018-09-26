@@ -24,9 +24,9 @@ import MapKit
 
 class Test004BasicThingListing: UIViewController, RVP_IOS_SDK_Delegate, UIPickerViewDataSource, UIPickerViewDelegate, UITableViewDelegate, UITableViewDataSource {
     private let _presets: [(name: String, values: [Any])] = [(name: "Single Image (Int)", values: [1732]),
-                                                             (name: "Multiple Images (Int)", values: [1732, 1733, 1734, 1736, 1739, 1742]),
+                                                             (name: "Multiple Images (Int)", values: [1732, 1733, 1734, 1736, 1739, 1742, 1755]),
                                                              (name: "Single Image (String)", values: ["basalt-test-0171: Worth Enough"]),
-                                                             (name: "Multiple Images (String)", values: ["basalt-test-0171: Worth Enough", "basalt-test-0171: Another World", "basalt-test-0171: Top Shot", "basalt-test-0171: Yosemite", "basalt-test-0171: Winnie The Pooh", "basalt-test-0171: Spinning Earth"])
+                                                             (name: "Multiple Images (String)", values: ["basalt-test-0171: Worth Enough", "basalt-test-0171: Another World", "basalt-test-0171: Top Shot", "basalt-test-0171: Yosemite", "basalt-test-0171: Winnie The Pooh", "basalt-test-0171: Spinning Earth", "basalt-test-0171: Common Sense"])
     ]
     private let _buttonStrings = ["LOGIN", "LOGOUT"]
     private var _thingList: [A_RVP_IOS_SDK_Object] = []
