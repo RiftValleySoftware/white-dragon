@@ -23,8 +23,10 @@ import UIKit
 import MapKit
 
 class Test004BasicThingListing: UIViewController, RVP_IOS_SDK_Delegate, UIPickerViewDataSource, UIPickerViewDelegate, UITableViewDelegate, UITableViewDataSource {
-    private let _presets: [(name: String, values: [Int])] = [(name: "Worth Enough", values: [1732]),
-                                                             (name: "Images", values: [1732, 1733, 1734, 1736])
+    private let _presets: [(name: String, values: [Any])] = [(name: "Worth Enough (Int)", values: [1732]),
+                                                             (name: "Images (Int)", values: [1732, 1733, 1734, 1736]),
+                                                             (name: "Worth Enough (String)", values: ["basalt-test-0171: Worth Enough"]),
+                                                             (name: "Images (String)", values: ["basalt-test-0171: Worth Enough", "basalt-test-0171: Another World", "basalt-test-0171: Top Shot", "basalt-test-0171: Yosemite"])
     ]
     private let _buttonStrings = ["LOGIN", "LOGOUT"]
     private var _thingList: [A_RVP_IOS_SDK_Object] = []
@@ -120,10 +122,13 @@ class Test004BasicThingListing: UIViewController, RVP_IOS_SDK_Delegate, UIPicker
         self._thingList = []
         self.clearResults()
         if let sdkInstance = self.mySDKTester?.sdkInstance {
-            let row = self.thingListPicker.selectedRow(inComponent: 0)
-            let thingIDList = self._presets[row].values
             self.activityScreen?.isHidden = false
-            sdkInstance.fetchThings(thingIDList)
+            let row = self.thingListPicker.selectedRow(inComponent: 0)
+            if let thingIDList = self._presets[row].values as? [Int] {
+                sdkInstance.fetchThings(thingIDList)
+            } else if let thingIDList = self._presets[row].values as? [String] {
+                sdkInstance.fetchThings(thingIDList)
+           }
         }
     }
     
