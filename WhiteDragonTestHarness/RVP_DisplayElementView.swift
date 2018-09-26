@@ -136,9 +136,11 @@ class RVP_UserButton: UIButton {
 class RVP_LocationButton: UIButton {
     var location: CLLocationCoordinate2D
     var title: String = ""
+    var locationName: String = ""
 
-    init(_ inLocation: CLLocationCoordinate2D, title inTitle: String) {
+    init(_ inLocation: CLLocationCoordinate2D, title inTitle: String, locationName inLocationName: String) {
         self.location = inLocation
+        self.locationName = inLocationName
         self.title = inTitle
         super.init(frame: CGRect.zero)
     }
@@ -241,11 +243,11 @@ class RVP_DisplayElementView: UIView {
             }
             
             if let item = displayedElement as? A_RVP_IOS_SDK_Data_Object, let location = item.location {
-                self.addLocationButton(location, title: "location")
+                self.addLocationButton(location, title: "location", locationName: item.name)
             }
             
             if let item = displayedElement as? A_RVP_IOS_SDK_Data_Object, let location = item.rawLocation {
-                self.addLocationButton(location, title: "rawlocation")
+                self.addLocationButton(location, title: "rawlocation", locationName: item.name)
             }
 
             if let children = dictionary["childrenIDs"] as? [String: [Int]] {
@@ -319,8 +321,8 @@ class RVP_DisplayElementView: UIView {
     /* ################################################################## */
     /**
      */
-    func addLocationButton(_ inLocation: CLLocationCoordinate2D, title inTitle: String) {
-        let calloutButton = RVP_LocationButton(inLocation, title: inTitle)
+    func addLocationButton(_ inLocation: CLLocationCoordinate2D, title inTitle: String, locationName inLocationName: String) {
+        let calloutButton = RVP_LocationButton(inLocation, title: inTitle, locationName: inLocationName)
         
         calloutButton.addTarget(self.myController, action: Selector(("getMapForLocation:")), for: .touchUpInside)
         

@@ -31,11 +31,13 @@ class RVP_DisplayResultsScreenViewController: UIViewController {
     /**
      */
     @IBAction func getMapForLocation(_ sender: RVP_LocationButton) {
-        let dstLL = String(format: "sll=%f,%f", sender.location.latitude, sender.location.longitude)
-        let baselineURI = "?" + dstLL
-        let uri = "https://maps.apple.com/" + baselineURI
-        if let openLink = URL(string: uri) {
-            UIApplication.shared.open(openLink, options: [:], completionHandler: nil)
+        if let urlName = sender.locationName.urlEncodedString {
+            let dstLL = String(format: "ll=%f,%f&q=%@", sender.location.latitude, sender.location.longitude, urlName)
+            let baselineURI = "?" + dstLL
+            let uri = "https://maps.apple.com/" + baselineURI
+            if let openLink = URL(string: uri) {
+                UIApplication.shared.open(openLink, options: [:], completionHandler: nil)
+            }
         }
     }
 
