@@ -61,6 +61,10 @@ public class A_RVP_IOS_SDK_Data_Object: A_RVP_IOS_SDK_Object {
             ret["canSeeThroughTheFuzz"] = canSeeThroughTheFuzz
         }
 
+        if let payload = self.payload {
+            ret["payload"] = payload
+        }
+        
         return ret
     }
     
@@ -72,12 +76,14 @@ public class A_RVP_IOS_SDK_Data_Object: A_RVP_IOS_SDK_Object {
         var ret: Any?
         
         if  let payloadType = self._myData["payload_type"] as? String,
-            let payload = self._myData["payload_type"] as? String,
-            let decodedData = NSData(base64Encoded: payload, options: NSData.Base64DecodingOptions(rawValue: 0)) as Data? {
-
+            let payload = self._myData["payload"] as? String {
+            
             switch payloadType {
-            case "image/jpeg", "image/png":
-                ret = UIImage(data: decodedData)
+            case "image/jpeg;base64", "image/png;base64", "image/gif;base64", "image/tiff;base64":
+                if let decodedData = NSData(base64Encoded: payload, options: NSData.Base64DecodingOptions(rawValue: 0)) {
+                    let myData = decodedData as Data
+                    ret = UIImage(data: myData)
+                }
                 
             default:
                 break

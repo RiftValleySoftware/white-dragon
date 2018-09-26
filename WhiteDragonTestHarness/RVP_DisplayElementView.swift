@@ -253,6 +253,10 @@ class RVP_DisplayElementView: UIView {
             if let children = dictionary["childrenIDs"] as? [String: [Int]] {
                 self.addChildrenLabels(children)
             }
+
+            if let payload = dictionary["payload"] {
+                self.addPayloadHandler(payload)
+            }
         }
         
         if let lastView = self.subviews.last {
@@ -277,7 +281,7 @@ class RVP_DisplayElementView: UIView {
             if let value = tup.value {
                 let key = tup.key
                 
-                if !(["id", "name", "isDirty", "isWriteable", "readToken", "writeToken", "lastAccess", "children", "loginID", "userObjectID", "location", "rawLocation"]).contains(key) {
+                if !(["id", "name", "isDirty", "isWriteable", "readToken", "writeToken", "lastAccess", "children", "loginID", "userObjectID", "location", "rawLocation", "payload"]).contains(key) {
                     if let strVal = value as? String {
                         self.addItemLabel(label: key, value: strVal)
                     } else if let boolVal = value as? Bool {
@@ -468,13 +472,42 @@ class RVP_DisplayElementView: UIView {
                                multiplier: 1.0,
                                constant: 0.0)])
         
-        self.addConstraints([
-            NSLayoutConstraint(item: inThisElement,
-                               attribute: .height,
-                               relatedBy: .equal,
-                               toItem: nil,
-                               attribute: .notAnAttribute,
-                               multiplier: 1.0,
-                               constant: inHeight)])
+        if 0 < inHeight {
+            self.addConstraints([
+                NSLayoutConstraint(item: inThisElement,
+                                   attribute: .height,
+                                   relatedBy: .equal,
+                                   toItem: nil,
+                                   attribute: .notAnAttribute,
+                                   multiplier: 1.0,
+                                   constant: inHeight)])
+        } else {
+        }
+    }
+    
+    func addPayloadHandler(_ inPayload: Any?) {
+        if let payload = inPayload {
+            var displayItem: UIView!
+            var aspect: CGFloat = 0
+            
+            if let payloadAsImage = payload as? UIImage {
+                displayItem = UIImageView(image: payloadAsImage)
+                aspect = payloadAsImage.size.height / payloadAsImage.size.width
+            }
+            
+            if nil != displayItem {
+                self.applyConstraints(thisElement: displayItem, height: 0)
+                if 0 < aspect {
+                    self.addConstraints([
+                        NSLayoutConstraint(item: displayItem,
+                                           attribute: .height,
+                                           relatedBy: .equal,
+                                           toItem: displayItem,
+                                           attribute: .width,
+                                           multiplier: aspect,
+                                           constant: 0.0)])
+                }
+            }
+        }
     }
 }
