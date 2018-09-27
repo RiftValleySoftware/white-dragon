@@ -259,7 +259,7 @@ class Test001SimpleLogin: UIViewController, RVP_IOS_SDK_Delegate, UIPickerViewDa
         DispatchQueue.main.async {
             self.displayTableView.reloadData()
             
-            if let topper = getTopmostViewController() as? RVP_DisplayResultsScreenViewController {
+            if let topper = UIApplication.getTopmostViewController() as? RVP_DisplayResultsScreenViewController {
                 topper.addNewItems(fetchedDataItems)
             }
             

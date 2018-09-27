@@ -8,6 +8,11 @@
 
 import UIKit
 
+/* ###################################################################################################################################### */
+// MARK: - Main Class -
+/* ###################################################################################################################################### */
+/**
+ */
 class RVP_DisplayResultsScreenViewController: UIViewController {
     @IBOutlet weak var resultsScrollView: RVP_DisplayResultsScrollView!
     var resultsArray: [A_RVP_IOS_SDK_Object] = []
@@ -26,7 +31,7 @@ class RVP_DisplayResultsScreenViewController: UIViewController {
     @objc func fetchUserForLogin(_ inButton: RVP_LoginButton) {
         inButton.sdkInstance.fetchUsers([inButton.loginID])
     }
-    
+
     /* ################################################################## */
     /**
      */
@@ -47,7 +52,7 @@ class RVP_DisplayResultsScreenViewController: UIViewController {
     @IBAction func doneButtonHit(_ sender: UIBarButtonItem) {
         self.dismiss(animated: true, completion: nil)
     }
-    
+
     /* ################################################################## */
     /**
      */

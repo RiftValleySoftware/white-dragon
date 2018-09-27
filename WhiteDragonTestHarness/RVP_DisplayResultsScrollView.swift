@@ -21,6 +21,11 @@
 
 import UIKit
 
+/* ###################################################################################################################################### */
+// MARK: - Main Class -
+/* ###################################################################################################################################### */
+/**
+ */
 @IBDesignable
 class RVP_DisplayResultsScrollView: UIScrollView {
     @IBOutlet var myViewController: RVP_DisplayResultsScreenViewController!

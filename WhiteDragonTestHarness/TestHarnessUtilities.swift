@@ -53,15 +53,20 @@ extension UILabel {
     }
 }
 
-func getTopmostViewController() -> UIViewController! {
-    var ret: UIViewController!
-    
-    if var topController = UIApplication.shared.keyWindow?.rootViewController {
-        while let presentedViewController = topController.presentedViewController {
-            topController = presentedViewController
-        }
+extension UIApplication {
+    /* ################################################################## */
+    /**
+     */
+    class func getTopmostViewController() -> UIViewController! {
+        var ret: UIViewController!
         
-        ret = topController
+        if var topController = UIApplication.shared.keyWindow?.rootViewController {
+            while let presentedViewController = topController.presentedViewController {
+                topController = presentedViewController
+            }
+            
+            ret = topController
+        }
+        return ret
     }
-    return ret
 }

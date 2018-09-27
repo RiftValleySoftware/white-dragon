@@ -26,7 +26,22 @@ class Test004BasicThingListing: UIViewController, RVP_IOS_SDK_Delegate, UIPicker
     private let _presets: [(name: String, values: [Any])] = [(name: "Single Image (Int)", values: [1732]),
                                                              (name: "Multiple Images (Int)", values: [1732, 1733, 1734, 1736, 1739, 1742, 1755]),
                                                              (name: "Single Image (String)", values: ["basalt-test-0171: Worth Enough"]),
-                                                             (name: "Multiple Images (String)", values: ["basalt-test-0171: Worth Enough", "basalt-test-0171: Another World", "basalt-test-0171: Top Shot", "basalt-test-0171: Yosemite", "basalt-test-0171: Winnie The Pooh", "basalt-test-0171: Spinning Earth", "basalt-test-0171: Common Sense"])
+                                                             (name: "Multiple Images (String)", values: ["basalt-test-0171: Worth Enough", "basalt-test-0171: Another World", "basalt-test-0171: Top Shot", "basalt-test-0171: Yosemite", "basalt-test-0171: Winnie The Pooh", "basalt-test-0171: Spinning Earth", "basalt-test-0171: Common Sense"]),
+                                                             (name: "Single MP4 Video (Int)", values: [1737]),
+                                                             (name: "Single MP4 Video (String)", values: ["basalt-test-0171: Tom And Jerry"]),
+                                                             (name: "Multiple MP4 Videos (Int)", values: [1737, 1741]),
+                                                             (name: "Multiple MP4 Videos (String)", values: ["basalt-test-0171: Tom And Jerry", "basalt-test-0171: Singing Pete"]),
+                                                             (name: "Single MP3 Audio (Int)", values: [1738]),
+                                                             (name: "Single MP3 Audio (String)", values: ["basalt-test-0171: Brown And Williamson Phone Message"]),
+                                                             (name: "Multiple Audio (Int)", values: [1738, 1740]),
+                                                             (name: "Multiple Audio (String)", values: ["basalt-test-0171: Brown And Williamson Phone Message", "basalt-test-0171: Crickets"]),
+                                                             (name: "Single Text (Int)", values: [1743]),
+                                                             (name: "Single Text (String)", values: ["basalt-test-0171: The Three Musketeers In Dutch"]),
+                                                             (name: "Single EPUB (Int)", values: [1744]),
+                                                             (name: "Single EPUB (String)", values: ["basalt-test-0171: The Divine Comedy Illustrated."]),
+                                                             (name: "Single PDF (Int)", values: [1756]),
+                                                             (name: "Single PDF (String)", values: ["basalt-test-0171: Multiplicative Idiocy"])
+
     ]
     private let _buttonStrings = ["LOGIN", "LOGOUT"]
     private var _thingList: [A_RVP_IOS_SDK_Object] = []
@@ -76,7 +91,7 @@ class Test004BasicThingListing: UIViewController, RVP_IOS_SDK_Delegate, UIPicker
     override func viewDidLoad() {
         super.viewDidLoad()
         self.clearResults()
-        self.mySDKTester = WhiteDragonSDKTester(dbPrefix: "sdk_1", delegate: self, session: TestHarnessAppDelegate.testHarnessDelegate.connectionSession)
+        self.mySDKTester = WhiteDragonSDKTester(dbPrefix: "sdk_4", delegate: self, session: TestHarnessAppDelegate.testHarnessDelegate.connectionSession)
         self.loginMainAdminButton.setTitle(self._buttonStrings[0], for: .normal)
     }
     
@@ -269,7 +284,7 @@ class Test004BasicThingListing: UIViewController, RVP_IOS_SDK_Delegate, UIPicker
         DispatchQueue.main.async {
             self.resultsTableView.reloadData()
             
-            if let topper = getTopmostViewController() as? RVP_DisplayResultsScreenViewController {
+            if let topper = UIApplication.getTopmostViewController() as? RVP_DisplayResultsScreenViewController {
                 topper.addNewItems(fetchedDataItems)
             }
             

@@ -21,6 +21,7 @@
 
 import Foundation
 import MapKit
+import AVKit
 
 /* ###################################################################################################################################### */
 // MARK: - Main Class -
@@ -70,7 +71,7 @@ public class A_RVP_IOS_SDK_Data_Object: A_RVP_IOS_SDK_Object {
     
     /* ################################################################## */
     /**
-     - returns the payload. If possible, as an object (images are UIImage).
+     - returns the payload. If possible, as an object (images are UIImage, Video and Audio are AVAsset).
      */
     public var payload: Any? {
         var ret: Any?
@@ -78,15 +79,64 @@ public class A_RVP_IOS_SDK_Data_Object: A_RVP_IOS_SDK_Object {
         if  let payloadType = self._myData["payload_type"] as? String,
             let payload = self._myData["payload"] as? String {
             
-            switch payloadType {
-            case "image/jpeg;base64", "image/png;base64", "image/gif;base64", "image/tiff;base64":
-                if let decodedData = NSData(base64Encoded: payload, options: NSData.Base64DecodingOptions(rawValue: 0)) {
-                    let myData = decodedData as Data
-                    ret = UIImage(data: myData)
-                }
-                
-            default:
-                break
+            if let decodedData = NSData(base64Encoded: payload, options: NSData.Base64DecodingOptions(rawValue: 0)) {
+                let myData = decodedData as Data
+                if let slash = payloadType.index(of: "/"), let semicolon = payloadType.index(of: ";") {
+                    let start = payloadType.index(after: slash)
+                    let mediaType = payloadType[start..<semicolon].lowercased()
+                    if payloadType.beginsWith("image/") {
+                        ret = UIImage(data: myData)
+                    } else if payloadType.beginsWith("video/") || payloadType.beginsWith("audio/") {
+                        do {
+                            var suffix: String = ""
+                            switch mediaType {
+                            case "mp4":
+                                suffix = ".m4v"
+                                
+                            case "mpg":
+                                suffix = ".mpg"
+                                
+                            case "avi":
+                                suffix = ".avi"
+                                
+                            case "mov":
+                                suffix = ".mov"
+                                
+                            case "mp3":
+                                suffix = ".mp3"
+                                
+                            case "wav":
+                                suffix = ".wav"
+                                
+                            default:
+                                break
+                            }
+                            
+                            if !suffix.isEmpty {
+                                // We create a path to a unique temporary file to grab the media.
+                                let url = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(UUID().uuidString + suffix)
+                                // Store the media in the temp file.
+                                try myData.write(to: url, options: .atomic)
+                                let options = [AVURLAssetPreferPreciseDurationAndTimingKey: true]
+                                let asset = AVURLAsset(url: url, options: options)
+                                ret = asset
+                            }
+                        } catch let error {
+                            #if DEBUG
+                            print("Error Encoding AV Media!: \(error)!")
+                            #endif
+                            NSLog("Error Encoding AV Media: %@", error._domain)
+                        }
+                    } else {
+                        switch mediaType {
+                        case "text":
+                            ret = String(data: myData, encoding: .utf8)
+                            
+                        default:
+                            break
+                        }
+                    }
+               }
             }
         }
         

@@ -21,21 +21,82 @@
 
 import UIKit
 import MapKit
+import AVKit
 
+/* ###################################################################################################################################### */
+// MARK: - AV Player View Class -
+/* ###################################################################################################################################### */
+/**
+ */
+class RVP_VideoPlayerView: UIView {
+    /* ################################################################## */
+    /**
+     */
+    override static var layerClass: AnyClass {
+        return AVPlayerLayer.self
+    }
+    
+    /* ################################################################## */
+    /**
+     */
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        self.backgroundColor = UIColor.black
+    }
+    
+    /* ################################################################## */
+    /**
+     */
+    var playerLayer: AVPlayerLayer! {
+        if let ret = self.layer as? AVPlayerLayer {
+            return ret
+        }
+        
+        return nil
+    }
+    
+    /* ################################################################## */
+    /**
+     */
+    var player: AVPlayer? {
+        get {
+            return playerLayer.player
+        }
+        
+        set {
+            playerLayer.player = newValue
+        }
+    }
+}
+
+/* ###################################################################################################################################### */
+// MARK: - Login Button Class -
+/* ###################################################################################################################################### */
+/**
+ */
 @IBDesignable
 class RVP_LoginButton: UIButton {
     @IBInspectable var loginID: Int = 0
     var sdkInstance: RVP_IOS_SDK!
     
+    /* ################################################################## */
+    /**
+     */
     init(_ inLoginID: Int) {
         self.loginID = inLoginID
         super.init(frame: CGRect.zero)
     }
     
+    /* ################################################################## */
+    /**
+     */
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
+    /* ################################################################## */
+    /**
+     */
     override func layoutSubviews() {
         super.layoutSubviews()
         self.subviews.forEach({ $0.removeFromSuperview() })
@@ -77,20 +138,34 @@ class RVP_LoginButton: UIButton {
     }
 }
 
+/* ###################################################################################################################################### */
+// MARK: - User Button Class -
+/* ###################################################################################################################################### */
+/**
+ */
 @IBDesignable
 class RVP_UserButton: UIButton {
     @IBInspectable var userID: Int = 0
     var sdkInstance: RVP_IOS_SDK!
     
+    /* ################################################################## */
+    /**
+     */
     init(_ inUserID: Int) {
         self.userID = inUserID
         super.init(frame: CGRect.zero)
     }
     
+    /* ################################################################## */
+    /**
+     */
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
+    /* ################################################################## */
+    /**
+     */
     override func layoutSubviews() {
         super.layoutSubviews()
         self.subviews.forEach({ $0.removeFromSuperview() })
@@ -132,12 +207,20 @@ class RVP_UserButton: UIButton {
     }
 }
 
+/* ###################################################################################################################################### */
+// MARK: - Location Button Class -
+/* ###################################################################################################################################### */
+/**
+ */
 @IBDesignable
 class RVP_LocationButton: UIButton {
     var location: CLLocationCoordinate2D
     var title: String = ""
     var locationName: String = ""
 
+    /* ################################################################## */
+    /**
+     */
     init(_ inLocation: CLLocationCoordinate2D, title inTitle: String, locationName inLocationName: String) {
         self.location = inLocation
         self.locationName = inLocationName
@@ -145,11 +228,17 @@ class RVP_LocationButton: UIButton {
         super.init(frame: CGRect.zero)
     }
     
+    /* ################################################################## */
+    /**
+     */
     required init?(coder aDecoder: NSCoder) {
         self.location = CLLocationCoordinate2D()
         super.init(coder: aDecoder)
     }
     
+    /* ################################################################## */
+    /**
+     */
     override func layoutSubviews() {
         super.layoutSubviews()
         self.subviews.forEach({ $0.removeFromSuperview() })
@@ -191,16 +280,41 @@ class RVP_LocationButton: UIButton {
     }
 }
 
+/* ###################################################################################################################################### */
+// MARK: - Main Class -
+/* ###################################################################################################################################### */
+/**
+ */
 @IBDesignable
 class RVP_DisplayElementView: UIView {
     var myController: RVP_DisplayResultsScreenViewController!
+    var myPlayer: AVPlayer?
+    var myPlayPauseButton: UIButton?
+    let buttonStrings = ["PLAY", "PAUSE"]
 
+    /* ################################################################## */
+    /**
+     */
     var displayedElement: A_RVP_IOS_SDK_Object? {
         didSet {
             self.establishSubviews()
         }
     }
 
+    /* ################################################################## */
+    /**
+     */
+    @objc func playPauseButtonHit(_ inButton: UIButton) {
+        if let player = self.myPlayer {
+            if player.rate > 0 {
+                player.pause()
+            } else {
+                player.play()
+            }
+        }
+        self.setPlayButtonText()
+    }
+    
     /* ################################################################## */
     /**
      */
@@ -349,7 +463,6 @@ class RVP_DisplayElementView: UIView {
     /**
      */
     func addUserButton(_ inID: Int) {
-        
         let calloutButton = RVP_UserButton(inID)
         calloutButton.sdkInstance = self.myController.sdkInstance
         
@@ -426,6 +539,17 @@ class RVP_DisplayElementView: UIView {
     /* ################################################################## */
     /**
      */
+    func setPlayButtonText() {
+        if let player = self.myPlayer {
+            if let playPauseButton = self.myPlayPauseButton {
+                playPauseButton.setTitle(((player.rate > 0) ? self.buttonStrings[1] : self.buttonStrings[0]), for: .normal)
+            }
+        }
+    }
+    
+    /* ################################################################## */
+    /**
+     */
     func applyConstraints(thisElement inThisElement: UIView, height inHeight: CGFloat) {
         var previousView: UIView!
         
@@ -489,10 +613,21 @@ class RVP_DisplayElementView: UIView {
         if let payload = inPayload {
             var displayItem: UIView!
             var aspect: CGFloat = 0
-            
+
             if let payloadAsImage = payload as? UIImage {
                 displayItem = UIImageView(image: payloadAsImage)
                 aspect = payloadAsImage.size.height / payloadAsImage.size.width
+            } else if let payloadAsMedia = payload as? AVAsset {
+                let playerItem = AVPlayerItem(asset: payloadAsMedia)
+                self.myPlayer = AVPlayer(playerItem: playerItem)
+                let tracks = payloadAsMedia.tracks(withMediaType: AVMediaType.video)
+                if let track = tracks.first {
+                    let size = track.naturalSize.applying(track.preferredTransform)
+                    aspect = size.height / size.width
+                    let myPlayerView = RVP_VideoPlayerView()
+                    myPlayerView.player = self.myPlayer
+                    displayItem = myPlayerView
+                    }
             }
             
             if nil != displayItem {
@@ -507,6 +642,13 @@ class RVP_DisplayElementView: UIView {
                                            multiplier: aspect,
                                            constant: 0.0)])
                 }
+            }
+            
+            self.myPlayPauseButton = UIButton(type: .roundedRect)
+            if let playPauseButton = self.myPlayPauseButton {
+                playPauseButton.addTarget(self, action: #selector(RVP_DisplayElementView.playPauseButtonHit(_:)), for: .touchUpInside)
+                self.applyConstraints(thisElement: playPauseButton, height: 30)
+                self.setPlayButtonText()
             }
         }
     }
