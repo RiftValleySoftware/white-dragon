@@ -326,6 +326,23 @@ class RVP_DisplayElementView: UIView {
     /* ################################################################## */
     /**
      */
+    override func removeFromSuperview() {
+        if nil != self.myAudioPlayer {
+            self.myAudioPlayer?.stop()
+        }
+        
+        if nil != self.myVideoPlayer {
+            self.myVideoPlayer?.pause()
+        }
+        
+        self.myAudioPlayer = nil
+        self.myVideoPlayer = nil
+        
+        super.removeFromSuperview()
+    }
+    /* ################################################################## */
+    /**
+     */
     func establishSubviews() {
         // We start by "clearing the decks." We remove all of our subviews.
         self.subviews.forEach({ $0.removeFromSuperview() })

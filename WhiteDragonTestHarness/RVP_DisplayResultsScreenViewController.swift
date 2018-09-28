@@ -50,6 +50,9 @@ class RVP_DisplayResultsScreenViewController: UIViewController {
     /**
      */
     @IBAction func doneButtonHit(_ sender: UIBarButtonItem) {
+        if let scroller = self.resultsScrollView {
+            scroller.nukem()
+        }
         self.dismiss(animated: true, completion: nil)
     }
 
@@ -62,7 +65,7 @@ class RVP_DisplayResultsScreenViewController: UIViewController {
         
         super.viewWillAppear(animated)
     }
-    
+
     /* ################################################################## */
     /**
      */

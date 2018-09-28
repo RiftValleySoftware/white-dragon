@@ -27,8 +27,10 @@ import MapKit
 /* ###################################################################################################################################### */
 /**
  This is a special class for representing the payload as an atomic object. It encapsulates the type and the payload, as a Data object.
+ 
+ Expressing it as a class gives us a couple of things: 1) It allows us to keep it as a reference, as opposed to a copy, and 2) It allows us to easily extend the class with data interpretation.
  */
-public class RVP_IOS_SDK_Payload: NSObject {
+public class RVP_IOS_SDK_Payload {
     public var payloadData: Data?
     public var payloadType: String = ""
     
@@ -42,8 +44,6 @@ public class RVP_IOS_SDK_Payload: NSObject {
      - parameter payloadType: The payload's MIME type.
      */
     public init(payloadData inData: Data, payloadType inType: String) {
-        super.init()
-        
         self.payloadData = inData
         self.payloadType = inType
     }
@@ -104,6 +104,7 @@ public class A_RVP_IOS_SDK_Data_Object: A_RVP_IOS_SDK_Object {
         var ret: RVP_IOS_SDK_Payload?
         
         if  let payload = self._myData["payload"] as? String {
+            // We need to remove the Base64 encoding for the data, then we convert it to a basic Data object.
             if let decodedData = NSData(base64Encoded: payload, options: NSData.Base64DecodingOptions(rawValue: 0)) as Data? {
                 ret = RVP_IOS_SDK_Payload(payloadData: decodedData, payloadType: self.payloadType)
             }

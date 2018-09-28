@@ -42,6 +42,13 @@ class RVP_DisplayResultsScrollView: UIScrollView {
     /* ################################################################## */
     /**
      */
+    func nukem() {
+        self.contentView?.subviews.forEach({ $0.removeFromSuperview() })
+    }
+    
+    /* ################################################################## */
+    /**
+     */
     func establishSubviews() {
         if nil == self.contentView {
             self.contentView = UIView()
@@ -79,7 +86,7 @@ class RVP_DisplayResultsScrollView: UIScrollView {
                                    constant: 0.0)
                 ])
         } else {
-            self.contentView.subviews.forEach({ $0.removeFromSuperview() })
+            self.nukem()
         }
         
         var previousViewElement: UIView!
