@@ -287,13 +287,15 @@ class RVP_LocationButton: UIButton {
 /**
  */
 @IBDesignable
-class RVP_DisplayElementView: UIView {
+class RVP_DisplayElementView: UIView, AVAudioPlayerDelegate {
+    private var playerItemContext = 0
+
     var myController: RVP_DisplayResultsScreenViewController!
     var myVideoPlayer: AVPlayer?
     var myAudioPlayer: AVAudioPlayer?
     var myPlayPauseButton: UIButton?
     let buttonStrings = ["PLAY", "PAUSE"]
-
+    
     /* ################################################################## */
     /**
      */
@@ -326,6 +328,13 @@ class RVP_DisplayElementView: UIView {
     /* ################################################################## */
     /**
      */
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    /* ################################################################## */
+    /**
+     */
     override func removeFromSuperview() {
         if nil != self.myAudioPlayer {
             self.myAudioPlayer?.stop()
@@ -340,6 +349,7 @@ class RVP_DisplayElementView: UIView {
         
         super.removeFromSuperview()
     }
+    
     /* ################################################################## */
     /**
      */
@@ -656,6 +666,7 @@ class RVP_DisplayElementView: UIView {
                 let videoTracks = payloadAsMedia.tracks(withMediaType: AVMediaType.video)
                 if let track = videoTracks.first {
                     self.myVideoPlayer = AVPlayer(playerItem: playerItem)
+                    NotificationCenter.default.addObserver(self, selector: #selector(RVP_DisplayElementView.finished), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
                     let size = track.naturalSize.applying(track.preferredTransform)
                     aspect = size.height / size.width
                     let myPlayerView = RVP_VideoPlayerView()
@@ -665,6 +676,7 @@ class RVP_DisplayElementView: UIView {
             } else if let payloadData = payload as? Data {
                 do {
                     try self.myAudioPlayer = AVAudioPlayer(data: payloadData)
+                    self.myAudioPlayer?.delegate = self
                 } catch {
                 }
             }
@@ -691,6 +703,25 @@ class RVP_DisplayElementView: UIView {
                     self.setPlayButtonText()
                 }
             }
+        }
+    }
+    
+    /* ################################################################## */
+    /**
+     */
+    @objc func finished() {
+        DispatchQueue.main.async {
+            self.myVideoPlayer?.seek(to: CMTime.zero)
+            self.setPlayButtonText()
+        }
+    }
+
+    /* ################################################################## */
+    /**
+     */
+    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
+        DispatchQueue.main.async {
+            self.setPlayButtonText()
         }
     }
 }
