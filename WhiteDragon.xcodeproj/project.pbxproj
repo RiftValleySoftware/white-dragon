@@ -111,6 +111,8 @@
 		D4B94830213EEA6200A3560E /* RVP_Cocoa_SDK.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RVP_Cocoa_SDK.swift; path = Classes/RVP_Cocoa_SDK.swift; sourceTree = "<group>"; };
 		D4B94834213EFBD100A3560E /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		D4CA3279215943D900A63DAD /* Test003BasicPlaceListing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test003BasicPlaceListing.swift; sourceTree = "<group>"; };
+		D4DC0CCF215ED28A00052AA7 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
+		D4DC0CD0215ED2AB00052AA7 /* jazzy.yaml */ = {isa = PBXFileReference; lastKnownFileType = text; path = jazzy.yaml; sourceTree = "<group>"; };
 		D4E2685B214302A2002ECE12 /* WhiteDragonTestHarness.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WhiteDragonTestHarness.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4E2685D214302A2002ECE12 /* TestHarnessAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestHarnessAppDelegate.swift; sourceTree = "<group>"; };
 		D4E2685F214302A2002ECE12 /* Test001SimpleLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test001SimpleLogin.swift; sourceTree = "<group>"; };
@@ -242,14 +244,16 @@
 		D4B8A988213ECAF8007CB311 /* Miscellaneous */ = {
 			isa = PBXGroup;
 			children = (
-				D4B94834213EFBD100A3560E /* Podfile */,
-				D4B8A98D213ECB18007CB311 /* CHANGELOG.md */,
 				D4B8A98A213ECB18007CB311 /* README.md */,
+				D4B8A98D213ECB18007CB311 /* CHANGELOG.md */,
+				D4B8A98B213ECB18007CB311 /* LICENSE.txt */,
+				D4DC0CCF215ED28A00052AA7 /* Package.swift */,
+				D4B94834213EFBD100A3560E /* Podfile */,
 				D4B8A98C213ECB18007CB311 /* jazzy.sh */,
+				D4DC0CD0215ED2AB00052AA7 /* jazzy.yaml */,
 				D4B8A989213ECB18007CB311 /* WhiteDragon.podspec */,
 				D4B8A98F213ECB25007CB311 /* .swiftlint.yml */,
 				D4B8A98E213ECB25007CB311 /* .swift-version */,
-				D4B8A98B213ECB18007CB311 /* LICENSE.txt */,
 			);
 			name = Miscellaneous;
 			sourceTree = "<group>";
