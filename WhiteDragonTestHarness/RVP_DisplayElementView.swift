@@ -22,6 +22,7 @@
 import UIKit
 import MapKit
 import AVKit
+import PDFKit
 
 /* ###################################################################################################################################### */
 // MARK: - AV Player View Class -
@@ -288,7 +289,8 @@ class RVP_LocationButton: UIButton {
 @IBDesignable
 class RVP_DisplayElementView: UIView {
     var myController: RVP_DisplayResultsScreenViewController!
-    var myPlayer: AVPlayer?
+    var myVideoPlayer: AVPlayer?
+    var myAudioPlayer: AVAudioPlayer?
     var myPlayPauseButton: UIButton?
     let buttonStrings = ["PLAY", "PAUSE"]
 
@@ -305,8 +307,14 @@ class RVP_DisplayElementView: UIView {
     /**
      */
     @objc func playPauseButtonHit(_ inButton: UIButton) {
-        if let player = self.myPlayer {
+        if let player = self.myVideoPlayer {
             if player.rate > 0 {
+                player.pause()
+            } else {
+                player.play()
+            }
+        } else if let player = self.myAudioPlayer {
+            if player.isPlaying {
                 player.pause()
             } else {
                 player.play()
@@ -368,7 +376,7 @@ class RVP_DisplayElementView: UIView {
                 self.addChildrenLabels(children)
             }
 
-            if let payload = dictionary["payload"] {
+            if let payload = dictionary["payload"] as? RVP_IOS_SDK_Payload {
                 self.addPayloadHandler(payload)
             }
         }
@@ -540,9 +548,11 @@ class RVP_DisplayElementView: UIView {
     /**
      */
     func setPlayButtonText() {
-        if let player = self.myPlayer {
-            if let playPauseButton = self.myPlayPauseButton {
+        if let playPauseButton = self.myPlayPauseButton {
+            if let player = self.myVideoPlayer {
                 playPauseButton.setTitle(((player.rate > 0) ? self.buttonStrings[1] : self.buttonStrings[0]), for: .normal)
+            } else if let player = self.myAudioPlayer {
+                playPauseButton.setTitle((player.isPlaying ? self.buttonStrings[1] : self.buttonStrings[0]), for: .normal)
             }
         }
     }
@@ -609,25 +619,37 @@ class RVP_DisplayElementView: UIView {
         }
     }
     
-    func addPayloadHandler(_ inPayload: Any?) {
-        if let payload = inPayload {
+    func addPayloadHandler(_ inPayload: RVP_IOS_SDK_Payload) {
+        self.myVideoPlayer = nil
+        self.myAudioPlayer = nil
+        
+        if let payload = inPayload.payloadResolved {
             var displayItem: UIView!
             var aspect: CGFloat = 0
 
             if let payloadAsImage = payload as? UIImage {
                 displayItem = UIImageView(image: payloadAsImage)
                 aspect = payloadAsImage.size.height / payloadAsImage.size.width
+            } else if let payloadAsString = payload as? String {
+                print("String Payload: \(payloadAsString)")
+            } else if let payloadAsPDF = payload as? PDFDocument {
+                print("PDF Payload: \(String(describing: payloadAsPDF))")
             } else if let payloadAsMedia = payload as? AVAsset {
                 let playerItem = AVPlayerItem(asset: payloadAsMedia)
-                self.myPlayer = AVPlayer(playerItem: playerItem)
-                let tracks = payloadAsMedia.tracks(withMediaType: AVMediaType.video)
-                if let track = tracks.first {
+                let videoTracks = payloadAsMedia.tracks(withMediaType: AVMediaType.video)
+                if let track = videoTracks.first {
+                    self.myVideoPlayer = AVPlayer(playerItem: playerItem)
                     let size = track.naturalSize.applying(track.preferredTransform)
                     aspect = size.height / size.width
                     let myPlayerView = RVP_VideoPlayerView()
-                    myPlayerView.player = self.myPlayer
+                    myPlayerView.player = self.myVideoPlayer
                     displayItem = myPlayerView
-                    }
+                }
+            } else if let payloadData = payload as? Data {
+                do {
+                    try self.myAudioPlayer = AVAudioPlayer(data: payloadData)
+                } catch {
+                }
             }
             
             if nil != displayItem {
@@ -644,11 +666,13 @@ class RVP_DisplayElementView: UIView {
                 }
             }
             
-            self.myPlayPauseButton = UIButton(type: .roundedRect)
-            if let playPauseButton = self.myPlayPauseButton {
-                playPauseButton.addTarget(self, action: #selector(RVP_DisplayElementView.playPauseButtonHit(_:)), for: .touchUpInside)
-                self.applyConstraints(thisElement: playPauseButton, height: 30)
-                self.setPlayButtonText()
+            if nil != self.myVideoPlayer || nil != self.myAudioPlayer {
+                self.myPlayPauseButton = UIButton(type: .roundedRect)
+                if let playPauseButton = self.myPlayPauseButton {
+                    playPauseButton.addTarget(self, action: #selector(RVP_DisplayElementView.playPauseButtonHit(_:)), for: .touchUpInside)
+                    self.applyConstraints(thisElement: playPauseButton, height: 30)
+                    self.setPlayButtonText()
+                }
             }
         }
     }

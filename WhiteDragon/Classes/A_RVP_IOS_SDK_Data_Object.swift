@@ -21,13 +21,39 @@
 
 import Foundation
 import MapKit
-import AVKit
-import PDFKit
+
+/* ###################################################################################################################################### */
+// MARK: - Payload Class -
+/* ###################################################################################################################################### */
+/**
+ This is a special class for representing the payload as an atomic object. It encapsulates the type and the payload, as a Data object.
+ */
+public class RVP_IOS_SDK_Payload: NSObject {
+    public var payloadData: Data?
+    public var payloadType: String = ""
+    
+    /* ################################################################## */
+    // MARK: - Public Methods -
+    /* ################################################################## */
+    /**
+     Default Initializer.
+     
+     - parameter payloadData: The payload, as a Data object.
+     - parameter payloadType: The payload's MIME type.
+     */
+    public init(payloadData inData: Data, payloadType inType: String) {
+        super.init()
+        
+        self.payloadData = inData
+        self.payloadType = inType
+    }
+}
 
 /* ###################################################################################################################################### */
 // MARK: - Main Class -
 /* ###################################################################################################################################### */
 /**
+ This is a generic "data database" class, encapsulating the generic methods and data items that go with the data database.
  */
 public class A_RVP_IOS_SDK_Data_Object: A_RVP_IOS_SDK_Object {
     /* ################################################################## */
@@ -63,10 +89,6 @@ public class A_RVP_IOS_SDK_Data_Object: A_RVP_IOS_SDK_Object {
             ret["canSeeThroughTheFuzz"] = canSeeThroughTheFuzz
         }
 
-        if !self.payloadType.isEmpty {
-            ret["payloadType"] = self.payloadType
-        }
-
         if let payload = self.payload {
             ret["payload"] = payload
         }
@@ -76,79 +98,14 @@ public class A_RVP_IOS_SDK_Data_Object: A_RVP_IOS_SDK_Object {
     
     /* ################################################################## */
     /**
-     - returns the payload. If possible, as an object (images are UIImage, Video and Audio are AVAsset).
+     - returns the payload. If possible. The payload will be expressed as a Data object. The type will be the MIME type.
      */
-    public var payload: Any? {
-        var ret: Any?
+    public var payload: RVP_IOS_SDK_Payload? {
+        var ret: RVP_IOS_SDK_Payload?
         
-        if  let payloadType = self._myData["payload_type"] as? String,
-            let payload = self._myData["payload"] as? String {
-            if let decodedData = NSData(base64Encoded: payload, options: NSData.Base64DecodingOptions(rawValue: 0)) {
-                let myData = decodedData as Data
-                if let slash = payloadType.index(of: "/"), let semicolon = payloadType.index(of: ";") {
-                    let start = payloadType.index(after: slash)
-                    let mediaType = payloadType[start..<semicolon].lowercased()
-                    if payloadType.beginsWith("image/") {
-                        ret = UIImage(data: myData)
-                    } else if payloadType.beginsWith("video/") || payloadType.beginsWith("audio/") {
-                        do {
-                            var suffix: String = ""
-                            switch mediaType {
-                            case "mp4":
-                                suffix = ".m4v"
-                                
-                            case "mpg":
-                                suffix = ".mpg"
-                                
-                            case "avi":
-                                suffix = ".avi"
-                                
-                            case "mov":
-                                suffix = ".mov"
-                                
-                            case "mp3":
-                                suffix = ".mp3"
-                                
-                            case "wav":
-                                suffix = ".wav"
-                                
-                            default:
-                                ret = myData
-                            }
-                            
-                            if !suffix.isEmpty {
-                                // We create a path to a unique temporary file to grab the media.
-                                let url = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(UUID().uuidString + suffix)
-                                // Store the media in the temp file.
-                                try myData.write(to: url, options: .atomic)
-                                let options = [AVURLAssetPreferPreciseDurationAndTimingKey: true]
-                                let asset = AVURLAsset(url: url, options: options)
-                                ret = asset
-                            }
-                        } catch let error {
-                            #if DEBUG
-                            print("Error Encoding AV Media!: \(error)!")
-                            #endif
-                            NSLog("Error Encoding AV Media: %@", error._domain)
-                        }
-                    } else if payloadType.beginsWith("text/") {
-                        switch mediaType {
-                        case "plain":
-                            ret = String(data: myData, encoding: .utf8)
-
-                        default:
-                            ret = myData
-                        }
-                    } else {
-                        switch mediaType {
-                        case "pdf":
-                            ret = PDFDocument(data: myData)
-                            
-                        default:
-                            ret = myData
-                        }
-                    }
-               }
+        if  let payload = self._myData["payload"] as? String {
+            if let decodedData = NSData(base64Encoded: payload, options: NSData.Base64DecodingOptions(rawValue: 0)) as Data? {
+                ret = RVP_IOS_SDK_Payload(payloadData: decodedData, payloadType: self.payloadType)
             }
         }
         

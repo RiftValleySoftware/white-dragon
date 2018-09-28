@@ -21,6 +21,8 @@
 
 import UIKit
 import MapKit
+import AVKit
+import PDFKit
 
 /* ###################################################################################################################################### */
 /**
@@ -67,6 +69,75 @@ extension UIApplication {
             
             ret = topController
         }
+        return ret
+    }
+}
+
+extension RVP_IOS_SDK_Payload {
+    /* ################################################################## */
+    /**
+     - returns the payload. If possible, as an object (images are UIImage, Video is AVAsset, PDF is PDFDocument, and text is String). Otherwise, nil (no payload) or as a Data object.
+     */
+    public var payloadResolved: Any? {
+        var ret: Any?
+        
+        if  let myData = self.payloadData,
+            let slash = self.payloadType.index(of: "/") {
+                let start = self.payloadType.index(after: slash)
+                let mediaType = String(self.payloadType.suffix(from: start))
+                if self.payloadType.beginsWith("image/") {
+                    ret = UIImage(data: myData)
+                } else if self.payloadType.beginsWith("video/") {
+                    do {
+                        var suffix: String = ""
+                        switch mediaType {
+                        case "mp4", "m4v":
+                            suffix = ".m4v"
+                            
+                        case "avi":
+                            suffix = ".avi"
+                            
+                        case "mov":
+                            suffix = ".mov"
+                            
+                        default:
+                            ret = myData
+                        }
+                        
+                        if !suffix.isEmpty {
+                            // We create a path to a unique temporary file to grab the media.
+                            let url = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(UUID().uuidString + suffix)
+                            // Store the media in the temp file.
+                            try myData.write(to: url, options: .atomic)
+                            let options = [AVURLAssetPreferPreciseDurationAndTimingKey: true]
+                            let asset = AVURLAsset(url: url, options: options)
+                            ret = asset
+                        }
+                    } catch let error {
+                        #if DEBUG
+                        print("Error Encoding AV Media!: \(error)!")
+                        #endif
+                        NSLog("Error Encoding AV Media: %@", error._domain)
+                    }
+                } else if self.payloadType.beginsWith("text/") {
+                    switch mediaType {
+                    case "plain":
+                        ret = String(data: myData, encoding: .utf8)
+                        
+                    default:
+                        ret = myData
+                    }
+                } else {
+                    switch mediaType {
+                    case "pdf":
+                        ret = PDFDocument(data: myData)
+                        
+                    default:
+                        ret = myData
+                    }
+                }
+        }
+        
         return ret
     }
 }
