@@ -22,6 +22,7 @@
 import Foundation
 import MapKit
 import AVKit
+import PDFKit
 
 /* ###################################################################################################################################### */
 // MARK: - Main Class -
@@ -62,10 +63,14 @@ public class A_RVP_IOS_SDK_Data_Object: A_RVP_IOS_SDK_Object {
             ret["canSeeThroughTheFuzz"] = canSeeThroughTheFuzz
         }
 
+        if !self.payloadType.isEmpty {
+            ret["payloadType"] = self.payloadType
+        }
+
         if let payload = self.payload {
             ret["payload"] = payload
         }
-        
+
         return ret
     }
     
@@ -78,7 +83,6 @@ public class A_RVP_IOS_SDK_Data_Object: A_RVP_IOS_SDK_Object {
         
         if  let payloadType = self._myData["payload_type"] as? String,
             let payload = self._myData["payload"] as? String {
-            
             if let decodedData = NSData(base64Encoded: payload, options: NSData.Base64DecodingOptions(rawValue: 0)) {
                 let myData = decodedData as Data
                 if let slash = payloadType.index(of: "/"), let semicolon = payloadType.index(of: ";") {
@@ -109,7 +113,7 @@ public class A_RVP_IOS_SDK_Data_Object: A_RVP_IOS_SDK_Object {
                                 suffix = ".wav"
                                 
                             default:
-                                break
+                                ret = myData
                             }
                             
                             if !suffix.isEmpty {
@@ -127,13 +131,21 @@ public class A_RVP_IOS_SDK_Data_Object: A_RVP_IOS_SDK_Object {
                             #endif
                             NSLog("Error Encoding AV Media: %@", error._domain)
                         }
+                    } else if payloadType.beginsWith("text/") {
+                        switch mediaType {
+                        case "plain":
+                            ret = String(data: myData, encoding: .utf8)
+
+                        default:
+                            ret = myData
+                        }
                     } else {
                         switch mediaType {
-                        case "text":
-                            ret = String(data: myData, encoding: .utf8)
+                        case "pdf":
+                            ret = PDFDocument(data: myData)
                             
                         default:
-                            break
+                            ret = myData
                         }
                     }
                }
@@ -152,6 +164,22 @@ public class A_RVP_IOS_SDK_Data_Object: A_RVP_IOS_SDK_Object {
         
         if let childrenIDs = self._myData["children"] as? [String: [Int]] {
             ret = childrenIDs
+        }
+        
+        return ret
+    }
+    
+    /* ################################################################## */
+    /**
+     - returns the payload type (MIME type). READ ONLY
+     */
+    public var payloadType: String {
+        var ret: String = ""
+        
+        if let payloadType = self._myData["payload_type"] as? String {
+            if let semicolon = payloadType.index(of: ";") {
+                ret = String(payloadType.prefix(upTo: semicolon))
+            }
         }
         
         return ret
