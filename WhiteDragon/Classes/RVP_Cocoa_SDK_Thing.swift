@@ -26,7 +26,7 @@ import Foundation
 /* ###################################################################################################################################### */
 /**
  */
-public class RVP_IOS_SDK_Login: A_RVP_IOS_SDK_Security_Object {
+public class RVP_Cocoa_SDK_Thing: A_RVP_Cocoa_SDK_Data_Object {
     /* ################################################################## */
     // MARK: - Public Methods and Calulated properties -
     /* ################################################################## */
@@ -35,28 +35,28 @@ public class RVP_IOS_SDK_Login: A_RVP_IOS_SDK_Security_Object {
      */
     override public var asDictionary: [String: Any?] {
         var ret = super.asDictionary
-        ret ["isManager"] = self.isManager
-        ret ["isMainAdmin"] = self.isMainAdmin
-        ret ["isLoggedIn"] = self.isLoggedIn
-        if let userObjectID = self.userObjectID {
-            ret ["userObjectID"] = userObjectID
+        
+        if !self.thingKey.isEmpty {
+            ret["thingKey"] = self.thingKey
+        }
+        
+        if !self.thingDescription.isEmpty {
+            ret["thingDescription"] = self.thingDescription
         }
         
         return ret
     }
-
+    
     /* ################################################################## */
     /**
-     **NOTE:** Although this will let anyone with write permission set the ID, it will not be accepted on the server, unless the admin also has at least read permissions for the user object.
-     
-     - returns the ID (Int) of any User Object associated with this login. nil, if there is none.
+     - returns the thing key String.
      */
-    public var userObjectID: Int? {
+    public var thingKey: String {
         get {
-            var ret: Int?
+            var ret: String = ""
             
-            if let userObjectID = self._myData["user_object_id"] as? Int {
-                ret = userObjectID
+            if let key = self._myData["key"] as? String {
+                ret = key
             }
             
             return ret
@@ -64,53 +64,33 @@ public class RVP_IOS_SDK_Login: A_RVP_IOS_SDK_Security_Object {
         
         set {
             if self.isWriteable {
-                self._myData["user_object_id"] = newValue
+                self._myData["key"] = newValue
             }
         }
     }
-
+    
     /* ################################################################## */
     /**
-     - returns true, if this login is currently logged in. READ ONLY
+     - returns the thing description String.
      */
-    public var isLoggedIn: Bool {
-        var ret = false
-        
-        if let isLoggedIn = self._myData["current_login"] as? Bool {
-            ret = isLoggedIn
+    public var thingDescription: String {
+        get {
+            var ret: String = ""
+            
+            if let desc = self._myData["description"] as? String {
+                ret = desc
+            }
+            
+            return ret
         }
         
-        return ret
-    }
-
-    /* ################################################################## */
-    /**
-     - returns true, if this login is a Manager login. READ ONLY
-     */
-    public var isManager: Bool {
-        var ret = false
-        
-        if let isManager = self._myData["is_manager"] as? Bool {
-            ret = isManager
+        set {
+            if self.isWriteable {
+                self._myData["description"] = newValue
+            }
         }
-        
-        return ret
     }
-
-    /* ################################################################## */
-    /**
-     - returns true, if this login is a "God" (Main admin) login. READ ONLY
-     */
-    public var isMainAdmin: Bool {
-        var ret = false
-        
-        if let isMainAdmin = self._myData["is_main_admin"] as? Bool {
-            ret = isMainAdmin
-        }
-        
-        return ret
-    }
-
+    
     /* ################################################################## */
     /**
      This is the default initializer.
@@ -118,7 +98,7 @@ public class RVP_IOS_SDK_Login: A_RVP_IOS_SDK_Security_Object {
      - parameter sdkInstance: REQUIRED (Can be nil) This is the SDK instance that "owns" this object. It may be nil for history instances.
      - parameter objectInfoData: REQUIRED This is the parsed JSON data for this object, as a Dictionary.
      */
-    public override init(sdkInstance inSDKInstance: RVP_IOS_SDK?, objectInfoData inData: [String: Any]) {
+    public override init(sdkInstance inSDKInstance: RVP_Cocoa_SDK?, objectInfoData inData: [String: Any]) {
         super.init(sdkInstance: inSDKInstance, objectInfoData: inData)
     }
 }

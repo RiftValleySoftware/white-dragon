@@ -22,12 +22,12 @@
 import UIKit
 import MapKit
 
-class Test003BasicPlaceListing: UIViewController, RVP_IOS_SDK_Delegate, UIPickerViewDataSource, UIPickerViewDelegate, UITableViewDelegate, UITableViewDataSource {
+class Test003BasicPlaceListing: UIViewController, RVP_Cocoa_SDK_Delegate, UIPickerViewDataSource, UIPickerViewDelegate, UITableViewDelegate, UITableViewDataSource {
     private let _presets: [(name: String, values: [Int])] = [(name: "Maryland 1", values: [2]),
                                                              (name: "Maryland Multi", values: [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33])
     ]
     private let _buttonStrings = ["LOGIN", "LOGOUT"]
-    private var _placeList: [A_RVP_IOS_SDK_Object] = []
+    private var _placeList: [A_RVP_Cocoa_SDK_Object] = []
     
     var mySDKTester: WhiteDragonSDKTester?
     @IBOutlet weak var activityScreen: UIView!
@@ -40,7 +40,7 @@ class Test003BasicPlaceListing: UIViewController, RVP_IOS_SDK_Delegate, UIPicker
     /* ################################################################## */
     /**
      */
-    private func _showPlaceDetails(_ inUserObject: A_RVP_IOS_SDK_Object) {
+    private func _showPlaceDetails(_ inUserObject: A_RVP_Cocoa_SDK_Object) {
         self.performSegue(withIdentifier: "show-place-details", sender: inUserObject)
     }
     
@@ -171,7 +171,7 @@ class Test003BasicPlaceListing: UIViewController, RVP_IOS_SDK_Delegate, UIPicker
      */
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destination = segue.destination as? RVP_DisplayResultsScreenViewController {
-            if let node = sender as? A_RVP_IOS_SDK_Object {
+            if let node = sender as? A_RVP_Cocoa_SDK_Object {
                 destination.resultsArray = [node]
                 destination.sdkInstance = self.mySDKTester?.sdkInstance
             }
@@ -182,7 +182,7 @@ class Test003BasicPlaceListing: UIViewController, RVP_IOS_SDK_Delegate, UIPicker
     /* ################################################################## */
     /**
      */
-    func sdkInstance(_ inSDKInstance: RVP_IOS_SDK, sessionConnectionIsValid inConnectionIsValid: Bool) {
+    func sdkInstance(_ inSDKInstance: RVP_Cocoa_SDK, sessionConnectionIsValid inConnectionIsValid: Bool) {
         #if DEBUG
         print("Connection is" + (inConnectionIsValid ? "" : " not") + " valid!")
         #endif
@@ -191,7 +191,7 @@ class Test003BasicPlaceListing: UIViewController, RVP_IOS_SDK_Delegate, UIPicker
     /* ################################################################## */
     /**
      */
-    func sdkInstance(_ inSDKInstance: RVP_IOS_SDK, loginValid inLoginValid: Bool) {
+    func sdkInstance(_ inSDKInstance: RVP_Cocoa_SDK, loginValid inLoginValid: Bool) {
         #if DEBUG
         if inLoginValid {
             if let loginID = inSDKInstance.myLoginInfo?.loginID {
@@ -214,7 +214,7 @@ class Test003BasicPlaceListing: UIViewController, RVP_IOS_SDK_Delegate, UIPicker
     /* ################################################################## */
     /**
      */
-    func sdkInstance(_ inSDKInstance: RVP_IOS_SDK, sessionDisconnectedBecause inReason: RVP_IOS_SDK.DisconnectionReason) {
+    func sdkInstance(_ inSDKInstance: RVP_Cocoa_SDK, sessionDisconnectedBecause inReason: RVP_Cocoa_SDK.DisconnectionReason) {
         #if DEBUG
         print("Instance disconnected because \(inReason)!")
         #endif
@@ -225,7 +225,7 @@ class Test003BasicPlaceListing: UIViewController, RVP_IOS_SDK_Delegate, UIPicker
     /* ################################################################## */
     /**
      */
-    func sdkInstance(_ inSDKInstance: RVP_IOS_SDK, sessionError inError: Error) {
+    func sdkInstance(_ inSDKInstance: RVP_Cocoa_SDK, sessionError inError: Error) {
         #if DEBUG
         print("Instance Error: \(inError)!")
         #endif
@@ -236,7 +236,7 @@ class Test003BasicPlaceListing: UIViewController, RVP_IOS_SDK_Delegate, UIPicker
     /* ################################################################## */
     /**
      */
-    func sdkInstance(_ inSDKInstance: RVP_IOS_SDK, fetchedDataItems: [A_RVP_IOS_SDK_Object]) {
+    func sdkInstance(_ inSDKInstance: RVP_Cocoa_SDK, fetchedDataItems: [A_RVP_Cocoa_SDK_Object]) {
         #if DEBUG
         print("Fetched \(fetchedDataItems.count) Items!")
         #endif
@@ -244,7 +244,7 @@ class Test003BasicPlaceListing: UIViewController, RVP_IOS_SDK_Delegate, UIPicker
         if self._placeList.isEmpty {
             self._placeList.append(contentsOf: fetchedDataItems)
         } else {
-            var toBeAdded: [A_RVP_IOS_SDK_Object] = []
+            var toBeAdded: [A_RVP_Cocoa_SDK_Object] = []
             
             for item in fetchedDataItems {
                 if !self._placeList.contains { [item] element in

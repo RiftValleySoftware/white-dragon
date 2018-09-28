@@ -26,7 +26,7 @@ import Foundation
 /* ###################################################################################################################################### */
 /**
  */
-public class RVP_IOS_SDK_Thing: A_RVP_IOS_SDK_Data_Object {
+public class A_RVP_Cocoa_SDK_Security_Object: A_RVP_Cocoa_SDK_Object {
     /* ################################################################## */
     // MARK: - Public Methods and Calulated properties -
     /* ################################################################## */
@@ -35,13 +35,21 @@ public class RVP_IOS_SDK_Thing: A_RVP_IOS_SDK_Data_Object {
      */
     override public var asDictionary: [String: Any?] {
         var ret = super.asDictionary
+        ret["loginID"] = self.loginID
+        ret["securityTokens"] = self.securityTokens
+
+        return ret
+    }
+
+    /* ################################################################## */
+    /**
+     - returns the object login ID, as a String. READ ONLY
+     */
+    public var loginID: String {
+        var ret = ""
         
-        if !self.thingKey.isEmpty {
-            ret["thingKey"] = self.thingKey
-        }
-        
-        if !self.thingDescription.isEmpty {
-            ret["thingDescription"] = self.thingDescription
+        if let loginID = self._myData["login_id"] as? String {
+            ret = loginID
         }
         
         return ret
@@ -49,44 +57,25 @@ public class RVP_IOS_SDK_Thing: A_RVP_IOS_SDK_Data_Object {
     
     /* ################################################################## */
     /**
-     - returns the thing key String.
+     - returns the object security tokens, as an Array of Int. NOTE: The tokens are sorted, from lowest to highest, and include the ID of the login item. "1" is the "any logged-in-user" token that all logins are implied to have. READ ONLY
      */
-    public var thingKey: String {
+    public var securityTokens: [Int] {
         get {
-            var ret: String = ""
+            var ret: [Int] = []
             
-            if let key = self._myData["key"] as? String {
-                ret = key
+            if let securityTokens = self._myData["security_tokens"] as? [Int] {
+                ret = securityTokens.sorted()
+                if 1 != ret[0] {    // If 1 was not already there, we add it here.
+                    ret.insert(1, at: 0)
+                }
             }
             
             return ret
         }
         
         set {
-            if self.isWriteable {
-                self._myData["key"] = newValue
-            }
-        }
-    }
-    
-    /* ################################################################## */
-    /**
-     - returns the thing description String.
-     */
-    public var thingDescription: String {
-        get {
-            var ret: String = ""
-            
-            if let desc = self._myData["description"] as? String {
-                ret = desc
-            }
-            
-            return ret
-        }
-        
-        set {
-            if self.isWriteable {
-                self._myData["description"] = newValue
+            if (self._sdkInstance?.isManager)! && self._sdkInstance?.myLoginInfo != self && self.isWriteable {
+                self._myData["security_tokens"] = newValue
             }
         }
     }
@@ -98,7 +87,17 @@ public class RVP_IOS_SDK_Thing: A_RVP_IOS_SDK_Data_Object {
      - parameter sdkInstance: REQUIRED (Can be nil) This is the SDK instance that "owns" this object. It may be nil for history instances.
      - parameter objectInfoData: REQUIRED This is the parsed JSON data for this object, as a Dictionary.
      */
-    public override init(sdkInstance inSDKInstance: RVP_IOS_SDK?, objectInfoData inData: [String: Any]) {
-        super.init(sdkInstance: inSDKInstance, objectInfoData: inData)
+    public override init(sdkInstance inSDKInstance: RVP_Cocoa_SDK?, objectInfoData inData: [String: Any]) {
+        var originalData = inData
+        if !originalData.isEmpty {  // We do this, so we have an original snapshot that is sorted.
+            if let securityTokens = originalData["security_tokens"] as? [Int] {
+                var newTokens = securityTokens.sorted()
+                if 1 != newTokens[0] {    // If 1 was not already there, we add it here.
+                    newTokens.insert(1, at: 0)
+                }
+                originalData["security_tokens"] = newTokens
+            }
+        }
+        super.init(sdkInstance: inSDKInstance, objectInfoData: originalData)
     }
 }

@@ -23,7 +23,7 @@ import Foundation
 
 class WhiteDragonSDKTester {
     private var _connectionSession: URLSession?
-    private weak var _delegate: RVP_IOS_SDK_Delegate?
+    private weak var _delegate: RVP_Cocoa_SDK_Delegate?
     private var _newSession: Bool = false
     
     let uri: String = "https://littlegreenviper.com/fuggedaboudit/baobab/index.php"
@@ -32,7 +32,7 @@ class WhiteDragonSDKTester {
     let normalTimeout: TimeInterval = 3600
     let adminTimeout: TimeInterval = 600
     
-    var sdkInstance: RVP_IOS_SDK?
+    var sdkInstance: RVP_Cocoa_SDK?
     var loginID: String?
     var password: String?
 
@@ -41,7 +41,7 @@ class WhiteDragonSDKTester {
      */
     private func _setupDBComplete() {
         if let delegate = self._delegate, nil != self._connectionSession {
-            self.sdkInstance = RVP_IOS_SDK(serverURI: self.uri, serverSecret: self.secret, delegate: delegate, session: self._connectionSession)
+            self.sdkInstance = RVP_Cocoa_SDK(serverURI: self.uri, serverSecret: self.secret, delegate: delegate, session: self._connectionSession)
         }
     }
     
@@ -94,7 +94,7 @@ class WhiteDragonSDKTester {
     /* ################################################################## */
     /**
      */
-    public init(dbPrefix inDBPrefix: String, loginID inLoginID: String? = nil, password inPassword: String? = nil, delegate inDelegate: RVP_IOS_SDK_Delegate, session inSession: URLSession? = nil) {
+    public init(dbPrefix inDBPrefix: String, loginID inLoginID: String? = nil, password inPassword: String? = nil, delegate inDelegate: RVP_Cocoa_SDK_Delegate, session inSession: URLSession? = nil) {
         self._delegate = inDelegate
         self.loginID = inLoginID
         self.password = inPassword

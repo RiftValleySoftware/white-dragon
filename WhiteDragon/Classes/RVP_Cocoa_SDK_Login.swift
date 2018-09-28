@@ -26,7 +26,7 @@ import Foundation
 /* ###################################################################################################################################### */
 /**
  */
-public class A_RVP_IOS_SDK_Security_Object: A_RVP_IOS_SDK_Object {
+public class RVP_Cocoa_SDK_Login: A_RVP_Cocoa_SDK_Security_Object {
     /* ################################################################## */
     // MARK: - Public Methods and Calulated properties -
     /* ################################################################## */
@@ -35,51 +35,82 @@ public class A_RVP_IOS_SDK_Security_Object: A_RVP_IOS_SDK_Object {
      */
     override public var asDictionary: [String: Any?] {
         var ret = super.asDictionary
-        ret["loginID"] = self.loginID
-        ret["securityTokens"] = self.securityTokens
-
-        return ret
-    }
-
-    /* ################################################################## */
-    /**
-     - returns the object login ID, as a String. READ ONLY
-     */
-    public var loginID: String {
-        var ret = ""
-        
-        if let loginID = self._myData["login_id"] as? String {
-            ret = loginID
+        ret ["isManager"] = self.isManager
+        ret ["isMainAdmin"] = self.isMainAdmin
+        ret ["isLoggedIn"] = self.isLoggedIn
+        if let userObjectID = self.userObjectID {
+            ret ["userObjectID"] = userObjectID
         }
         
         return ret
     }
-    
+
     /* ################################################################## */
     /**
-     - returns the object security tokens, as an Array of Int. NOTE: The tokens are sorted, from lowest to highest, and include the ID of the login item. "1" is the "any logged-in-user" token that all logins are implied to have. READ ONLY
+     **NOTE:** Although this will let anyone with write permission set the ID, it will not be accepted on the server, unless the admin also has at least read permissions for the user object.
+     
+     - returns the ID (Int) of any User Object associated with this login. nil, if there is none.
      */
-    public var securityTokens: [Int] {
+    public var userObjectID: Int? {
         get {
-            var ret: [Int] = []
+            var ret: Int?
             
-            if let securityTokens = self._myData["security_tokens"] as? [Int] {
-                ret = securityTokens.sorted()
-                if 1 != ret[0] {    // If 1 was not already there, we add it here.
-                    ret.insert(1, at: 0)
-                }
+            if let userObjectID = self._myData["user_object_id"] as? Int {
+                ret = userObjectID
             }
             
             return ret
         }
         
         set {
-            if (self._sdkInstance?.isManager)! && self._sdkInstance?.myLoginInfo != self && self.isWriteable {
-                self._myData["security_tokens"] = newValue
+            if self.isWriteable {
+                self._myData["user_object_id"] = newValue
             }
         }
     }
-    
+
+    /* ################################################################## */
+    /**
+     - returns true, if this login is currently logged in. READ ONLY
+     */
+    public var isLoggedIn: Bool {
+        var ret = false
+        
+        if let isLoggedIn = self._myData["current_login"] as? Bool {
+            ret = isLoggedIn
+        }
+        
+        return ret
+    }
+
+    /* ################################################################## */
+    /**
+     - returns true, if this login is a Manager login. READ ONLY
+     */
+    public var isManager: Bool {
+        var ret = false
+        
+        if let isManager = self._myData["is_manager"] as? Bool {
+            ret = isManager
+        }
+        
+        return ret
+    }
+
+    /* ################################################################## */
+    /**
+     - returns true, if this login is a "God" (Main admin) login. READ ONLY
+     */
+    public var isMainAdmin: Bool {
+        var ret = false
+        
+        if let isMainAdmin = self._myData["is_main_admin"] as? Bool {
+            ret = isMainAdmin
+        }
+        
+        return ret
+    }
+
     /* ################################################################## */
     /**
      This is the default initializer.
@@ -87,17 +118,7 @@ public class A_RVP_IOS_SDK_Security_Object: A_RVP_IOS_SDK_Object {
      - parameter sdkInstance: REQUIRED (Can be nil) This is the SDK instance that "owns" this object. It may be nil for history instances.
      - parameter objectInfoData: REQUIRED This is the parsed JSON data for this object, as a Dictionary.
      */
-    public override init(sdkInstance inSDKInstance: RVP_IOS_SDK?, objectInfoData inData: [String: Any]) {
-        var originalData = inData
-        if !originalData.isEmpty {  // We do this, so we have an original snapshot that is sorted.
-            if let securityTokens = originalData["security_tokens"] as? [Int] {
-                var newTokens = securityTokens.sorted()
-                if 1 != newTokens[0] {    // If 1 was not already there, we add it here.
-                    newTokens.insert(1, at: 0)
-                }
-                originalData["security_tokens"] = newTokens
-            }
-        }
-        super.init(sdkInstance: inSDKInstance, objectInfoData: originalData)
+    public override init(sdkInstance inSDKInstance: RVP_Cocoa_SDK?, objectInfoData inData: [String: Any]) {
+        super.init(sdkInstance: inSDKInstance, objectInfoData: inData)
     }
 }

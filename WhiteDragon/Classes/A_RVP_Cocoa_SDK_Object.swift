@@ -26,15 +26,15 @@ import Foundation
 /* ###################################################################################################################################### */
 /**
  */
-public class A_RVP_IOS_SDK_Object: NSObject {
+public class A_RVP_Cocoa_SDK_Object: NSObject {
     /* ################################################################## */
     // MARK: - Internal Variables -
     /* ################################################################## */
     /** This is the SDK object that "owns" this instance. It may be nil for change history entries. */
-    internal weak var _sdkInstance: RVP_IOS_SDK?
+    internal weak var _sdkInstance: RVP_Cocoa_SDK?
     
     /** This records changes made during the current instantiation (not before) of this object. It has a tuple with a "before" instance, and an "after" instance. */
-    internal var _changeHistory: [(before: A_RVP_IOS_SDK_Object?, after: A_RVP_IOS_SDK_Object?)] = []
+    internal var _changeHistory: [(before: A_RVP_Cocoa_SDK_Object?, after: A_RVP_Cocoa_SDK_Object?)] = []
     
     /** This contains the actual JSON data that was read from the server for this record. */
     internal var _myData: [String: Any] = [:]
@@ -224,7 +224,7 @@ public class A_RVP_IOS_SDK_Object: NSObject {
      - parameter sdkInstance: REQUIRED (Can be nil) This is the SDK instance that "owns" this object. It may be nil for history instances.
      - parameter objectInfoData: REQUIRED This is the parsed JSON data for this object, as a Dictionary.
      */
-    public init(sdkInstance inSDKInstance: RVP_IOS_SDK?, objectInfoData inData: [String: Any]) {
+    public init(sdkInstance inSDKInstance: RVP_Cocoa_SDK?, objectInfoData inData: [String: Any]) {
         self._sdkInstance = inSDKInstance
         self._myData = inData
         self._myOriginalData = inData

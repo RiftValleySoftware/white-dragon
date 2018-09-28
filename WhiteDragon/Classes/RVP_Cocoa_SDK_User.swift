@@ -26,7 +26,7 @@ import Foundation
 /* ###################################################################################################################################### */
 /**
  */
-public class RVP_IOS_SDK_User: A_RVP_IOS_SDK_Data_Object {
+public class RVP_Cocoa_SDK_User: A_RVP_Cocoa_SDK_Data_Object {
     /* ################################################################## */
     // MARK: - Public Methods and Calulated properties -
     /* ################################################################## */
@@ -230,7 +230,7 @@ public class RVP_IOS_SDK_User: A_RVP_IOS_SDK_Data_Object {
      - parameter sdkInstance: REQUIRED (Can be nil) This is the SDK instance that "owns" this object. It may be nil for history instances.
      - parameter objectInfoData: REQUIRED This is the parsed JSON data for this object, as a Dictionary.
      */
-    public override init(sdkInstance inSDKInstance: RVP_IOS_SDK?, objectInfoData inData: [String: Any]) {
+    public override init(sdkInstance inSDKInstance: RVP_Cocoa_SDK?, objectInfoData inData: [String: Any]) {
         super.init(sdkInstance: inSDKInstance, objectInfoData: inData)
     }
     

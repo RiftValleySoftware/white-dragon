@@ -78,7 +78,7 @@ class RVP_VideoPlayerView: UIView {
 @IBDesignable
 class RVP_LoginButton: UIButton {
     @IBInspectable var loginID: Int = 0
-    var sdkInstance: RVP_IOS_SDK!
+    var sdkInstance: RVP_Cocoa_SDK!
     
     /* ################################################################## */
     /**
@@ -147,7 +147,7 @@ class RVP_LoginButton: UIButton {
 @IBDesignable
 class RVP_UserButton: UIButton {
     @IBInspectable var userID: Int = 0
-    var sdkInstance: RVP_IOS_SDK!
+    var sdkInstance: RVP_Cocoa_SDK!
     
     /* ################################################################## */
     /**
@@ -299,7 +299,7 @@ class RVP_DisplayElementView: UIView, AVAudioPlayerDelegate {
     /* ################################################################## */
     /**
      */
-    var displayedElement: A_RVP_IOS_SDK_Object? {
+    var displayedElement: A_RVP_Cocoa_SDK_Object? {
         didSet {
             self.establishSubviews()
         }
@@ -379,23 +379,23 @@ class RVP_DisplayElementView: UIView, AVAudioPlayerDelegate {
             let dictionary = displayedElement.asDictionary
             self.displayitemDictionary(dictionary)
             
-            if let userItem = displayedElement as? RVP_IOS_SDK_User {
+            if let userItem = displayedElement as? RVP_Cocoa_SDK_User {
                 if 0 < userItem.loginID {
                     self.addLoginButton(userItem.loginID)
                 }
             }
             
-            if let loginItem = displayedElement as? RVP_IOS_SDK_Login {
+            if let loginItem = displayedElement as? RVP_Cocoa_SDK_Login {
                 if let userID = loginItem.userObjectID {
                     self.addUserButton(userID)
                 }
             }
             
-            if let item = displayedElement as? A_RVP_IOS_SDK_Data_Object, let location = item.location {
+            if let item = displayedElement as? A_RVP_Cocoa_SDK_Data_Object, let location = item.location {
                 self.addLocationButton(location, title: "location", locationName: item.name)
             }
             
-            if let item = displayedElement as? A_RVP_IOS_SDK_Data_Object, let location = item.rawLocation {
+            if let item = displayedElement as? A_RVP_Cocoa_SDK_Data_Object, let location = item.rawLocation {
                 self.addLocationButton(location, title: "rawlocation", locationName: item.name)
             }
 
@@ -403,7 +403,7 @@ class RVP_DisplayElementView: UIView, AVAudioPlayerDelegate {
                 self.addChildrenLabels(children)
             }
 
-            if let payload = dictionary["payload"] as? RVP_IOS_SDK_Payload {
+            if let payload = dictionary["payload"] as? RVP_Cocoa_SDK_Payload {
                 self.addPayloadHandler(payload)
             }
         }
@@ -646,7 +646,7 @@ class RVP_DisplayElementView: UIView, AVAudioPlayerDelegate {
         }
     }
     
-    func addPayloadHandler(_ inPayload: RVP_IOS_SDK_Payload) {
+    func addPayloadHandler(_ inPayload: RVP_Cocoa_SDK_Payload) {
         self.myVideoPlayer = nil
         self.myAudioPlayer = nil
         

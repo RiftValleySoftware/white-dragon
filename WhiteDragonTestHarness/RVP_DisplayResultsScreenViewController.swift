@@ -15,8 +15,8 @@ import UIKit
  */
 class RVP_DisplayResultsScreenViewController: UIViewController {
     @IBOutlet weak var resultsScrollView: RVP_DisplayResultsScrollView!
-    var resultsArray: [A_RVP_IOS_SDK_Object] = []
-    var sdkInstance: RVP_IOS_SDK!
+    var resultsArray: [A_RVP_Cocoa_SDK_Object] = []
+    var sdkInstance: RVP_Cocoa_SDK!
 
     /* ################################################################## */
     /**
@@ -69,8 +69,8 @@ class RVP_DisplayResultsScreenViewController: UIViewController {
     /* ################################################################## */
     /**
      */
-    func addNewItems(_ fetchedDataItems: [A_RVP_IOS_SDK_Object]) {
-        var toBeAdded: [A_RVP_IOS_SDK_Object] = []
+    func addNewItems(_ fetchedDataItems: [A_RVP_Cocoa_SDK_Object]) {
+        var toBeAdded: [A_RVP_Cocoa_SDK_Object] = []
         
         for item in fetchedDataItems {
             if !self.resultsArray.contains { [item] element in
@@ -88,7 +88,7 @@ class RVP_DisplayResultsScreenViewController: UIViewController {
             var ret = $0.id < $1.id
             
             if !ret {   // Security objects get listed before data objects
-                ret = $0 is A_RVP_IOS_SDK_Security_Object && $1 is A_RVP_IOS_SDK_Data_Object
+                ret = $0 is A_RVP_Cocoa_SDK_Security_Object && $1 is A_RVP_Cocoa_SDK_Data_Object
             }
             
             return ret

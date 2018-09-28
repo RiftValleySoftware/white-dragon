@@ -31,9 +31,9 @@ class RVP_DisplayResultsScrollView: UIScrollView {
     @IBOutlet var myViewController: RVP_DisplayResultsScreenViewController!
 
     var contentView: UIView!
-    var sdkInstance: RVP_IOS_SDK!
+    var sdkInstance: RVP_Cocoa_SDK!
     
-    var results: [A_RVP_IOS_SDK_Object] = [] {
+    var results: [A_RVP_Cocoa_SDK_Object] = [] {
         didSet {
             self.establishSubviews()
         }

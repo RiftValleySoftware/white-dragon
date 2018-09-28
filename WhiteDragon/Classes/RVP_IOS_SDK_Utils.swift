@@ -19,167 +19,80 @@
     Little Green Viper Software Development: https://littlegreenviper.com
 */
 
-import Foundation
+import UIKit
+import MapKit
+import AVKit
+import PDFKit
 
 /* ###################################################################################################################################### */
 // MARK: - Class Extensions -
 /* ###################################################################################################################################### */
-
-/* ###################################################################### */
 /**
- This was cribbed from here: https://stackoverflow.com/a/41799559/879365
- 
- The purpose of this extension is to add "chunk" functionality to Array.
- We use this when forming URIs, in order to prevent them from getting too long.
+ This adds some iOS-specific extensions to the payload handler.
  */
-extension Array {
+extension RVP_Cocoa_SDK_Payload {
     /* ################################################################## */
     /**
-     This expresses a monolithic Array as an aggregate of Arrays, with each sub-Array being an Array of Element, up to chunkSize Elements long.
-     
-     - parameter chunkSize: The 1-based size (in Array elements) of each chunk.
-     
-     - returns an Array of Arrays. Each element of the main Array is a smaller Array up to chunkSize Elements.
+     - returns the payload. If possible, as an object (images are UIImage, Video is AVAsset, PDF is PDFDocument, and text is String). Otherwise, nil (no payload) or as a Data object.
      */
-    func chunk(_ chunkSize: Int) -> [[Element]] {
-        return stride(from: 0, to: self.count, by: chunkSize).map { (startIndex) -> [Element] in
-            let endIndex = (startIndex.advanced(by: chunkSize) > self.count) ? self.count - startIndex : chunkSize
-            return Array(self[startIndex..<startIndex.advanced(by: endIndex)])
-        }
-    }
-}
-
-/* ###################################################################### */
-/**
- This adds various functionality to the String class.
- */
-extension String {
-    /* ################################################################## */
-    /**
-     This tests a string to see if a given substring is present at the start.
-     
-     - parameter inSubstring: The substring to test.
-     
-     - returns: true, if the string begins with the given substring.
-     */
-    func beginsWith (_ inSubstring: String) -> Bool {
-        var ret: Bool = false
-        if let range = self.range(of: inSubstring) {
-            ret = (range.lowerBound == self.startIndex)
-        }
-        return ret
-    }
-    
-    /* ################################################################## */
-    /**
-     The following calculated property comes from this: http://stackoverflow.com/a/27736118/879365
-     
-     This extension function cleans up a URI string.
-     
-     - returns: a string, cleaned for URI.
-     */
-    var urlEncodedString: String? {
-        let customAllowedSet =  CharacterSet.urlQueryAllowed
-        if let ret = self.addingPercentEncoding(withAllowedCharacters: customAllowedSet) {
-            return ret
-        } else {
-            return ""
-        }
-    }
-
-    /* ################################################################## */
-    /**
-     This was cribbed from here: https://stackoverflow.com/a/48867619/879365
-     
-     This is a quick "classmaker" from a String. You assume the String is the name of
-     a class that you want to instantiate, so you use this to return a metatype that
-     can be used to create a class.
-     
-     - returns: a metatype for a class, or nil, if the class cannot be instantiated.
-     */
-    var asClass: AnyClass? {
-        // The first thing we do, is get the main app bundle. Failure retuend nil.
-        guard
-            let dict = Bundle.main.infoDictionary,
-            var appName = dict["CFBundleName"] as? String
-        else {
-            return nil
-        }
+    public var payloadResolved: Any? {
+        var ret: Any?
         
-        // The app name will not tolerate spaces, so they are replaced with underscores.
-        appName = appName.replacingOccurrences(of: " ", with: "_")
-        
-        // The class name is simply a namespace-focused string.
-        let className = appName + "." + self
-        
-        // This looks through the app for the class being loaded. If it finds it, it returns the metatype for that class.
-        return NSClassFromString(className)
-    }
-
-    /* ################################################################## */
-    /**
-     The following function comes from this: http://stackoverflow.com/a/27736118/879365
-     
-     This extension function creates a URI query string from given parameters.
-     
-     - parameter parameters: a dictionary containing query parameters and their values.
-     
-     - returns: a String, with the parameter list.
-     */
-    static func queryStringFromParameters(_ parameters: [String: String]) -> String? {
-        if parameters.isEmpty {
-            return nil
-        }
-        
-        var queryString: String?
-        
-        for (key, value) in parameters {
-            if let encodedKey = key.urlEncodedString {
-                if let encodedValue = value.urlEncodedString {
-                    if queryString == nil {
-                        queryString = "?"
-                    } else {
-                        queryString! += "&"
+        if  let myData = self.payloadData,
+            let slash = self.payloadType.index(of: "/") {
+            let start = self.payloadType.index(after: slash)
+            let mediaType = String(self.payloadType.suffix(from: start))
+            if self.payloadType.beginsWith("image/") {
+                ret = UIImage(data: myData)
+            } else if self.payloadType.beginsWith("video/") {
+                do {
+                    var suffix: String = ""
+                    switch mediaType {
+                    case "mp4", "m4v":
+                        suffix = ".m4v"
+                        
+                    case "avi":
+                        suffix = ".avi"
+                        
+                    case "mov":
+                        suffix = ".mov"
+                        
+                    default:
+                        ret = myData
                     }
-                    queryString! += encodedKey + "=" + encodedValue
+                    
+                    if !suffix.isEmpty {
+                        // We create a path to a unique temporary file to grab the media.
+                        let url = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(UUID().uuidString + suffix)
+                        // Store the media in the temp file.
+                        try myData.write(to: url, options: .atomic)
+                        let options = [AVURLAssetPreferPreciseDurationAndTimingKey: true]
+                        let asset = AVURLAsset(url: url, options: options)
+                        ret = asset
+                    }
+                } catch let error {
+                    #if DEBUG
+                    print("Error Encoding AV Media!: \(error)!")
+                    #endif
+                    NSLog("Error Encoding AV Media: %@", error._domain)
+                }
+            } else if self.payloadType.beginsWith("text/") {
+                switch mediaType {
+                case "plain":
+                    ret = String(data: myData, encoding: .utf8)
+                    
+                default:
+                    ret = myData
+                }
+            } else {
+                switch mediaType {
+                case "pdf":
+                    ret = PDFDocument(data: myData)
+                    
+                default:
+                    ret = myData
                 }
             }
-        }
-        return queryString
-    }
-    
-    /* ################################################################## */
-    /**
-     "Cleans" a URI
-     
-     - returns: an implicitly unwrapped optional String. This is the given URI, "cleaned up" ("http[s]://" may be prefixed).
-     */
-    func cleanURI() -> String! {
-        return self.cleanURI(sslRequired: false)
-    }
-    
-    /* ################################################################## */
-    /**
-     "Cleans" a URI, allowing SSL requirement to be specified.
-     
-     - parameter sslRequired: If true, then we insist on SSL.
-     
-     - returns: an implicitly unwrapped optional String. This is the given URI, "cleaned up" ("http[s]://" may be prefixed)
-     */
-    func cleanURI(sslRequired: Bool) -> String! {
-        var ret: String! = self.urlEncodedString
-        
-        // Very kludgy way of checking for an HTTPS URI.
-        let wasHTTP: Bool = ret.lowercased().beginsWith("http://")
-        let wasHTTPS: Bool = ret.lowercased().beginsWith("https://")
-        
-        // Yeah, this is pathetic, but it's quick, simple, and works a charm.
-        ret = ret.replacingOccurrences(of: "^http[s]{0,1}://", with: "", options: NSString.CompareOptions.regularExpression)
-        
-        if wasHTTPS || (sslRequired && !wasHTTP && !wasHTTPS) {
-            ret = "https://" + ret
-        } else {
-            ret = "http://" + ret
         }
         
         return ret

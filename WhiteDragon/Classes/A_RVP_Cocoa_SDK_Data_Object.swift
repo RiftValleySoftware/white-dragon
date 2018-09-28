@@ -30,7 +30,7 @@ import MapKit
  
  Expressing it as a class gives us a couple of things: 1) It allows us to keep it as a reference, as opposed to a copy, and 2) It allows us to easily extend the class with data interpretation.
  */
-public class RVP_IOS_SDK_Payload {
+public class RVP_Cocoa_SDK_Payload {
     public var payloadData: Data?
     public var payloadType: String = ""
     
@@ -55,7 +55,7 @@ public class RVP_IOS_SDK_Payload {
 /**
  This is a generic "data database" class, encapsulating the generic methods and data items that go with the data database.
  */
-public class A_RVP_IOS_SDK_Data_Object: A_RVP_IOS_SDK_Object {
+public class A_RVP_Cocoa_SDK_Data_Object: A_RVP_Cocoa_SDK_Object {
     /* ################################################################## */
     // MARK: - Public Methods and Calulated properties -
     /* ################################################################## */
@@ -100,13 +100,13 @@ public class A_RVP_IOS_SDK_Data_Object: A_RVP_IOS_SDK_Object {
     /**
      - returns the payload. If possible. The payload will be expressed as a Data object. The type will be the MIME type.
      */
-    public var payload: RVP_IOS_SDK_Payload? {
-        var ret: RVP_IOS_SDK_Payload?
+    public var payload: RVP_Cocoa_SDK_Payload? {
+        var ret: RVP_Cocoa_SDK_Payload?
         
         if  let payload = self._myData["payload"] as? String {
             // We need to remove the Base64 encoding for the data, then we convert it to a basic Data object.
             if let decodedData = NSData(base64Encoded: payload, options: NSData.Base64DecodingOptions(rawValue: 0)) as Data? {
-                ret = RVP_IOS_SDK_Payload(payloadData: decodedData, payloadType: self.payloadType)
+                ret = RVP_Cocoa_SDK_Payload(payloadData: decodedData, payloadType: self.payloadType)
             }
         }
         
@@ -249,7 +249,7 @@ public class A_RVP_IOS_SDK_Data_Object: A_RVP_IOS_SDK_Object {
      - parameter sdkInstance: REQUIRED (Can be nil) This is the SDK instance that "owns" this object. It may be nil for history instances.
      - parameter objectInfoData: REQUIRED This is the parsed JSON data for this object, as a Dictionary.
      */
-    public override init(sdkInstance inSDKInstance: RVP_IOS_SDK?, objectInfoData inData: [String: Any]) {
+    public override init(sdkInstance inSDKInstance: RVP_Cocoa_SDK?, objectInfoData inData: [String: Any]) {
         super.init(sdkInstance: inSDKInstance, objectInfoData: inData)
     }
     

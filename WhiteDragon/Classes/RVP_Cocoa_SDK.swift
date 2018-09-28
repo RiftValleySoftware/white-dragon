@@ -27,7 +27,7 @@ import Foundation
 /**
  This protocol needs to be applied to any class that will use the SDK. The SDK requires a delegate.
  */
-public protocol RVP_IOS_SDK_Delegate: class {
+public protocol RVP_Cocoa_SDK_Delegate: class {
     /* ################################################################## */
     // MARK: - REQUIRED METHODS
     /* ################################################################## */
@@ -40,7 +40,7 @@ public protocol RVP_IOS_SDK_Delegate: class {
      - parameter sdkInstance: This is the SDK instance making the call.
      - parameter sessionConnectionIsValid: A Bool, true, if the SDK is currently in a valid session with a server.
      */
-    func sdkInstance(_: RVP_IOS_SDK, sessionConnectionIsValid: Bool)
+    func sdkInstance(_: RVP_Cocoa_SDK, sessionConnectionIsValid: Bool)
     
     /* ################################################################## */
     /**
@@ -52,7 +52,7 @@ public protocol RVP_IOS_SDK_Delegate: class {
      - parameter sdkInstance: This is the SDK instance making the call.
      - parameter liginValid: A Bool, true, if the SDK is currently logged in.
      */
-    func sdkInstance(_: RVP_IOS_SDK, loginValid: Bool)
+    func sdkInstance(_: RVP_Cocoa_SDK, loginValid: Bool)
     
     /* ################################################################## */
     /**
@@ -63,7 +63,7 @@ public protocol RVP_IOS_SDK_Delegate: class {
      - parameter sdkInstance: This is the SDK instance making the call.
      - parameter sessionDisconnectedBecause: The reason for the disconnection.
      */
-    func sdkInstance(_: RVP_IOS_SDK, sessionDisconnectedBecause: RVP_IOS_SDK.DisconnectionReason)
+    func sdkInstance(_: RVP_Cocoa_SDK, sessionDisconnectedBecause: RVP_Cocoa_SDK.DisconnectionReason)
     
     /* ################################################################## */
     /**
@@ -74,7 +74,7 @@ public protocol RVP_IOS_SDK_Delegate: class {
      - parameter sdkInstance: This is the SDK instance making the call.
      - parameter sessionError: The error in question.
      */
-    func sdkInstance(_: RVP_IOS_SDK, sessionError: Error)
+    func sdkInstance(_: RVP_Cocoa_SDK, sessionError: Error)
     
     /* ################################################################## */
     /**
@@ -85,7 +85,7 @@ public protocol RVP_IOS_SDK_Delegate: class {
      - parameter sdkInstance: This is the SDK instance making the call.
      - parameter fetchedDataItems: An array of subclasses of A_RVP_IOS_SDK_Object.
      */
-    func sdkInstance(_: RVP_IOS_SDK, fetchedDataItems: [A_RVP_IOS_SDK_Object])
+    func sdkInstance(_: RVP_Cocoa_SDK, fetchedDataItems: [A_RVP_Cocoa_SDK_Object])
 }
 
 /* ###################################################################################################################################### */
@@ -103,15 +103,15 @@ public protocol RVP_IOS_SDK_Delegate: class {
  
  The SDK opens a session to the server upon instantiation, and maintains that throughout its lifecycle. This happens whether or not a login is done.
  */
-public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
+public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
     /* ################################################################## */
     // MARK: - Private Properties
     /* ################################################################## */
     /** This is an array of data instances. They are cached here. */
-    private var _dataItems: [A_RVP_IOS_SDK_Object] = []
+    private var _dataItems: [A_RVP_Cocoa_SDK_Object] = []
     
     /** This is the delegate object. This instance is pretty much useless without a delegate. */
-    private weak var _delegate: RVP_IOS_SDK_Delegate?
+    private weak var _delegate: RVP_Cocoa_SDK_Delegate?
     
     /** This is the URI to the server. */
     private var _server_uri: String = ""
@@ -132,10 +132,10 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
     private var _apiKey: String! = nil
     
     /** This is our login info. If we are logged in, this should always have something. */
-    private var _loginInfo: RVP_IOS_SDK_Login?
+    private var _loginInfo: RVP_Cocoa_SDK_Login?
     
     /** This is our user info. If we are logged in, we might have something, but not always. */
-    private var _userInfo: RVP_IOS_SDK_User?
+    private var _userInfo: RVP_Cocoa_SDK_User?
 
     /** This is our list of available plugins. It will be filled, regardless of login status. */
     private var _plugins: [String] = []
@@ -170,7 +170,7 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
                 var ret = $0.id < $1.id
                 
                 if !ret {   // Security objects get listed before data objects
-                    ret = $0 is A_RVP_IOS_SDK_Security_Object && $1 is A_RVP_IOS_SDK_Data_Object
+                    ret = $0 is A_RVP_Cocoa_SDK_Security_Object && $1 is A_RVP_Cocoa_SDK_Data_Object
                 }
 
                 return ret
@@ -188,11 +188,11 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
      
      - returns: The instance, if found. nil, otherwise.
      */
-    private func _findDatabaseItem(compInstance inCompInstance: A_RVP_IOS_SDK_Object) -> A_RVP_IOS_SDK_Object? {
+    private func _findDatabaseItem(compInstance inCompInstance: A_RVP_Cocoa_SDK_Object) -> A_RVP_Cocoa_SDK_Object? {
         if !self.isEmpty {  // Nothing to do, if we have no items.
             for item in self where item.id == inCompInstance.id {
                 // OK. The ID is unique in each database, so we check to see if an existing object and the given object are in the same database.
-                if (item is A_RVP_IOS_SDK_Security_Object && inCompInstance is A_RVP_IOS_SDK_Security_Object) || (item is A_RVP_IOS_SDK_Data_Object && inCompInstance is A_RVP_IOS_SDK_Data_Object) {
+                if (item is A_RVP_Cocoa_SDK_Security_Object && inCompInstance is A_RVP_Cocoa_SDK_Security_Object) || (item is A_RVP_Cocoa_SDK_Data_Object && inCompInstance is A_RVP_Cocoa_SDK_Data_Object) {
                     return item // If so, we return the cached object.
                 }
             }
@@ -271,8 +271,8 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
      
      - returns: An optional array of new instances of concrete subclasses of A_RVP_IOS_SDK_Object.
      */
-    private func _makeInstance(data inData: Data) -> [A_RVP_IOS_SDK_Object]? {
-        var ret: [A_RVP_IOS_SDK_Object] = []
+    private func _makeInstance(data inData: Data) -> [A_RVP_Cocoa_SDK_Object]? {
+        var ret: [A_RVP_Cocoa_SDK_Object] = []
         
         do {    // Extract a usable object from the given JSON data.
             let temp = try JSONSerialization.jsonObject(with: inData, options: [])
@@ -304,22 +304,22 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
      
      - returns: A new subclass instance of A_RVP_IOS_SDK_Object, or nil.
      */
-    private func _makeNewInstanceFromDictionary(_ inDictionary: [String: Any], parent inParent: String) -> A_RVP_IOS_SDK_Object? {
-        var ret: A_RVP_IOS_SDK_Object?
-        var instance: A_RVP_IOS_SDK_Object?
+    private func _makeNewInstanceFromDictionary(_ inDictionary: [String: Any], parent inParent: String) -> A_RVP_Cocoa_SDK_Object? {
+        var ret: A_RVP_Cocoa_SDK_Object?
+        var instance: A_RVP_Cocoa_SDK_Object?
 
         if nil != inDictionary["login_id"] {    // We can easily determine whether or not this is a login. If so, we create a login object. This will be the only security database item.
-            instance = RVP_IOS_SDK_Login(sdkInstance: self, objectInfoData: inDictionary)
+            instance = RVP_Cocoa_SDK_Login(sdkInstance: self, objectInfoData: inDictionary)
         } else {    // The login was low-hanging fruit. For the rest, we need to depend on the "parent" passed in.
             switch inParent {
             case "my_info", "people":
-                instance = RVP_IOS_SDK_User(sdkInstance: self, objectInfoData: inDictionary)
+                instance = RVP_Cocoa_SDK_User(sdkInstance: self, objectInfoData: inDictionary)
                 
             case "places":
-                instance = RVP_IOS_SDK_Place(sdkInstance: self, objectInfoData: inDictionary)
+                instance = RVP_Cocoa_SDK_Place(sdkInstance: self, objectInfoData: inDictionary)
                 
             case "things":
-                instance = RVP_IOS_SDK_Thing(sdkInstance: self, objectInfoData: inDictionary)
+                instance = RVP_Cocoa_SDK_Thing(sdkInstance: self, objectInfoData: inDictionary)
                 
             default:
                 let data: Data = NSKeyedArchiver.archivedData(withRootObject: inDictionary)
@@ -357,8 +357,8 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
      
      - returns: An Array of new subclass instances of A_RVP_IOS_SDK_Object.
      */
-    private func _makeInstancesFromDictionary(_ inDictionary: NSDictionary, parent inParent: String! = nil) -> [A_RVP_IOS_SDK_Object] {
-        var ret: [A_RVP_IOS_SDK_Object] = []
+    private func _makeInstancesFromDictionary(_ inDictionary: NSDictionary, parent inParent: String! = nil) -> [A_RVP_Cocoa_SDK_Object] {
+        var ret: [A_RVP_Cocoa_SDK_Object] = []
         // First, see if we have a data item. If so, we simply go right to the factory.
         if nil != inParent, nil != inDictionary.object(forKey: "id"), nil != inDictionary.object(forKey: "name"), nil != inDictionary.object(forKey: "lang"), let object_data = inDictionary as? [String: Any] {
             if let object = self._makeNewInstanceFromDictionary(object_data, parent: inParent) {
@@ -396,8 +396,8 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
      
      - returns: An Array of new subclass instances of A_RVP_IOS_SDK_Object.
      */
-    private func _makeInstancesFromArray(_ inArray: NSArray, parent inParent: String! = nil) -> [A_RVP_IOS_SDK_Object] {
-        var ret: [A_RVP_IOS_SDK_Object] = []
+    private func _makeInstancesFromArray(_ inArray: NSArray, parent inParent: String! = nil) -> [A_RVP_Cocoa_SDK_Object] {
+        var ret: [A_RVP_Cocoa_SDK_Object] = []
         // With Arrays, we don't have parent keys, so we use the one that was originally passed in.
         for value in inArray {
             if let forced_value = value as? NSDictionary {
@@ -457,7 +457,7 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
      
      - parameter inItemArray: An Array of concrete instances of subclasses of A_RVP_IOS_SDK_Object.
      */
-    private func _sendItemsToDelegate(_ inItemArray: [A_RVP_IOS_SDK_Object]) {
+    private func _sendItemsToDelegate(_ inItemArray: [A_RVP_Cocoa_SDK_Object]) {
         if nil != self._delegate {
             self._delegate!.sdkInstance(self, fetchedDataItems: inItemArray)
         }
@@ -471,7 +471,7 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
      */
     private func _handleInvalidServer() {
         if nil != self._delegate {
-            self._delegate!.sdkInstance(self, sessionDisconnectedBecause: RVP_IOS_SDK.DisconnectionReason.serverConnectionInvalid)
+            self._delegate!.sdkInstance(self, sessionDisconnectedBecause: RVP_Cocoa_SDK.DisconnectionReason.serverConnectionInvalid)
         }
     }
 
@@ -515,7 +515,7 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
                             return
                     }
                     if let mimeType = httpResponse.mimeType, mimeType == "application/json", let data = data {
-                        if let object = self._makeInstance(data: data) as? [RVP_IOS_SDK_Login] {
+                        if let object = self._makeInstance(data: data) as? [RVP_Cocoa_SDK_Login] {
                             if 1 == object.count {
                                 self._loginInfo = object[0]
                                 // Assuming all went well, we ask for any user information.
@@ -567,7 +567,7 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
                             self._callDelegateLoginValid(self.isLoggedIn)   // OK. We're done. Tell the delegate whether or not we are logged in.
                         }
                     } else if let mimeType = httpResponse.mimeType, mimeType == "application/json", let data = data {
-                        if let object = self._makeInstance(data: data) as? [RVP_IOS_SDK_User] {
+                        if let object = self._makeInstance(data: data) as? [RVP_Cocoa_SDK_User] {
                             if 1 == object.count {
                                 self._userInfo = object[0]
                                 if self._plugins.isEmpty {
@@ -605,7 +605,7 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
      */
     private func _fetchDataItems(_ inIntegerIDs: [Int], plugin inPlugin: String ) {
         var fetchIDs: [Int] = []
-        var cachedObjects: [A_RVP_IOS_SDK_Data_Object] = []
+        var cachedObjects: [A_RVP_Cocoa_SDK_Data_Object] = []
         var plugin = inPlugin
         
         if "people" == inPlugin {
@@ -615,7 +615,7 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
         // First, we look for cached instances. If we have them, we send them to the delegate.
         for var id in inIntegerIDs {
             for dataItem in self._dataItems {   // See if we already have this user. If so, we immediately fetch it.
-                if let dataItem = dataItem as? A_RVP_IOS_SDK_Data_Object, dataItem.id == id {
+                if let dataItem = dataItem as? A_RVP_Cocoa_SDK_Data_Object, dataItem.id == id {
                     cachedObjects.append(dataItem)
                     id = 0
                     break
@@ -728,11 +728,11 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
      */
     private func _fetchLoginItems(_ inIntegerIDs: [Int] ) {
         var fetchIDs: [Int] = []
-        var cachedObjects: [A_RVP_IOS_SDK_Object] = []
+        var cachedObjects: [A_RVP_Cocoa_SDK_Object] = []
         
         // First, we look for cached instances. If we have them, we send them to the delegate.
         for var id in inIntegerIDs {
-            for dataItem in self._dataItems where dataItem is A_RVP_IOS_SDK_Security_Object && dataItem.id == id {
+            for dataItem in self._dataItems where dataItem is A_RVP_Cocoa_SDK_Security_Object && dataItem.id == id {
                 cachedObjects.append(dataItem)
                 id = 0
             }
@@ -764,12 +764,12 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
      */
     private func _fetchLoginItems(_ inLoginIDs: [String] ) {
         var fetchIDs: [String] = []
-        var cachedObjects: [A_RVP_IOS_SDK_Object] = []
+        var cachedObjects: [A_RVP_Cocoa_SDK_Object] = []
         
         // First, we look for cached instances. If we have them, we send them to the delegate.
         for var id in inLoginIDs {
-            for dataItem in self._dataItems where dataItem is A_RVP_IOS_SDK_Security_Object {
-                if let secItem = dataItem as? A_RVP_IOS_SDK_Security_Object, secItem.loginID == id {
+            for dataItem in self._dataItems where dataItem is A_RVP_Cocoa_SDK_Security_Object {
+                if let secItem = dataItem as? A_RVP_Cocoa_SDK_Security_Object, secItem.loginID == id {
                     cachedObjects.append(dataItem)
                     id = ""
                 }
@@ -802,12 +802,12 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
      */
     private func _fetchThings(_ inKeys: [String] ) {
         var fetchKeys: [String] = []
-        var cachedObjects: [A_RVP_IOS_SDK_Object] = []
+        var cachedObjects: [A_RVP_Cocoa_SDK_Object] = []
         
         // First, we look for cached instances. If we have them, we send them to the delegate.
         for var key in inKeys {
-            for dataItem in self._dataItems where dataItem is RVP_IOS_SDK_Thing {
-                if let thing = dataItem as? RVP_IOS_SDK_Thing, thing.thingKey == key {
+            for dataItem in self._dataItems where dataItem is RVP_Cocoa_SDK_Thing {
+                if let thing = dataItem as? RVP_Cocoa_SDK_Thing, thing.thingKey == key {
                     cachedObjects.append(dataItem)
                     key = ""
                 }
@@ -905,7 +905,7 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
     // MARK: - Public Types
     /* ################################################################## */
     /** This is the element type for the Sequence protocol. */
-    public typealias Element = A_RVP_IOS_SDK_Object
+    public typealias Element = A_RVP_Cocoa_SDK_Object
     
     /* ################################################################## */
     // MARK: - Public Enums
@@ -1194,7 +1194,7 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
     /**
      This is the login info for our current login. Returns nil, if not logged in.
      */
-    public var myLoginInfo: RVP_IOS_SDK_Login? {
+    public var myLoginInfo: RVP_Cocoa_SDK_Login? {
         return self._loginInfo
     }
     
@@ -1202,7 +1202,7 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
     /**
      This is the user info for our current login. Returns nil, if not logged in, or we don't have any user info associated with the login.
      */
-    public var myUserInfo: RVP_IOS_SDK_User? {
+    public var myUserInfo: RVP_Cocoa_SDK_User? {
         return self._userInfo
     }
 
@@ -1220,7 +1220,7 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
      - parameter timeout: (OPTIONAL/REQUIRED) A Floating-point value, with the number of seconds the login has to be active. If provided, then you must also provide inLoginId and inPassword.
      - parameter session: (OPTIONAL) This allows the caller to have their own URLSession established (often, there is only one per app), so we can hitch a ride with that session. Otherwise, we create our own. The session must be ephemeral.
      */
-    public init(serverURI inServerURI: String, serverSecret inServerSecret: String, delegate inDelegate: RVP_IOS_SDK_Delegate, loginID inLoginID: String! = nil, password inPassword: String! = nil, timeout inLoginTimeout: TimeInterval! = nil, session inURLSession: URLSession? = nil) {
+    public init(serverURI inServerURI: String, serverSecret inServerSecret: String, delegate inDelegate: RVP_Cocoa_SDK_Delegate, loginID inLoginID: String! = nil, password inPassword: String! = nil, timeout inLoginTimeout: TimeInterval! = nil, session inURLSession: URLSession? = nil) {
         super.init()
         
         self._delegate = inDelegate
@@ -1435,7 +1435,7 @@ public class RVP_IOS_SDK: NSObject, Sequence, URLSessionDelegate {
     /**
      - returns: a new iterator for the instance.
      */
-    public func makeIterator() -> RVP_IOS_SDK.Iterator {
+    public func makeIterator() -> RVP_Cocoa_SDK.Iterator {
         return Iterator(self._dataItems)
     }
 }
