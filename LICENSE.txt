@@ -1,4 +1,4 @@
-WHITE DRAGON IOS SDK
+WHITE DRAGON COCOA SDK
 
 © Copyright 2018, Little Green Viper Software Development LLC.
 

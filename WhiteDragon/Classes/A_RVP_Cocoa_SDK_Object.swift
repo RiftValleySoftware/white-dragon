@@ -62,10 +62,14 @@ public class A_RVP_Cocoa_SDK_Object: NSObject {
         if let lastAccess = self.lastAccess {
             ret["lastAccess"] = lastAccess
         }
+        
+        if !self.lang.isEmpty {
+            ret["lang"] = self.lang
+        }
 
         return ret
     }
-
+    
     /* ################################################################## */
     /**
      - returns true, if the data in the object has been changed since it was first created. READ ONLY
@@ -214,6 +218,26 @@ public class A_RVP_Cocoa_SDK_Object: NSObject {
             if self.isWriteable {
                 self._myData["write_token"] = newValue
             }
+        }
+    }
+    
+    /* ################################################################## */
+    /**
+     - returns the language
+     */
+    public var lang: String {
+        get {
+            var ret: String = ""
+            
+            if let lang = self._myData["lang"] as? String {
+                ret = lang
+            }
+            
+            return ret
+        }
+        
+        set {
+            self._myData["lang"] = newValue
         }
     }
     

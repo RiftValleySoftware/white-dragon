@@ -658,9 +658,18 @@ class RVP_DisplayElementView: UIView, AVAudioPlayerDelegate {
                 displayItem = UIImageView(image: payloadAsImage)
                 aspect = payloadAsImage.size.height / payloadAsImage.size.width
             } else if let payloadAsString = payload as? String {
-                print("String Payload: \(payloadAsString)")
+                let textView = UITextView()
+                textView.backgroundColor = UIColor.init(red: 0.3, green: 0.3, blue: 0, alpha: 0.15)
+                textView.text = payloadAsString
+                displayItem = textView
+                aspect = 1.0
             } else if let payloadAsPDF = payload as? PDFDocument {
-                print("PDF Payload: \(String(describing: payloadAsPDF))")
+                let pdfView = PDFView()
+                pdfView.document = payloadAsPDF
+                pdfView.contentMode = .scaleAspectFit
+                pdfView.autoScales = true
+                displayItem = pdfView
+                aspect = 1.0
             } else if let payloadAsMedia = payload as? AVAsset {
                 let playerItem = AVPlayerItem(asset: payloadAsMedia)
                 let videoTracks = payloadAsMedia.tracks(withMediaType: AVMediaType.video)

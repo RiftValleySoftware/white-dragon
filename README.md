@@ -2,21 +2,21 @@
 
 ![PHP BAOBAB SDK](images/WhiteDragon.png)
 
-THE GREAT RIFT VALLEY PLATFORM PHP SDK LIBRARY
+THE GREAT RIFT VALLEY PLATFORM COCOA SDK LIBRARY
 ==============================================
 
 Part of the Rift Valley Platform
------------------------------------------------------------------------------------------------------------------
+----------------------------------
 ![BAOBAB Server and The Rift Valley Platform](images/BothLogos.png)
 
 INTRODUCTION
 ============
 
-The WHITE DRAGON IOS SDK Layer is a general-purpose iOS ORM for the BAOBAB Server. It uses the REST API to communicate with the Server, and presents the server as a Swift Object Model for use by iOS Swift applications.
-![PHP BAOBAB SDK LAYERS](images/PHPSDKLayers.png)
+The WHITE DRAGON IOS SDK Layer is a general-purpose Cocoa ORM for the BAOBAB Server. It uses the REST API to communicate with the Server, and presents the server as a Swift Object Model for use by iOS/MacOS Swift applications.
+![BAOBAB SDK LAYERS](images/PHPSDKLayers.png)
 
 ABOUT THE GREAT RIFT VALLEY PLATFORM
-====================================
+===================================
 
 The Great Rift Valley Platform is a combined system of a central server (called "The BAOBAB Server"), providing a published [API (Application Programming Interface)](https://en.wikipedia.org/wiki/Application_programming_interface), which is accessible via the Internet, and various "endpoint" apps, such as WordPress plugins and iPhone apps that connect to the server, and allow interpretation and andministration by end-users.
 
@@ -31,7 +31,7 @@ Every item, in either database, has a read token and a write token. This is a si
 It is possible to allow any user (not just logged-in ones) read access to any data item, but non-logged-in users can never modify items. It is also possible to set item read tokens to allow any logged-in user to access the item (but no non-logged-in users). Of course, you can get a great deal more restrictive. Any data item can only have one token in the read slot, and one token in the write slot. You allow multiple logins to access these by giving the same token to multiple logins.
 
 SECURITY DATABASE:
-------------------
+---------------------------
 
 This contains either simple security tokens (items with no login information) or login records.
 
@@ -46,7 +46,7 @@ All security database items (including logins) have a unique ID. This ID is a se
 Security tokens are enforced at a very low level in the system. If a user does not have the requisite token to view an asset, then that asset is never even accessed in the database. It is "invisible" to the user. Additionally, the user is never informed of the existence of tokens they don't "own." They just never see them.
 
 DATA DATABASE:
---------------
+--------------------
 
 There are three kinds of default assets in the data database: People, Places and Things.
 
@@ -85,14 +85,14 @@ Every item in the data database: Person, Place, Thing, has a set of common featu
     You can attach other data database objects to data database records. These are called "children." Each "child" has its own security tokens, so being a "child" of an object does not automatically confer any rights. Think of a user having attached medical records. The records will stay attached to the users, but only logins with read tokens for those records will even know they exist. They will never appear for others, so you could publicize a name for a person, but their address information could be sequestered, and even more confidential information can be secured even more tightly. A "child" can be associated with multiple records.
 
 SERVER TECHNOLOGY:
-------------------
+----------------------------
 
 The server has deliberately been designed to use the most basic, vanilla hosting (like the BMLT). This means that it can be installed in fairly low-budget hosting solutions.
 
 BAOBAB allows either [MySQL](https://www.mysql.com) or [PostgreSQL](https://www.postgresql.org) to be used as the database engine. They can be completely separate from each other (no need to use the same server or even engine for both). This allows a configuarion like a hardened security database, while the main data database may be a high-performance database.
 
 NO DEPENDENCIES:
-----------------
+-------------------------
 
 Modern server technologists love dependencies. These are installations of third-party packages or usage of external (usually cloud-based) services. This means that the programmer voluntarily cedes control of some fairly significant resources and access to these third parties. In many of the published security nightmares you are reading about, dependencies are a big factor. Someone included a library that was written with an exploit, and that library runs as a full admin, so that means that anyone that can get into that library can also get into your app.
 
@@ -105,7 +105,7 @@ Of course, one of the things that you do get with dependencies is a much "shinie
 LICENSE (WHITE DRAGON SDK)
 =========================
 MIT License
------------
+-------------
 
 © Copyright 2018, [Little Green Viper Software Development LLC](https://littlegreenviper.com).
 

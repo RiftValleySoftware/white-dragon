@@ -20,7 +20,6 @@
 */
 
 import UIKit
-import MapKit
 import AVKit
 import PDFKit
 
