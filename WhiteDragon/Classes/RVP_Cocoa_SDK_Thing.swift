@@ -44,6 +44,38 @@ public class RVP_Cocoa_SDK_Thing: A_RVP_Cocoa_SDK_Data_Object {
             ret["thingDescription"] = self.thingDescription
         }
         
+        if !self.tag2.isEmpty {
+            ret["tag2"] = self.tag2
+        }
+        
+        if !self.tag3.isEmpty {
+            ret["tag3"] = self.tag3
+        }
+        
+        if !self.tag4.isEmpty {
+            ret["tag4"] = self.tag4
+        }
+
+        if !self.tag5.isEmpty {
+            ret["tag5"] = self.tag5
+        }
+
+        if !self.tag6.isEmpty {
+            ret["tag6"] = self.tag6
+        }
+
+        if !self.tag7.isEmpty {
+            ret["tag7"] = self.tag7
+        }
+
+        if !self.tag8.isEmpty {
+            ret["tag8"] = self.tag8
+        }
+        
+        if !self.tag9.isEmpty {
+            ret["tag9"] = self.tag9
+        }
+
         return ret
     }
     
@@ -90,7 +122,183 @@ public class RVP_Cocoa_SDK_Thing: A_RVP_Cocoa_SDK_Data_Object {
             }
         }
     }
+
+    /* ################################################################## */
+    /**
+     - returns the tag2 String.
+     */
+    public var tag2: String {
+        get {
+            var ret: String = ""
+            
+            if let tag = self._myData["tag2"] as? String {
+                ret = tag
+            }
+            
+            return ret
+        }
+        
+        set {
+            if self.isWriteable {
+                self._myData["tag2"] = newValue
+            }
+        }
+    }
+
+    /* ################################################################## */
+    /**
+     - returns the tag3 String.
+     */
+    public var tag3: String {
+        get {
+            var ret: String = ""
+            
+            if let tag = self._myData["tag3"] as? String {
+                ret = tag
+            }
+            
+            return ret
+        }
+        
+        set {
+            if self.isWriteable {
+                self._myData["tag3"] = newValue
+            }
+        }
+    }
+
+    /* ################################################################## */
+    /**
+     - returns the tag4 String.
+     */
+    public var tag4: String {
+        get {
+            var ret: String = ""
+            
+            if let tag = self._myData["tag4"] as? String {
+                ret = tag
+            }
+            
+            return ret
+        }
+        
+        set {
+            if self.isWriteable {
+                self._myData["tag4"] = newValue
+            }
+        }
+    }
+
+    /* ################################################################## */
+    /**
+     - returns the tag5 String.
+     */
+    public var tag5: String {
+        get {
+            var ret: String = ""
+            
+            if let tag = self._myData["tag5"] as? String {
+                ret = tag
+            }
+            
+            return ret
+        }
+        
+        set {
+            if self.isWriteable {
+                self._myData["tag5"] = newValue
+            }
+        }
+    }
+
+    /* ################################################################## */
+    /**
+     - returns the tag6 String.
+     */
+    public var tag6: String {
+        get {
+            var ret: String = ""
+            
+            if let tag = self._myData["tag6"] as? String {
+                ret = tag
+            }
+            
+            return ret
+        }
+        
+        set {
+            if self.isWriteable {
+                self._myData["tag6"] = newValue
+            }
+        }
+    }
+
+    /* ################################################################## */
+    /**
+     - returns the tag7 String.
+     */
+    public var tag7: String {
+        get {
+            var ret: String = ""
+            
+            if let tag = self._myData["tag7"] as? String {
+                ret = tag
+            }
+            
+            return ret
+        }
+        
+        set {
+            if self.isWriteable {
+                self._myData["tag7"] = newValue
+            }
+        }
+    }
+
+    /* ################################################################## */
+    /**
+     - returns the tag8 String.
+     */
+    public var tag8: String {
+        get {
+            var ret: String = ""
+            
+            if let tag = self._myData["tag8"] as? String {
+                ret = tag
+            }
+            
+            return ret
+        }
+        
+        set {
+            if self.isWriteable {
+                self._myData["tag8"] = newValue
+            }
+        }
+    }
     
+    /* ################################################################## */
+    /**
+     - returns the tag9 String.
+     */
+    public var tag9: String {
+        get {
+            var ret: String = ""
+            
+            if let tag = self._myData["tag9"] as? String {
+                ret = tag
+            }
+            
+            return ret
+        }
+        
+        set {
+            if self.isWriteable {
+                self._myData["tag9"] = newValue
+            }
+        }
+    }
+
     /* ################################################################## */
     /**
      This is the default initializer.

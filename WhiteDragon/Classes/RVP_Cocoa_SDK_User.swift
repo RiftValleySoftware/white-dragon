@@ -63,6 +63,18 @@ public class RVP_Cocoa_SDK_User: A_RVP_Cocoa_SDK_Data_Object {
         if let suffix = self.suffix {
             ret["suffix"] = suffix
         }
+        
+        if !self.tag7.isEmpty {
+            ret["tag7"] = self.tag7
+        }
+        
+        if !self.tag8.isEmpty {
+            ret["tag8"] = self.tag8
+        }
+
+        if !self.tag9.isEmpty {
+            ret["tag9"] = self.tag9
+        }
 
         return ret
     }
@@ -219,6 +231,72 @@ public class RVP_Cocoa_SDK_User: A_RVP_Cocoa_SDK_Data_Object {
         set {
             if self.isWriteable {
                 self._myData["associated_login_id"] = newValue
+            }
+        }
+    }
+
+    /* ################################################################## */
+    /**
+     - returns the tag7 String.
+     */
+    public var tag7: String {
+        get {
+            var ret: String = ""
+            
+            if let tag = self._myData["tag7"] as? String {
+                ret = tag
+            }
+            
+            return ret
+        }
+        
+        set {
+            if self.isWriteable {
+                self._myData["tag7"] = newValue
+            }
+        }
+    }
+
+    /* ################################################################## */
+    /**
+     - returns the tag8 String.
+     */
+    public var tag8: String {
+        get {
+            var ret: String = ""
+            
+            if let tag = self._myData["tag8"] as? String {
+                ret = tag
+            }
+            
+            return ret
+        }
+        
+        set {
+            if self.isWriteable {
+                self._myData["tag8"] = newValue
+            }
+        }
+    }
+
+    /* ################################################################## */
+    /**
+     - returns the tag9 String.
+     */
+    public var tag9: String {
+        get {
+            var ret: String = ""
+            
+            if let tag = self._myData["tag9"] as? String {
+                ret = tag
+            }
+            
+            return ret
+        }
+        
+        set {
+            if self.isWriteable {
+                self._myData["tag9"] = newValue
             }
         }
     }

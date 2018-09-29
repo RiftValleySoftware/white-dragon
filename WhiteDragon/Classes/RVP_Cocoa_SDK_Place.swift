@@ -71,6 +71,14 @@ public class RVP_Cocoa_SDK_Place: A_RVP_Cocoa_SDK_Data_Object {
         if !self.nation.isEmpty {
             ret["nation"] = self.nation
         }
+        
+        if !self.tag8.isEmpty {
+            ret["tag8"] = self.tag8
+        }
+        
+        if !self.tag9.isEmpty {
+            ret["tag9"] = self.tag9
+        }
 
         return ret
     }
@@ -295,6 +303,50 @@ public class RVP_Cocoa_SDK_Place: A_RVP_Cocoa_SDK_Data_Object {
                 
                 newElements["nation"] = newValue
                 self._myData["address_elements"] = newElements
+            }
+        }
+    }
+
+    /* ################################################################## */
+    /**
+     - returns the tag8 String.
+     */
+    public var tag8: String {
+        get {
+            var ret: String = ""
+            
+            if let tag = self._myData["tag8"] as? String {
+                ret = tag
+            }
+            
+            return ret
+        }
+        
+        set {
+            if self.isWriteable {
+                self._myData["tag8"] = newValue
+            }
+        }
+    }
+
+    /* ################################################################## */
+    /**
+     - returns the tag9 String.
+     */
+    public var tag9: String {
+        get {
+            var ret: String = ""
+            
+            if let tag = self._myData["tag9"] as? String {
+                ret = tag
+            }
+            
+            return ret
+        }
+        
+        set {
+            if self.isWriteable {
+                self._myData["tag9"] = newValue
             }
         }
     }
