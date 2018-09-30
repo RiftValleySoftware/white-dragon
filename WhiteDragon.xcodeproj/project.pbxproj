@@ -134,6 +134,8 @@
 		D4E26864214302A3002ECE12 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D4E26867214302A3002ECE12 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D4E26869214302A4002ECE12 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D4ECC295216179B7008DD4A5 /* Fastfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Fastfile.swift; path = fastlane/Fastfile.swift; sourceTree = "<group>"; };
+		D4ECC296216179B7008DD4A5 /* Appfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Appfile.swift; path = fastlane/Appfile.swift; sourceTree = "<group>"; };
 		D4FC297C21514BFB008271E4 /* Test002BasicUserListing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test002BasicUserListing.swift; sourceTree = "<group>"; };
 		D4FF8B6421542E9F0051A0B8 /* RVP_DisplayElementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RVP_DisplayElementView.swift; sourceTree = "<group>"; };
 		DEA8986ABAA1BA586DC9A8CD /* Pods_WhiteDragon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WhiteDragon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -265,6 +267,8 @@
 				D4B8A98C213ECB18007CB311 /* jazzy.sh */,
 				D4DC0CD0215ED2AB00052AA7 /* jazzy.yaml */,
 				D4B8A989213ECB18007CB311 /* WhiteDragon.podspec */,
+				D4ECC296216179B7008DD4A5 /* Appfile.swift */,
+				D4ECC295216179B7008DD4A5 /* Fastfile.swift */,
 				D4B8A98F213ECB25007CB311 /* .swiftlint.yml */,
 				D4B8A98E213ECB25007CB311 /* .swift-version */,
 			);
