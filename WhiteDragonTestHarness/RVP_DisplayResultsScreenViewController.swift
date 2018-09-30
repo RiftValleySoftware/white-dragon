@@ -26,13 +26,12 @@ import UIKit
 /* ###################################################################################################################################### */
 /**
  */
-class RVP_DisplayResultsScreenViewController: UIViewController {
-    private let _presentGenericPayloadSegueID: String = "show-generic-document"
-    
+class RVP_DisplayResultsScreenViewController: UIViewController, UIDocumentInteractionControllerDelegate {
     @IBOutlet weak var resultsScrollView: RVP_DisplayResultsScrollView!
     var resultsArray: [A_RVP_Cocoa_SDK_Object] = []
     var sdkInstance: RVP_Cocoa_SDK!
-    
+    var documentDisplayController: UIDocumentInteractionController?
+
     /* ################################################################## */
     /**
      */
@@ -45,13 +44,6 @@ class RVP_DisplayResultsScreenViewController: UIViewController {
      */
     @objc func fetchUserForLogin(_ inButton: RVP_LoginButton) {
         inButton.sdkInstance.fetchUsers([inButton.loginID])
-    }
-    
-    /* ################################################################## */
-    /**
-     */
-    @objc func showGenericPayload(_ inButton: RVP_PayloadButton) {
-        self.performSegue(withIdentifier: self._presentGenericPayloadSegueID, sender: inButton.payload)
     }
 
     /* ################################################################## */
@@ -77,18 +69,14 @@ class RVP_DisplayResultsScreenViewController: UIViewController {
         }
         self.dismiss(animated: true, completion: nil)
     }
-    
+
     /* ################################################################## */
     /**
      */
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let destination = segue.destination as? RVP_DisplayDocumentViewController {
-            if let node = sender as? Data {
-                destination.setDocumentFromData(node)
-            }
+    @IBAction func displayEPUBButtonHit(_ sender: UIButton) {
+        if !(self.documentDisplayController?.presentPreview(animated: true))! {
+            print("Unable to Display EPUB")
         }
-        
-        super.prepare(for: segue, sender: nil)
     }
 
     /* ################################################################## */
@@ -99,6 +87,26 @@ class RVP_DisplayResultsScreenViewController: UIViewController {
         self.resultsScrollView.sdkInstance = self.sdkInstance
         
         super.viewWillAppear(animated)
+    }
+    
+    /* ################################################################## */
+    /**
+     */
+    func setEPUBDocumentFromData(_ inData: Data) {
+        do {
+            // We create a path to a unique temporary file to grab the media.
+            let url = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(UUID().uuidString + ".epub")
+            // Store the media in the temp file.
+            try inData.write(to: url, options: .atomic)
+            self.documentDisplayController = UIDocumentInteractionController(url: url)
+            self.documentDisplayController?.delegate = self
+            self.documentDisplayController?.name = "EPUB DOCUMENT"
+        } catch let error {
+            #if DEBUG
+            print("Error Encoding AV Media!: \(error)!")
+            #endif
+            NSLog("Error Encoding AV Media: %@", error._domain)
+        }
     }
 
     /* ################################################################## */
@@ -128,5 +136,26 @@ class RVP_DisplayResultsScreenViewController: UIViewController {
             
             return ret
         }
+    }
+    
+    /* ################################################################## */
+    /**
+     */
+    func documentInteractionControllerRectForPreview(_ controller: UIDocumentInteractionController) -> CGRect {
+        return self.view.bounds
+    }
+    
+    /* ################################################################## */
+    /**
+     */
+    func documentInteractionControllerViewForPreview(_ controller: UIDocumentInteractionController) -> UIView? {
+        return self.view
+    }
+    
+    /* ################################################################## */
+    /**
+     */
+    func documentInteractionControllerViewControllerForPreview(_ controller: UIDocumentInteractionController) -> UIViewController {
+        return self
     }
 }

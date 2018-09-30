@@ -756,8 +756,9 @@ class RVP_DisplayElementView: UIView, AVAudioPlayerDelegate {
                     try self.myAudioPlayer = AVAudioPlayer(data: payloadData)
                     self.myAudioPlayer?.delegate = self
                 } catch {
+                    self.myController.setEPUBDocumentFromData(payloadData)
                     let payloadButton = RVP_PayloadButton(payloadData)
-                    payloadButton.addTarget(self.myController, action: Selector(("showGenericPayload:")), for: .touchUpInside)
+                    payloadButton.addTarget(self.myController, action: Selector(("displayEPUBButtonHit:")), for: .touchUpInside)
                     displayItem = payloadButton
                     height = 30
                 }
