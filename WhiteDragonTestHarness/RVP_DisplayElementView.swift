@@ -71,6 +71,74 @@ class RVP_VideoPlayerView: UIView {
 }
 
 /* ###################################################################################################################################### */
+// MARK: - Generic Payload Button Class -
+/* ###################################################################################################################################### */
+/**
+ */
+@IBDesignable
+class RVP_PayloadButton: UIButton {
+    var payload: Data?
+    
+    /* ################################################################## */
+    /**
+     */
+    init(_ inPayload: Data) {
+        self.payload = inPayload
+        super.init(frame: CGRect.zero)
+    }
+    
+    /* ################################################################## */
+    /**
+     */
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
+    /* ################################################################## */
+    /**
+     */
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        self.subviews.forEach({ $0.removeFromSuperview() })
+        let innerLabel = UILabel()
+        innerLabel.text = "VIEW PAYLOAD"
+        self.addSubview(innerLabel)
+        innerLabel.translatesAutoresizingMaskIntoConstraints = false
+        innerLabel.textAlignment = .center
+        
+        self.addConstraints([
+            NSLayoutConstraint(item: innerLabel,
+                               attribute: .top,
+                               relatedBy: .equal,
+                               toItem: self,
+                               attribute: .top,
+                               multiplier: 1.0,
+                               constant: 0),
+            NSLayoutConstraint(item: innerLabel,
+                               attribute: .bottom,
+                               relatedBy: .equal,
+                               toItem: self,
+                               attribute: .bottom,
+                               multiplier: 1.0,
+                               constant: 0),
+            NSLayoutConstraint(item: innerLabel,
+                               attribute: .centerX,
+                               relatedBy: .equal,
+                               toItem: self,
+                               attribute: .centerX,
+                               multiplier: 1.0,
+                               constant: 0.0),
+            NSLayoutConstraint(item: innerLabel,
+                               attribute: .width,
+                               relatedBy: .equal,
+                               toItem: self,
+                               attribute: .width,
+                               multiplier: 1.0,
+                               constant: 0.0)])
+    }
+}
+
+/* ###################################################################################################################################### */
 // MARK: - Login Button Class -
 /* ###################################################################################################################################### */
 /**
@@ -653,6 +721,7 @@ class RVP_DisplayElementView: UIView, AVAudioPlayerDelegate {
         if let payload = inPayload.payloadResolved {
             var displayItem: UIView!
             var aspect: CGFloat = 0
+            var height: CGFloat = 0
 
             if let payloadAsImage = payload as? UIImage {
                 displayItem = UIImageView(image: payloadAsImage)
@@ -687,11 +756,15 @@ class RVP_DisplayElementView: UIView, AVAudioPlayerDelegate {
                     try self.myAudioPlayer = AVAudioPlayer(data: payloadData)
                     self.myAudioPlayer?.delegate = self
                 } catch {
+                    let payloadButton = RVP_PayloadButton(payloadData)
+                    payloadButton.addTarget(self.myController, action: Selector(("showGenericPayload:")), for: .touchUpInside)
+                    displayItem = payloadButton
+                    height = 30
                 }
             }
             
             if nil != displayItem {
-                self.applyConstraints(thisElement: displayItem, height: 0)
+                self.applyConstraints(thisElement: displayItem, height: height)
                 if 0 < aspect {
                     self.addConstraints([
                         NSLayoutConstraint(item: displayItem,

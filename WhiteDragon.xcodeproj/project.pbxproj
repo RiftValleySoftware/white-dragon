@@ -43,6 +43,7 @@
 		D477B40A213EA86B0018AB45 /* white_dragonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D477B409213EA86B0018AB45 /* white_dragonTests.swift */; };
 		D4885EE42155216F00DF9862 /* RVP_DisplayResultsScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4885EE32155216F00DF9862 /* RVP_DisplayResultsScrollView.swift */; };
 		D48F4A5A215669D300597A2C /* RVP_DisplayResultsScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F4A59215669D300597A2C /* RVP_DisplayResultsScreenViewController.swift */; };
+		D49C9DF22160E4DE002556B3 /* RVP_DisplayDocumentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49C9DF12160E4DE002556B3 /* RVP_DisplayDocumentViewController.swift */; };
 		D4A3EFDB215E9A9C0056BBA9 /* RVP_iOS_SDK_Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A3EFDA215E9A9C0056BBA9 /* RVP_iOS_SDK_Utils.swift */; };
 		D4A3EFDC215E9B4E0056BBA9 /* RVP_iOS_SDK_Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A3EFDA215E9A9C0056BBA9 /* RVP_iOS_SDK_Utils.swift */; };
 		D4A3EFDD215E9B4E0056BBA9 /* RVP_iOS_SDK_Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A3EFDA215E9A9C0056BBA9 /* RVP_iOS_SDK_Utils.swift */; };
@@ -99,6 +100,7 @@
 		D477B40B213EA86B0018AB45 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D4885EE32155216F00DF9862 /* RVP_DisplayResultsScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RVP_DisplayResultsScrollView.swift; sourceTree = "<group>"; };
 		D48F4A59215669D300597A2C /* RVP_DisplayResultsScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RVP_DisplayResultsScreenViewController.swift; sourceTree = "<group>"; };
+		D49C9DF12160E4DE002556B3 /* RVP_DisplayDocumentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RVP_DisplayDocumentViewController.swift; sourceTree = "<group>"; };
 		D4A3EFDA215E9A9C0056BBA9 /* RVP_iOS_SDK_Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RVP_iOS_SDK_Utils.swift; path = WhiteDragon/Classes/RVP_iOS_SDK_Utils.swift; sourceTree = SOURCE_ROOT; };
 		D4A5C3422152BA6500159EFF /* TestHarnessUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestHarnessUtilities.swift; sourceTree = "<group>"; };
 		D4B8A989213ECB18007CB311 /* WhiteDragon.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = WhiteDragon.podspec; sourceTree = "<group>"; };
@@ -267,6 +269,7 @@
 				D48F4A59215669D300597A2C /* RVP_DisplayResultsScreenViewController.swift */,
 				D4885EE32155216F00DF9862 /* RVP_DisplayResultsScrollView.swift */,
 				D4FF8B6421542E9F0051A0B8 /* RVP_DisplayElementView.swift */,
+				D49C9DF12160E4DE002556B3 /* RVP_DisplayDocumentViewController.swift */,
 				D4A5C3422152BA6500159EFF /* TestHarnessUtilities.swift */,
 				D432E0D1214BE45E0018ED86 /* LucyButton.swift */,
 				D4E26861214302A2002ECE12 /* Main.storyboard */,
@@ -607,6 +610,7 @@
 				D48F4A5A215669D300597A2C /* RVP_DisplayResultsScreenViewController.swift in Sources */,
 				D43CC11B214C4EA900548B8E /* A_RVP_Cocoa_SDK_Object.swift in Sources */,
 				D4A3EFDB215E9A9C0056BBA9 /* RVP_iOS_SDK_Utils.swift in Sources */,
+				D49C9DF22160E4DE002556B3 /* RVP_DisplayDocumentViewController.swift in Sources */,
 				D43CC11E214C4EA900548B8E /* RVP_Cocoa_SDK_Login.swift in Sources */,
 				D4E26860214302A2002ECE12 /* Test001SimpleLogin.swift in Sources */,
 				D4733D39214FB74A009D11BF /* MainDispatchNavController.swift in Sources */,
