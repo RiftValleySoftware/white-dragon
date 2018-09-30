@@ -21,7 +21,7 @@
 
 import UIKit
 
-class RVP_DisplayDocumentViewController: UIViewController {
+class RVP_DisplayDocumentViewController: UIViewController, UIDocumentInteractionControllerDelegate {
     var documentDisplayController: UIDocumentInteractionController?
 
     /* ################################################################## */
@@ -30,7 +30,22 @@ class RVP_DisplayDocumentViewController: UIViewController {
     @IBAction func doneButtonHit(_ sender: UIBarButtonItem) {
         self.dismiss(animated: true, completion: nil)
     }
-
+    
+    /* ################################################################## */
+    /**
+     */
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.documentDisplayController?.presentPreview(animated: true)
+    }
+    
+    /* ################################################################## */
+    /**
+     */
+    func documentInteractionControllerViewControllerForPreview(_ controller: UIDocumentInteractionController) -> UIViewController {
+        return self
+    }
+    
     /* ################################################################## */
     /**
      */
@@ -41,6 +56,7 @@ class RVP_DisplayDocumentViewController: UIViewController {
             // Store the media in the temp file.
             try inData.write(to: url, options: .atomic)
             self.documentDisplayController = UIDocumentInteractionController(url: url)
+            self.documentDisplayController?.delegate = self
         } catch let error {
             #if DEBUG
             print("Error Encoding AV Media!: \(error)!")
