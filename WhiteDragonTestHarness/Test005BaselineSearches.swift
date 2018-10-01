@@ -23,15 +23,17 @@ import UIKit
 import MapKit
 
 class Test005BaselineSearches: UIViewController, RVP_Cocoa_SDK_Delegate, UIPickerViewDataSource, UIPickerViewDelegate, UITableViewDelegate, UITableViewDataSource {
-    private let _presets: [(name: String, values: [Any])] = [(name: "Single Image (Int)", values: [1732])
+    private let _presets: [(name: String, values: [Any])] = [(name: "Single Image", values: [1732]),
+                                                             (name: "Single Image and Single Place", values: [2, 1732]),
+                                                             (name: "Single Image, Single Place, and Single User", values: [2, 1725, 1732])
     ]
     private let _buttonStrings = ["LOGIN", "LOGOUT"]
-    private var _thingList: [A_RVP_Cocoa_SDK_Object] = []
+    private var _objectList: [A_RVP_Cocoa_SDK_Object] = []
     
     var mySDKTester: WhiteDragonSDKTester?
     @IBOutlet weak var activityScreen: UIView!
     @IBOutlet weak var fetchDataButton: UIButton!
-    @IBOutlet weak var thingListPicker: UIPickerView!
+    @IBOutlet weak var objectListPicker: UIPickerView!
     @IBOutlet weak var specificationItemsView: UIView!
     @IBOutlet weak var loginMainAdminButton: UIButton!
     @IBOutlet weak var resultsTableView: UITableView!
@@ -39,8 +41,8 @@ class Test005BaselineSearches: UIViewController, RVP_Cocoa_SDK_Delegate, UIPicke
     /* ################################################################## */
     /**
      */
-    private func _showThingDetails(_ inUserObject: A_RVP_Cocoa_SDK_Object) {
-        self.performSegue(withIdentifier: "show-search-details", sender: inUserObject)
+    private func _showObjectDetails(_ inObject: A_RVP_Cocoa_SDK_Object) {
+        self.performSegue(withIdentifier: "show-search-details", sender: inObject)
     }
     
     /* ################################################################## */
@@ -64,7 +66,7 @@ class Test005BaselineSearches: UIViewController, RVP_Cocoa_SDK_Delegate, UIPicke
     /**
      */
     @IBAction func fetchDataButtonPressed(_ sender: UIButton) {
-        self.getThings()
+        self.getObjects()
     }
     
     /* ################################################################## */
@@ -99,14 +101,14 @@ class Test005BaselineSearches: UIViewController, RVP_Cocoa_SDK_Delegate, UIPicke
     /**
      */
     func sortList() {
-        self._thingList = self._thingList.sorted(by: { $0.id < $1.id })
+        self._objectList = self._objectList.sorted(by: { $0.id < $1.id })
     }
     
     /* ################################################################## */
     /**
      */
     func clearResults() {
-        self._thingList = []
+        self._objectList = []
         DispatchQueue.main.async {
             self.resultsTableView.reloadData()
         }
@@ -115,17 +117,15 @@ class Test005BaselineSearches: UIViewController, RVP_Cocoa_SDK_Delegate, UIPicke
     /* ################################################################## */
     /**
      */
-    func getThings() {
-        self._thingList = []
+    func getObjects() {
+        self._objectList = []
         self.clearResults()
         if let sdkInstance = self.mySDKTester?.sdkInstance {
             self.activityScreen?.isHidden = false
-            let row = self.thingListPicker.selectedRow(inComponent: 0)
-            if let thingIDList = self._presets[row].values as? [Int] {
-                sdkInstance.fetchThings(thingIDList)
-            } else if let thingIDList = self._presets[row].values as? [String] {
-                sdkInstance.fetchThings(thingIDList)
-           }
+            let row = self.objectListPicker.selectedRow(inComponent: 0)
+            if let iDList = self._presets[row].values as? [Int] {
+                sdkInstance.fetchBaselineObjectsByID(iDList)
+            }
         }
     }
     
@@ -243,13 +243,13 @@ class Test005BaselineSearches: UIViewController, RVP_Cocoa_SDK_Delegate, UIPicke
         print("Fetched \(fetchedDataItems.count) Items!")
         #endif
         
-        if self._thingList.isEmpty {
-            self._thingList.append(contentsOf: fetchedDataItems)
+        if self._objectList.isEmpty {
+            self._objectList.append(contentsOf: fetchedDataItems)
         } else {
             var toBeAdded: [A_RVP_Cocoa_SDK_Object] = []
             
             for item in fetchedDataItems {
-                if !self._thingList.contains { [item] element in
+                if !self._objectList.contains { [item] element in
                     return element.id == item.id && type(of: element) == type(of: item)
                     } {
                     toBeAdded.append(item)
@@ -257,7 +257,7 @@ class Test005BaselineSearches: UIViewController, RVP_Cocoa_SDK_Delegate, UIPicke
             }
             
             if !toBeAdded.isEmpty {
-                self._thingList.append(contentsOf: toBeAdded)
+                self._objectList.append(contentsOf: toBeAdded)
             }
         }
         
@@ -308,7 +308,7 @@ class Test005BaselineSearches: UIViewController, RVP_Cocoa_SDK_Delegate, UIPicke
     /**
      */
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self._thingList.count
+        return self._objectList.count
     }
     
     /* ################################################################## */
@@ -317,8 +317,8 @@ class Test005BaselineSearches: UIViewController, RVP_Cocoa_SDK_Delegate, UIPicke
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var ret: UITableViewCell!   // If we don't have anything, then this will cause the method to crash; which is what we want. It shouldn't be called if we have nothing.
         
-        if 0 < self._thingList.count, indexPath.row < self._thingList.count {
-            let rowObject = self._thingList[indexPath.row]
+        if 0 < self._objectList.count, indexPath.row < self._objectList.count {
+            let rowObject = self._objectList[indexPath.row]
             var nameString = String(rowObject.id)
             if !rowObject.name.isEmpty {
                 nameString = rowObject.name + " (" + nameString + ")"
@@ -344,10 +344,10 @@ class Test005BaselineSearches: UIViewController, RVP_Cocoa_SDK_Delegate, UIPicke
     /**
      */
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if 0 < self._thingList.count, indexPath.row < self._thingList.count {
+        if 0 < self._objectList.count, indexPath.row < self._objectList.count {
             tableView.deselectRow(at: indexPath, animated: true)
-            let rowObject = self._thingList[indexPath.row]
-            self._showThingDetails(rowObject)
+            let rowObject = self._objectList[indexPath.row]
+            self._showObjectDetails(rowObject)
         }
     }
 }

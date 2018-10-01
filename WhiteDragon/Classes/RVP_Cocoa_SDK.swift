@@ -599,6 +599,116 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
 
     /* ################################################################## */
     /**
+     This fetches arbitrary type objects from the data database server.
+     
+     - parameter inIntegerIDs: An Array of Int, with the data database item IDs.
+     */
+    private func _fetchBaselineObjectsByID(_ inIntegerIDs: [Int] ) {
+        var fetchIDs: [Int] = []
+        var cachedObjects: [A_RVP_Cocoa_SDK_Data_Object] = []
+        
+        // First, we look for cached instances. If we have them, we send them to the delegate.
+        for var id in inIntegerIDs {
+            for dataItem in self._dataItems {   // See if we already have this item. If so, we immediately fetch it.
+                if let dataItem = dataItem as? A_RVP_Cocoa_SDK_Data_Object, dataItem.id == id {
+                    cachedObjects.append(dataItem)
+                    id = 0
+                    break
+                }
+            }
+            
+            if 0 < id { // We'll need to fetch this one.
+                fetchIDs.append(id)
+            }
+        }
+        
+        if !cachedObjects.isEmpty {
+            self._sendItemsToDelegate(cachedObjects)   // We just send our cached items to the delegate right away.
+        }
+        
+        if !fetchIDs.isEmpty {  // If we didn't find everything we were looking for in the junk drawer, we will be asking the server for the remainder.
+            fetchIDs = fetchIDs.sorted()    // Just because we're anal...
+            
+            // This uses our extension to break the array up. This is to reduce the size of the GET URI.
+            for idArray in fetchIDs.chunk(10) {
+                var loginParams = self._loginParameters
+                
+                if !loginParams.isEmpty {
+                    loginParams = "?" + loginParams
+                }
+                
+                let url = self._server_uri + "/json/baseline/handlers/" + (idArray.map(String.init)).joined(separator: ",") + loginParams   // We are asking the plugin to return the handlers for the IDs we are sending in.
+                
+                // We will use the handlers returned to fetch the actual object data.
+                if let url_object = URL(string: url) {
+                    let fetchTask = self._connectionSession.dataTask(with: url_object) { [unowned self] data, response, error in
+                        if let error = error {
+                            self._handleError(error)
+                            return
+                        }
+                        guard let httpResponse = response as? HTTPURLResponse,
+                            (200...299).contains(httpResponse.statusCode) else {
+                                self._handleHTTPError(response as? HTTPURLResponse ?? nil)
+                                return
+                        }
+                        
+                        if let mimeType = httpResponse.mimeType, mimeType == "application/json", let myData = data {
+                            do {    // Extract a usable object from the given JSON data.
+                                let temp = try JSONSerialization.jsonObject(with: myData, options: [])
+                                
+                                // We get a set of integer IDs returned, separated by plugin. We will sort through these, and return objects fetched for each.
+                                if let resultDictionary = temp as? [String: [String: [Int]]] {
+                                    if let handlers = resultDictionary["baseline"] {
+                                        self._handleReturnedIDs(handlers)
+                                    }
+                                } else {
+                                    self._handleError(SDK_Data_Errors.invalidData(myData))
+                                }
+                            } catch {   // We end up here if the response is not a proper JSON object.
+                                self._handleError(SDK_Data_Errors.invalidData(myData))
+                            }
+                        } else {
+                            self._handleError(SDK_Data_Errors.invalidData(data))
+                        }
+                    }
+                    
+                    fetchTask.resume()
+                } else {
+                    self._handleError(SDK_Connection_Errors.invalidServerURI(url))
+                }
+            }
+        }
+    }
+    
+    /* ################################################################## */
+    /**
+     This fetches objects from the data database server.
+     
+     - parameter inResultDictionary: A Dictionary of the returned IDs.
+     */
+    private func _handleReturnedIDs(_ inResultDictionary: [String: [Int]] ) {
+        var handled = false // If we get any IDs, then we have something...
+        
+        if let peopleIDs = inResultDictionary["people"], !peopleIDs.isEmpty {
+            self.fetchDataItemsByIDs(peopleIDs, andPlugin: "people")
+            handled = true
+        }
+        
+        if let placeIDs = inResultDictionary["places"], !placeIDs.isEmpty {
+            self.fetchDataItemsByIDs(placeIDs, andPlugin: "places")
+        }
+        
+        if let thingIDs = inResultDictionary["things"], !thingIDs.isEmpty {
+            self.fetchDataItemsByIDs(thingIDs, andPlugin: "things")
+        }
+        
+        if !handled {
+            self._sendItemsToDelegate([])   // We got nuthin'
+        }
+    }
+    
+    /* ################################################################## */
+    /**
      This fetches objects from the data database server.
      
      - parameter inIntegerIDs: An Array of Int, with the data database item IDs.
@@ -614,7 +724,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
         
         // First, we look for cached instances. If we have them, we send them to the delegate.
         for var id in inIntegerIDs {
-            for dataItem in self._dataItems {   // See if we already have this user. If so, we immediately fetch it.
+            for dataItem in self._dataItems {   // See if we already have this item. If so, we immediately fetch it.
                 if let dataItem = dataItem as? A_RVP_Cocoa_SDK_Data_Object, dataItem.id == id {
                     cachedObjects.append(dataItem)
                     id = 0
@@ -1363,27 +1473,41 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      This is a general method for fetching items from the data database, by their numerical IDs.
      
      - parameter inIntegerIDs: An Array of Int, with the data database IDs of the data database objects Requested.
-     - parameter andPlugin: A String, with the required plugin ("people", "places" or "things").
+     - parameter andPlugin: An optional String, with the required plugin ("people", "places" or "things"). If nil, then the baseline plugin is invoked, which will fetch any object, regardless of plugin.
      */
-    public func fetchDataItemsByIDs(_ inIntegerIDs: [Int], andPlugin inPlugin: String ) {
-        self._fetchDataItems(inIntegerIDs, plugin: inPlugin)
+    public func fetchDataItemsByIDs(_ inIntegerIDs: [Int], andPlugin inPlugin: String? = nil ) {
+        if let plugin = inPlugin, "baseline" != plugin {    // Just in case they specify "baseline".
+            self._fetchDataItems(inIntegerIDs, plugin: plugin)
+        } else {
+            self._fetchBaselineObjectsByID(inIntegerIDs)    // If we fetch baseline objects, it's a 2-step process.
+        }
+    }
+
+    /* ################################################################## */
+    /**
+     This method will initiate a fetch of all types of objects, based upon a list of IDs.
+     
+     - parameter inIDArray: An Array of Int, with the data database IDs of the place objects Requested.
+     */
+    public func fetchBaselineObjectsByID(_ inIDArray: [Int]) {
+        self.fetchDataItemsByIDs(inIDArray)
     }
 
     /* ################################################################## */
     /**
      This method will initiate a fetch of place objects, based upon a list of IDs.
      
-     - parameter inUserIntegerID: An Array of Int, with the data database IDs of the place objects Requested.
+     - parameter inPlaceIDArray: An Array of Int, with the data database IDs of the place objects Requested.
      */
     public func fetchPlaces(_ inPlaceIDArray: [Int]) {
         self.fetchDataItemsByIDs(inPlaceIDArray, andPlugin: "places")
     }
-    
+
     /* ################################################################## */
     /**
      This method will initiate a fetch of user objects, based upon a list of IDs.
      
-     - parameter inUserIntegerID: An Array of Int, with the data database IDs of the user objects Requested.
+     - parameter inUserIntegerIDArray: An Array of Int, with the data database IDs of the user objects Requested.
      */
     public func fetchUsers(_ inUserIntegerIDArray: [Int]) {
         self.fetchDataItemsByIDs(inUserIntegerIDArray, andPlugin: "people")
@@ -1413,7 +1537,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
     /**
      This method will initiate a fetch of login objects, based upon a list of IDs.
      
-     - parameter inLoginIntegerID: An Array of Int, with the security database IDs of the login objects Requested.
+     - parameter inLoginIntegerIDArray: An Array of Int, with the security database IDs of the login objects Requested.
      */
     public func fetchLogins(_ inLoginIntegerIDArray: [Int]) {
         self._fetchLoginItems(inLoginIntegerIDArray)

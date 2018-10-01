@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Zpd-jn-8fu">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -31,17 +27,17 @@
             <objects>
                 <viewController id="8aW-FC-wo6" customClass="DispatcherListController" customModule="WhiteDragonTestHarness" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="f1s-5N-j51">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Ti-Vf-WrL">
-                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <rect key="frame" x="0.0" y="20" width="600" height="580"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="ANL-NE-x3e">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="40"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="40"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kKU-EJ-7P7">
-                                                <rect key="frame" x="0.0" y="8" width="375" height="30"/>
+                                                <rect key="frame" x="0.0" y="8" width="600" height="30"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="30" id="o12-eY-2ZP"/>
                                                 </constraints>
@@ -60,7 +56,7 @@
                                         </constraints>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kDV-Ew-skp">
-                                        <rect key="frame" x="0.0" y="48" width="375" height="30"/>
+                                        <rect key="frame" x="0.0" y="48" width="600" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="A9n-0r-8TF"/>
                                         </constraints>
@@ -70,7 +66,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HTX-ov-Hs5">
-                                        <rect key="frame" x="0.0" y="86" width="375" height="30"/>
+                                        <rect key="frame" x="0.0" y="86" width="600" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="wZM-oG-vZF"/>
                                         </constraints>
@@ -80,7 +76,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J5M-qq-8aM">
-                                        <rect key="frame" x="0.0" y="124" width="375" height="30"/>
+                                        <rect key="frame" x="0.0" y="124" width="600" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="MqQ-fi-ibD"/>
                                         </constraints>
@@ -90,7 +86,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="X7b-Ip-wFE">
-                                        <rect key="frame" x="0.0" y="162" width="375" height="30"/>
+                                        <rect key="frame" x="0.0" y="162" width="600" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="duf-M7-SpK"/>
                                         </constraints>
@@ -142,11 +138,11 @@
             <objects>
                 <viewController id="NoU-S8-adh" customClass="Test002BasicUserListing" customModule="WhiteDragonTestHarness" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="cDm-er-WDa">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SZ7-ca-1uH">
-                                <rect key="frame" x="0.0" y="20" width="375" height="30"/>
+                                <rect key="frame" x="0.0" y="20" width="600" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="2rY-fr-9OT"/>
                                 </constraints>
@@ -156,10 +152,10 @@
                                 </connections>
                             </button>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="d0U-ig-Vsi">
-                                <rect key="frame" x="0.0" y="50" width="375" height="617"/>
+                                <rect key="frame" x="0.0" y="50" width="600" height="550"/>
                                 <subviews>
                                     <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="43N-aJ-4LO">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="80"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="80"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="80" id="gmq-g5-EJn"/>
                                         </constraints>
@@ -169,7 +165,7 @@
                                         </connections>
                                     </pickerView>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="30" estimatedRowHeight="30" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="hzC-CK-8Ff">
-                                        <rect key="frame" x="0.0" y="110" width="375" height="507"/>
+                                        <rect key="frame" x="0.0" y="110" width="600" height="440"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
                                             <outlet property="dataSource" destination="NoU-S8-adh" id="7h7-O1-kxl"/>
@@ -177,7 +173,7 @@
                                         </connections>
                                     </tableView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eFU-Eg-Ciy">
-                                        <rect key="frame" x="0.0" y="80" width="375" height="30"/>
+                                        <rect key="frame" x="0.0" y="80" width="600" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="0uO-bH-gQW"/>
                                         </constraints>
@@ -205,10 +201,10 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pBS-8p-kGs">
-                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <rect key="frame" x="0.0" y="20" width="600" height="580"/>
                                 <subviews>
                                     <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="TDJ-T3-xdG">
-                                        <rect key="frame" x="169" y="305" width="37" height="37"/>
+                                        <rect key="frame" x="281.5" y="271.5" width="37" height="37"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="37" id="oDq-xP-HtE"/>
                                             <constraint firstAttribute="height" constant="37" id="yq7-Dc-nDs"/>
@@ -257,12 +253,12 @@
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="Test001SimpleLogin" customModule="WhiteDragonTestHarness" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                    <view key="view" contentMode="scaleToFill" misplaced="YES" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UoL-Ek-w23" customClass="LucyButton" customModule="WhiteDragonTestHarness" customModuleProvider="target">
-                                <rect key="frame" x="139.5" y="8" width="96" height="123"/>
+                                <rect key="frame" x="252" y="8" width="96" height="123"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="123" id="7wb-UX-bnN"/>
@@ -276,10 +272,10 @@
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="f2F-Qm-qu7">
-                                <rect key="frame" x="0.0" y="131" width="375" height="472"/>
+                                <rect key="frame" x="0.0" y="131" width="600" height="405"/>
                                 <subviews>
                                     <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Ni-pR-T7b">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="80"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="80"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="80" id="Raw-5U-fug"/>
                                         </constraints>
@@ -289,7 +285,7 @@
                                         </connections>
                                     </pickerView>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="30" estimatedRowHeight="30" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="FXX-AA-DIC">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="472"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="405"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
                                             <outlet property="dataSource" destination="BYZ-38-t0r" id="eHt-dn-6sq"/>
@@ -309,10 +305,10 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zma-nU-iYa">
-                                <rect key="frame" x="0.0" y="20" width="375" height="583"/>
+                                <rect key="frame" x="0.0" y="20" width="600" height="516"/>
                                 <subviews>
                                     <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="Rm5-BZ-Bi7">
-                                        <rect key="frame" x="169" y="273" width="37" height="37"/>
+                                        <rect key="frame" x="281.5" y="239.5" width="37" height="37"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="37" id="LQb-XZ-2pw"/>
                                             <constraint firstAttribute="height" constant="37" id="iOv-14-6WL"/>
@@ -361,18 +357,18 @@
             <objects>
                 <viewController storyboardIdentifier="display-results-view-controller" id="lZe-K9-CEg" customClass="RVP_DisplayResultsScreenViewController" customModule="WhiteDragonTestHarness" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="TCc-82-K4t">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MrC-ei-tLi" customClass="RVP_DisplayResultsScrollView" customModule="WhiteDragonTestHarness" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <connections>
                                     <outlet property="myViewController" destination="lZe-K9-CEg" id="pNA-Rr-2k2"/>
                                 </connections>
                             </scrollView>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gao-N3-vwq">
-                                <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                                <rect key="frame" x="0.0" y="20" width="600" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="gqb-wh-4Ra"/>
                                 </constraints>
@@ -412,11 +408,11 @@
             <objects>
                 <viewController id="Wtq-38-NsZ" customClass="Test003BasicPlaceListing" customModule="WhiteDragonTestHarness" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="f1X-8S-6y6">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L5i-mN-c7V">
-                                <rect key="frame" x="0.0" y="20" width="375" height="30"/>
+                                <rect key="frame" x="0.0" y="20" width="600" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="v92-ML-Uf0"/>
                                 </constraints>
@@ -426,10 +422,10 @@
                                 </connections>
                             </button>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wf8-sw-Kru">
-                                <rect key="frame" x="0.0" y="50" width="375" height="617"/>
+                                <rect key="frame" x="0.0" y="50" width="600" height="550"/>
                                 <subviews>
                                     <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dIK-bU-cG8">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="80"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="80"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="80" id="sDs-e9-F7a"/>
                                         </constraints>
@@ -439,7 +435,7 @@
                                         </connections>
                                     </pickerView>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="30" estimatedRowHeight="30" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="haw-hN-Tvl">
-                                        <rect key="frame" x="0.0" y="110" width="375" height="507"/>
+                                        <rect key="frame" x="0.0" y="110" width="600" height="440"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
                                             <outlet property="dataSource" destination="Wtq-38-NsZ" id="Nbd-Wt-BOz"/>
@@ -447,7 +443,7 @@
                                         </connections>
                                     </tableView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nWP-IM-QBu">
-                                        <rect key="frame" x="0.0" y="80" width="375" height="30"/>
+                                        <rect key="frame" x="0.0" y="80" width="600" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="mNY-mN-v73"/>
                                         </constraints>
@@ -475,10 +471,10 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TRk-mj-PWZ">
-                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <rect key="frame" x="0.0" y="20" width="600" height="580"/>
                                 <subviews>
                                     <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="mOT-ZZ-XCg">
-                                        <rect key="frame" x="169" y="305" width="37" height="37"/>
+                                        <rect key="frame" x="281.5" y="271.5" width="37" height="37"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="37" id="6pM-wM-a5g"/>
                                             <constraint firstAttribute="width" constant="37" id="ALX-Qm-3iY"/>
@@ -528,14 +524,14 @@
             <objects>
                 <viewController id="hq2-L8-k9W" customClass="Test005BaselineSearches" customModule="WhiteDragonTestHarness" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="stQ-Sm-Qzk">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="p4n-jh-wqH">
-                                <rect key="frame" x="0.0" y="50" width="375" height="617"/>
+                                <rect key="frame" x="0.0" y="50" width="600" height="550"/>
                                 <subviews>
                                     <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wpf-5T-696">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="80"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="80"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="80" id="iz6-St-4lt"/>
                                         </constraints>
@@ -545,7 +541,7 @@
                                         </connections>
                                     </pickerView>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="30" estimatedRowHeight="30" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="xHp-Rj-g0m">
-                                        <rect key="frame" x="0.0" y="110" width="375" height="507"/>
+                                        <rect key="frame" x="0.0" y="110" width="600" height="440"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
                                             <outlet property="dataSource" destination="hq2-L8-k9W" id="M1n-l9-OOC"/>
@@ -553,7 +549,7 @@
                                         </connections>
                                     </tableView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F39-75-QWd">
-                                        <rect key="frame" x="0.0" y="80" width="375" height="30"/>
+                                        <rect key="frame" x="0.0" y="80" width="600" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="9na-iF-YFT"/>
                                         </constraints>
@@ -582,7 +578,7 @@
                                 </constraints>
                             </view>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fYl-Wr-xDF">
-                                <rect key="frame" x="0.0" y="20" width="375" height="30"/>
+                                <rect key="frame" x="0.0" y="20" width="600" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="Lzj-NV-rSN"/>
                                     <constraint firstAttribute="height" constant="30" id="faH-QA-fqe"/>
@@ -594,10 +590,10 @@
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lvf-zv-rY8">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <subviews>
                                     <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="i9h-dL-uKs">
-                                        <rect key="frame" x="169" y="315" width="37" height="37"/>
+                                        <rect key="frame" x="281.5" y="281.5" width="37" height="37"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="37" id="5Uz-3Q-1Jb"/>
                                             <constraint firstAttribute="width" constant="37" id="nOB-SS-C61"/>
@@ -632,9 +628,9 @@
                         <outlet property="activityScreen" destination="lvf-zv-rY8" id="HQf-fl-dLg"/>
                         <outlet property="fetchDataButton" destination="F39-75-QWd" id="361-I4-NAi"/>
                         <outlet property="loginMainAdminButton" destination="fYl-Wr-xDF" id="F66-8n-NUe"/>
+                        <outlet property="objectListPicker" destination="Wpf-5T-696" id="qS2-8d-NjF"/>
                         <outlet property="resultsTableView" destination="xHp-Rj-g0m" id="seo-6c-85u"/>
                         <outlet property="specificationItemsView" destination="p4n-jh-wqH" id="bdU-0L-594"/>
-                        <outlet property="thingListPicker" destination="Wpf-5T-696" id="qS2-8d-NjF"/>
                         <outlet property="view" destination="stQ-Sm-Qzk" id="i6z-wi-Fit"/>
                         <segue destination="lZe-K9-CEg" kind="presentation" identifier="show-search-details" id="oHx-7Q-VWA"/>
                     </connections>
@@ -648,11 +644,11 @@
             <objects>
                 <viewController id="xKX-d2-DqR" customClass="Test004BasicThingListing" customModule="WhiteDragonTestHarness" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="cWu-9Y-etg">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RFq-k7-4oC">
-                                <rect key="frame" x="0.0" y="20" width="375" height="30"/>
+                                <rect key="frame" x="0.0" y="20" width="600" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="bJo-kK-GJO"/>
                                 </constraints>
@@ -662,10 +658,10 @@
                                 </connections>
                             </button>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="15z-p2-eXF">
-                                <rect key="frame" x="0.0" y="50" width="375" height="617"/>
+                                <rect key="frame" x="0.0" y="50" width="600" height="550"/>
                                 <subviews>
                                     <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hB5-MR-ouU">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="80"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="80"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="80" id="2pO-eg-mcq"/>
                                         </constraints>
@@ -675,7 +671,7 @@
                                         </connections>
                                     </pickerView>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="30" estimatedRowHeight="30" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="HFA-Cv-Zhg">
-                                        <rect key="frame" x="0.0" y="110" width="375" height="507"/>
+                                        <rect key="frame" x="0.0" y="110" width="600" height="440"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
                                             <outlet property="dataSource" destination="xKX-d2-DqR" id="Pwp-Lp-zHX"/>
@@ -683,7 +679,7 @@
                                         </connections>
                                     </tableView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8qI-oX-B0s">
-                                        <rect key="frame" x="0.0" y="80" width="375" height="30"/>
+                                        <rect key="frame" x="0.0" y="80" width="600" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="JYd-ks-Woo"/>
                                         </constraints>
@@ -711,10 +707,10 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VqZ-1E-V40">
-                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <rect key="frame" x="0.0" y="20" width="600" height="580"/>
                                 <subviews>
                                     <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="rft-hp-brA">
-                                        <rect key="frame" x="169" y="305" width="37" height="37"/>
+                                        <rect key="frame" x="281.5" y="271.5" width="37" height="37"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="37" id="cfQ-93-dd4"/>
                                             <constraint firstAttribute="height" constant="37" id="z0i-6Z-4ig"/>
