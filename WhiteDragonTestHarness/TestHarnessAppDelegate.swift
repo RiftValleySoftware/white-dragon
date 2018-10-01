@@ -54,5 +54,5 @@ class TestHarnessAppDelegate: UIResponder, UIApplicationDelegate {
         if nil != self.connectionSession {
             self.connectionSession!.finishTasksAndInvalidate()   // Take off and nuke the site from orbit. It's the only way to be sure.
         }
-    }
+    }    
 }

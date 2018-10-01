@@ -75,10 +75,19 @@ class RVP_DisplayResultsScreenViewController: UIViewController, UIDocumentIntera
      */
     @IBAction func displayEPUBButtonHit(_ sender: UIButton) {
         if !(self.documentDisplayController?.presentPreview(animated: true))! {
-            print("Unable to Display EPUB")
+            UIApplication.displayAlert("Unable to Display EPUB Document", inMessage: "You need to have iBooks installed.", presentedBy: self)
         }
     }
-
+    
+    /* ################################################################## */
+    /**
+     */
+    @IBAction func displayGenericButtonHit(_ sender: UIButton) {
+        if !(self.documentDisplayController?.presentPreview(animated: true))! {
+            UIApplication.displayAlert("Unable to Display the Document", inMessage: "", presentedBy: self)
+        }
+    }
+    
     /* ################################################################## */
     /**
      */

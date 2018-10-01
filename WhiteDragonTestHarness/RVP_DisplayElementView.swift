@@ -758,7 +758,11 @@ class RVP_DisplayElementView: UIView, AVAudioPlayerDelegate {
                 } catch {
                     self.myController.setEPUBDocumentFromData(payloadData)
                     let payloadButton = RVP_PayloadButton(payloadData)
-                    payloadButton.addTarget(self.myController, action: Selector(("displayEPUBButtonHit:")), for: .touchUpInside)
+                    if inPayload.payloadType == "application/epub+zip" {
+                        payloadButton.addTarget(self.myController, action: Selector(("displayEPUBButtonHit:")), for: .touchUpInside)
+                    } else {
+                        payloadButton.addTarget(self.myController, action: Selector(("displayGenericButtonHit:")), for: .touchUpInside)
+                    }
                     displayItem = payloadButton
                     height = 30
                 }

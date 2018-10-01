@@ -68,4 +68,27 @@ extension UIApplication {
         }
         return ret
     }
+    
+    /* ################################################################## */
+    /**
+     */
+    class func displayAlert(_ inTitle: String, inMessage: String, presentedBy inPresentingViewController: UIViewController! = nil ) {
+        DispatchQueue.main.async {
+            var presentedBy = inPresentingViewController
+            
+            if nil == presentedBy {
+                presentedBy = UIApplication.getTopmostViewController()
+            }
+            
+            if nil != presentedBy {
+                let alertController = UIAlertController(title: inTitle, message: inMessage, preferredStyle: .alert)
+                
+                let okAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                
+                alertController.addAction(okAction)
+                
+                presentedBy?.present(alertController, animated: true, completion: nil)
+            }
+        }
+    }
 }
