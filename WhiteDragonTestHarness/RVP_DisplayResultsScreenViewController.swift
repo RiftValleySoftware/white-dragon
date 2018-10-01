@@ -45,6 +45,13 @@ class RVP_DisplayResultsScreenViewController: UIViewController, UIDocumentIntera
     @objc func fetchUserForLogin(_ inButton: RVP_LoginButton) {
         inButton.sdkInstance.fetchUsers([inButton.loginID])
     }
+    
+    /* ################################################################## */
+    /**
+     */
+    @objc func fetchChildren(_ inButton: RVP_ChildrenButton) {
+        inButton.sdkInstance.fetchBaselineObjectsByID(inButton.children)
+   }
 
     /* ################################################################## */
     /**
@@ -88,6 +95,12 @@ class RVP_DisplayResultsScreenViewController: UIViewController, UIDocumentIntera
         }
     }
     
+    /* ################################################################## */
+    /**
+     */
+    @IBAction func displayChildrenButtonHit(_ sender: UIButton) {
+    }
+
     /* ################################################################## */
     /**
      */

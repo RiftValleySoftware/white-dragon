@@ -139,6 +139,76 @@ class RVP_PayloadButton: UIButton {
 }
 
 /* ###################################################################################################################################### */
+// MARK: - Generic Children Button Class -
+/* ###################################################################################################################################### */
+/**
+ */
+@IBDesignable
+class RVP_ChildrenButton: UIButton {
+    var children: [Int] = []
+    var sdkInstance: RVP_Cocoa_SDK!
+
+    /* ################################################################## */
+    /**
+     */
+    init(_ inChildren: [Int], sdkInstance inSDKInstance: RVP_Cocoa_SDK) {
+        self.children = inChildren
+        self.sdkInstance = inSDKInstance
+        super.init(frame: CGRect.zero)
+    }
+    
+    /* ################################################################## */
+    /**
+     */
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
+    /* ################################################################## */
+    /**
+     */
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        self.subviews.forEach({ $0.removeFromSuperview() })
+        let innerLabel = UILabel()
+        innerLabel.text = "VIEW CHILDREN (" + String(self.children.count) + ")"
+        self.addSubview(innerLabel)
+        innerLabel.translatesAutoresizingMaskIntoConstraints = false
+        innerLabel.textAlignment = .center
+        
+        self.addConstraints([
+            NSLayoutConstraint(item: innerLabel,
+                               attribute: .top,
+                               relatedBy: .equal,
+                               toItem: self,
+                               attribute: .top,
+                               multiplier: 1.0,
+                               constant: 0),
+            NSLayoutConstraint(item: innerLabel,
+                               attribute: .bottom,
+                               relatedBy: .equal,
+                               toItem: self,
+                               attribute: .bottom,
+                               multiplier: 1.0,
+                               constant: 0),
+            NSLayoutConstraint(item: innerLabel,
+                               attribute: .centerX,
+                               relatedBy: .equal,
+                               toItem: self,
+                               attribute: .centerX,
+                               multiplier: 1.0,
+                               constant: 0.0),
+            NSLayoutConstraint(item: innerLabel,
+                               attribute: .width,
+                               relatedBy: .equal,
+                               toItem: self,
+                               attribute: .width,
+                               multiplier: 1.0,
+                               constant: 0.0)])
+    }
+}
+
+/* ###################################################################################################################################### */
 // MARK: - Login Button Class -
 /* ###################################################################################################################################### */
 /**
@@ -468,7 +538,7 @@ class RVP_DisplayElementView: UIView, AVAudioPlayerDelegate {
             }
 
             if let children = dictionary["childrenIDs"] as? [String: [Int]] {
-                self.addChildrenLabels(children)
+                self.addChildrenButton(children)
             }
 
             if let payload = dictionary["payload"] as? RVP_Cocoa_SDK_Payload {
@@ -577,51 +647,32 @@ class RVP_DisplayElementView: UIView, AVAudioPlayerDelegate {
     /* ################################################################## */
     /**
      */
-    func addChildrenLabels(_ inChildrenDictionary: [String: [Int]]) {
-        let topLabel = UILabel()
-        
-        topLabel.text = "CHILDREN"
-        topLabel.font = UIFont.systemFont(ofSize: 12)
-        topLabel.textAlignment = .center
-        
-        self.applyConstraints(thisElement: topLabel, height: topLabel.oneLineHeight)
+    func addChildrenButton(_ inChildrenDictionary: [String: [Int]]) {
+        var idList: [Int] = []
         
         if let people = inChildrenDictionary["people"], !people.isEmpty {
-            let newLabel = UILabel()
-            newLabel.text = "people"
-            newLabel.font = UIFont.italicSystemFont(ofSize: 12)
-            newLabel.textAlignment = .center
-            self.applyConstraints(thisElement: newLabel, height: topLabel.oneLineHeight)
-
-            for item in people.chunk(8) {
-                let strVal = item.map(String.init).joined(separator: ",")
-                self.addItemLabel(value: strVal)
+            for item in people {
+                idList.append(item)
             }
         }
         
         if let places = inChildrenDictionary["places"], !places.isEmpty {
-            let newLabel = UILabel()
-            newLabel.text = "places"
-            newLabel.font = UIFont.italicSystemFont(ofSize: 12)
-            newLabel.textAlignment = .center
-            self.applyConstraints(thisElement: newLabel, height: topLabel.oneLineHeight)
-
-            for item in places.chunk(8) {
-                let strVal = item.map(String.init).joined(separator: ",")
-                self.addItemLabel(value: strVal)
+            for item in places {
+                idList.append(item)
             }
         }
         
         if let things = inChildrenDictionary["things"], !things.isEmpty {
-            let newLabel = UILabel()
-            newLabel.text = "things"
-            newLabel.font = UIFont.italicSystemFont(ofSize: 12)
-            newLabel.textAlignment = .center
-            self.applyConstraints(thisElement: newLabel, height: topLabel.oneLineHeight)
-
-            for item in things.chunk(8) {
-                let strVal = item.map(String.init).joined(separator: ",")
-                self.addItemLabel(value: strVal)
+            for item in things {
+                idList.append(item)
+            }
+        }
+        
+        if !idList.isEmpty {
+            if let sdkInstance = self.myController.sdkInstance {
+                let newButton = RVP_ChildrenButton(idList, sdkInstance: sdkInstance)
+                newButton.addTarget(self.myController, action: Selector(("fetchChildren:")), for: .touchUpInside)
+                self.applyConstraints(thisElement: newButton, height: 30)
             }
         }
     }
