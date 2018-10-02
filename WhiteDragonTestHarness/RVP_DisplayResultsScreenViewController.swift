@@ -122,7 +122,8 @@ class RVP_DisplayResultsScreenViewController: UIViewController, UIDocumentIntera
     override func viewWillAppear(_ animated: Bool) {
         self.resultsScrollView.results = self.resultsArray
         self.resultsScrollView.sdkInstance = self.sdkInstance
-        
+        self.navigationController?.navigationBar.isHidden = false
+
         super.viewWillAppear(animated)
         self.done()
     }
@@ -194,14 +195,26 @@ class RVP_DisplayResultsScreenViewController: UIViewController, UIDocumentIntera
             self.resultsArray.append(contentsOf: toBeAdded)
         }
         
-        self.resultsScrollView.results = self.resultsArray.sorted {
-            var ret = $0.id < $1.id
-            
-            if !ret {   // Security objects get listed before data objects
-                ret = $0 is A_RVP_Cocoa_SDK_Security_Object && $1 is A_RVP_Cocoa_SDK_Data_Object
+        if self._fetchingChildren {
+            self._childrenArray = self.resultsArray.sorted {
+                var ret = $0.id < $1.id
+                
+                if !ret {   // Security objects get listed before data objects
+                    ret = $0 is A_RVP_Cocoa_SDK_Security_Object && $1 is A_RVP_Cocoa_SDK_Data_Object
+                }
+                
+                return ret
             }
-            
-            return ret
+        } else {
+            self.resultsScrollView.results = self.resultsArray.sorted {
+                var ret = $0.id < $1.id
+                
+                if !ret {   // Security objects get listed before data objects
+                    ret = $0 is A_RVP_Cocoa_SDK_Security_Object && $1 is A_RVP_Cocoa_SDK_Data_Object
+                }
+                
+                return ret
+            }
         }
     }
     
