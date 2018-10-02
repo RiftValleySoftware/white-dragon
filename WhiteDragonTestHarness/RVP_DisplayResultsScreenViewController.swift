@@ -42,8 +42,8 @@ class RVP_DisplayResultsScreenViewController: UIViewController, UIDocumentIntera
     /* ################################################################## */
     /**
      */
-    @objc func fetchUserForLogin(_ inButton: RVP_LoginButton) {
-        inButton.sdkInstance.fetchUsers([inButton.loginID])
+    @objc func fetchUserForLogin(_ inButton: RVP_UserButton) {
+        inButton.sdkInstance.fetchUsers([inButton.userID])
     }
     
     /* ################################################################## */

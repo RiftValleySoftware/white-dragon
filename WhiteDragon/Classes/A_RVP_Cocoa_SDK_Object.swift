@@ -243,6 +243,14 @@ public class A_RVP_Cocoa_SDK_Object: NSObject {
     
     /* ################################################################## */
     /**
+     - returns the SDK instance that "owns" this instance.
+     */
+    public var sdkInstance: RVP_Cocoa_SDK? {
+        return self._sdkInstance
+    }
+    
+    /* ################################################################## */
+    /**
      This is the default initializer.
      
      - parameter sdkInstance: REQUIRED (Can be nil) This is the SDK instance that "owns" this object. It may be nil for history instances.

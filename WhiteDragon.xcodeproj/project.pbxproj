@@ -44,6 +44,8 @@
 		D477B405213EA86B0018AB45 /* WhiteDragon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D477B3FB213EA86B0018AB45 /* WhiteDragon.framework */; };
 		D477B40A213EA86B0018AB45 /* white_dragonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D477B409213EA86B0018AB45 /* white_dragonTests.swift */; };
 		D4885EE42155216F00DF9862 /* RVP_DisplayResultsScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4885EE32155216F00DF9862 /* RVP_DisplayResultsScrollView.swift */; };
+		D48CBE6F21638ED8001EF727 /* RVP_ResultListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48CBE6E21638ED8001EF727 /* RVP_ResultListViewController.swift */; };
+		D48CBE712163AD0C001EF727 /* TestBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48CBE702163AD0C001EF727 /* TestBaseViewController.swift */; };
 		D48F4A5A215669D300597A2C /* RVP_DisplayResultsScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F4A59215669D300597A2C /* RVP_DisplayResultsScreenViewController.swift */; };
 		D4A3EFDB215E9A9C0056BBA9 /* RVP_iOS_SDK_Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A3EFDA215E9A9C0056BBA9 /* RVP_iOS_SDK_Utils.swift */; };
 		D4A3EFDC215E9B4E0056BBA9 /* RVP_iOS_SDK_Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A3EFDA215E9A9C0056BBA9 /* RVP_iOS_SDK_Utils.swift */; };
@@ -114,6 +116,8 @@
 		D477B409213EA86B0018AB45 /* white_dragonTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = white_dragonTests.swift; sourceTree = "<group>"; };
 		D477B40B213EA86B0018AB45 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D4885EE32155216F00DF9862 /* RVP_DisplayResultsScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RVP_DisplayResultsScrollView.swift; sourceTree = "<group>"; };
+		D48CBE6E21638ED8001EF727 /* RVP_ResultListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RVP_ResultListViewController.swift; sourceTree = "<group>"; };
+		D48CBE702163AD0C001EF727 /* TestBaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestBaseViewController.swift; sourceTree = "<group>"; };
 		D48F4A59215669D300597A2C /* RVP_DisplayResultsScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RVP_DisplayResultsScreenViewController.swift; sourceTree = "<group>"; };
 		D4A3EFDA215E9A9C0056BBA9 /* RVP_iOS_SDK_Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RVP_iOS_SDK_Utils.swift; path = WhiteDragon/Classes/RVP_iOS_SDK_Utils.swift; sourceTree = SOURCE_ROOT; };
 		D4A5C3422152BA6500159EFF /* TestHarnessUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestHarnessUtilities.swift; sourceTree = "<group>"; };
@@ -280,9 +284,11 @@
 		D4C64B842150531F000ADD52 /* App Files */ = {
 			isa = PBXGroup;
 			children = (
+				D48CBE702163AD0C001EF727 /* TestBaseViewController.swift */,
 				D4E2685D214302A2002ECE12 /* TestHarnessAppDelegate.swift */,
 				D4733D38214FB74A009D11BF /* MainDispatchNavController.swift */,
 				D4733D3A214FB866009D11BF /* DispatcherListController.swift */,
+				D48CBE6E21638ED8001EF727 /* RVP_ResultListViewController.swift */,
 				D48F4A59215669D300597A2C /* RVP_DisplayResultsScreenViewController.swift */,
 				D4885EE32155216F00DF9862 /* RVP_DisplayResultsScrollView.swift */,
 				D4FF8B6421542E9F0051A0B8 /* RVP_DisplayElementView.swift */,
@@ -570,7 +576,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				D43CC118214C4EA900548B8E /* RVP_Cocoa_SDK_Thing.swift in Sources */,
+				D48CBE712163AD0C001EF727 /* TestBaseViewController.swift in Sources */,
 				D4FF8B6521542E9F0051A0B8 /* RVP_DisplayElementView.swift in Sources */,
+				D48CBE6F21638ED8001EF727 /* RVP_ResultListViewController.swift in Sources */,
 				D43CC122214C4EB200548B8E /* RVP_Cocoa_SDK_Internal_Utils.swift in Sources */,
 				D4E2686E2143031E002ECE12 /* WhiteDragonSDKTester.swift in Sources */,
 				D4733D3B214FB866009D11BF /* DispatcherListController.swift in Sources */,

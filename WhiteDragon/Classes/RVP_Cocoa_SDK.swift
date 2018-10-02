@@ -81,11 +81,21 @@ public protocol RVP_Cocoa_SDK_Delegate: class {
      This is called with one or more data items. Each item is a single object.
      
      **NOTE:** This is not guaranteed to be called in the main thread!
-
+     
      - parameter sdkInstance: This is the SDK instance making the call.
      - parameter fetchedDataItems: An array of subclasses of A_RVP_IOS_SDK_Object.
      */
     func sdkInstance(_: RVP_Cocoa_SDK, fetchedDataItems: [A_RVP_Cocoa_SDK_Object])
+    
+    /* ################################################################## */
+    /**
+     This is called when an operation is complete.
+     
+     **NOTE:** This is not guaranteed to be called in the main thread!
+     
+     - parameter sdkInstance: This is the SDK instance making the call.
+     */
+    func sdkInstanceOperationComplete(_: RVP_Cocoa_SDK)
 }
 
 /* ###################################################################################################################################### */
@@ -142,6 +152,18 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
     
     /** This is set to true, if we created our own session (as opposed to using one passed in). */
     private var _newSession: Bool = false
+    
+    /** This will be used to determine when a stack of operations is complete. It is incremented whenever an operation is started, and decremented when it is complete. When it reaches 0, the delegate is informed. */
+    private var _openOperations: Int = 0 {
+        didSet {
+            if 0 >= self._openOperations {  // If zero, we need to tell the delegate.
+                self._openOperations = 0    // We can never be less than zero.
+                if 0 < oldValue {   // If this is the last one, we call the delegate. We don't call repeatedly for zero.
+                    self._delegate?.sdkInstanceOperationComplete(self)
+                }
+            }
+        }
+    }
     
     /* ################################################################## */
     // MARK: - Private Instance Methods and Calculated Properties
@@ -421,9 +443,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      - parameter inError: The error being handled.
      */
     private func _handleError(_ inError: Error) {
-        if nil != self._delegate {
-            self._delegate!.sdkInstance(self, sessionError: inError)
-        }
+        self._delegate?.sdkInstance(self, sessionError: inError)
     }
 
     /* ################################################################## */
@@ -446,9 +466,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      If the delegate is valid, we call it with a notice that the session disconnected because of an invalid server connection.
      */
     private func _reportSessionValidity() {
-        if nil != self._delegate {
-            self._delegate!.sdkInstance(self, sessionConnectionIsValid: self.isValid)
-        }
+        self._delegate?.sdkInstance(self, sessionConnectionIsValid: self.isValid)
     }
 
     /* ################################################################## */
@@ -458,9 +476,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      - parameter inItemArray: An Array of concrete instances of subclasses of A_RVP_IOS_SDK_Object.
      */
     private func _sendItemsToDelegate(_ inItemArray: [A_RVP_Cocoa_SDK_Object]) {
-        if nil != self._delegate {
-            self._delegate!.sdkInstance(self, fetchedDataItems: inItemArray)
-        }
+        self._delegate?.sdkInstance(self, fetchedDataItems: inItemArray)
     }
 
     /* ################################################################## */
@@ -470,9 +486,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      If the delegate is valid, we call it with a notice that the session disconnected because of an invalid server connection.
      */
     private func _handleInvalidServer() {
-        if nil != self._delegate {
-            self._delegate!.sdkInstance(self, sessionDisconnectedBecause: RVP_Cocoa_SDK.DisconnectionReason.serverConnectionInvalid)
-        }
+        self._delegate?.sdkInstance(self, sessionDisconnectedBecause: RVP_Cocoa_SDK.DisconnectionReason.serverConnectionInvalid)
     }
 
     /* ################################################################## */
@@ -484,9 +498,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      - parameter isLoggedIn: This is true, if the instance is currently logged into the server.
      */
     private func _callDelegateLoginValid(_ inIsLoggedIn: Bool) {
-        if let delegate = self._delegate {
-            delegate.sdkInstance(self, loginValid: inIsLoggedIn)
-        }
+        self._delegate?.sdkInstance(self, loginValid: inIsLoggedIn)
     }
 
     /* ################################################################## */
@@ -504,6 +516,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
             let url = self._server_uri + "/json/people/logins/my_info?" + self._loginParameters
             if let url_object = URL(string: url) {
                 // We handle the response in the closure.
+                self._openOperations += 1
                 let loginInfoTask = self._connectionSession.dataTask(with: url_object) { [unowned self] data, response, error in
                     if let error = error {
                         self._handleError(error)
@@ -527,6 +540,8 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                     } else {
                         self._handleError(SDK_Data_Errors.invalidData(data))
                     }
+                    
+                    self._openOperations -= 1
                 }
                 
                 loginInfoTask.resume()
@@ -549,6 +564,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
             let url = self._server_uri + "/json/people/people/my_info?" + self._loginParameters
             // The my info request is a simple GET task, so we can just use a straight-up task for this.
             if let url_object = URL(string: url) {
+                self._openOperations += 1
                 let userInfoTask = self._connectionSession.dataTask(with: url_object) { [unowned self] data, response, error in
                     if let error = error {
                         self._handleError(error)
@@ -588,6 +604,8 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                     } else {
                         self._handleError(SDK_Data_Errors.invalidData(data))
                     }
+                    
+                    self._openOperations -= 1
                 }
                 
                 userInfoTask.resume()
@@ -641,6 +659,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                 
                 // We will use the handlers returned to fetch the actual object data.
                 if let url_object = URL(string: url) {
+                    self._openOperations += 1
                     let fetchTask = self._connectionSession.dataTask(with: url_object) { [unowned self] data, response, error in
                         if let error = error {
                             self._handleError(error)
@@ -670,6 +689,8 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                         } else {
                             self._handleError(SDK_Data_Errors.invalidData(data))
                         }
+                        
+                        self._openOperations -= 1
                     }
                     
                     fetchTask.resume()
@@ -677,6 +698,9 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                     self._handleError(SDK_Connection_Errors.invalidServerURI(url))
                 }
             }
+        } else {
+            self._openOperations += 1   // This triggers (possibly) a call to the delegate, saying we're done.
+            self._openOperations -= 1
         }
     }
     
@@ -755,6 +779,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                 let url = self._server_uri + "/json/" + plugin + "/" + (idArray.map(String.init)).joined(separator: ",") + "?show_details" + loginParams   // We will be asking for the "full Monty".
                 // The request is a simple GET task, so we can just use a straight-up task for this.
                 if let url_object = URL(string: url) {
+                    self._openOperations += 1
                     let fetchTask = self._connectionSession.dataTask(with: url_object) { [unowned self] data, response, error in
                         if let error = error {
                             self._handleError(error)
@@ -775,6 +800,8 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                         } else {
                             self._handleError(SDK_Data_Errors.invalidData(data))
                         }
+                        
+                        self._openOperations -= 1
                     }
                     
                     fetchTask.resume()
@@ -782,6 +809,9 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                     self._handleError(SDK_Connection_Errors.invalidServerURI(url))
                 }
             }
+        } else {
+            self._openOperations += 1   // This triggers (possibly) a call to the delegate, saying we're done.
+            self._openOperations -= 1
         }
     }
 
@@ -802,6 +832,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
         let url = self._server_uri + "/json/people/logins/" + inIDString + "?show_details" + loginParams   // We will be asking for the "full Monty".
         // The request is a simple GET task, so we can just use a straight-up task for this.
         if let url_object = URL(string: url) {
+            self._openOperations += 1
             let fetchTask = self._connectionSession.dataTask(with: url_object) { [unowned self] data, response, error in
                 if let error = error {
                     self._handleError(error)
@@ -822,6 +853,8 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                 } else {
                     self._handleError(SDK_Data_Errors.invalidData(data))
                 }
+                
+                self._openOperations -= 1
             }
             
             fetchTask.resume()
@@ -942,6 +975,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                 }
                 let url = self._server_uri + "/json/things/" + keyArray.map({$0.urlEncodedString ?? ""}).joined(separator: ",") + "?show_details" + loginParams   // We will be asking for the "full Monty".
                 // The request is a simple GET task, so we can just use a straight-up task for this.
+                self._openOperations += 1
                 if let url_object = URL(string: url) {
                     let fetchTask = self._connectionSession.dataTask(with: url_object) { [unowned self] data, response, error in
                         if let error = error {
@@ -963,6 +997,8 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                         } else {
                             self._handleError(SDK_Data_Errors.invalidData(data))
                         }
+                        
+                        self._openOperations -= 1
                     }
                     
                     fetchTask.resume()
@@ -970,6 +1006,9 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                     self._handleError(SDK_Connection_Errors.invalidServerURI(url))
                 }
             }
+        } else {
+            self._openOperations += 1   // This triggers (possibly) a call to the delegate, saying we're done.
+            self._openOperations -= 1
         }
     }
 
@@ -981,7 +1020,8 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
     private func _fetchBaselinePlugins() {
         let url = self._server_uri + "/json/baseline"
         // The plugin list is a simple GET task, so we can just use a straight-up task for this.
-       if let url_object = URL(string: url) {
+        if let url_object = URL(string: url) {
+            self._openOperations += 1
             let baselineTask = self._connectionSession.dataTask(with: url_object) { data, response, error in
                 if let error = error {
                     self._handleError(error)
@@ -1003,6 +1043,8 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                 } else {
                     self._handleError(SDK_Data_Errors.invalidData(data))
                 }
+                
+                self._openOperations -= 1
             }
             
             baselineTask.resume()
@@ -1399,6 +1441,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
             if let password_object = inPassword.urlEncodedString {
                 let url = self._server_uri + "/login?login_id=" + login_id_object + "&password=" + password_object
                 if let url_object = URL(string: url) {
+                    self._openOperations += 1
                     let loginTask = self._connectionSession.dataTask(with: url_object) { data, response, error in
                         if let error = error {
                             self._handleError(error)
@@ -1415,6 +1458,8 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                         } else {
                             self._handleError(SDK_Data_Errors.invalidData(data))
                         }
+                        
+                        self._openOperations -= 1
                     }
                     
                     self._dataItems = []    // We nuke the cache when we log in.
@@ -1441,6 +1486,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
             // The logout is a simple GET task, so we can just use a straight-up task for this.
             let url = self._server_uri + "/logout?" + self._loginParameters
             if let url_object = URL(string: url) {
+                self._openOperations += 1
                 let logoutTask = self._connectionSession.dataTask(with: url_object) { [unowned self] _, response, error in
                     if let error = error {
                         self._handleError(error)
@@ -1458,6 +1504,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                     self._loginInfo = nil
                     self._userInfo = nil
                     self._callDelegateLoginValid(false) // At this time, we are logged out, but the session is still valid.
+                    self._openOperations -= 1
                 }
                 
                 self._dataItems = []    // We nuke the cache when we log out.

@@ -266,6 +266,13 @@ class Test001SimpleLogin: UIViewController, RVP_Cocoa_SDK_Delegate, UIPickerView
             self.activityScreen?.isHidden = true
         }
     }
+    
+    /* ################################################################## */
+    /**
+     */
+    func sdkInstanceOperationComplete(_ inSDKInstance: RVP_Cocoa_SDK) {
+        
+    }
 
     /* ################################################################## */
     /**

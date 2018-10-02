@@ -519,13 +519,13 @@ class RVP_DisplayElementView: UIView, AVAudioPlayerDelegate {
             
             if let userItem = displayedElement as? RVP_Cocoa_SDK_User {
                 if 0 < userItem.loginID {
-                    self.addLoginButton(userItem.loginID)
+                    self.addLoginButton(userItem.loginID, sdkInstance: displayedElement.sdkInstance!)
                 }
             }
             
             if let loginItem = displayedElement as? RVP_Cocoa_SDK_Login {
                 if let userID = loginItem.userObjectID {
-                    self.addUserButton(userID)
+                    self.addUserButton(userID, sdkInstance: displayedElement.sdkInstance!)
                 }
             }
             
@@ -538,7 +538,7 @@ class RVP_DisplayElementView: UIView, AVAudioPlayerDelegate {
             }
 
             if let children = dictionary["childrenIDs"] as? [String: [Int]] {
-                self.addChildrenButton(children)
+                self.addChildrenButton(children, sdkInstance: displayedElement.sdkInstance!)
             }
 
             if let payload = dictionary["payload"] as? RVP_Cocoa_SDK_Payload {
@@ -623,9 +623,10 @@ class RVP_DisplayElementView: UIView, AVAudioPlayerDelegate {
     /* ################################################################## */
     /**
      */
-    func addLoginButton(_ inID: Int) {
+    func addLoginButton(_ inID: Int, sdkInstance inSDKInstance: RVP_Cocoa_SDK?) {
         let calloutButton = RVP_LoginButton(inID)
-        calloutButton.sdkInstance = self.myController.sdkInstance
+        calloutButton.sdkInstance = inSDKInstance
+        calloutButton.loginID = inID
         
         calloutButton.addTarget(self.myController, action: Selector(("fetchLoginForUser:")), for: .touchUpInside)
         
@@ -635,10 +636,11 @@ class RVP_DisplayElementView: UIView, AVAudioPlayerDelegate {
     /* ################################################################## */
     /**
      */
-    func addUserButton(_ inID: Int) {
+    func addUserButton(_ inID: Int, sdkInstance inSDKInstance: RVP_Cocoa_SDK?) {
         let calloutButton = RVP_UserButton(inID)
-        calloutButton.sdkInstance = self.myController.sdkInstance
-        
+        calloutButton.sdkInstance = inSDKInstance
+        calloutButton.userID = inID
+
         calloutButton.addTarget(self.myController, action: Selector(("fetchUserForLogin:")), for: .touchUpInside)
         
         self.applyConstraints(thisElement: calloutButton, height: 30)
@@ -647,7 +649,7 @@ class RVP_DisplayElementView: UIView, AVAudioPlayerDelegate {
     /* ################################################################## */
     /**
      */
-    func addChildrenButton(_ inChildrenDictionary: [String: [Int]]) {
+    func addChildrenButton(_ inChildrenDictionary: [String: [Int]], sdkInstance inSDKInstance: RVP_Cocoa_SDK?) {
         var idList: [Int] = []
         
         if let people = inChildrenDictionary["people"], !people.isEmpty {
@@ -669,7 +671,7 @@ class RVP_DisplayElementView: UIView, AVAudioPlayerDelegate {
         }
         
         if !idList.isEmpty {
-            if let sdkInstance = self.myController.sdkInstance {
+            if let sdkInstance = inSDKInstance {
                 let newButton = RVP_ChildrenButton(idList, sdkInstance: sdkInstance)
                 newButton.addTarget(self.myController, action: Selector(("fetchChildren:")), for: .touchUpInside)
                 self.applyConstraints(thisElement: newButton, height: 30)
