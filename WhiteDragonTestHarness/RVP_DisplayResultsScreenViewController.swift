@@ -27,7 +27,18 @@ import UIKit
 /**
  */
 class RVP_DisplayResultsScreenViewController: UIViewController, UIDocumentInteractionControllerDelegate {
+    private var _fetchingChildren = false {
+        didSet {
+            if self._fetchingChildren  && !oldValue {
+                self._childrenArray = []
+            }
+        }
+    }
+
+    private var _childrenArray: [A_RVP_Cocoa_SDK_Object] = []
+
     @IBOutlet weak var resultsScrollView: RVP_DisplayResultsScrollView!
+    @IBOutlet weak var activityView: UIView!
     var resultsArray: [A_RVP_Cocoa_SDK_Object] = []
     var sdkInstance: RVP_Cocoa_SDK!
     var documentDisplayController: UIDocumentInteractionController?
@@ -36,6 +47,7 @@ class RVP_DisplayResultsScreenViewController: UIViewController, UIDocumentIntera
     /**
      */
     @objc func fetchLoginForUser(_ inButton: RVP_LoginButton) {
+        self.start()
         inButton.sdkInstance.fetchLogins([inButton.loginID])
     }
     
@@ -43,15 +55,9 @@ class RVP_DisplayResultsScreenViewController: UIViewController, UIDocumentIntera
     /**
      */
     @objc func fetchUserForLogin(_ inButton: RVP_UserButton) {
+        self.start()
         inButton.sdkInstance.fetchUsers([inButton.userID])
     }
-    
-    /* ################################################################## */
-    /**
-     */
-    @objc func fetchChildren(_ inButton: RVP_ChildrenButton) {
-        inButton.sdkInstance.fetchBaselineObjectsByID(inButton.children)
-   }
 
     /* ################################################################## */
     /**
@@ -81,8 +87,10 @@ class RVP_DisplayResultsScreenViewController: UIViewController, UIDocumentIntera
     /**
      */
     @IBAction func displayEPUBButtonHit(_ sender: UIButton) {
+        self.start()
         if !(self.documentDisplayController?.presentPreview(animated: true))! {
             UIApplication.displayAlert("Unable to Display EPUB Document", inMessage: "You need to have iBooks installed.", presentedBy: self)
+            self.done()
         }
     }
     
@@ -90,17 +98,24 @@ class RVP_DisplayResultsScreenViewController: UIViewController, UIDocumentIntera
     /**
      */
     @IBAction func displayGenericButtonHit(_ sender: UIButton) {
+        self.start()
         if !(self.documentDisplayController?.presentPreview(animated: true))! {
             UIApplication.displayAlert("Unable to Display the Document", inMessage: "", presentedBy: self)
+            self.done()
         }
     }
     
     /* ################################################################## */
     /**
      */
-    @IBAction func displayChildrenButtonHit(_ sender: UIButton) {
+    @IBAction func displayChildrenButtonHit(_ sender: RVP_ChildrenButton) {
+        if let sdkInstance = sender.sdkInstance, !sender.children.isEmpty {
+            self.start()
+            self._fetchingChildren = true
+            sdkInstance.fetchBaselineObjectsByID(sender.children)
+        }
     }
-
+    
     /* ################################################################## */
     /**
      */
@@ -109,8 +124,38 @@ class RVP_DisplayResultsScreenViewController: UIViewController, UIDocumentIntera
         self.resultsScrollView.sdkInstance = self.sdkInstance
         
         super.viewWillAppear(animated)
+        self.done()
     }
     
+    /* ################################################################## */
+    /**
+     */
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let destination = segue.destination as? RVP_ResultListViewController {
+            destination.resultObjectList = self._childrenArray
+        }
+        
+        super.prepare(for: segue, sender: nil)
+    }
+
+    /* ################################################################## */
+    /**
+     */
+    func start() {
+        self.activityView.isHidden = false
+    }
+    
+    /* ################################################################## */
+    /**
+     */
+    func done() {
+        if self._fetchingChildren {
+            self._fetchingChildren = false
+            self.performSegue(withIdentifier: "show-details-list", sender: nil)
+        }
+        self.activityView.isHidden = true
+    }
+
     /* ################################################################## */
     /**
      */
@@ -130,7 +175,7 @@ class RVP_DisplayResultsScreenViewController: UIViewController, UIDocumentIntera
             NSLog("Error Encoding AV Media: %@", error._domain)
         }
     }
-
+    
     /* ################################################################## */
     /**
      */

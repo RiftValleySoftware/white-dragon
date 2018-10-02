@@ -22,7 +22,7 @@
 import UIKit
 import MapKit
 
-class Test004BasicThingListing: TestBaseViewController {
+class Test003BasicThingListing: TestBaseViewController {
     override var presets: [(name: String, values: [Any])] {
         return [(name: "Single Image (Int)", values: [1732]),
                 (name: "Multiple Images (Int)", values: [1732, 1733, 1734, 1736, 1739, 1742, 1755]),

@@ -22,29 +22,62 @@
 import UIKit
 import MapKit
 
-/* ###################################################################################################################################### */
-// MARK: - Main Class -
-/* ###################################################################################################################################### */
-/**
- */
-class Test001SimpleLogin: UIViewController, RVP_Cocoa_SDK_Delegate, UIPickerViewDataSource, UIPickerViewDelegate, UITableViewDelegate, UITableViewDataSource {
-    private let _logins: [String] = ["admin", "MDAdmin", "VAAdmin", "DCAdmin", "WVAdmin", "DEAdmin", "MainAdmin", "Dilbert", "Wally", "Ted", "Alice", "Tina", "PHB", "MeLeet"]
-    private var _objects: [A_RVP_Cocoa_SDK_Object] = []
+class TestBaseViewController: UIViewController, RVP_Cocoa_SDK_Delegate, UIPickerViewDataSource, UIPickerViewDelegate {
+    var logins: [String] {
+        return ["admin", "MDAdmin", "VAAdmin", "DCAdmin", "WVAdmin", "DEAdmin", "MainAdmin", "Dilbert", "Wally", "Ted", "Alice", "Tina", "PHB", "MeLeet"]
+    }
+    
+    var presets: [(name: String, values: [Any])] {
+        return []
+    }
+    
+    var spacing: [CGFloat] = [0, 100]
+    
+    private let _buttonStrings = ["LOGIN AS:", "LOGOUT"]
+    var objectList: [A_RVP_Cocoa_SDK_Object] = []
     
     var mySDKTester: WhiteDragonSDKTester?
-    @IBOutlet weak var loginButton: LucyButton!
+    @IBOutlet weak var displayResultsButton: UIButton!
     @IBOutlet weak var activityScreen: UIView!
-    @IBOutlet weak var selectionDisplayView: UIView!
+    @IBOutlet weak var fetchDataButton: UIButton!
+    @IBOutlet weak var objectListPicker: UIPickerView!
+    @IBOutlet weak var specificationItemsView: UIView!
+    @IBOutlet weak var loginMainAdminButton: UIButton!
     @IBOutlet weak var loginPickerView: UIPickerView!
-    @IBOutlet weak var displayTableView: UITableView!
+    @IBOutlet weak var specificationItemsConstraint: NSLayoutConstraint!
+    
+    /* ################################################################## */
+    /**
+     */
+    @IBAction func loginMainAdminButtonPressed(_ sender: UIButton) {
+        if let tester = self.mySDKTester {
+            self.clearResults()
+            self.activityScreen.isHidden = false
+            if tester.isLoggedIn {
+                tester.logout()
+            } else {
+                let row = self.loginPickerView.selectedRow(inComponent: 0)
+                tester.login(loginID: self.logins[row], password: "CoreysGoryStory")
+            }
+        }
+    }
+
+    /* ################################################################## */
+    /**
+     */
+    @IBAction func fetchDataButtonPressed(_ sender: UIButton) {
+        self.activityScreen?.isHidden = false
+        self.getObjects()
+    }
     
     /* ################################################################## */
     /**
      */
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.mySDKTester =  WhiteDragonSDKTester(dbPrefix: "sdk_1", delegate: self, session: TestHarnessAppDelegate.testHarnessDelegate.connectionSession)
-        self.logout()
+        self.clearResults()
+        self.mySDKTester = WhiteDragonSDKTester(dbPrefix: "sdk_4", delegate: self, session: TestHarnessAppDelegate.testHarnessDelegate.connectionSession)
+        self.loginMainAdminButton.setTitle(self._buttonStrings[0], for: .normal)
     }
     
     /* ################################################################## */
@@ -68,44 +101,15 @@ class Test001SimpleLogin: UIViewController, RVP_Cocoa_SDK_Delegate, UIPickerView
     /* ################################################################## */
     /**
      */
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let destination = segue.destination as? RVP_DisplayResultsScreenViewController {
-            if let node = sender as? A_RVP_Cocoa_SDK_Object {
-                destination.resultsArray = [node]
-                destination.sdkInstance = self.mySDKTester?.sdkInstance
+    func sortList() {
+        self.objectList = self.objectList.sorted {
+            var ret = $0.id < $1.id
+            
+            if !ret {   // Security objects get listed before data objects
+                ret = $0 is A_RVP_Cocoa_SDK_Security_Object && $1 is A_RVP_Cocoa_SDK_Data_Object
             }
-        }
-        super.prepare(for: segue, sender: nil)
-    }
-
-    /* ################################################################## */
-    /**
-     */
-    @IBAction func lucyButtonHit(_ sender: LucyButton) {
-        if let tester = self.mySDKTester {
-            self.clearResults()
-            self.activityScreen.isHidden = false
-            if tester.isLoggedIn {
-                tester.logout()
-            } else {
-                let row = self.loginPickerView.selectedRow(inComponent: 0)
-                tester.login(loginID: self._logins[row], password: "CoreysGoryStory")
-            }
-        }
-    }
-    
-    /* ################################################################## */
-    /**
-     */
-    func logout() {
-        self.clearResults()
-        if let sdkTester = self.mySDKTester, let sdkInstance = sdkTester.sdkInstance, sdkInstance.isLoggedIn {
-            sdkInstance.logout()
-        } else {
-            self.activityScreen.isHidden = true
-            self.displayTableView.isHidden = true
-            self.loginPickerView.isHidden = false
-            self.loginButton.theDoctorIsIn = false
+            
+            return ret
         }
     }
     
@@ -113,15 +117,24 @@ class Test001SimpleLogin: UIViewController, RVP_Cocoa_SDK_Delegate, UIPickerView
     /**
      */
     func clearResults() {
-        self._objects = []
-        self.displayTableView.reloadData()
+        self.objectList = []
+        DispatchQueue.main.async {
+            self.displayResultsButton?.isHidden = true
+        }
     }
-    
+
     /* ################################################################## */
     /**
      */
-    private func _showLoginDetails(_ inLoginObject: A_RVP_Cocoa_SDK_Object) {
-        self.performSegue(withIdentifier: "show-object-details", sender: inLoginObject)
+    func getObjects() {
+        self.clearResults()
+        if let sdkInstance = self.mySDKTester?.sdkInstance {
+            let row = self.objectListPicker.selectedRow(inComponent: 0)
+            if let iDList = self.presets[row].values as? [Int] {
+                self.activityScreen.isHidden = false
+                sdkInstance.fetchBaselineObjectsByID(iDList)
+            }
+        }
     }
 
     /* ################################################################## */
@@ -166,12 +179,22 @@ class Test001SimpleLogin: UIViewController, RVP_Cocoa_SDK_Delegate, UIPickerView
     /* ################################################################## */
     /**
      */
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let destination = segue.destination as? RVP_ResultListViewController {
+            destination.resultObjectList = self.objectList
+        }
+        super.prepare(for: segue, sender: nil)
+    }
+    
+    /* ################################################################## */
+    /**
+     */
     func sdkInstance(_ inSDKInstance: RVP_Cocoa_SDK, sessionConnectionIsValid inConnectionIsValid: Bool) {
         #if DEBUG
         print("Connection is" + (inConnectionIsValid ? "" : " not") + " valid!")
         #endif
     }
-
+    
     /* ################################################################## */
     /**
      */
@@ -180,15 +203,6 @@ class Test001SimpleLogin: UIViewController, RVP_Cocoa_SDK_Delegate, UIPickerView
         if inLoginValid {
             if let loginID = inSDKInstance.myLoginInfo?.loginID {
                 print("Instance is logged in as " + loginID + "!")
-                
-                DispatchQueue.main.async {
-                    if let loginInfo = inSDKInstance.myLoginInfo {
-                        self.sdkInstance(inSDKInstance, fetchedDataItems: [loginInfo])
-                    }
-                    if let userInfo = inSDKInstance.myUserInfo {
-                        self.sdkInstance(inSDKInstance, fetchedDataItems: [userInfo])
-                    }
-                }
             } else {
                 print("ERROR!")
             }
@@ -197,10 +211,22 @@ class Test001SimpleLogin: UIViewController, RVP_Cocoa_SDK_Delegate, UIPickerView
         }
         #endif
         DispatchQueue.main.async {
-            self.activityScreen.isHidden = true
-            self.displayTableView.isHidden = !inLoginValid
-            self.loginPickerView.isHidden = inLoginValid
-            self.loginButton.theDoctorIsIn = inLoginValid
+            var loginID = self._buttonStrings[0]
+            if inLoginValid {
+                self.specificationItemsConstraint.constant = self.spacing[0]
+                self.loginPickerView?.isHidden = true
+                if let loginIDVal = inSDKInstance.myLoginInfo?.loginID {
+                    loginID = self._buttonStrings[1] + " (" + loginIDVal + ")"
+                }
+            } else {
+                self.specificationItemsConstraint.constant = self.spacing[1]
+                self.loginPickerView?.isHidden = false
+            }
+            
+            self.loginMainAdminButton.setTitle(loginID, for: .normal)
+            self.activityScreen?.isHidden = true
+            self.loginMainAdminButton?.isHidden = false
+            self.displayResultsButton?.isHidden = self.objectList.isEmpty
         }
     }
     
@@ -212,7 +238,6 @@ class Test001SimpleLogin: UIViewController, RVP_Cocoa_SDK_Delegate, UIPickerView
         print("Instance disconnected because \(inReason)!")
         #endif
         DispatchQueue.main.async {
-            self.activityScreen.isHidden = true
         }
     }
     
@@ -224,7 +249,6 @@ class Test001SimpleLogin: UIViewController, RVP_Cocoa_SDK_Delegate, UIPickerView
         print("Instance Error: \(inError)!")
         #endif
         DispatchQueue.main.async {
-            self.activityScreen.isHidden = true
         }
     }
     
@@ -236,13 +260,13 @@ class Test001SimpleLogin: UIViewController, RVP_Cocoa_SDK_Delegate, UIPickerView
         print("Fetched \(fetchedDataItems.count) Items!")
         #endif
         
-        if self._objects.isEmpty {
-            self._objects.append(contentsOf: fetchedDataItems)
+        if self.objectList.isEmpty {
+            self.objectList.append(contentsOf: fetchedDataItems)
         } else {
             var toBeAdded: [A_RVP_Cocoa_SDK_Object] = []
             
             for item in fetchedDataItems {
-                if !self._objects.contains { [item] element in
+                if !self.objectList.contains { [item] element in
                     return element.id == item.id && type(of: element) == type(of: item)
                     } {
                     toBeAdded.append(item)
@@ -250,20 +274,18 @@ class Test001SimpleLogin: UIViewController, RVP_Cocoa_SDK_Delegate, UIPickerView
             }
             
             if !toBeAdded.isEmpty {
-                self._objects.append(contentsOf: toBeAdded)
+                self.objectList.append(contentsOf: toBeAdded)
             }
         }
         
-        self._objects = self._objects.sorted(by: { $0.id < $1.id })
-
+        self.sortList()
+        
         DispatchQueue.main.async {
-            self.displayTableView.reloadData()
-            
             if let topper = UIApplication.getTopmostViewController() as? RVP_DisplayResultsScreenViewController {
                 topper.addNewItems(fetchedDataItems)
             }
             
-            self.activityScreen?.isHidden = true
+            self.displayResultsButton?.isHidden = self.objectList.isEmpty
         }
     }
     
@@ -271,9 +293,24 @@ class Test001SimpleLogin: UIViewController, RVP_Cocoa_SDK_Delegate, UIPickerView
     /**
      */
     func sdkInstanceOperationComplete(_ inSDKInstance: RVP_Cocoa_SDK) {
-        
+        DispatchQueue.main.async {
+            self.activityScreen?.isHidden = true
+            self.displayResultsButton?.isHidden = self.objectList.isEmpty
+            if let topper = UIApplication.getTopmostViewController() as? RVP_DisplayResultsScreenViewController {
+                topper.done()
+            }
+        }
     }
 
+    /* ################################################################## */
+    /**
+     */
+    func databasesLoadedAndCaseysOnFirst(_ inTesterObject: WhiteDragonSDKTester) {
+        #if DEBUG
+        print("Databases Loaded!")
+        #endif
+    }
+    
     /* ################################################################## */
     /**
      */
@@ -285,60 +322,13 @@ class Test001SimpleLogin: UIViewController, RVP_Cocoa_SDK_Delegate, UIPickerView
     /**
      */
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return self._logins.count
+        return pickerView == self.loginPickerView ? self.logins.count : self.presets.count
     }
     
     /* ################################################################## */
     /**
      */
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return self._logins[row]
-    }
-
-    /* ################################################################## */
-    /**
-     */
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self._objects.count
-    }
-    
-    /* ################################################################## */
-    /**
-     */
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var ret: UITableViewCell!   // If we don't have anything, then this will cause the method to crash; which is what we want. It shouldn't be called if we have nothing.
-        
-        if 0 < self._objects.count, indexPath.row < self._objects.count {
-            let rowObject = self._objects[indexPath.row]
-            var nameString = String(rowObject.id)
-            if !rowObject.name.isEmpty {
-                nameString = rowObject.name + " (" + nameString + ")"
-            }
-            
-            let topLabel = UILabel()
-            
-            topLabel.text = nameString
-            topLabel.font = UIFont.boldSystemFont(ofSize: 20)
-            topLabel.textAlignment = .center
-            let height: CGFloat = topLabel.oneLineHeight
-            var frame = tableView.bounds
-            frame.size.height = height
-            ret = UITableViewCell(frame: frame)
-            ret.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: ((0 == indexPath.row % 2) ? 0 : 0.05))
-            self.applyConstraints(thisElement: topLabel, height: height, container: ret)
-        }
-        
-        return ret
-    }
-    
-    /* ################################################################## */
-    /**
-     */
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if 0 < self._objects.count, indexPath.row < self._objects.count {
-            tableView.deselectRow(at: indexPath, animated: true)
-            let rowObject = self._objects[indexPath.row]
-            self._showLoginDetails(rowObject)
-        }
+        return pickerView == self.loginPickerView ? self.logins[row] : self.presets[row].name
     }
 }

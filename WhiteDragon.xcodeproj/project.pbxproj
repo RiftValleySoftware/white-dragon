@@ -8,9 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		2185C05097BFDF92479B5914 /* Pods_WhiteDragon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DEA8986ABAA1BA586DC9A8CD /* Pods_WhiteDragon.framework */; };
-		D415A1C4215BF4AE00FE4991 /* Test004BasicThingListing.swift in Sources */ = {isa = PBXBuildFile; fileRef = D415A1C3215BF4AE00FE4991 /* Test004BasicThingListing.swift */; };
-		D42432BE2162794100CF3C1F /* Test005BaselineSearches.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42432BD2162794100CF3C1F /* Test005BaselineSearches.swift */; };
-		D432E0D2214BE45E0018ED86 /* LucyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D432E0D1214BE45E0018ED86 /* LucyButton.swift */; };
+		D415A1C4215BF4AE00FE4991 /* Test003BasicThingListing.swift in Sources */ = {isa = PBXBuildFile; fileRef = D415A1C3215BF4AE00FE4991 /* Test003BasicThingListing.swift */; };
+		D42432BE2162794100CF3C1F /* Test004BaselineSearches.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42432BD2162794100CF3C1F /* Test004BaselineSearches.swift */; };
 		D433255821616C6F008044F4 /* RevealServer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D444087121550797002CCA50 /* RevealServer.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		D433255921616C6F008044F4 /* RevealServer.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D444087121550797002CCA50 /* RevealServer.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D4333ED9215EA5EF0002EC2F /* RVP_Cocoa_SDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B94830213EEA6200A3560E /* RVP_Cocoa_SDK.swift */; };
@@ -52,15 +51,14 @@
 		D4A3EFDD215E9B4E0056BBA9 /* RVP_iOS_SDK_Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A3EFDA215E9A9C0056BBA9 /* RVP_iOS_SDK_Utils.swift */; };
 		D4A5C3432152BA6500159EFF /* TestHarnessUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A5C3422152BA6500159EFF /* TestHarnessUtilities.swift */; };
 		D4B94831213EEA6200A3560E /* RVP_Cocoa_SDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B94830213EEA6200A3560E /* RVP_Cocoa_SDK.swift */; };
-		D4CA327A215943D900A63DAD /* Test003BasicPlaceListing.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4CA3279215943D900A63DAD /* Test003BasicPlaceListing.swift */; };
+		D4CA327A215943D900A63DAD /* Test002BasicPlaceListing.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4CA3279215943D900A63DAD /* Test002BasicPlaceListing.swift */; };
 		D4D8703621446C0D001283D0 /* RVP_Cocoa_SDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B94830213EEA6200A3560E /* RVP_Cocoa_SDK.swift */; };
 		D4E2685E214302A2002ECE12 /* TestHarnessAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E2685D214302A2002ECE12 /* TestHarnessAppDelegate.swift */; };
-		D4E26860214302A2002ECE12 /* Test001SimpleLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E2685F214302A2002ECE12 /* Test001SimpleLogin.swift */; };
 		D4E26863214302A2002ECE12 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4E26861214302A2002ECE12 /* Main.storyboard */; };
 		D4E26865214302A3002ECE12 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4E26864214302A3002ECE12 /* Assets.xcassets */; };
 		D4E26868214302A4002ECE12 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4E26866214302A3002ECE12 /* LaunchScreen.storyboard */; };
 		D4E2686E2143031E002ECE12 /* WhiteDragonSDKTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4687FF32142E4D000293358 /* WhiteDragonSDKTester.swift */; };
-		D4FC297D21514BFB008271E4 /* Test002BasicUserListing.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FC297C21514BFB008271E4 /* Test002BasicUserListing.swift */; };
+		D4FC297D21514BFB008271E4 /* Test001BasicUserListing.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FC297C21514BFB008271E4 /* Test001BasicUserListing.swift */; };
 		D4FF8B6521542E9F0051A0B8 /* RVP_DisplayElementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FF8B6421542E9F0051A0B8 /* RVP_DisplayElementView.swift */; };
 /* End PBXBuildFile section */
 
@@ -94,9 +92,8 @@
 		69826259210E6D8098363362 /* Pods-WhiteDragon.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WhiteDragon.release.xcconfig"; path = "Pods/Target Support Files/Pods-WhiteDragon/Pods-WhiteDragon.release.xcconfig"; sourceTree = "<group>"; };
 		6D791B6D79927B976A7E510C /* Pods-WhiteDragonTestHarness.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WhiteDragonTestHarness.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WhiteDragonTestHarness/Pods-WhiteDragonTestHarness.debug.xcconfig"; sourceTree = "<group>"; };
 		B21EEF1DC1244C81AFC29F73 /* Pods_WhiteDragonTestHarness.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WhiteDragonTestHarness.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D415A1C3215BF4AE00FE4991 /* Test004BasicThingListing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test004BasicThingListing.swift; sourceTree = "<group>"; };
-		D42432BD2162794100CF3C1F /* Test005BaselineSearches.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Test005BaselineSearches.swift; sourceTree = "<group>"; };
-		D432E0D1214BE45E0018ED86 /* LucyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LucyButton.swift; sourceTree = "<group>"; };
+		D415A1C3215BF4AE00FE4991 /* Test003BasicThingListing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test003BasicThingListing.swift; sourceTree = "<group>"; };
+		D42432BD2162794100CF3C1F /* Test004BaselineSearches.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Test004BaselineSearches.swift; sourceTree = "<group>"; };
 		D43CC103214C4EA900548B8E /* A_RVP_Cocoa_SDK_Security_Object.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = A_RVP_Cocoa_SDK_Security_Object.swift; path = Classes/A_RVP_Cocoa_SDK_Security_Object.swift; sourceTree = "<group>"; };
 		D43CC104214C4EA900548B8E /* RVP_Cocoa_SDK_User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RVP_Cocoa_SDK_User.swift; path = Classes/RVP_Cocoa_SDK_User.swift; sourceTree = "<group>"; };
 		D43CC105214C4EA900548B8E /* RVP_Cocoa_SDK_Place.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RVP_Cocoa_SDK_Place.swift; path = Classes/RVP_Cocoa_SDK_Place.swift; sourceTree = "<group>"; };
@@ -130,19 +127,18 @@
 		D4B8A98F213ECB25007CB311 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; };
 		D4B94830213EEA6200A3560E /* RVP_Cocoa_SDK.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RVP_Cocoa_SDK.swift; path = Classes/RVP_Cocoa_SDK.swift; sourceTree = "<group>"; };
 		D4B94834213EFBD100A3560E /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		D4CA3279215943D900A63DAD /* Test003BasicPlaceListing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test003BasicPlaceListing.swift; sourceTree = "<group>"; };
+		D4CA3279215943D900A63DAD /* Test002BasicPlaceListing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test002BasicPlaceListing.swift; sourceTree = "<group>"; };
 		D4DC0CCF215ED28A00052AA7 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		D4DC0CD0215ED2AB00052AA7 /* jazzy.yaml */ = {isa = PBXFileReference; lastKnownFileType = text; path = jazzy.yaml; sourceTree = "<group>"; };
 		D4E2685B214302A2002ECE12 /* WhiteDragonTestHarness.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WhiteDragonTestHarness.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4E2685D214302A2002ECE12 /* TestHarnessAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestHarnessAppDelegate.swift; sourceTree = "<group>"; };
-		D4E2685F214302A2002ECE12 /* Test001SimpleLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test001SimpleLogin.swift; sourceTree = "<group>"; };
 		D4E26862214302A2002ECE12 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D4E26864214302A3002ECE12 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D4E26867214302A3002ECE12 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D4E26869214302A4002ECE12 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D4ECC295216179B7008DD4A5 /* Fastfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Fastfile.swift; path = fastlane/Fastfile.swift; sourceTree = "<group>"; };
 		D4ECC296216179B7008DD4A5 /* Appfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Appfile.swift; path = fastlane/Appfile.swift; sourceTree = "<group>"; };
-		D4FC297C21514BFB008271E4 /* Test002BasicUserListing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test002BasicUserListing.swift; sourceTree = "<group>"; };
+		D4FC297C21514BFB008271E4 /* Test001BasicUserListing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test001BasicUserListing.swift; sourceTree = "<group>"; };
 		D4FF8B6421542E9F0051A0B8 /* RVP_DisplayElementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RVP_DisplayElementView.swift; sourceTree = "<group>"; };
 		DEA8986ABAA1BA586DC9A8CD /* Pods_WhiteDragon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WhiteDragon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -293,7 +289,6 @@
 				D4885EE32155216F00DF9862 /* RVP_DisplayResultsScrollView.swift */,
 				D4FF8B6421542E9F0051A0B8 /* RVP_DisplayElementView.swift */,
 				D4A5C3422152BA6500159EFF /* TestHarnessUtilities.swift */,
-				D432E0D1214BE45E0018ED86 /* LucyButton.swift */,
 				D4E26861214302A2002ECE12 /* Main.storyboard */,
 				D4E26864214302A3002ECE12 /* Assets.xcassets */,
 				D4E26866214302A3002ECE12 /* LaunchScreen.storyboard */,
@@ -305,11 +300,10 @@
 		D4C64B8521505342000ADD52 /* Test Files */ = {
 			isa = PBXGroup;
 			children = (
-				D4E2685F214302A2002ECE12 /* Test001SimpleLogin.swift */,
-				D4FC297C21514BFB008271E4 /* Test002BasicUserListing.swift */,
-				D4CA3279215943D900A63DAD /* Test003BasicPlaceListing.swift */,
-				D415A1C3215BF4AE00FE4991 /* Test004BasicThingListing.swift */,
-				D42432BD2162794100CF3C1F /* Test005BaselineSearches.swift */,
+				D4FC297C21514BFB008271E4 /* Test001BasicUserListing.swift */,
+				D4CA3279215943D900A63DAD /* Test002BasicPlaceListing.swift */,
+				D415A1C3215BF4AE00FE4991 /* Test003BasicThingListing.swift */,
+				D42432BD2162794100CF3C1F /* Test004BaselineSearches.swift */,
 			);
 			name = "Test Files";
 			sourceTree = "<group>";
@@ -583,24 +577,22 @@
 				D4E2686E2143031E002ECE12 /* WhiteDragonSDKTester.swift in Sources */,
 				D4733D3B214FB866009D11BF /* DispatcherListController.swift in Sources */,
 				D43CC112214C4EA900548B8E /* RVP_Cocoa_SDK_Place.swift in Sources */,
-				D42432BE2162794100CF3C1F /* Test005BaselineSearches.swift in Sources */,
-				D4FC297D21514BFB008271E4 /* Test002BasicUserListing.swift in Sources */,
-				D4CA327A215943D900A63DAD /* Test003BasicPlaceListing.swift in Sources */,
+				D42432BE2162794100CF3C1F /* Test004BaselineSearches.swift in Sources */,
+				D4FC297D21514BFB008271E4 /* Test001BasicUserListing.swift in Sources */,
+				D4CA327A215943D900A63DAD /* Test002BasicPlaceListing.swift in Sources */,
 				D43CC10F214C4EA900548B8E /* RVP_Cocoa_SDK_User.swift in Sources */,
 				D4885EE42155216F00DF9862 /* RVP_DisplayResultsScrollView.swift in Sources */,
 				D48F4A5A215669D300597A2C /* RVP_DisplayResultsScreenViewController.swift in Sources */,
 				D43CC11B214C4EA900548B8E /* A_RVP_Cocoa_SDK_Object.swift in Sources */,
 				D4A3EFDB215E9A9C0056BBA9 /* RVP_iOS_SDK_Utils.swift in Sources */,
 				D43CC11E214C4EA900548B8E /* RVP_Cocoa_SDK_Login.swift in Sources */,
-				D4E26860214302A2002ECE12 /* Test001SimpleLogin.swift in Sources */,
 				D4733D39214FB74A009D11BF /* MainDispatchNavController.swift in Sources */,
 				D4D8703621446C0D001283D0 /* RVP_Cocoa_SDK.swift in Sources */,
 				D43CC115214C4EA900548B8E /* A_RVP_Cocoa_SDK_Data_Object.swift in Sources */,
 				D4E2685E214302A2002ECE12 /* TestHarnessAppDelegate.swift in Sources */,
 				D43CC10C214C4EA900548B8E /* A_RVP_Cocoa_SDK_Security_Object.swift in Sources */,
-				D432E0D2214BE45E0018ED86 /* LucyButton.swift in Sources */,
 				D4A5C3432152BA6500159EFF /* TestHarnessUtilities.swift in Sources */,
-				D415A1C4215BF4AE00FE4991 /* Test004BasicThingListing.swift in Sources */,
+				D415A1C4215BF4AE00FE4991 /* Test003BasicThingListing.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

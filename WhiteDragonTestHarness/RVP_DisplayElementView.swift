@@ -615,7 +615,7 @@ class RVP_DisplayElementView: UIView, AVAudioPlayerDelegate {
     func addLocationButton(_ inLocation: CLLocationCoordinate2D, title inTitle: String, locationName inLocationName: String) {
         let calloutButton = RVP_LocationButton(inLocation, title: inTitle, locationName: inLocationName)
         
-        calloutButton.addTarget(self.myController, action: Selector(("getMapForLocation:")), for: .touchUpInside)
+        calloutButton.addTarget(self.myController, action: #selector(RVP_DisplayResultsScreenViewController.getMapForLocation(_:)), for: .touchUpInside)
         
         self.applyConstraints(thisElement: calloutButton, height: 30)
     }
@@ -628,7 +628,7 @@ class RVP_DisplayElementView: UIView, AVAudioPlayerDelegate {
         calloutButton.sdkInstance = inSDKInstance
         calloutButton.loginID = inID
         
-        calloutButton.addTarget(self.myController, action: Selector(("fetchLoginForUser:")), for: .touchUpInside)
+        calloutButton.addTarget(self.myController, action: #selector(RVP_DisplayResultsScreenViewController.fetchLoginForUser(_:)), for: .touchUpInside)
         
         self.applyConstraints(thisElement: calloutButton, height: 30)
     }
@@ -641,7 +641,7 @@ class RVP_DisplayElementView: UIView, AVAudioPlayerDelegate {
         calloutButton.sdkInstance = inSDKInstance
         calloutButton.userID = inID
 
-        calloutButton.addTarget(self.myController, action: Selector(("fetchUserForLogin:")), for: .touchUpInside)
+        calloutButton.addTarget(self.myController, action: #selector(RVP_DisplayResultsScreenViewController.fetchUserForLogin(_:)), for: .touchUpInside)
         
         self.applyConstraints(thisElement: calloutButton, height: 30)
     }
@@ -673,7 +673,7 @@ class RVP_DisplayElementView: UIView, AVAudioPlayerDelegate {
         if !idList.isEmpty {
             if let sdkInstance = inSDKInstance {
                 let newButton = RVP_ChildrenButton(idList, sdkInstance: sdkInstance)
-                newButton.addTarget(self.myController, action: Selector(("fetchChildren:")), for: .touchUpInside)
+                newButton.addTarget(self.myController, action: #selector(RVP_DisplayResultsScreenViewController.displayChildrenButtonHit(_:)), for: .touchUpInside)
                 self.applyConstraints(thisElement: newButton, height: 30)
             }
         }
@@ -767,6 +767,9 @@ class RVP_DisplayElementView: UIView, AVAudioPlayerDelegate {
         }
     }
     
+    /* ################################################################## */
+    /**
+     */
     func addPayloadHandler(_ inPayload: RVP_Cocoa_SDK_Payload) {
         self.myVideoPlayer = nil
         self.myAudioPlayer = nil
@@ -812,9 +815,9 @@ class RVP_DisplayElementView: UIView, AVAudioPlayerDelegate {
                     self.myController.setEPUBDocumentFromData(payloadData)
                     let payloadButton = RVP_PayloadButton(payloadData)
                     if inPayload.payloadType == "application/epub+zip" {
-                        payloadButton.addTarget(self.myController, action: Selector(("displayEPUBButtonHit:")), for: .touchUpInside)
+                        payloadButton.addTarget(self.myController, action: #selector(RVP_DisplayResultsScreenViewController.displayEPUBButtonHit(_:)), for: .touchUpInside)
                     } else {
-                        payloadButton.addTarget(self.myController, action: Selector(("displayGenericButtonHit:")), for: .touchUpInside)
+                        payloadButton.addTarget(self.myController, action: #selector(RVP_DisplayResultsScreenViewController.displayGenericButtonHit(_:)), for: .touchUpInside)
                     }
                     displayItem = payloadButton
                     height = 30

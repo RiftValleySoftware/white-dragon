@@ -20,24 +20,26 @@
  */
 
 import UIKit
+import MapKit
 
-/* ###################################################################################################################################### */
-// MARK: - Main Class -
-/* ###################################################################################################################################### */
-/**
- */
-class DispatcherListController: UITableViewController {
-    /* ################################################################## */
-    /**
-     */
-    override func viewWillAppear(_ animated: Bool) {
-        self.navigationController?.navigationBar.isHidden = true
+class Test002BasicPlaceListing: TestBaseViewController {
+    override var presets: [(name: String, values: [Any])] {
+        return [(name: "Maryland 1", values: [2]),
+                (name: "Maryland Multi", values: [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33])
+                ]
     }
     
     /* ################################################################## */
     /**
      */
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
+    override func getObjects() {
+        self.clearResults()
+        if let sdkInstance = self.mySDKTester?.sdkInstance {
+            let row = self.objectListPicker.selectedRow(inComponent: 0)
+            if let placeIDList = self.presets[row].values as? [Int] {
+                self.activityScreen?.isHidden = false
+                sdkInstance.fetchPlaces(placeIDList)
+            }
+        }
     }
 }
