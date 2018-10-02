@@ -22,12 +22,35 @@
 import UIKit
 
 /* ###################################################################################################################################### */
+// MARK: - Navigation Controller Class -
+/* ###################################################################################################################################### */
+/**
+ */
+class RVP_ResultListNavController: UINavigationController {
+    var resultObjectList: [A_RVP_Cocoa_SDK_Object] = []
+}
+
+/* ###################################################################################################################################### */
 // MARK: - Main Class -
 /* ###################################################################################################################################### */
 /**
  */
 class RVP_ResultListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    var resultObjectList: [A_RVP_Cocoa_SDK_Object] = []
+    var resultObjectList: [A_RVP_Cocoa_SDK_Object] {
+        get {
+            if let navCtl = self.navigationController as? RVP_ResultListNavController {
+                return navCtl.resultObjectList
+            }
+            
+            return []
+        }
+        
+        set {
+            if let navCtl = self.navigationController as? RVP_ResultListNavController {
+                navCtl.resultObjectList = newValue
+            }
+        }
+    }
     
     @IBOutlet weak var resultListTableView: UITableView!
     
@@ -36,6 +59,13 @@ class RVP_ResultListViewController: UIViewController, UITableViewDelegate, UITab
      */
     private func _showObjectDetails(_ inObject: A_RVP_Cocoa_SDK_Object) {
         self.performSegue(withIdentifier: "show-object-details", sender: inObject)
+    }
+    
+    /* ################################################################## */
+    /**
+     */
+    @IBAction func doneButtonHit(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
     }
     
     /* ################################################################## */

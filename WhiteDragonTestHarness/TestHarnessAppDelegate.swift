@@ -56,3 +56,32 @@ class TestHarnessAppDelegate: UIResponder, UIApplicationDelegate {
         }
     }    
 }
+
+/* ###################################################################################################################################### */
+// MARK: - Main NavController Class -
+/* ###################################################################################################################################### */
+/**
+ */
+class MainDispatchNavController: UINavigationController {
+}
+
+/* ###################################################################################################################################### */
+// MARK: - Main Class -
+/* ###################################################################################################################################### */
+/**
+ */
+class DispatcherListController: UITableViewController {
+    /* ################################################################## */
+    /**
+     */
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.navigationBar.isHidden = true
+    }
+    
+    /* ################################################################## */
+    /**
+     */
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+}

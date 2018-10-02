@@ -26,10 +26,10 @@
             </objects>
             <point key="canvasLocation" x="-1172" y="58"/>
         </scene>
-        <!--Dispatcher List Controller-->
+        <!--TESTS-->
         <scene sceneID="eoo-qx-tFB">
             <objects>
-                <tableViewController id="RbQ-Wc-XqA" customClass="DispatcherListController" customModule="WhiteDragonTestHarness" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController title="TESTS" id="RbQ-Wc-XqA" customClass="DispatcherListController" customModule="WhiteDragonTestHarness" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="static" style="plain" separatorStyle="default" rowHeight="30" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="iGm-Gs-RrP">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -218,7 +218,7 @@
                                         </constraints>
                                         <state key="normal" title="Display Results"/>
                                         <connections>
-                                            <segue destination="XxK-Xd-M1F" kind="show" id="WIo-HW-2Tl"/>
+                                            <segue destination="I1P-kr-mZ7" kind="presentation" id="1ep-HH-kmb"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -295,20 +295,20 @@
         <!--Details View Controller-->
         <scene sceneID="cxf-7J-jz5">
             <objects>
-                <viewController storyboardIdentifier="display-results-view-controller" title="Details" id="lZe-K9-CEg" userLabel="Details View Controller" customClass="RVP_DisplayResultsScreenViewController" customModule="WhiteDragonTestHarness" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="display-results-view-controller" title="DETAILS" id="lZe-K9-CEg" userLabel="Details View Controller" customClass="RVP_DisplayResultsScreenViewController" customModule="WhiteDragonTestHarness" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="TCc-82-K4t">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MrC-ei-tLi" customClass="RVP_DisplayResultsScrollView" customModule="WhiteDragonTestHarness" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <connections>
                                     <outlet property="myViewController" destination="lZe-K9-CEg" id="pNA-Rr-2k2"/>
                                 </connections>
                             </scrollView>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fNf-mv-eXk">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
                                 <subviews>
                                     <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="8t3-CA-TNf">
                                         <rect key="frame" x="169" y="283" width="37" height="37"/>
@@ -325,32 +325,14 @@
                                     <constraint firstItem="8t3-CA-TNf" firstAttribute="centerY" secondItem="fNf-mv-eXk" secondAttribute="centerY" id="uds-H6-wQH"/>
                                 </constraints>
                             </view>
-                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gao-N3-vwq">
-                                <rect key="frame" x="0.0" y="20" width="375" height="44"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="44" id="gqb-wh-4Ra"/>
-                                </constraints>
-                                <items>
-                                    <navigationItem title="DETAILS" id="Rw7-h8-4Jp">
-                                        <barButtonItem key="leftBarButtonItem" style="done" systemItem="done" id="QGC-HP-dOd">
-                                            <connections>
-                                                <action selector="doneButtonHit:" destination="lZe-K9-CEg" id="lFK-md-L2G"/>
-                                            </connections>
-                                        </barButtonItem>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="MrC-ei-tLi" firstAttribute="top" secondItem="Gao-N3-vwq" secondAttribute="bottom" id="8YN-E1-Vl6"/>
-                            <constraint firstItem="Gao-N3-vwq" firstAttribute="leading" secondItem="wMj-x9-Iol" secondAttribute="leading" id="97h-SD-rNu"/>
                             <constraint firstItem="MrC-ei-tLi" firstAttribute="bottom" secondItem="wMj-x9-Iol" secondAttribute="bottom" id="9EB-iT-gt2"/>
-                            <constraint firstItem="Gao-N3-vwq" firstAttribute="top" secondItem="wMj-x9-Iol" secondAttribute="top" id="JCL-wM-qzL"/>
+                            <constraint firstItem="fNf-mv-eXk" firstAttribute="top" secondItem="wMj-x9-Iol" secondAttribute="top" id="9sA-zH-uiz"/>
+                            <constraint firstItem="MrC-ei-tLi" firstAttribute="top" secondItem="wMj-x9-Iol" secondAttribute="top" id="ARR-ge-g1A"/>
                             <constraint firstItem="MrC-ei-tLi" firstAttribute="leading" secondItem="wMj-x9-Iol" secondAttribute="leading" id="U7a-fG-2VU"/>
                             <constraint firstItem="fNf-mv-eXk" firstAttribute="leading" secondItem="wMj-x9-Iol" secondAttribute="leading" id="aMG-6y-qCV"/>
-                            <constraint firstItem="fNf-mv-eXk" firstAttribute="top" secondItem="Gao-N3-vwq" secondAttribute="bottom" id="gkv-Vl-QJ5"/>
-                            <constraint firstItem="Gao-N3-vwq" firstAttribute="trailing" secondItem="wMj-x9-Iol" secondAttribute="trailing" id="hM7-dW-56L"/>
                             <constraint firstItem="fNf-mv-eXk" firstAttribute="bottom" secondItem="wMj-x9-Iol" secondAttribute="bottom" id="hcU-HD-PKP"/>
                             <constraint firstItem="fNf-mv-eXk" firstAttribute="trailing" secondItem="wMj-x9-Iol" secondAttribute="trailing" id="vb6-OG-f6Q"/>
                             <constraint firstItem="MrC-ei-tLi" firstAttribute="trailing" secondItem="wMj-x9-Iol" secondAttribute="trailing" id="xVt-KK-34K"/>
@@ -360,12 +342,12 @@
                     <connections>
                         <outlet property="activityView" destination="fNf-mv-eXk" id="4tI-TL-eeF"/>
                         <outlet property="resultsScrollView" destination="MrC-ei-tLi" id="S9C-3Q-jOu"/>
-                        <segue destination="XxK-Xd-M1F" kind="show" identifier="show-details-list" id="dWT-rM-0Cu"/>
+                        <segue destination="I1P-kr-mZ7" kind="presentation" identifier="show-children" id="FIc-tv-XMe"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="185-bF-61J" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1575" y="3150"/>
+            <point key="canvasLocation" x="-1954.4000000000001" y="3919.7901049475267"/>
         </scene>
         <!--RESULTS-->
         <scene sceneID="KhR-TH-o1f">
@@ -394,15 +376,38 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="owj-gP-S9z"/>
                     </view>
+                    <navigationItem key="navigationItem" title="RESULTS" id="kJJ-PB-g3L">
+                        <barButtonItem key="leftBarButtonItem" style="done" systemItem="done" id="dXb-pU-dph">
+                            <connections>
+                                <action selector="doneButtonHit:" destination="XxK-Xd-M1F" id="plz-Bd-YBx"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="resultListTableView" destination="Wrh-LV-TDc" id="qer-wJ-Tff"/>
-                        <segue destination="lZe-K9-CEg" kind="presentation" identifier="show-object-details" id="N7O-Vx-JQj"/>
+                        <segue destination="lZe-K9-CEg" kind="show" identifier="show-object-details" id="N7O-Vx-JQj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tJw-Db-EXD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-641" y="2364"/>
+            <point key="canvasLocation" x="-1954" y="3153"/>
+        </scene>
+        <!--Result List Nav Controller-->
+        <scene sceneID="p1h-FH-MuC">
+            <objects>
+                <navigationController id="I1P-kr-mZ7" customClass="RVP_ResultListNavController" customModule="WhiteDragonTestHarness" customModuleProvider="target" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="pgI-7A-Nfu">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="XxK-Xd-M1F" kind="relationship" relationship="rootViewController" id="kzs-Am-lpY"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="GVM-R9-fGR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1172" y="2382"/>
         </scene>
         <!--TEST 002-->
         <scene sceneID="Egu-nX-ZOT">
@@ -462,7 +467,7 @@
                                         </constraints>
                                         <state key="normal" title="Display Results"/>
                                         <connections>
-                                            <segue destination="XxK-Xd-M1F" kind="show" id="LZO-cA-2kR"/>
+                                            <segue destination="I1P-kr-mZ7" kind="presentation" id="7yD-4z-J96"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -504,18 +509,18 @@
                         <constraints>
                             <constraint firstItem="R2M-g4-Km1" firstAttribute="trailing" secondItem="YBY-c1-oDc" secondAttribute="trailing" id="02r-Ep-wJ7"/>
                             <constraint firstItem="74F-NX-5he" firstAttribute="top" secondItem="YBY-c1-oDc" secondAttribute="top" id="3OG-2w-XbN"/>
-                            <constraint firstItem="UnB-8P-3Q1" firstAttribute="leading" secondItem="YBY-c1-oDc" secondAttribute="leading" id="D6v-dp-HUe"/>
+                            <constraint firstItem="UnB-8P-3Q1" firstAttribute="top" secondItem="YBY-c1-oDc" secondAttribute="top" id="Bse-Xj-pO1"/>
+                            <constraint firstItem="UnB-8P-3Q1" firstAttribute="bottom" secondItem="YBY-c1-oDc" secondAttribute="bottom" id="Eeb-DC-QGQ"/>
                             <constraint firstItem="R2M-g4-Km1" firstAttribute="leading" secondItem="YBY-c1-oDc" secondAttribute="leading" id="FWA-3p-00G"/>
                             <constraint firstItem="74F-NX-5he" firstAttribute="trailing" secondItem="YBY-c1-oDc" secondAttribute="trailing" id="MHS-gt-Cye"/>
+                            <constraint firstItem="UnB-8P-3Q1" firstAttribute="leading" secondItem="YBY-c1-oDc" secondAttribute="leading" id="RXh-wj-aFq"/>
                             <constraint firstItem="GeM-p2-txK" firstAttribute="top" secondItem="74F-NX-5he" secondAttribute="bottom" constant="8" id="Ryl-CH-7e8"/>
-                            <constraint firstItem="UnB-8P-3Q1" firstAttribute="trailing" secondItem="YBY-c1-oDc" secondAttribute="trailing" id="WaC-gw-uRp"/>
                             <constraint firstItem="R2M-g4-Km1" firstAttribute="top" secondItem="74F-NX-5he" secondAttribute="bottom" constant="100" id="bKK-zu-DTg"/>
                             <constraint firstItem="GeM-p2-txK" firstAttribute="trailing" secondItem="YBY-c1-oDc" secondAttribute="trailing" id="baN-r7-NsS"/>
-                            <constraint firstItem="UnB-8P-3Q1" firstAttribute="top" secondItem="YBY-c1-oDc" secondAttribute="top" id="f5D-Xv-68q"/>
-                            <constraint firstItem="YBY-c1-oDc" firstAttribute="bottom" secondItem="UnB-8P-3Q1" secondAttribute="bottom" id="kmd-YE-zbP"/>
                             <constraint firstItem="GeM-p2-txK" firstAttribute="leading" secondItem="YBY-c1-oDc" secondAttribute="leading" id="m6g-v7-SKa"/>
                             <constraint firstItem="YBY-c1-oDc" firstAttribute="bottom" secondItem="R2M-g4-Km1" secondAttribute="bottom" id="mQ6-3z-G6n"/>
                             <constraint firstItem="74F-NX-5he" firstAttribute="leading" secondItem="YBY-c1-oDc" secondAttribute="leading" id="n9g-u8-klu"/>
+                            <constraint firstItem="UnB-8P-3Q1" firstAttribute="trailing" secondItem="YBY-c1-oDc" secondAttribute="trailing" id="ocY-Lo-shy"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="YBY-c1-oDc"/>
                     </view>
@@ -594,7 +599,7 @@
                                         </constraints>
                                         <state key="normal" title="Display Results"/>
                                         <connections>
-                                            <segue destination="XxK-Xd-M1F" kind="show" id="SlL-U0-7AQ"/>
+                                            <segue destination="I1P-kr-mZ7" kind="presentation" id="EDy-cp-Y8d"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -726,7 +731,7 @@
                                         </constraints>
                                         <state key="normal" title="Display Results"/>
                                         <connections>
-                                            <segue destination="XxK-Xd-M1F" kind="show" id="foR-bs-6Oe"/>
+                                            <segue destination="I1P-kr-mZ7" kind="presentation" id="U90-5v-rMs"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -802,7 +807,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="N7O-Vx-JQj"/>
-        <segue reference="dWT-rM-0Cu"/>
+        <segue reference="FIc-tv-XMe"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -56,17 +56,19 @@ extension UIApplication {
     /* ################################################################## */
     /**
      */
-    class func getTopmostViewController() -> UIViewController! {
-        var ret: UIViewController!
-        
-        if var topController = UIApplication.shared.keyWindow?.rootViewController {
-            while let presentedViewController = topController.presentedViewController {
-                topController = presentedViewController
-            }
-            
-            ret = topController
+    class func getTopmostViewController(base: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {
+        if let nav = base as? UINavigationController {
+            return self.getTopmostViewController(base: nav.visibleViewController)
         }
-        return ret
+        if let tab = base as? UITabBarController {
+            if let selected = tab.selectedViewController {
+                return self.getTopmostViewController(base: selected)
+            }
+        }
+        if let presented = base?.presentedViewController {
+            return self.getTopmostViewController(base: presented)
+        }
+        return base
     }
     
     /* ################################################################## */

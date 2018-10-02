@@ -23,20 +23,12 @@ import UIKit
 import MapKit
 
 class TestBaseViewController: UIViewController, RVP_Cocoa_SDK_Delegate, UIPickerViewDataSource, UIPickerViewDelegate {
-    var logins: [String] {
-        return ["admin", "MDAdmin", "VAAdmin", "DCAdmin", "WVAdmin", "DEAdmin", "MainAdmin", "Dilbert", "Wally", "Ted", "Alice", "Tina", "PHB", "MeLeet"]
-    }
-    
-    var presets: [(name: String, values: [Any])] {
-        return []
-    }
-    
-    var spacing: [CGFloat] = [0, 100]
-    
+    private var _spacing: [CGFloat] = [0, 100]
     private let _buttonStrings = ["LOGIN AS:", "LOGOUT"]
-    var objectList: [A_RVP_Cocoa_SDK_Object] = []
     
+    var objectList: [A_RVP_Cocoa_SDK_Object] = []
     var mySDKTester: WhiteDragonSDKTester?
+    
     @IBOutlet weak var displayResultsButton: UIButton!
     @IBOutlet weak var activityScreen: UIView!
     @IBOutlet weak var fetchDataButton: UIButton!
@@ -45,6 +37,14 @@ class TestBaseViewController: UIViewController, RVP_Cocoa_SDK_Delegate, UIPicker
     @IBOutlet weak var loginMainAdminButton: UIButton!
     @IBOutlet weak var loginPickerView: UIPickerView!
     @IBOutlet weak var specificationItemsConstraint: NSLayoutConstraint!
+    
+    var logins: [String] {
+        return ["admin", "MDAdmin", "VAAdmin", "DCAdmin", "WVAdmin", "DEAdmin", "MainAdmin", "Dilbert", "Wally", "Ted", "Alice", "Tina", "PHB", "MeLeet"]
+    }
+    
+    var presets: [(name: String, values: [Any])] {
+        return []
+    }
     
     /* ################################################################## */
     /**
@@ -98,6 +98,16 @@ class TestBaseViewController: UIViewController, RVP_Cocoa_SDK_Delegate, UIPicker
         }
     }
     
+    /* ################################################################## */
+    /**
+     */
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let destination = segue.destination as? RVP_ResultListNavController {
+            destination.resultObjectList = self.objectList
+        }
+        super.prepare(for: segue, sender: nil)
+    }
+
     /* ################################################################## */
     /**
      */
@@ -179,16 +189,6 @@ class TestBaseViewController: UIViewController, RVP_Cocoa_SDK_Delegate, UIPicker
     /* ################################################################## */
     /**
      */
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let destination = segue.destination as? RVP_ResultListViewController {
-            destination.resultObjectList = self.objectList
-        }
-        super.prepare(for: segue, sender: nil)
-    }
-    
-    /* ################################################################## */
-    /**
-     */
     func sdkInstance(_ inSDKInstance: RVP_Cocoa_SDK, sessionConnectionIsValid inConnectionIsValid: Bool) {
         #if DEBUG
         print("Connection is" + (inConnectionIsValid ? "" : " not") + " valid!")
@@ -213,13 +213,13 @@ class TestBaseViewController: UIViewController, RVP_Cocoa_SDK_Delegate, UIPicker
         DispatchQueue.main.async {
             var loginID = self._buttonStrings[0]
             if inLoginValid {
-                self.specificationItemsConstraint.constant = self.spacing[0]
+                self.specificationItemsConstraint.constant = self._spacing[0]
                 self.loginPickerView?.isHidden = true
                 if let loginIDVal = inSDKInstance.myLoginInfo?.loginID {
                     loginID = self._buttonStrings[1] + " (" + loginIDVal + ")"
                 }
             } else {
-                self.specificationItemsConstraint.constant = self.spacing[1]
+                self.specificationItemsConstraint.constant = self._spacing[1]
                 self.loginPickerView?.isHidden = false
             }
             
@@ -301,7 +301,7 @@ class TestBaseViewController: UIViewController, RVP_Cocoa_SDK_Delegate, UIPicker
             }
         }
     }
-
+    
     /* ################################################################## */
     /**
      */

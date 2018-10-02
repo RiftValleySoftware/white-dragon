@@ -132,9 +132,11 @@ class RVP_DisplayResultsScreenViewController: UIViewController, UIDocumentIntera
     /**
      */
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let destination = segue.destination as? RVP_ResultListViewController {
+        if let destination = segue.destination as? RVP_ResultListNavController {
             destination.resultObjectList = self._childrenArray
-        }
+            self._fetchingChildren = false
+            self._childrenArray = []
+       }
         
         super.prepare(for: segue, sender: nil)
     }
@@ -150,13 +152,15 @@ class RVP_DisplayResultsScreenViewController: UIViewController, UIDocumentIntera
     /**
      */
     func done() {
-        if self._fetchingChildren {
-            self._fetchingChildren = false
-            self.performSegue(withIdentifier: "show-details-list", sender: nil)
+        DispatchQueue.main.async {
+            if self._fetchingChildren {
+                self.performSegue(withIdentifier: "show-children", sender: nil)
+            }
+            
+            self.activityView.isHidden = true
         }
-        self.activityView.isHidden = true
     }
-
+    
     /* ################################################################## */
     /**
      */
