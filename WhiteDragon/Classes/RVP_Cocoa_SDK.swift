@@ -1582,8 +1582,8 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      - parameter inIntegerIDs: An Array of Int, with the data database IDs of the data database objects Requested.
      - parameter andPlugin: An optional String, with the required plugin ("people", "places" or "things"). If nil, then the baseline plugin is invoked, which will fetch any object, regardless of plugin.
      */
-    public func fetchDataItemsByIDs(_ inIntegerIDs: [Int], andPlugin inPlugin: String? = nil ) {
-        if let plugin = inPlugin, "baseline" != plugin {    // Just in case they specify "baseline".
+    public func fetchDataItemsByIDs(_ inIntegerIDs: [Int], andPlugin inPlugin: String? = "baseline" ) {
+        if let plugin = inPlugin, "baseline" != plugin {    // nil is "baseline".
             self._fetchDataItems(inIntegerIDs, plugin: plugin)
         } else {
             self._fetchBaselineObjectsByID(inIntegerIDs)    // If we fetch baseline objects, it's a 2-step process.
