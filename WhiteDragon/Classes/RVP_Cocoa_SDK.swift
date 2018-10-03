@@ -26,10 +26,12 @@ import Foundation
 /* ###################################################################################################################################### */
 /**
  This protocol needs to be applied to any class that will use the SDK. The SDK requires a delegate.
+ 
+ All methods are required.
+ 
+ These are likely to be called in non-main threads, so caveat emptor.
  */
 public protocol RVP_Cocoa_SDK_Delegate: class {
-    /* ################################################################## */
-    // MARK: - REQUIRED METHODS
     /* ################################################################## */
     /**
      This is called when a server session (not login) is started or ended.
@@ -114,6 +116,12 @@ public protocol RVP_Cocoa_SDK_Delegate: class {
  The SDK opens a session to the server upon instantiation, and maintains that throughout its lifecycle. This happens whether or not a login is done.
  */
 public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
+    /* ################################################################## */
+    // MARK: - Private Static Properties
+    /* ################################################################## */
+    /** This queue will be used to ensure that the operation counter is called atomically. Since it is static, it will be atomic. */
+    private static let _staticQueue = DispatchQueue(label: "RVP_Cocoa_SDK_Static_Queue")
+
     /* ################################################################## */
     // MARK: - Private Properties
     /* ################################################################## */
@@ -516,7 +524,9 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
             let url = self._server_uri + "/json/people/logins/my_info?" + self._loginParameters
             if let url_object = URL(string: url) {
                 // We handle the response in the closure.
-                self._openOperations += 1
+                type(of: self)._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
+                    self._openOperations += 1
+                }
                 let loginInfoTask = self._connectionSession.dataTask(with: url_object) { [unowned self] data, response, error in
                     if let error = error {
                         self._handleError(error)
@@ -541,7 +551,9 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                         self._handleError(SDK_Data_Errors.invalidData(data))
                     }
                     
-                    self._openOperations -= 1
+                    type(of: self)._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
+                        self._openOperations -= 1
+                    }
                 }
                 
                 loginInfoTask.resume()
@@ -564,7 +576,9 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
             let url = self._server_uri + "/json/people/people/my_info?" + self._loginParameters
             // The my info request is a simple GET task, so we can just use a straight-up task for this.
             if let url_object = URL(string: url) {
-                self._openOperations += 1
+                type(of: self)._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
+                    self._openOperations += 1
+                }
                 let userInfoTask = self._connectionSession.dataTask(with: url_object) { [unowned self] data, response, error in
                     if let error = error {
                         self._handleError(error)
@@ -605,7 +619,9 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                         self._handleError(SDK_Data_Errors.invalidData(data))
                     }
                     
-                    self._openOperations -= 1
+                    type(of: self)._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
+                        self._openOperations -= 1
+                    }
                 }
                 
                 userInfoTask.resume()
@@ -659,7 +675,9 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                 
                 // We will use the handlers returned to fetch the actual object data.
                 if let url_object = URL(string: url) {
-                    self._openOperations += 1
+                    type(of: self)._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
+                        self._openOperations += 1
+                    }
                     let fetchTask = self._connectionSession.dataTask(with: url_object) { [unowned self] data, response, error in
                         if let error = error {
                             self._handleError(error)
@@ -690,7 +708,9 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                             self._handleError(SDK_Data_Errors.invalidData(data))
                         }
                         
-                        self._openOperations -= 1
+                        type(of: self)._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
+                            self._openOperations -= 1
+                        }
                     }
                     
                     fetchTask.resume()
@@ -699,8 +719,10 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                 }
             }
         } else {
-            self._openOperations += 1   // This triggers (possibly) a call to the delegate, saying we're done.
-            self._openOperations -= 1
+            type(of: self)._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
+                self._openOperations += 1   // This triggers a call to the delegate, saying we're done.
+                self._openOperations -= 1
+            }
         }
     }
     
@@ -779,7 +801,9 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                 let url = self._server_uri + "/json/" + plugin + "/" + (idArray.map(String.init)).joined(separator: ",") + "?show_details" + loginParams   // We will be asking for the "full Monty".
                 // The request is a simple GET task, so we can just use a straight-up task for this.
                 if let url_object = URL(string: url) {
-                    self._openOperations += 1
+                    type(of: self)._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
+                        self._openOperations += 1
+                    }
                     let fetchTask = self._connectionSession.dataTask(with: url_object) { [unowned self] data, response, error in
                         if let error = error {
                             self._handleError(error)
@@ -801,7 +825,9 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                             self._handleError(SDK_Data_Errors.invalidData(data))
                         }
                         
-                        self._openOperations -= 1
+                        type(of: self)._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
+                            self._openOperations -= 1
+                        }
                     }
                     
                     fetchTask.resume()
@@ -810,8 +836,10 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                 }
             }
         } else {
-            self._openOperations += 1   // This triggers (possibly) a call to the delegate, saying we're done.
-            self._openOperations -= 1
+            type(of: self)._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
+                self._openOperations += 1   // This triggers a call to the delegate, saying we're done.
+                self._openOperations -= 1
+            }
         }
     }
 
@@ -832,7 +860,9 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
         let url = self._server_uri + "/json/people/logins/" + inIDString + "?show_details" + loginParams   // We will be asking for the "full Monty".
         // The request is a simple GET task, so we can just use a straight-up task for this.
         if let url_object = URL(string: url) {
-            self._openOperations += 1
+            type(of: self)._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
+                self._openOperations += 1
+            }
             let fetchTask = self._connectionSession.dataTask(with: url_object) { [unowned self] data, response, error in
                 if let error = error {
                     self._handleError(error)
@@ -854,7 +884,9 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                     self._handleError(SDK_Data_Errors.invalidData(data))
                 }
                 
-                self._openOperations -= 1
+                type(of: self)._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
+                    self._openOperations -= 1
+                }
             }
             
             fetchTask.resume()
@@ -896,6 +928,11 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
             for idArray in fetchIDs.chunk(10) {
                 self._fetchLoginItemsFromServer((idArray.map(String.init)).joined(separator: ","))
             }
+        } else {
+            type(of: self)._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
+                self._openOperations += 1   // This triggers a call to the delegate, saying we're done.
+                self._openOperations -= 1
+            }
         }
     }
     
@@ -933,6 +970,11 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
             // This uses our extension to break the array up. This is to reduce the size of the GET URI.
             for idArray in fetchIDs.chunk(10) {
                 self._fetchLoginItemsFromServer(idArray.joined(separator: ","))
+            }
+        } else {
+            type(of: self)._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
+                self._openOperations += 1   // This triggers a call to the delegate, saying we're done.
+                self._openOperations -= 1
             }
         }
     }
@@ -975,7 +1017,9 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                 }
                 let url = self._server_uri + "/json/things/" + keyArray.map({$0.urlEncodedString ?? ""}).joined(separator: ",") + "?show_details" + loginParams   // We will be asking for the "full Monty".
                 // The request is a simple GET task, so we can just use a straight-up task for this.
-                self._openOperations += 1
+                type(of: self)._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
+                    self._openOperations += 1
+                }
                 if let url_object = URL(string: url) {
                     let fetchTask = self._connectionSession.dataTask(with: url_object) { [unowned self] data, response, error in
                         if let error = error {
@@ -998,7 +1042,9 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                             self._handleError(SDK_Data_Errors.invalidData(data))
                         }
                         
-                        self._openOperations -= 1
+                        type(of: self)._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
+                            self._openOperations -= 1
+                        }
                     }
                     
                     fetchTask.resume()
@@ -1007,8 +1053,10 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                 }
             }
         } else {
-            self._openOperations += 1   // This triggers (possibly) a call to the delegate, saying we're done.
-            self._openOperations -= 1
+            type(of: self)._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
+                self._openOperations += 1   // This triggers a call to the delegate, saying we're done.
+                self._openOperations -= 1
+            }
         }
     }
 
@@ -1021,7 +1069,9 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
         let url = self._server_uri + "/json/baseline"
         // The plugin list is a simple GET task, so we can just use a straight-up task for this.
         if let url_object = URL(string: url) {
-            self._openOperations += 1
+            type(of: self)._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
+                self._openOperations += 1
+            }
             let baselineTask = self._connectionSession.dataTask(with: url_object) { data, response, error in
                 if let error = error {
                     self._handleError(error)
@@ -1044,7 +1094,9 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                     self._handleError(SDK_Data_Errors.invalidData(data))
                 }
                 
-                self._openOperations -= 1
+                type(of: self)._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
+                    self._openOperations -= 1
+                }
             }
             
             baselineTask.resume()
@@ -1441,7 +1493,9 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
             if let password_object = inPassword.urlEncodedString {
                 let url = self._server_uri + "/login?login_id=" + login_id_object + "&password=" + password_object
                 if let url_object = URL(string: url) {
-                    self._openOperations += 1
+                    type(of: self)._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
+                        self._openOperations += 1
+                    }
                     let loginTask = self._connectionSession.dataTask(with: url_object) { data, response, error in
                         if let error = error {
                             self._handleError(error)
@@ -1459,7 +1513,9 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                             self._handleError(SDK_Data_Errors.invalidData(data))
                         }
                         
-                        self._openOperations -= 1
+                        type(of: self)._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
+                            self._openOperations -= 1
+                        }
                     }
                     
                     self._dataItems = []    // We nuke the cache when we log in.
@@ -1486,7 +1542,9 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
             // The logout is a simple GET task, so we can just use a straight-up task for this.
             let url = self._server_uri + "/logout?" + self._loginParameters
             if let url_object = URL(string: url) {
-                self._openOperations += 1
+                type(of: self)._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
+                    self._openOperations += 1
+                }
                 let logoutTask = self._connectionSession.dataTask(with: url_object) { [unowned self] _, response, error in
                     if let error = error {
                         self._handleError(error)
@@ -1504,7 +1562,9 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                     self._loginInfo = nil
                     self._userInfo = nil
                     self._callDelegateLoginValid(false) // At this time, we are logged out, but the session is still valid.
-                    self._openOperations -= 1
+                    type(of: self)._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
+                        self._openOperations -= 1
+                    }
                 }
                 
                 self._dataItems = []    // We nuke the cache when we log out.
