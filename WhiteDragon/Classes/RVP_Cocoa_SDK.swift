@@ -20,6 +20,7 @@
 */
 
 import Foundation
+import MapKit
 
 /* ###################################################################################################################################### */
 // MARK: - Delegate Protocol -
@@ -118,6 +119,8 @@ public protocol RVP_Cocoa_SDK_Delegate: class {
  It can also have an open session passed in at instantiation, and it will use that session.
  */
 public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
+    public typealias LocationSpecification = (coords: CLLocationCoordinate2D, radiusInKm: CLLocationDistance?, autoRadiusThreshold: Int?)
+    
     /* ################################################################## */
     // MARK: - Private Static Properties
     /* ################################################################## */
@@ -1660,6 +1663,33 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      */
     public func fetchLogins(_ inLoginStringIDArray: [String]) {
         self._fetchLoginItems(inLoginStringIDArray)
+    }
+    
+    /* ################################################################## */
+    /**
+     This method starts a "generic" search, based upon the input given.
+     
+     Possible inTagValues keys are:
+     - "tag0", "venue", "loginID", "thingKey" (loginID is the integer ID of the login; not the string)
+     - "tag1", "streetAddress", "surname", "thingDescription"
+     - "tag2", "extraInformation", "middleName"
+     - "tag3", "town", "givenName"
+     - "tag4", "county", "nickname"
+     - "tag5", "state", "prefix"
+     - "tag6", "postalCode", "suffix"
+     - "tag7", "nation"
+     - "tag8"
+     - "tag9"
+
+     - parameter inTagValues:   This is a String-key Dictionary, with the key being any one of these values (on the same line means it must be one of the values). The order is tag, places, people, things:
+                                The value must be a String, but, in some cases, it may be a string representation of an integer.
+                                It is also possible for the value to be an array of String. In this case, it is a list of acceptable values (OR search).
+                                The values are case-insensitive.
+                                If the object has one of its tags with a matching string (and the user has permission), it may be added to the returned set.
+                                Despite the plugin-specific keys, the search will search the tag position of all records, so specifying a venue of "4" will return any User object that has a loginID of 4.
+     */
+    public func fetchObjectsByString(_ inTagValues: [String: Any], andLocation inLocation: LocationSpecification! = nil) {
+        
     }
 
     /* ################################################################## */

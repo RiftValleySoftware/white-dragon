@@ -22,16 +22,13 @@
 import UIKit
 import MapKit
 
-class Test004BaselineSearches: TestBaseViewController {
+class Test006BaselineLocationSearches: TestBaseViewController {
     override var presets: [(name: String, values: [Any])] {
-        return  [(name: "Single Image", values: [1732]),
-                 (name: "Single Image and Single Place", values: [2, 1732]),
-                 (name: "Single Image, Single Place, and Single User", values: [2, 1725, 1732]),
-                 (name: "Multiple Images", values: [1732, 1733, 1734, 1736, 1739, 1742, 1755]),
-                 (name: "Multiple Places", values: [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 875, 876, 877, 879, 880, 881, 882, 883, 884, 885, 886, 1640, 1641, 1642, 1643, 1644, 1645, 1646, 1647, 1648, 1700, 1701, 1702, 1703]),
-                 (name: "DC Area Admins", values: [1725, 1726, 1727, 1728, 1729, 1730]),
-                 (name: "DilbertCo Restricted People", values: [1745, 1746, 1747, 1748, 1749, 1750, 1751, 1752, 1753, 1754]),
-                 (name: "DC Area Admins, Images and Places", values: [1725, 1726, 1727, 1728, 1729, 1730, 1732, 1733, 1734, 1736, 1739, 1742, 1755, 885, 886, 1640, 1641, 1642, 1643])
+        return  [(name: "The Washington Monument", values: [CLLocationDegrees(38.8895), CLLocationDegrees(-77.0353)]),
+                 (name: "Baltimore Inner Harbor", values: [CLLocationDegrees(39.2858), CLLocationDegrees(-76.6131)]),
+                 (name: "Charlestown, WV", values: [CLLocationDegrees(39.2890), CLLocationDegrees(-77.8597)]),
+                 (name: "Wilmington, DE", values: [CLLocationDegrees(39.7447), CLLocationDegrees(-75.5484)]),
+                 (name: "Mount Vernon", values: [CLLocationDegrees(38.7293), CLLocationDegrees(-77.1074)])
                 ]
     }
     
@@ -41,10 +38,10 @@ class Test004BaselineSearches: TestBaseViewController {
     override func getObjects() {
         self.clearResults()
         if let sdkInstance = self.mySDKTester?.sdkInstance {
+            self.activityScreen?.isHidden = false
             let row = self.objectListPicker.selectedRow(inComponent: 0)
-            if let iDList = self.presets[row].values as? [Int] {
-                self.activityScreen.isHidden = false
-                sdkInstance.fetchBaselineObjectsByID(iDList)
+            if let objectLocation = self.presets[row].values as? [CLLocationDegrees] {
+                let locationCoords = CLLocationCoordinate2D(latitude: objectLocation[0], longitude: objectLocation[1])
             }
         }
     }

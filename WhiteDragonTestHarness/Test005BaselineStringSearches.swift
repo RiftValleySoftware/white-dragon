@@ -23,12 +23,10 @@ import UIKit
 import MapKit
 
 class Test005BaselineStringSearches: TestBaseViewController {
+    typealias BaselineValue = (key: String, value: Any)
+    
     override var presets: [(name: String, values: [Any])] {
-        return  [(name: "The Washington Monument", values: [CLLocationDegrees(38.8895), CLLocationDegrees(-77.0353)]),
-                 (name: "Baltimore Inner Harbor", values: [CLLocationDegrees(39.2858), CLLocationDegrees(-76.6131)]),
-                 (name: "Charlestown, WV", values: [CLLocationDegrees(39.2890), CLLocationDegrees(-77.8597)]),
-                 (name: "Wilmington, DE", values: [CLLocationDegrees(39.7447), CLLocationDegrees(-75.5484)]),
-                 (name: "Mount Vernon", values: [CLLocationDegrees(38.7293), CLLocationDegrees(-77.1074)])
+        return  [(name: "NULL", values: [])
                 ]
     }
     
@@ -40,9 +38,6 @@ class Test005BaselineStringSearches: TestBaseViewController {
         if let sdkInstance = self.mySDKTester?.sdkInstance {
             self.activityScreen?.isHidden = false
             let row = self.objectListPicker.selectedRow(inComponent: 0)
-            if let objectLocation = self.presets[row].values as? [CLLocationDegrees] {
-                let locationCoords = CLLocationCoordinate2D(latitude: objectLocation[0], longitude: objectLocation[1])
-            }
         }
     }
 }
