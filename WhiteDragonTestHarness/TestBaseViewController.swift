@@ -29,6 +29,8 @@ class TestBaseViewController: UIViewController, RVP_Cocoa_SDK_Delegate, UIPicker
     var objectList: [A_RVP_Cocoa_SDK_Object] = []
     var mySDKTester: WhiteDragonSDKTester?
     
+    @IBInspectable var dbPrefix: String = ""
+    
     @IBOutlet weak var displayResultsButton: UIButton!
     @IBOutlet weak var activityScreen: UIView!
     @IBOutlet weak var fetchDataButton: UIButton!
@@ -39,7 +41,11 @@ class TestBaseViewController: UIViewController, RVP_Cocoa_SDK_Delegate, UIPicker
     @IBOutlet weak var specificationItemsConstraint: NSLayoutConstraint!
     
     var logins: [String] {
-        return ["admin", "MDAdmin", "VAAdmin", "DCAdmin", "WVAdmin", "DEAdmin", "MainAdmin", "Dilbert", "Wally", "Ted", "Alice", "Tina", "PHB", "MeLeet"]
+        if "sdk_1" == self.dbPrefix || "sdk_4" == self.dbPrefix {
+            return ["admin", "MDAdmin", "VAAdmin", "DCAdmin", "WVAdmin", "DEAdmin", "MainAdmin", "Dilbert", "Wally", "Ted", "Alice", "Tina", "PHB", "MeLeet"]
+        }
+        
+        return ["admin"]
     }
     
     var presets: [(name: String, values: [Any])] {
@@ -76,7 +82,7 @@ class TestBaseViewController: UIViewController, RVP_Cocoa_SDK_Delegate, UIPicker
     override func viewDidLoad() {
         super.viewDidLoad()
         self.clearResults()
-        self.mySDKTester = WhiteDragonSDKTester(dbPrefix: "sdk_4", delegate: self, session: TestHarnessAppDelegate.testHarnessDelegate.connectionSession)
+        self.mySDKTester = WhiteDragonSDKTester(dbPrefix: self.dbPrefix, delegate: self, session: TestHarnessAppDelegate.testHarnessDelegate.connectionSession)
         self.loginMainAdminButton.setTitle(self._buttonStrings[0], for: .normal)
     }
     
@@ -328,5 +334,14 @@ class TestBaseViewController: UIViewController, RVP_Cocoa_SDK_Delegate, UIPicker
      */
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return pickerView == self.loginPickerView ? self.logins[row] : self.presets[row].name
+    }
+    
+    /* ################################################################## */
+    /**
+     */
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        if pickerView == self.objectListPicker {
+            self.clearResults()
+        }
     }
 }

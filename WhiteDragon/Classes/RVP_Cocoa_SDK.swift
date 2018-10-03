@@ -106,7 +106,7 @@ public protocol RVP_Cocoa_SDK_Delegate: class {
 /**
  This class represents the public interface to the White Dragon Great Rift Valley Platform BAOBAB Server iOS SDK framework.
  
- The SDK is a Swift-only shared framework for use by Swift applications, targeting iOS 10 or above.
+ The SDK is a Swift-only shared framework for use by Swift applications, targeting iOS 11 or above.
  
  This system works by caching retrieved objects in the main SDK instance, and referencing them. This is different from the PHP SDK, where each object is an
  independent instance and state. Swift likes objects to be referenced, as opposed to copied, so we honor that. Since the SDK is really an ORM, this makes sense.
@@ -114,6 +114,8 @@ public protocol RVP_Cocoa_SDK_Delegate: class {
  This class follows the Sequence protocol, so its cached instances can be iterated and subscripted. These instances are kept sorted by ID and database.
  
  The SDK opens a session to the server upon instantiation, and maintains that throughout its lifecycle. This happens whether or not a login is done.
+ 
+ It can also have an open session passed in at instantiation, and it will use that session.
  */
 public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
     /* ################################################################## */
@@ -177,8 +179,8 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
     // MARK: - Private Instance Methods and Calculated Properties
     /* ################################################################## */
     /**
-     Returns a String, with the server secret and API Key alreay in URI form.
-     This should be appended to the URI, but be aware that it is not preceded by an ampersand (&).
+     Returns a String, with the server secret and API Key already in URI form.
+     This should be appended to the URI, but be aware that it is not preceded by an ampersand (&) or question mark (?). You need to provide those, yourself.
      */
     private var _loginParameters: String {
         if let secret = self._server_secret.urlEncodedString {

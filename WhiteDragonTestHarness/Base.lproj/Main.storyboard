@@ -277,6 +277,9 @@
                     </view>
                     <navigationItem key="navigationItem" title="TEST 001" id="0Qj-ve-RKf"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="dbPrefix" value="sdk_1"/>
+                    </userDefinedRuntimeAttributes>
                     <connections>
                         <outlet property="activityScreen" destination="pBS-8p-kGs" id="kRL-IG-n8J"/>
                         <outlet property="displayResultsButton" destination="Qz9-cW-mf5" id="5Ib-vD-BNA"/>
@@ -526,6 +529,9 @@
                     </view>
                     <navigationItem key="navigationItem" title="TEST 002" id="mSg-wt-tHF"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="dbPrefix" value="sdk_1"/>
+                    </userDefinedRuntimeAttributes>
                     <connections>
                         <outlet property="activityScreen" destination="UnB-8P-3Q1" id="P6W-fz-1jg"/>
                         <outlet property="displayResultsButton" destination="N3L-Ah-rK3" id="RC2-o6-rC1"/>
@@ -658,6 +664,9 @@
                     </view>
                     <navigationItem key="navigationItem" title="TEST 003" id="S7j-7g-sIi"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="dbPrefix" value="sdk_4"/>
+                    </userDefinedRuntimeAttributes>
                     <connections>
                         <outlet property="activityScreen" destination="vk0-NU-cTx" id="YCf-hk-Y9P"/>
                         <outlet property="displayResultsButton" destination="YPH-EU-myU" id="bYi-fy-m8i"/>
@@ -790,6 +799,9 @@
                     </view>
                     <navigationItem key="navigationItem" title="TEST 004" id="LBi-rh-DiI"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="dbPrefix" value="sdk_4"/>
+                    </userDefinedRuntimeAttributes>
                     <connections>
                         <outlet property="activityScreen" destination="nGJ-17-Rva" id="pQS-nR-5TD"/>
                         <outlet property="displayResultsButton" destination="wgp-RK-3H1" id="jai-44-S4L"/>
@@ -807,6 +819,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="FIc-tv-XMe"/>
+        <segue reference="U90-5v-rMs"/>
     </inferredMetricsTieBreakers>
 </document>
