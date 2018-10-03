@@ -65,7 +65,7 @@ class RVP_ResultListViewController: UIViewController, UITableViewDelegate, UITab
     /**
      */
     @IBAction func doneButtonHit(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
+        self.dismiss(animated: false, completion: nil)
     }
     
     /* ################################################################## */

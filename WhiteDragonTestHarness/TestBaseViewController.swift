@@ -107,21 +107,6 @@ class TestBaseViewController: UIViewController, RVP_Cocoa_SDK_Delegate, UIPicker
         }
         super.prepare(for: segue, sender: nil)
     }
-
-    /* ################################################################## */
-    /**
-     */
-    func sortList() {
-        self.objectList = self.objectList.sorted {
-            var ret = $0.id < $1.id
-            
-            if !ret {   // Security objects get listed before data objects
-                ret = $0 is A_RVP_Cocoa_SDK_Security_Object && $1 is A_RVP_Cocoa_SDK_Data_Object
-            }
-            
-            return ret
-        }
-    }
     
     /* ################################################################## */
     /**
@@ -260,31 +245,44 @@ class TestBaseViewController: UIViewController, RVP_Cocoa_SDK_Delegate, UIPicker
         print("Fetched \(fetchedDataItems.count) Items!")
         #endif
         
-        if self.objectList.isEmpty {
-            self.objectList.append(contentsOf: fetchedDataItems)
-        } else {
-            var toBeAdded: [A_RVP_Cocoa_SDK_Object] = []
+        DispatchQueue.main.async {
+            if let topperTemp = UIApplication.getTopmostViewController() as? RVP_DisplayResultsScreenViewController {
+                topperTemp.addNewItems(fetchedDataItems)
+                return
+            }
             
-            for item in fetchedDataItems {
-                if !self.objectList.contains { [item] element in
-                    return element.id == item.id && type(of: element) == type(of: item)
-                    } {
-                    toBeAdded.append(item)
+            var objectList = self.objectList
+            
+            if objectList.isEmpty {
+                objectList.append(contentsOf: fetchedDataItems)
+            } else {
+                var toBeAdded: [A_RVP_Cocoa_SDK_Object] = []
+                
+                for item in fetchedDataItems {
+                    if !objectList.contains { [item] element in
+                        return element.id == item.id && type(of: element) == type(of: item)
+                        } {
+                        toBeAdded.append(item)
+                    }
+                }
+                
+                if !toBeAdded.isEmpty {
+                    objectList.append(contentsOf: toBeAdded)
                 }
             }
             
-            if !toBeAdded.isEmpty {
-                self.objectList.append(contentsOf: toBeAdded)
+            objectList = objectList.sorted {
+                var ret = $0.id < $1.id
+                
+                if !ret {   // Security objects get listed before data objects
+                    ret = $0 is A_RVP_Cocoa_SDK_Security_Object && $1 is A_RVP_Cocoa_SDK_Data_Object
+                }
+                
+                return ret
             }
-        }
-        
-        self.sortList()
-        
-        DispatchQueue.main.async {
-            if let topper = UIApplication.getTopmostViewController() as? RVP_DisplayResultsScreenViewController {
-                topper.addNewItems(fetchedDataItems)
-            }
-            
+
+            self.objectList = objectList
+
             self.displayResultsButton?.isHidden = self.objectList.isEmpty
         }
     }

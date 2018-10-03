@@ -426,8 +426,8 @@ class RVP_LocationButton: UIButton {
  */
 @IBDesignable
 class RVP_DisplayElementView: UIView, AVAudioPlayerDelegate {
-    private var playerItemContext = 0
-
+    private var _observer = false
+    
     var myController: RVP_DisplayResultsScreenViewController!
     var myVideoPlayer: AVPlayer?
     var myAudioPlayer: AVAudioPlayer?
@@ -467,7 +467,9 @@ class RVP_DisplayElementView: UIView, AVAudioPlayerDelegate {
     /**
      */
     deinit {
-        NotificationCenter.default.removeObserver(self)
+        if self._observer {
+            NotificationCenter.default.removeObserver(self)
+        }
     }
     
     /* ################################################################## */
@@ -800,6 +802,7 @@ class RVP_DisplayElementView: UIView, AVAudioPlayerDelegate {
                 let videoTracks = payloadAsMedia.tracks(withMediaType: AVMediaType.video)
                 if let track = videoTracks.first {
                     self.myVideoPlayer = AVPlayer(playerItem: playerItem)
+                    self._observer = true
                     NotificationCenter.default.addObserver(self, selector: #selector(RVP_DisplayElementView.finished), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
                     let size = track.naturalSize.applying(track.preferredTransform)
                     aspect = size.height / size.width

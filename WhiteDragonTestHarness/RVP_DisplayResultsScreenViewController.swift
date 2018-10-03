@@ -185,10 +185,11 @@ class RVP_DisplayResultsScreenViewController: UIViewController, UIDocumentIntera
     /**
      */
     func addNewItems(_ fetchedDataItems: [A_RVP_Cocoa_SDK_Object]) {
+        var resultsArray: [A_RVP_Cocoa_SDK_Object] = self._fetchingChildren ? self._childrenArray : self.resultsArray
         var toBeAdded: [A_RVP_Cocoa_SDK_Object] = []
-        
+
         for item in fetchedDataItems {
-            if !self.resultsArray.contains { [item] element in
+            if !resultsArray.contains { [item] element in
                 return element.id == item.id && type(of: element) == type(of: item)
                 } {
                 toBeAdded.append(item)
@@ -196,11 +197,11 @@ class RVP_DisplayResultsScreenViewController: UIViewController, UIDocumentIntera
         }
 
         if !toBeAdded.isEmpty {
-            self.resultsArray.append(contentsOf: toBeAdded)
+            resultsArray.append(contentsOf: toBeAdded)
         }
         
         if self._fetchingChildren {
-            self._childrenArray = self.resultsArray.sorted {
+            self._childrenArray = resultsArray.sorted {
                 var ret = $0.id < $1.id
                 
                 if !ret {   // Security objects get listed before data objects
@@ -210,7 +211,7 @@ class RVP_DisplayResultsScreenViewController: UIViewController, UIDocumentIntera
                 return ret
             }
         } else {
-            self.resultsScrollView.results = self.resultsArray.sorted {
+            self.resultsArray = resultsArray.sorted {
                 var ret = $0.id < $1.id
                 
                 if !ret {   // Security objects get listed before data objects
@@ -219,6 +220,8 @@ class RVP_DisplayResultsScreenViewController: UIViewController, UIDocumentIntera
                 
                 return ret
             }
+            
+            self.resultsScrollView.results = self.resultsArray
         }
     }
     
