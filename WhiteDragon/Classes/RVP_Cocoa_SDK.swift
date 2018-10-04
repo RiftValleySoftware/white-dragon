@@ -1363,7 +1363,219 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
             }
         }
     }
+
+    /* ################################################################## */
+    // MARK: - Private Instance Methods
+    /* ################################################################## */
+    /**
+     This method sorts out the strings passed into the fetchObjectsByString(_:,andLocation:,withPlugin) method. It will return a valid generic search set for the given plugin.
+     
+     The possible keys for the incoming Dictionary are (baseline, places, people, things):
+     - "name" This is the object name. It applies to all objects.
+     - "tag0", "venue" (you cannot directly search for the login ID of a user with this method, but you can look for a baseline tag0 value, which is the user login. Same for thing keys.)
+     - "tag1", "streetAddress", "surname", "description"
+     - "tag2", "extraInformation", "middleName"
+     - "tag3", "town", "givenName"
+     - "tag4", "county", "nickname"
+     - "tag5", "state", "prefix"
+     - "tag6", "postalCode", "suffix"
+     - "tag7", "nation"
+     - "tag8"
+     - "tag9"
+
+     - returns: a Dictionary, with the parameter set required for the given plugin. Nil, if the search set is not appropriate for the plugin.
+     */
+    private class func _sortOutStrings(_ inTagValues: [String: Any]?, forPlugin inPlugin: String) -> [String: [String]]? {
+        var ret: [String: [String]]?
+        
+        // First, make sure we got something, and normalize the keys to "tagX" keys.
+        if var temp: [String: Any] = self._normalizeKeys(inTagValues) {
+            switch inPlugin {
+            case "people":
+                temp = self._normalizeKeysForPeoplePlugin(temp)
+            case "places":
+                temp = self._normalizeKeysForPlacesPlugin(temp)
+            case "things":
+                temp = self._normalizeKeysForThingsPlugin(temp)
+            default:
+                break
+            }
+            
+            // At this point, temp has keys that directly represent the GET values we will send to the API for the search. We now convert the values to arrays of String.
+            for valueTup in temp {
+                if let arrayOfString = valueTup.value as? [String] {
+                    if nil == ret { // We don't actually create a return Dictionary, unless we have a for-real value.
+                        ret = [:]
+                    }
+                    ret?[valueTup.key] = arrayOfString
+                } else if let stringValue = valueTup.value as? String {
+                    if nil == ret {
+                        ret = [:]
+                    }
+                    ret?[valueTup.key] = [stringValue]  // A single string value will come out to just one Array element.
+                }
+            }
+        }
+        
+        return ret
+    }
     
+    /* ################################################################## */
+    /**
+     Normalizes the strings for the people plugin.
+     
+     - returns: an optional Dictionary, with the parameter set required for the plugin. It will return an empty Dictionary, if none of the keys will translate (should never happen)
+     */
+    private class func _normalizeKeysForPeoplePlugin(_ inTagValues: [String: Any]) -> [String: Any] {
+        var ret: [String: Any] = [:]
+        
+        for tup in inTagValues {
+            switch tup.key {
+            case "name":
+                ret["name"] = tup.value
+            case "tag1":
+                ret["surname"] = tup.value
+            case "tag2":
+                ret["middle_name"] = tup.value
+            case "tag3":
+                ret["given_name"] = tup.value
+            case "tag4":
+                ret["nickname"] = tup.value
+            case "tag5":
+                ret["prefix"] = tup.value
+            case "tag6":
+                ret["suffix"] = tup.value
+            case "tag7":
+                ret["tag7"] = tup.value
+            case "tag8":
+                ret["tag8"] = tup.value
+            case "tag9":
+                ret["tag9"] = tup.value
+            default:
+                break
+            }
+        }
+        
+        return ret
+    }
+    
+    /* ################################################################## */
+    /**
+     Normalizes the strings for the places plugin.
+     
+     - returns: an optional Dictionary, with the parameter set required for the plugin. It will return an empty Dictionary, if none of the keys will translate (should never happen)
+     */
+    private class func _normalizeKeysForPlacesPlugin(_ inTagValues: [String: Any]) -> [String: Any] {
+        var ret: [String: Any] = [:]
+        
+        for tup in inTagValues {
+            switch tup.key {
+            case "name":
+                ret["name"] = tup.value
+            case "tag0":
+                ret["venue"] = tup.value
+            case "tag1":
+                ret["street_address"] = tup.value
+            case "tag2":
+                ret["extra_information"] = tup.value
+            case "tag3":
+                ret["town"] = tup.value
+            case "tag4":
+                ret["county"] = tup.value
+            case "tag5":
+                ret["state"] = tup.value
+            case "tag6":
+                ret["postal_code"] = tup.value
+            case "tag7":
+                ret["nation"] = tup.value
+            case "tag8":
+                ret["tag8"] = tup.value
+            case "tag9":
+                ret["tag9"] = tup.value
+            default:
+                break
+            }
+        }
+        
+        return ret
+    }
+    
+    /* ################################################################## */
+    /**
+     Normalizes the strings for the things plugin.
+     
+     - returns: an optional Dictionary, with the parameter set required for the plugin. It will return an empty Dictionary, if none of the keys will translate (should never happen)
+     */
+    private class func _normalizeKeysForThingsPlugin(_ inTagValues: [String: Any]) -> [String: Any] {
+        var ret: [String: Any] = [:]
+        
+        for tup in inTagValues {
+            switch tup.key {
+            case "name", "description", "tag2", "tag3", "tag4", "tag5", "tag6", "tag7", "tag8", "tag9":
+                ret[tup.key] = tup.value
+            default:
+                break
+            }
+        }
+        
+        return ret
+    }
+
+    /* ################################################################## */
+    /**
+     This method "normalizes" all the strings into a Dictionary of "tagX" keys (baseline keys).
+     
+     The possible keys for the incoming Dictionary are (baseline, places, people, things):
+     - "tag0", "venue" (you cannot directly search for the login ID of a user with this method, but you can look for a baseline tag0 value, which is the user login. Same for thing keys.)
+     - "tag1", "streetAddress", "surname", "description"
+     - "tag2", "extraInformation", "middleName"
+     - "tag3", "town", "givenName"
+     - "tag4", "county", "nickname"
+     - "tag5", "state", "prefix"
+     - "tag6", "postalCode", "suffix"
+     - "tag7", "nation"
+     - "tag8"
+     - "tag9"
+     
+     - returns: an optional Dictionary, with the parameter set required for the given plugin. Nil, if we could not normalize the keys.
+     */
+    private class func _normalizeKeys(_ inTagValues: [String: Any]?) -> [String: Any]? {
+        var ret: [String: Any]?
+        
+        // First, make sure we got something.
+        if let tagValues = inTagValues, !tagValues.isEmpty {
+            ret = [:]
+            
+            for tup in tagValues {
+                switch tup.key {
+                case "tag0", "venue":
+                    ret?["tag0"] = tup.value
+                case "tag1", "streetAddress", "surname", "description":
+                    ret?["tag1"] = tup.value
+                case "tag2", "extraInformation", "middleName":
+                    ret?["tag2"] = tup.value
+                case "tag3", "town", "givenName":
+                    ret?["tag3"] = tup.value
+                case "tag4", "county", "nickname":
+                    ret?["tag4"] = tup.value
+                case "tag5", "state", "prefix":
+                    ret?["tag5"] = tup.value
+                case "tag6", "postalCode", "suffix":
+                    ret?["tag6"] = tup.value
+                case "tag7", "nation":
+                    ret?["tag7"] = tup.value
+                case "tag8":
+                    ret?["tag8"] = tup.value
+                case "tag9":
+                    ret?["tag9"] = tup.value
+                default:
+                    break
+                }
+            }
+        }
+        return ret
+    }
+
     /* ################################################################## */
     // MARK: - Internal Instance Methods
     /* ################################################################## */
@@ -1670,8 +1882,8 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      This method starts a "generic" search, based upon the input given.
      
      Possible inTagValues keys are:
-     - "tag0", "venue", "loginID", "thingKey" (loginID is the integer ID of the login; not the string)
-     - "tag1", "streetAddress", "surname", "thingDescription"
+     - "tag0", "venue" (you cannot directly search for the login ID of a user with this method, but you can look for a baseline tag0 value, which is the user login. Same for thing keys.)
+     - "tag1", "streetAddress", "surname", "description"
      - "tag2", "extraInformation", "middleName"
      - "tag3", "town", "givenName"
      - "tag4", "county", "nickname"
@@ -1681,17 +1893,28 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      - "tag8"
      - "tag9"
 
-     - parameter inTagValues:   This is a String-key Dictionary, with the key being any one of these values (on the same line means it must be one of the values). The order is tag, places, people, things:
+     - parameter inTagValues:   This is an optional String-key Dictionary, with the key being any one of these values (on the same line means it must be one of the values). The order is tag, places, people, things:
                                 The value must be a String, but, in some cases, it may be a string representation of an integer.
                                 It is also possible for the value to be an array of String. In this case, it is a list of acceptable values (OR search).
                                 The values are case-insensitive.
                                 If the object has one of its tags with a matching string (and the user has permission), it may be added to the returned set.
-                                Despite the plugin-specific keys, the search will search the tag position of all records, so specifying a venue of "4" will return any User object that has a loginID of 4.
+                                Despite the plugin-specific keys, the search will search the tag position of all records, so specifying a givenName of "Billings" will also return any Place object that has a "town" of "Billings".
+                                If this is not specified, or is empty, then all results will be returned.
+                                In order to be considered in a location-based search (anLocation is set to a location), then the objects need to have a lat/long value assigned.
+     
+     - parameter andLocation:   This is a tuple with the following structure:
+                                    **coords** This is a required CLLocationCoordinate2D struct, with a latitude and longitude.
+                                    **radiusInKm** This is an optional CLLocationDistance (Double) number, with a requested radius (in kilometers). If autoRadiusThreshold is set, and greater than zero, then this is a "maximum" radius, and is required.
+                                    **autoRadiusThreshold** This is an optional Int, with a "threshold" number of results to be returned in an "auto-radius hunt."
+                                        This means that the SDK will search from the "coords" location, out, in progressively widening circles, until it either gets *at least* the number in this value, or reaches the maximum radius in "radiusInKm."
+                                        If this is specified, the "radiusInKm" is required, and specifies the maximum radius to search.
+     
+     - parameter withPlugin:    This is an optional String. It can specify that only a certain plugin will be searched. For the default plugins, this can only be "people", "places" and "things." If not specified, then the "baseline" plugin will be searched (returns all types).
      */
-    public func fetchObjectsByString(_ inTagValues: [String: Any], andLocation inLocation: LocationSpecification! = nil) {
-        
+    public func fetchObjectsByString(_ inTagValues: [String: Any]?, andLocation inLocation: LocationSpecification! = nil, withPlugin inPlugin: String = "baseline") {
+        let searchStrings = type(of: self)._sortOutStrings(inTagValues, forPlugin: inPlugin) // First, we sort out any search strings the caller provided.
     }
-
+    
     /* ################################################################## */
     // MARK: - Public Sequence Protocol Methods
     /* ################################################################## */
