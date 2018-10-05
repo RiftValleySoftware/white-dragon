@@ -119,8 +119,6 @@ public protocol RVP_Cocoa_SDK_Delegate: class {
  It can also have an open session passed in at instantiation, and it will use that session.
  */
 public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
-    public typealias LocationSpecification = (coords: CLLocationCoordinate2D, radiusInKm: CLLocationDistance?, autoRadiusThreshold: Int?)
-    
     /* ################################################################## */
     // MARK: - Private Static Properties
     /* ################################################################## */
@@ -166,6 +164,9 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
     /** This is set to true, if we created our own session (as opposed to using one passed in). */
     private var _newSession: Bool = false
     
+    /** This is the step size for auto-radius searches, in kilometers. Default is 0.5 Km, but it can be changed by changing the autoRadiusStepSizeInKm public calculated property. */
+    private var _autoRadiusStepSizeInKm: Double = 0.5
+    
     /** This will be used to determine when a stack of operations is complete. It is incremented whenever an operation is started, and decremented when it is complete. When it reaches 0, the delegate is informed. */
     private var _openOperations: Int = 0 {
         didSet {
@@ -179,7 +180,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
     }
     
     /* ################################################################## */
-    // MARK: - Private Instance Methods and Calculated Properties
+    // MARK: - Private Calculated Properties
     /* ################################################################## */
     /**
      Returns a String, with the server secret and API Key already in URI form.
@@ -196,23 +197,210 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
     }
 
     /* ################################################################## */
+    // MARK: - Private Class Methods
+    /* ################################################################## */
     /**
-     This sorts our instance Array by ID and database.
+     This method sorts out the strings passed into the fetchObjectsByString(_:,andLocation:,withPlugin) method. It will return a valid generic search set for the given plugin.
+     
+     The possible keys for the incoming Dictionary are (baseline, places, people, things):
+     - "name" This is the object name. It applies to all objects.
+     - "tag0", "venue" (you cannot directly search for the login ID of a user with this method, but you can look for a baseline tag0 value, which is the user login. Same for thing keys.)
+     - "tag1", "streetAddress", "surname", "description"
+     - "tag2", "extraInformation", "middleName"
+     - "tag3", "town", "givenName"
+     - "tag4", "county", "nickname"
+     - "tag5", "state", "prefix"
+     - "tag6", "postalCode", "suffix"
+     - "tag7", "nation"
+     - "tag8"
+     - "tag9"
+     
+     The values can use SQL-style wildcards (%) and are case-insensitive.
+     
+     - returns: a Dictionary, with the parameter set required for the given plugin.
      */
-    private func _sortDataItems() {
-        if !self.isEmpty {  // Nothing to do, if we have no items.
-            self._dataItems = self._dataItems.sorted {
-                var ret = $0.id < $1.id
-                
-                if !ret {   // Security objects get listed before data objects
-                    ret = $0 is A_RVP_Cocoa_SDK_Security_Object && $1 is A_RVP_Cocoa_SDK_Data_Object
-                }
-
-                return ret
+    private class func _sortOutStrings(_ inTagValues: [String: String]?, forPlugin inPlugin: String) -> [String: String] {
+        var ret: [String: String] = [:]
+        
+        // First, make sure we got something, and normalize the keys to "tagX" keys.
+        if var temp: [String: String] = self._normalizeKeys(inTagValues) {
+            switch inPlugin {
+            case "people":
+                temp = self._normalizeKeysForPeoplePlugin(temp)
+            case "places":
+                temp = self._normalizeKeysForPlacesPlugin(temp)
+            case "things":
+                temp = self._normalizeKeysForThingsPlugin(temp)
+            default:
+                break
+            }
+            
+            if !temp.isEmpty {
+                ret = temp
             }
         }
+        
+        return ret
     }
     
+    /* ################################################################## */
+    /**
+     Normalizes the strings for the people plugin.
+     
+     - returns: an optional Dictionary, with the parameter set required for the plugin. It will return an empty Dictionary, if none of the keys will translate (should never happen)
+     */
+    private class func _normalizeKeysForPeoplePlugin(_ inTagValues: [String: String]) -> [String: String] {
+        var ret: [String: String] = [:]
+        
+        for tup in inTagValues {
+            switch tup.key {
+            case "name":
+                ret["name"] = tup.value
+            case "tag1":
+                ret["surname"] = tup.value
+            case "tag2":
+                ret["middle_name"] = tup.value
+            case "tag3":
+                ret["given_name"] = tup.value
+            case "tag4":
+                ret["nickname"] = tup.value
+            case "tag5":
+                ret["prefix"] = tup.value
+            case "tag6":
+                ret["suffix"] = tup.value
+            case "tag7":
+                ret["tag7"] = tup.value
+            case "tag8":
+                ret["tag8"] = tup.value
+            case "tag9":
+                ret["tag9"] = tup.value
+            default:
+                break
+            }
+        }
+        
+        return ret
+    }
+    
+    /* ################################################################## */
+    /**
+     Normalizes the strings for the places plugin.
+     
+     - returns: an optional Dictionary, with the parameter set required for the plugin. It will return an empty Dictionary, if none of the keys will translate (should never happen)
+     */
+    private class func _normalizeKeysForPlacesPlugin(_ inTagValues: [String: String]) -> [String: String] {
+        var ret: [String: String] = [:]
+        
+        for tup in inTagValues {
+            switch tup.key {
+            case "name":
+                ret["name"] = tup.value
+            case "tag0":
+                ret["venue"] = tup.value
+            case "tag1":
+                ret["street_address"] = tup.value
+            case "tag2":
+                ret["extra_information"] = tup.value
+            case "tag3":
+                ret["town"] = tup.value
+            case "tag4":
+                ret["county"] = tup.value
+            case "tag5":
+                ret["state"] = tup.value
+            case "tag6":
+                ret["postal_code"] = tup.value
+            case "tag7":
+                ret["nation"] = tup.value
+            case "tag8":
+                ret["tag8"] = tup.value
+            case "tag9":
+                ret["tag9"] = tup.value
+            default:
+                break
+            }
+        }
+        
+        return ret
+    }
+    
+    /* ################################################################## */
+    /**
+     Normalizes the strings for the things plugin.
+     
+     - returns: an optional Dictionary, with the parameter set required for the plugin. It will return an empty Dictionary, if none of the keys will translate (should never happen)
+     */
+    private class func _normalizeKeysForThingsPlugin(_ inTagValues: [String: String]) -> [String: String] {
+        var ret: [String: String] = [:]
+        
+        for tup in inTagValues {
+            switch tup.key {
+            case "name", "description", "tag2", "tag3", "tag4", "tag5", "tag6", "tag7", "tag8", "tag9":
+                ret[tup.key] = tup.value
+            default:
+                break
+            }
+        }
+        
+        return ret
+    }
+    
+    /* ################################################################## */
+    /**
+     This method "normalizes" all the strings into a Dictionary of "tagX" keys (baseline keys).
+     
+     The possible keys for the incoming Dictionary are (baseline, places, people, things):
+     - "tag0", "venue" (you cannot directly search for the login ID of a user with this method, but you can look for a baseline tag0 value, which is the user login. Same for thing keys.)
+     - "tag1", "streetAddress", "surname", "description"
+     - "tag2", "extraInformation", "middleName"
+     - "tag3", "town", "givenName"
+     - "tag4", "county", "nickname"
+     - "tag5", "state", "prefix"
+     - "tag6", "postalCode", "suffix"
+     - "tag7", "nation"
+     - "tag8"
+     - "tag9"
+     
+     - returns: an optional Dictionary, with the parameter set required for the given plugin. Nil, if we could not normalize the keys.
+     */
+    private class func _normalizeKeys(_ inTagValues: [String: String]?) -> [String: String]? {
+        var ret: [String: String]?
+        
+        // First, make sure we got something.
+        if let tagValues = inTagValues, !tagValues.isEmpty {
+            ret = [:]
+            
+            for tup in tagValues {
+                switch tup.key {
+                case "tag0", "venue":
+                    ret?["tag0"] = tup.value
+                case "tag1", "streetAddress", "surname", "description":
+                    ret?["tag1"] = tup.value
+                case "tag2", "extraInformation", "middleName":
+                    ret?["tag2"] = tup.value
+                case "tag3", "town", "givenName":
+                    ret?["tag3"] = tup.value
+                case "tag4", "county", "nickname":
+                    ret?["tag4"] = tup.value
+                case "tag5", "state", "prefix":
+                    ret?["tag5"] = tup.value
+                case "tag6", "postalCode", "suffix":
+                    ret?["tag6"] = tup.value
+                case "tag7", "nation":
+                    ret?["tag7"] = tup.value
+                case "tag8":
+                    ret?["tag8"] = tup.value
+                case "tag9":
+                    ret?["tag9"] = tup.value
+                default:
+                    break
+                }
+            }
+        }
+        return ret
+    }
+    
+    /* ################################################################## */
+    // MARK: - Private Instance Methods
     /* ################################################################## */
     /**
      This checks our Array of instances, looking for an item with the given database and ID.
@@ -259,17 +447,17 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                         switch key {
                         case "people", "places", "things":
                             if let plugin_response = value as? [Int] {
-                                ret = [key: plugin_response]
+                                ret[key] = plugin_response
                             }
-                            
+
                         case "plugins":
                             if let plugin_response = value as? [String] {
-                                ret = [key: plugin_response]
+                                ret[key] = plugin_response
                             }
                             
                         case "serverinfo", "search_location", "tokens", "bulk_upload", "token", "id":
                             if let plugin_response = value as? [String: Any] {
-                                ret = [key: plugin_response]
+                                ret[key] = plugin_response
                             }
                             
                         default:
@@ -513,6 +701,33 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
     private func _callDelegateLoginValid(_ inIsLoggedIn: Bool) {
         self._delegate?.sdkInstance(self, loginValid: inIsLoggedIn)
     }
+    
+    /* ################################################################## */
+    /**
+     This fetches objects from the data database server.
+     
+     - parameter inResultDictionary: A Dictionary of the returned IDs.
+     */
+    private func _handleReturnedIDs(_ inResultDictionary: [String: [Int]]) {
+        var handled = false // If we get any IDs, then we have something...
+        
+        if let peopleIDs = inResultDictionary["people"], !peopleIDs.isEmpty {
+            self.fetchDataItemsByIDs(peopleIDs, andPlugin: "people")
+            handled = true
+        }
+        
+        if let placeIDs = inResultDictionary["places"], !placeIDs.isEmpty {
+            self.fetchDataItemsByIDs(placeIDs, andPlugin: "places")
+        }
+        
+        if let thingIDs = inResultDictionary["things"], !thingIDs.isEmpty {
+            self.fetchDataItemsByIDs(thingIDs, andPlugin: "things")
+        }
+        
+        if !handled {
+            self._sendItemsToDelegate([])   // We got nuthin'
+        }
+    }
 
     /* ################################################################## */
     /**
@@ -542,7 +757,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                             self._handleHTTPError(response as? HTTPURLResponse ?? nil)
                             return
                     }
-                    if let mimeType = httpResponse.mimeType, mimeType == "application/json", let data = data {
+                    if let mimeType = httpResponse.mimeType, "application/json" == mimeType, let data = data {
                         if let object = self._makeInstance(data: data) as? [RVP_Cocoa_SDK_Login] {
                             if 1 == object.count {
                                 self._loginInfo = object[0]
@@ -601,7 +816,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                             self._reportSessionValidity()   // We report whether or not this session is valid.
                             self._callDelegateLoginValid(self.isLoggedIn)   // OK. We're done. Tell the delegate whether or not we are logged in.
                         }
-                    } else if let mimeType = httpResponse.mimeType, mimeType == "application/json", let data = data {
+                    } else if let mimeType = httpResponse.mimeType, "application/json" == mimeType, let data = data {
                         if let object = self._makeInstance(data: data) as? [RVP_Cocoa_SDK_User] {
                             if 1 == object.count {
                                 self._userInfo = object[0]
@@ -642,7 +857,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      
      - parameter inIntegerIDs: An Array of Int, with the data database item IDs.
      */
-    private func _fetchBaselineObjectsByID(_ inIntegerIDs: [Int] ) {
+    private func _fetchBaselineObjectsByID(_ inIntegerIDs: [Int]) {
         var fetchIDs: [Int] = []
         var cachedObjects: [A_RVP_Cocoa_SDK_Data_Object] = []
         
@@ -694,7 +909,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                                 return
                         }
                         
-                        if let mimeType = httpResponse.mimeType, mimeType == "application/json", let myData = data {
+                        if let mimeType = httpResponse.mimeType, "application/json" == mimeType, let myData = data {
                             do {    // Extract a usable object from the given JSON data.
                                 let temp = try JSONSerialization.jsonObject(with: myData, options: [])
                                 
@@ -733,28 +948,19 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
     
     /* ################################################################## */
     /**
-     This fetches objects from the data database server.
-     
-     - parameter inResultDictionary: A Dictionary of the returned IDs.
+     This sorts our instance Array by ID and database.
      */
-    private func _handleReturnedIDs(_ inResultDictionary: [String: [Int]] ) {
-        var handled = false // If we get any IDs, then we have something...
-        
-        if let peopleIDs = inResultDictionary["people"], !peopleIDs.isEmpty {
-            self.fetchDataItemsByIDs(peopleIDs, andPlugin: "people")
-            handled = true
-        }
-        
-        if let placeIDs = inResultDictionary["places"], !placeIDs.isEmpty {
-            self.fetchDataItemsByIDs(placeIDs, andPlugin: "places")
-        }
-        
-        if let thingIDs = inResultDictionary["things"], !thingIDs.isEmpty {
-            self.fetchDataItemsByIDs(thingIDs, andPlugin: "things")
-        }
-        
-        if !handled {
-            self._sendItemsToDelegate([])   // We got nuthin'
+    private func _sortDataItems() {
+        if !self.isEmpty {  // Nothing to do, if we have no items.
+            self._dataItems = self._dataItems.sorted {
+                var ret = $0.id < $1.id
+                
+                if !ret {   // Security objects get listed before data objects
+                    ret = $0 is A_RVP_Cocoa_SDK_Security_Object && $1 is A_RVP_Cocoa_SDK_Data_Object
+                }
+                
+                return ret
+            }
         }
     }
     
@@ -764,11 +970,11 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      
      - parameter inIntegerIDs: An Array of Int, with the data database item IDs.
      */
-    private func _fetchDataItems(_ inIntegerIDs: [Int], plugin inPlugin: String ) {
+    private func _fetchDataItems(_ inIntegerIDs: [Int], plugin inPlugin: String) {
         var fetchIDs: [Int] = []
         var cachedObjects: [A_RVP_Cocoa_SDK_Data_Object] = []
         var plugin = inPlugin
-        
+
         if "people" == inPlugin {
             plugin += "/" + plugin
         }
@@ -820,7 +1026,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                                 return
                         }
                         
-                        if let mimeType = httpResponse.mimeType, mimeType == "application/json", let myData = data {
+                        if let mimeType = httpResponse.mimeType, "application/json" == mimeType, let myData = data {
                             if let objectArray = self._makeInstance(data: myData) {
                                 self._dataItems.append(contentsOf: objectArray)
                                 self._sortDataItems()
@@ -855,7 +1061,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      
      - parameter inIDString: An Array of Int, with the security database item IDs.
      */
-    private func _fetchLoginItemsFromServer(_ inIDString: String ) {
+    private func _fetchLoginItemsFromServer(_ inIDString: String) {
         var loginParams = self._loginParameters
         
         if !loginParams.isEmpty {
@@ -879,7 +1085,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                         return
                 }
                 
-                if let mimeType = httpResponse.mimeType, mimeType == "application/json", let myData = data {
+                if let mimeType = httpResponse.mimeType, "application/json" == mimeType, let myData = data {
                     if let objectArray = self._makeInstance(data: myData) {
                         self._dataItems.append(contentsOf: objectArray)
                         self._sortDataItems()
@@ -906,7 +1112,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      
      - parameter inIntegerIDs: An Array of Int, with the security database item IDs.
      */
-    private func _fetchLoginItems(_ inIntegerIDs: [Int] ) {
+    private func _fetchLoginItems(_ inIntegerIDs: [Int]) {
         var fetchIDs: [Int] = []
         var cachedObjects: [A_RVP_Cocoa_SDK_Object] = []
         
@@ -947,7 +1153,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      
      - parameter inLoginIDs: An Array of String, with the login string IDs.
      */
-    private func _fetchLoginItems(_ inLoginIDs: [String] ) {
+    private func _fetchLoginItems(_ inLoginIDs: [String]) {
         var fetchIDs: [String] = []
         var cachedObjects: [A_RVP_Cocoa_SDK_Object] = []
         
@@ -990,15 +1196,15 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      
      - parameter inKeys: An Array of String, with the thing keys.
      */
-    private func _fetchThings(_ inKeys: [String] ) {
+    private func _fetchThings(_ inKeys: [String]) {
         var fetchKeys: [String] = []
         var cachedObjects: [A_RVP_Cocoa_SDK_Object] = []
-        
+
         // First, we look for cached instances. If we have them, we send them to the delegate.
         for var key in inKeys {
             for dataItem in self._dataItems where dataItem is RVP_Cocoa_SDK_Thing {
                 if let thing = dataItem as? RVP_Cocoa_SDK_Thing, thing.thingKey == key {
-                    cachedObjects.append(dataItem)
+                    cachedObjects.append(thing)
                     key = ""
                 }
             }
@@ -1037,7 +1243,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                                 return
                         }
                         
-                        if let mimeType = httpResponse.mimeType, mimeType == "application/json", let myData = data {
+                        if let mimeType = httpResponse.mimeType, "application/json" == mimeType, let myData = data {
                             if let objectArray = self._makeInstance(data: myData) {
                                 self._dataItems.append(contentsOf: objectArray)
                                 self._sortDataItems()
@@ -1087,7 +1293,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                         self._handleHTTPError(response as? HTTPURLResponse ?? nil)
                         return
                 }
-                if let mimeType = httpResponse.mimeType, mimeType == "application/json", let data = data {
+                if let mimeType = httpResponse.mimeType, "application/json" == mimeType, let data = data {
                     if let plugins = self._parseBaselineResponse(data: data) as? [String: [String]] {
                         if let plugin_array = plugins["plugins"] {
                             self._plugins = plugin_array
@@ -1111,11 +1317,230 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
     }
     
     /* ################################################################## */
-    // MARK: - Public Types
+    /**
+     This method will do a search of the server, based on the input data.
+     
+     If the inTagValues Dictionary is non-empty, then the keys and values will be used to initiate a serach on the plugin selected by inPlugin.
+     if a value in inTagValues is an empty String (""), then the search will search explicitly for objects that do not have a value in that tag.
+     if a value in inTagValues has only a wildcard ("%"), then that means that only objects that have non-empty values of that tag will be returned; regardless of the content of the tag.
+     
+     If andLocation is non-nil, then it needs to have a location, and possibly a radius and auto-radius.
+     
+     - parameter inTagValues: This is a pre-formatted Dictionary of keys and values
+     - parameter andLocation: This is an optional location/radius specifier. If not specified, location will not be considered.
+     - parameter withPlugin: This is the plugin to search. It can be: "baseline", "people", "places", "things"
+     - parameter maxRadiusInKm: This is a "maximum radius." If left at 0, then only one radius search will be done. If more than zero, and more than the radius in the location, then the radius will be increaed by the auto-radius step size, and another call will be made, if the threshold has not been satisfied. If no location is given, this is ignored.
+     */
+    private func _fetchObjectsByString(_ inTagValues: [String: String], andLocation inLocation: LocationSpecification! = nil, withPlugin inPlugin: String, maxRadiusInKm inMaxRadiusInKm: Double = 0) {
+        var plugin = inPlugin
+        var tagValues = inTagValues
+        
+        // If either threshold or maxRadius is zero, we won't be doing another search.
+        // See if an auto-radius threshold has been specified.
+        var threshold: Int = 0
+        // See if a valid max radius was specified.
+        var maxRadius = inMaxRadiusInKm
+        var currentLocation = inLocation
+        if var location = currentLocation {
+            if let thresh = location.autoRadiusThreshold, 0 < thresh {
+                threshold = thresh
+                // If we are in an auto-radius search, and are just beginning, then we start at the beginning with one step size.
+                if location.radiusInKm == inMaxRadiusInKm, 0 < inMaxRadiusInKm {
+                    currentLocation?.radiusInKm = self.autoRadiusStepSizeInKm
+                } else if 0 == maxRadius {    // If we have no maximum size, then we are not doing an auto-radius.
+                    threshold = 0
+                } else {    // Otherwise, One Step Beyond...
+                    currentLocation?.radiusInKm += self.autoRadiusStepSizeInKm
+                }
+                if let radius = currentLocation?.radiusInKm {
+                    location.radiusInKm = radius
+                }
+            } else {
+                maxRadius = 0   // If we don't have a threshold, we don't have auto-radius.
+                threshold = 0
+            }
+            
+            if 0 > maxRadius || nil == currentLocation?.radiusInKm || ((currentLocation?.radiusInKm)! >= maxRadius) {   // If we are at the maximum, we're done.
+                maxRadius = 0
+                threshold = 0
+            }
+        } else {
+            maxRadius = 0   // Can't have a max radius with no location.
+            threshold = 0
+        }
+
+        // A couple of plugins need an extra step on the resource locator.
+        switch plugin {
+        case "baseline":
+            plugin += "/search/?"
+        case "people":
+            plugin += "/people/?show_details&"
+        default:
+            plugin += "/?show_details&"
+        }
+        
+        if let location = inLocation {
+            tagValues["latitude"] = String(location.coords.latitude)
+            tagValues["longitude"] = String(location.coords.longitude)
+            tagValues["radius"] = String(location.radiusInKm)
+        }
+        
+        // This handles any login parameters.
+        var loginParams = self._loginParameters
+        
+        if !loginParams.isEmpty {
+            loginParams += "&"
+        }
+        
+        // We join the various text items.
+        let url = self._server_uri + "/json/" + plugin + loginParams + (tagValues.compactMap({ (key, value) -> String in
+            if let value = value.urlEncodedString {
+                return "search_\(key)=\(value)"
+            }
+            
+            return ""
+        }) as Array).joined(separator: "&")
+        
+        self._fetchObjectsByStringPartDuex(url, tags: inTagValues, andLocation: currentLocation, withPlugin: inPlugin, maxRadiusInKm: maxRadius, threshold: threshold)
+    }
+    
+    /* ################################################################## */
+    /**
+     This method will execute the search set up previously (split to reduce CC).
+     
+     If the inTagValues Dictionary is non-empty, then the keys and values will be used to initiate a serach on the plugin selected by inPlugin.
+     if a value in inTagValues is an empty String (""), then the search will search explicitly for objects that do not have a value in that tag.
+     if a value in inTagValues has only a wildcard ("%"), then that means that only objects that have non-empty values of that tag will be returned; regardless of the content of the tag.
+     
+     If andLocation is non-nil, then it needs to have a location, and possibly a radius and auto-radius.
+     
+     - parameter inTagValues: This is a pre-formatted Dictionary of keys and values
+     - parameter andLocation: This is an optional location/radius specifier. If not specified, location will not be considered.
+     - parameter withPlugin: This is the plugin to search. It can be: "baseline", "people", "places", "things"
+     - parameter maxRadiusInKm: This is a "maximum radius." If left at 0, then only one radius search will be done. If more than zero, and more than the radius in the location, then the radius will be increaed by the auto-radius step size, and another call will be made, if the threshold has not been satisfied. If no location is given, this is ignored.
+     - parameter threshold: This is an Int with a minimum count threshold. Default is 0.
+     */
+    private func _fetchObjectsByStringPartDuex(_ inUrl: String, tags inTagValues: [String: String], andLocation inLocation: LocationSpecification! = nil, withPlugin inPlugin: String, maxRadiusInKm inMaxRadiusInKm: Double = 0, threshold inThreshold: Int = 0) {
+        // The request is a simple GET task, so we can just use a straight-up task for this.
+        if let url_object = URL(string: inUrl) {
+            type(of: self)._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
+                self._openOperations += 1
+            }
+            let fetchTask = self._connectionSession.dataTask(with: url_object) { [unowned self] data, response, error in
+                if let error = error {
+                    self._handleError(error)
+                    return
+                }
+                guard let httpResponse = response as? HTTPURLResponse,
+                    (200...299).contains(httpResponse.statusCode) else {
+                        self._handleHTTPError(response as? HTTPURLResponse ?? nil)
+                        return
+                }
+                
+                if let mimeType = httpResponse.mimeType, "application/json" == mimeType, let myData = data {
+                    if "baseline" == inPlugin {
+                        let plugins = self._parseBaselineResponse(data: myData)
+                        var ids: [Int] = []
+                        
+                        for pluginTup in plugins {
+                            if let value = pluginTup.value as? [Int] {
+                                ids.append(contentsOf: value)
+                            }
+                        }
+                        
+                        // If we are at the maximum for an auto-radius search, or we are not doing an auto-radius search, we simply fetch all the results as objects.
+                        if 0 == inMaxRadiusInKm || ids.count >= inThreshold || nil == inLocation || inLocation!.radiusInKm >= inMaxRadiusInKm {
+                            self._fetchBaselineObjectsByID(ids)
+                        } else {
+                            if nil != inLocation {
+                                self.searchLocation = inLocation?.coords
+                                self._fetchObjectsByString(inTagValues, andLocation: inLocation, withPlugin: inPlugin, maxRadiusInKm: inMaxRadiusInKm)
+                            }
+                        }
+                    }
+                } else {
+                    self._handleError(SDK_Data_Errors.invalidData(data))
+                }
+                
+                type(of: self)._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
+                    self._openOperations -= 1
+                }
+            }
+            
+            fetchTask.resume()
+        } else {
+            self._handleError(SDK_Connection_Errors.invalidServerURI(inUrl))
+        }
+    }
+    
+    /* ################################################################## */
+    /**
+     This method sorts through the data returned by the search. It determines if another search needs to be done at a different radius (auto-radius), or if it's just time to send the results to the delegate and vamoose.
+     
+     - parameter inSearchResults: An Array of objects, allocated from the response to the last call.
+     - parameter tags: This is a pre-formatted Dictionary of keys and values
+     - parameter andLocation: This is an optional location/radius specifier. If not specified, location will not be considered.
+     - parameter withPlugin: This is the plugin to search. It can be: "baseline", "people", "places", "things"
+     - parameter maxRadiusInKm: This is a "maximum radius." If left at 0, then only one radius search will be done. If more than zero, and more than the radius in the location, then the radius will be increaed by the auto-radius step size, and another call will be made, if the threshold has not been satisfied. If no location is given, this is ignored.
+     */
+    private func _sortSearchResults(_ inSearchResults: [A_RVP_Cocoa_SDK_Object], tags inTagValues: [String: String], andLocation inLocation: LocationSpecification! = nil, withPlugin inPlugin: String, maxRadiusInKm inMaxRadiusInKm: Double = 0) {
+    }
+    
+    /* ################################################################## */
+    // MARK: - Internal Instance Methods
+    /* ################################################################## */
+    /**
+     We simply make sure that we clean up after ourselves.
+     */
+    deinit {
+        if nil != self._connectionSession {
+            self.logout()
+            if self._newSession {   // We only nuke the session if we created it.
+                self._connectionSession.finishTasksAndInvalidate()   // Take off and nuke the site from orbit. It's the only way to be sure.
+            }
+            self._connectionSession = nil   // We had a strong reference, so we need to make sure we delete our reference.
+        }
+    }
+
+    /* ################################################################## */
+    // MARK: - Public Types and Structs
     /* ################################################################## */
     /** This is the element type for the Sequence protocol. */
     public typealias Element = A_RVP_Cocoa_SDK_Object
-    
+    /** This is how we specify the location for searches.
+     - coords: A lat/long coordinate (in degrees) of the location
+     - radiusInKm: A distance within which the search will be performed.
+     - autoRadiusThreshold: An optional field with a minimum number of results.
+     */
+    public struct LocationSpecification {
+        var coords: CLLocationCoordinate2D
+        var radiusInKm: CLLocationDistance
+        var autoRadiusThreshold: Int?
+    }
+
+    /* ################################################################## */
+    /**
+     This is a quick resolver for the basic HTTP status.
+     */
+    public struct HTTPError: Error {
+        /** This is the HTTP response code for this error. */
+        var code: Int
+        /** This is an optional description string that can be added when instantiated. If it is given, then it will be returned in the response. */
+        var description: String?
+        
+        /* ############################################################## */
+        /**
+         - returns: A localized description for the instance HTTP code.
+         */
+        var localizedDescription: String {
+            if let desc = self.description {    // An explicitly-defined string has precedence.
+                return String(self.code) + ", " + desc
+            } else {    // Otherwise, use the system-localized version.
+                return String(self.code) + ", " + HTTPURLResponse.localizedString(forStatusCode: self.code)
+            }
+        }
+    }
+
     /* ################################################################## */
     // MARK: - Public Enums
     /* ################################################################## */
@@ -1286,6 +1711,20 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
     
     /* ################################################################## */
     /**
+     Returns the step size, in kilometers, of the auto-radius search.
+     */
+    var autoRadiusStepSizeInKm: Double {
+        get {
+            return self._autoRadiusStepSizeInKm
+        }
+        
+        set {
+            self._autoRadiusStepSizeInKm = newValue
+        }
+    }
+    
+    /* ################################################################## */
+    /**
      This allows the instance to be treated like a simple Array.
      
      - parameter _: The 0-based index we are addressing.
@@ -1298,31 +1737,6 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
         }
         
         return nil
-    }
-
-    /* ################################################################## */
-    // MARK: - Public Structs
-    /* ################################################################## */
-    /**
-     This is a quick resolver for the basic HTTP status.
-     */
-    public struct HTTPError: Error {
-        /** This is the HTTP response code for this error. */
-        var code: Int
-        /** This is an optional description string that can be added when instantiated. If it is given, then it will be returned in the response. */
-        var description: String?
-        
-        /* ############################################################## */
-        /**
-         - returns: A localized description for the instance HTTP code.
-         */
-        var localizedDescription: String {
-            if let desc = self.description {    // An explicitly-defined string has precedence.
-                return String(self.code) + ", " + desc
-            } else {    // Otherwise, use the system-localized version.
-                return String(self.code) + ", " + HTTPURLResponse.localizedString(forStatusCode: self.code)
-            }
-        }
     }
     
     /* ################################################################## */
@@ -1363,234 +1777,6 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
             }
         }
     }
-
-    /* ################################################################## */
-    // MARK: - Private Instance Methods
-    /* ################################################################## */
-    /**
-     This method sorts out the strings passed into the fetchObjectsByString(_:,andLocation:,withPlugin) method. It will return a valid generic search set for the given plugin.
-     
-     The possible keys for the incoming Dictionary are (baseline, places, people, things):
-     - "name" This is the object name. It applies to all objects.
-     - "tag0", "venue" (you cannot directly search for the login ID of a user with this method, but you can look for a baseline tag0 value, which is the user login. Same for thing keys.)
-     - "tag1", "streetAddress", "surname", "description"
-     - "tag2", "extraInformation", "middleName"
-     - "tag3", "town", "givenName"
-     - "tag4", "county", "nickname"
-     - "tag5", "state", "prefix"
-     - "tag6", "postalCode", "suffix"
-     - "tag7", "nation"
-     - "tag8"
-     - "tag9"
-
-     - returns: a Dictionary, with the parameter set required for the given plugin. Nil, if the search set is not appropriate for the plugin.
-     */
-    private class func _sortOutStrings(_ inTagValues: [String: Any]?, forPlugin inPlugin: String) -> [String: [String]]? {
-        var ret: [String: [String]]?
-        
-        // First, make sure we got something, and normalize the keys to "tagX" keys.
-        if var temp: [String: Any] = self._normalizeKeys(inTagValues) {
-            switch inPlugin {
-            case "people":
-                temp = self._normalizeKeysForPeoplePlugin(temp)
-            case "places":
-                temp = self._normalizeKeysForPlacesPlugin(temp)
-            case "things":
-                temp = self._normalizeKeysForThingsPlugin(temp)
-            default:
-                break
-            }
-            
-            // At this point, temp has keys that directly represent the GET values we will send to the API for the search. We now convert the values to arrays of String.
-            for valueTup in temp {
-                if let arrayOfString = valueTup.value as? [String] {
-                    if nil == ret { // We don't actually create a return Dictionary, unless we have a for-real value.
-                        ret = [:]
-                    }
-                    ret?[valueTup.key] = arrayOfString
-                } else if let stringValue = valueTup.value as? String {
-                    if nil == ret {
-                        ret = [:]
-                    }
-                    ret?[valueTup.key] = [stringValue]  // A single string value will come out to just one Array element.
-                }
-            }
-        }
-        
-        return ret
-    }
-    
-    /* ################################################################## */
-    /**
-     Normalizes the strings for the people plugin.
-     
-     - returns: an optional Dictionary, with the parameter set required for the plugin. It will return an empty Dictionary, if none of the keys will translate (should never happen)
-     */
-    private class func _normalizeKeysForPeoplePlugin(_ inTagValues: [String: Any]) -> [String: Any] {
-        var ret: [String: Any] = [:]
-        
-        for tup in inTagValues {
-            switch tup.key {
-            case "name":
-                ret["name"] = tup.value
-            case "tag1":
-                ret["surname"] = tup.value
-            case "tag2":
-                ret["middle_name"] = tup.value
-            case "tag3":
-                ret["given_name"] = tup.value
-            case "tag4":
-                ret["nickname"] = tup.value
-            case "tag5":
-                ret["prefix"] = tup.value
-            case "tag6":
-                ret["suffix"] = tup.value
-            case "tag7":
-                ret["tag7"] = tup.value
-            case "tag8":
-                ret["tag8"] = tup.value
-            case "tag9":
-                ret["tag9"] = tup.value
-            default:
-                break
-            }
-        }
-        
-        return ret
-    }
-    
-    /* ################################################################## */
-    /**
-     Normalizes the strings for the places plugin.
-     
-     - returns: an optional Dictionary, with the parameter set required for the plugin. It will return an empty Dictionary, if none of the keys will translate (should never happen)
-     */
-    private class func _normalizeKeysForPlacesPlugin(_ inTagValues: [String: Any]) -> [String: Any] {
-        var ret: [String: Any] = [:]
-        
-        for tup in inTagValues {
-            switch tup.key {
-            case "name":
-                ret["name"] = tup.value
-            case "tag0":
-                ret["venue"] = tup.value
-            case "tag1":
-                ret["street_address"] = tup.value
-            case "tag2":
-                ret["extra_information"] = tup.value
-            case "tag3":
-                ret["town"] = tup.value
-            case "tag4":
-                ret["county"] = tup.value
-            case "tag5":
-                ret["state"] = tup.value
-            case "tag6":
-                ret["postal_code"] = tup.value
-            case "tag7":
-                ret["nation"] = tup.value
-            case "tag8":
-                ret["tag8"] = tup.value
-            case "tag9":
-                ret["tag9"] = tup.value
-            default:
-                break
-            }
-        }
-        
-        return ret
-    }
-    
-    /* ################################################################## */
-    /**
-     Normalizes the strings for the things plugin.
-     
-     - returns: an optional Dictionary, with the parameter set required for the plugin. It will return an empty Dictionary, if none of the keys will translate (should never happen)
-     */
-    private class func _normalizeKeysForThingsPlugin(_ inTagValues: [String: Any]) -> [String: Any] {
-        var ret: [String: Any] = [:]
-        
-        for tup in inTagValues {
-            switch tup.key {
-            case "name", "description", "tag2", "tag3", "tag4", "tag5", "tag6", "tag7", "tag8", "tag9":
-                ret[tup.key] = tup.value
-            default:
-                break
-            }
-        }
-        
-        return ret
-    }
-
-    /* ################################################################## */
-    /**
-     This method "normalizes" all the strings into a Dictionary of "tagX" keys (baseline keys).
-     
-     The possible keys for the incoming Dictionary are (baseline, places, people, things):
-     - "tag0", "venue" (you cannot directly search for the login ID of a user with this method, but you can look for a baseline tag0 value, which is the user login. Same for thing keys.)
-     - "tag1", "streetAddress", "surname", "description"
-     - "tag2", "extraInformation", "middleName"
-     - "tag3", "town", "givenName"
-     - "tag4", "county", "nickname"
-     - "tag5", "state", "prefix"
-     - "tag6", "postalCode", "suffix"
-     - "tag7", "nation"
-     - "tag8"
-     - "tag9"
-     
-     - returns: an optional Dictionary, with the parameter set required for the given plugin. Nil, if we could not normalize the keys.
-     */
-    private class func _normalizeKeys(_ inTagValues: [String: Any]?) -> [String: Any]? {
-        var ret: [String: Any]?
-        
-        // First, make sure we got something.
-        if let tagValues = inTagValues, !tagValues.isEmpty {
-            ret = [:]
-            
-            for tup in tagValues {
-                switch tup.key {
-                case "tag0", "venue":
-                    ret?["tag0"] = tup.value
-                case "tag1", "streetAddress", "surname", "description":
-                    ret?["tag1"] = tup.value
-                case "tag2", "extraInformation", "middleName":
-                    ret?["tag2"] = tup.value
-                case "tag3", "town", "givenName":
-                    ret?["tag3"] = tup.value
-                case "tag4", "county", "nickname":
-                    ret?["tag4"] = tup.value
-                case "tag5", "state", "prefix":
-                    ret?["tag5"] = tup.value
-                case "tag6", "postalCode", "suffix":
-                    ret?["tag6"] = tup.value
-                case "tag7", "nation":
-                    ret?["tag7"] = tup.value
-                case "tag8":
-                    ret?["tag8"] = tup.value
-                case "tag9":
-                    ret?["tag9"] = tup.value
-                default:
-                    break
-                }
-            }
-        }
-        return ret
-    }
-
-    /* ################################################################## */
-    // MARK: - Internal Instance Methods
-    /* ################################################################## */
-    /**
-     We simply make sure that we clean up after ourselves.
-     */
-    deinit {
-        if nil != self._connectionSession {
-            self.logout()
-            if self._newSession {   // We only nuke the session if we created it.
-                self._connectionSession.finishTasksAndInvalidate()   // Take off and nuke the site from orbit. It's the only way to be sure.
-            }
-            self._connectionSession = nil   // We had a strong reference, so we need to make sure we delete our reference.
-        }
-    }
     
     /* ################################################################## */
     // MARK: - Internal URLSessionDelegate Protocol Methods
@@ -1625,6 +1811,20 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      */
     public var myUserInfo: RVP_Cocoa_SDK_User? {
         return self._userInfo
+    }
+
+    /* ################################################################## */
+    /**
+     This is a special "settable" property with the center of a radius search.
+     If the object already has a "distance" property returned from the server,
+     this is ignored. Otherwise, if it is provided, and the object has a long/lat,
+     the "distance" read-only property will return a Vincenty's Formulae distance
+     in Kilometers from this center.
+     */
+    public var searchLocation: CLLocationCoordinate2D? {
+        didSet {
+            print("searchLocation is now \(String(describing: searchLocation))")
+        }
     }
 
     /* ################################################################## */
@@ -1799,7 +1999,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      - parameter inIntegerIDs: An Array of Int, with the data database IDs of the data database objects Requested.
      - parameter andPlugin: An optional String, with the required plugin ("people", "places" or "things"). If nil, then the baseline plugin is invoked, which will fetch any object, regardless of plugin.
      */
-    public func fetchDataItemsByIDs(_ inIntegerIDs: [Int], andPlugin inPlugin: String? = "baseline" ) {
+    public func fetchDataItemsByIDs(_ inIntegerIDs: [Int], andPlugin inPlugin: String? = "baseline") {
         if let plugin = inPlugin, "baseline" != plugin {    // nil is "baseline".
             self._fetchDataItems(inIntegerIDs, plugin: plugin)
         } else {
@@ -1814,6 +2014,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      - parameter inIDArray: An Array of Int, with the data database IDs of the place objects Requested.
      */
     public func fetchBaselineObjectsByID(_ inIDArray: [Int]) {
+        self.searchLocation = nil
         self.fetchDataItemsByIDs(inIDArray)
     }
 
@@ -1824,6 +2025,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      - parameter inPlaceIDArray: An Array of Int, with the data database IDs of the place objects Requested.
      */
     public func fetchPlaces(_ inPlaceIDArray: [Int]) {
+        self.searchLocation = nil
         self.fetchDataItemsByIDs(inPlaceIDArray, andPlugin: "places")
     }
 
@@ -1834,6 +2036,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      - parameter inUserIntegerIDArray: An Array of Int, with the data database IDs of the user objects Requested.
      */
     public func fetchUsers(_ inUserIntegerIDArray: [Int]) {
+        self.searchLocation = nil
         self.fetchDataItemsByIDs(inUserIntegerIDArray, andPlugin: "people")
     }
     
@@ -1844,6 +2047,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      - parameter inThingIntegerIDArray: An Array of Int, with the data database IDs of the thing objects Requested.
      */
     public func fetchThings(_ inThingIntegerIDArray: [Int]) {
+        self.searchLocation = nil
         self.fetchDataItemsByIDs(inThingIntegerIDArray, andPlugin: "things")
     }
     
@@ -1853,7 +2057,8 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      
      - parameter inKeys: An Array of String, with the thing keys.
      */
-    public func fetchThings(_ inKeys: [String] ) {
+    public func fetchThings(_ inKeys: [String]) {
+        self.searchLocation = nil
         self._fetchThings(inKeys)
     }
 
@@ -1864,6 +2069,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      - parameter inLoginIntegerIDArray: An Array of Int, with the security database IDs of the login objects Requested.
      */
     public func fetchLogins(_ inLoginIntegerIDArray: [Int]) {
+        self.searchLocation = nil
         self._fetchLoginItems(inLoginIntegerIDArray)
     }
 
@@ -1874,6 +2080,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      - parameter inLoginStringIDArray: An Array of String, with the string login IDs of the login objects Requested.
      */
     public func fetchLogins(_ inLoginStringIDArray: [String]) {
+        self.searchLocation = nil
         self._fetchLoginItems(inLoginStringIDArray)
     }
     
@@ -1895,24 +2102,26 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
 
      - parameter inTagValues:   This is an optional String-key Dictionary, with the key being any one of these values (on the same line means it must be one of the values). The order is tag, places, people, things:
                                 The value must be a String, but, in some cases, it may be a string representation of an integer.
-                                It is also possible for the value to be an array of String. In this case, it is a list of acceptable values (OR search).
-                                The values are case-insensitive.
+                                The values can use SQL-style wildcards (%) and are case-insensitive.
                                 If the object has one of its tags with a matching string (and the user has permission), it may be added to the returned set.
                                 Despite the plugin-specific keys, the search will search the tag position of all records, so specifying a givenName of "Billings" will also return any Place object that has a "town" of "Billings".
                                 If this is not specified, or is empty, then all results will be returned.
                                 In order to be considered in a location-based search (anLocation is set to a location), then the objects need to have a lat/long value assigned.
-     
+                                if a value in inTagValues is an empty String (""), then the search will search explicitly for objects that do not have a value in that tag.
+                                if a value in inTagValues has only a wildcard ("%"), then that means that only objects that have non-empty values of that tag will be returned; regardless of the content of the tag.
+
      - parameter andLocation:   This is a tuple with the following structure:
                                     **coords** This is a required CLLocationCoordinate2D struct, with a latitude and longitude.
-                                    **radiusInKm** This is an optional CLLocationDistance (Double) number, with a requested radius (in kilometers). If autoRadiusThreshold is set, and greater than zero, then this is a "maximum" radius, and is required.
+                                    **radiusInKm** This is a CLLocationDistance (Double) number, with a requested radius (in kilometers). If autoRadiusThreshold is set, and greater than zero, then this is a "maximum" radius. If the auto radius threshold is not specified, this is the full radius.
                                     **autoRadiusThreshold** This is an optional Int, with a "threshold" number of results to be returned in an "auto-radius hunt."
                                         This means that the SDK will search from the "coords" location, out, in progressively widening circles, until it either gets *at least* the number in this value, or reaches the maximum radius in "radiusInKm."
-                                        If this is specified, the "radiusInKm" is required, and specifies the maximum radius to search.
+                                        If this is specified, the "radiusInKm" specifies the maximum radius to search. At the end of that search, any resources found will be returned, even if they are fewer than requested.
      
      - parameter withPlugin:    This is an optional String. It can specify that only a certain plugin will be searched. For the default plugins, this can only be "people", "places" and "things." If not specified, then the "baseline" plugin will be searched (returns all types).
      */
-    public func fetchObjectsByString(_ inTagValues: [String: Any]?, andLocation inLocation: LocationSpecification! = nil, withPlugin inPlugin: String = "baseline") {
-        let searchStrings = type(of: self)._sortOutStrings(inTagValues, forPlugin: inPlugin) // First, we sort out any search strings the caller provided.
+    public func fetchObjectsByString(_ inTagValues: [String: String]?, andLocation inLocation: LocationSpecification! = nil, withPlugin inPlugin: String = "baseline") {
+        self.searchLocation = inLocation?.coords
+        self._fetchObjectsByString(type(of: self)._sortOutStrings(inTagValues, forPlugin: inPlugin), andLocation: inLocation, withPlugin: inPlugin, maxRadiusInKm: inLocation.radiusInKm)
     }
     
     /* ################################################################## */

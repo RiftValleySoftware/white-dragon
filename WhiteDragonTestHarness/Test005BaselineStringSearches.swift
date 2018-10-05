@@ -23,11 +23,29 @@ import UIKit
 import MapKit
 
 class Test005BaselineStringSearches: TestBaseViewController {
-    typealias BaselineValue = (key: String, value: Any)
+    struct SearchStructure {
+        var tags: [String: String]
+        var location: RVP_Cocoa_SDK.LocationSpecification
+        var plugin: String
+    }
     
     override var presets: [(name: String, values: [Any])] {
-        return  [(name: "NULL", values: [])
-                ]
+        var retArray: [(name: String, values: [Any])] = []
+        
+        var mdAdminObject: (name: String, values: [Any]) {
+            let mdAdminLocation = RVP_Cocoa_SDK.LocationSpecification(  coords: CLLocationCoordinate2D(latitude: 39.310103, longitude: -76.598405),
+                                                                        radiusInKm: 10.0,
+                                                                        autoRadiusThreshold: 2)
+            let mdAdminObject = SearchStructure(    tags: [:],
+                                                    location: mdAdminLocation,
+                                                    plugin: "baseline")
+            
+            return (name: "MDAdmin (Location)", values: [mdAdminObject])
+        }
+        
+        retArray.append(mdAdminObject)
+        
+        return  retArray
     }
     
     /* ################################################################## */
@@ -38,6 +56,13 @@ class Test005BaselineStringSearches: TestBaseViewController {
         if let sdkInstance = self.mySDKTester?.sdkInstance {
             self.activityScreen?.isHidden = false
             let row = self.objectListPicker.selectedRow(inComponent: 0)
+            if let searchParams = self.presets[row].values as? [SearchStructure] {
+                let tags = searchParams[0].tags
+                let location = searchParams[0].location
+                let plugin = searchParams[0].plugin
+                
+                sdkInstance.fetchObjectsByString(tags, andLocation: location, withPlugin: plugin)
+            }
         }
     }
 }

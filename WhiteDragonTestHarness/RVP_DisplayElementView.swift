@@ -579,14 +579,20 @@ class RVP_DisplayElementView: UIView, AVAudioPlayerDelegate {
                         self.addItemLabel(label: key, value: String(intVal))
                     } else if let floatVal = value as? Float {
                         self.addItemLabel(label: key, value: String(floatVal))
+                    } else if let doubleVal = value as? Double {
+                        self.addItemLabel(label: key, value: String(doubleVal))
                     } else if let locVal = value as? CLLocationCoordinate2D {
                         self.addItemLabel(label: key, value: "(" + String(locVal.latitude) + "," + String(locVal.longitude) + ")")
                     } else if let intArrayVal = value as? [Int] {
                         self.addItemLabel(label: key, value: intArrayVal.map(String.init).joined(separator: ","))
                     } else if let floatArrayVal = value as? [Float] {
                         self.addItemLabel(label: key, value: floatArrayVal.map(String.init).joined(separator: ","))
+                    } else if let doubleArrayVal = value as? [Double] {
+                        self.addItemLabel(label: key, value: doubleArrayVal.map(String.init).joined(separator: ","))
                     } else if let stringArrayVal = value as? [String] {
                         self.addItemLabel(label: key, value: "'" + stringArrayVal.joined(separator: "','") + "'")
+                    } else {
+                        print("Unhandled: \(String(describing: value))")
                     }
                 }
             }
