@@ -34,13 +34,13 @@ class Test005BaselineStringSearches: TestBaseViewController {
         
         var mdAdminObject: (name: String, values: [Any]) {
             let mdAdminLocation = RVP_Cocoa_SDK.LocationSpecification(  coords: CLLocationCoordinate2D(latitude: 39.310103, longitude: -76.598405),
-                                                                        radiusInKm: 10.0,
-                                                                        autoRadiusThreshold: 2)
-            let mdAdminObject = SearchStructure(    tags: [:],
+                                                                        radiusInKm: 20.0,
+                                                                        autoRadiusThreshold: 1)
+            let mdAdminObject = SearchStructure(    tags: ["name": "MDAdmin"],
                                                     location: mdAdminLocation,
                                                     plugin: "baseline")
             
-            return (name: "MDAdmin (Location)", values: [mdAdminObject])
+            return (name: "MDAdmin", values: [mdAdminObject])
         }
         
         retArray.append(mdAdminObject)

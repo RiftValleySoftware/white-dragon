@@ -27,7 +27,27 @@ import UIKit
 /**
  */
 class RVP_ResultListNavController: UINavigationController {
-    var resultObjectList: [A_RVP_Cocoa_SDK_Object] = []
+    var resultObjectList: [A_RVP_Cocoa_SDK_Object] = [] {
+        didSet {
+            self.resultObjectList = self.resultObjectList.sorted {
+                var ret = false
+                
+                if let distanceA = ($0 as? A_RVP_Cocoa_SDK_Data_Object)?.distance, let distanceB = ($1 as? A_RVP_Cocoa_SDK_Data_Object)?.distance {
+                    ret = distanceA < distanceB
+                }
+                
+                if !ret {
+                    ret = $0.id < $1.id
+                }
+                
+                if !ret {   // Security objects get listed before data objects
+                    ret = $0 is A_RVP_Cocoa_SDK_Security_Object && $1 is A_RVP_Cocoa_SDK_Data_Object
+                }
+                
+                return ret
+            }
+        }
+    }
 }
 
 /* ###################################################################################################################################### */
@@ -68,21 +88,6 @@ class RVP_ResultListViewController: UIViewController, UITableViewDelegate, UITab
         self.dismiss(animated: false, completion: nil)
     }
     
-    /* ################################################################## */
-    /**
-     */
-    private func _sortList() {
-        self.resultObjectList = self.resultObjectList.sorted {
-            var ret = $0.id < $1.id
-            
-            if !ret {   // Security objects get listed before data objects
-                ret = $0 is A_RVP_Cocoa_SDK_Security_Object && $1 is A_RVP_Cocoa_SDK_Data_Object
-            }
-            
-            return ret
-        }
-    }
-
     /* ################################################################## */
     /**
      */
@@ -127,8 +132,9 @@ class RVP_ResultListViewController: UIViewController, UITableViewDelegate, UITab
      */
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.navigationBar.isHidden = false
-        self._sortList()
         self.resultListTableView.reloadData()
+        let title = "\(self.resultObjectList.count) RESULTS"
+        self.navigationItem.title = title
     }
     
     /* ################################################################## */
@@ -155,7 +161,7 @@ class RVP_ResultListViewController: UIViewController, UITableViewDelegate, UITab
     /**
      */
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var ret: UITableViewCell!   // If we don't have anything, then this will cause the method to crash; which is what we want. It shouldn't be called if we have nothing.
+        let ret = UITableViewCell(style: UITableViewCell.CellStyle.default, reuseIdentifier: "")
         
         if 0 < self.resultObjectList.count, indexPath.row < self.resultObjectList.count {
             let rowObject = self.resultObjectList[indexPath.row]
@@ -172,7 +178,7 @@ class RVP_ResultListViewController: UIViewController, UITableViewDelegate, UITab
             let height: CGFloat = listLabel.oneLineHeight
             var frame = tableView.bounds
             frame.size.height = height
-            ret = UITableViewCell(frame: frame)
+            ret.frame = frame
             ret.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: ((0 == indexPath.row % 2) ? 0 : 0.05))
             self._applyConstraints(thisElement: listLabel, height: height, container: ret)
         }

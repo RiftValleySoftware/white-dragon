@@ -371,6 +371,8 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
             
             for tup in tagValues {
                 switch tup.key {
+                case "name":
+                    ret?["name"] = tup.value
                 case "tag0", "venue":
                     ret?["tag0"] = tup.value
                 case "tag1", "streetAddress", "surname", "description":
@@ -712,16 +714,16 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
         var handled = false // If we get any IDs, then we have something...
         
         if let peopleIDs = inResultDictionary["people"], !peopleIDs.isEmpty {
-            self.fetchDataItemsByIDs(peopleIDs, andPlugin: "people")
+            self.fetchDataItemsByIDs(peopleIDs, andPlugin: "people", dontNukeTheLocation: true)
             handled = true
         }
         
         if let placeIDs = inResultDictionary["places"], !placeIDs.isEmpty {
-            self.fetchDataItemsByIDs(placeIDs, andPlugin: "places")
+            self.fetchDataItemsByIDs(placeIDs, andPlugin: "places", dontNukeTheLocation: true)
         }
         
         if let thingIDs = inResultDictionary["things"], !thingIDs.isEmpty {
-            self.fetchDataItemsByIDs(thingIDs, andPlugin: "things")
+            self.fetchDataItemsByIDs(thingIDs, andPlugin: "things", dontNukeTheLocation: true)
         }
         
         if !handled {
@@ -1379,7 +1381,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
             plugin += "/?show_details&"
         }
         
-        if let location = inLocation {
+        if let location = currentLocation {
             tagValues["latitude"] = String(location.coords.latitude)
             tagValues["longitude"] = String(location.coords.longitude)
             tagValues["radius"] = String(location.radiusInKm)
@@ -1821,11 +1823,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      the "distance" read-only property will return a Vincenty's Formulae distance
      in Kilometers from this center.
      */
-    public var searchLocation: CLLocationCoordinate2D? {
-        didSet {
-            print("searchLocation is now \(String(describing: searchLocation))")
-        }
-    }
+    public var searchLocation: CLLocationCoordinate2D?
 
     /* ################################################################## */
     // MARK: - Public Instance Methods
@@ -1999,7 +1997,10 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      - parameter inIntegerIDs: An Array of Int, with the data database IDs of the data database objects Requested.
      - parameter andPlugin: An optional String, with the required plugin ("people", "places" or "things"). If nil, then the baseline plugin is invoked, which will fetch any object, regardless of plugin.
      */
-    public func fetchDataItemsByIDs(_ inIntegerIDs: [Int], andPlugin inPlugin: String? = "baseline") {
+    public func fetchDataItemsByIDs(_ inIntegerIDs: [Int], andPlugin inPlugin: String? = "baseline", dontNukeTheLocation inDontNuke: Bool = false) {
+        if !inDontNuke {
+            self.searchLocation = nil   // We have the option of not nuking if we are fetching as part of a location/radius search.
+        }
         if let plugin = inPlugin, "baseline" != plugin {    // nil is "baseline".
             self._fetchDataItems(inIntegerIDs, plugin: plugin)
         } else {
@@ -2014,7 +2015,6 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      - parameter inIDArray: An Array of Int, with the data database IDs of the place objects Requested.
      */
     public func fetchBaselineObjectsByID(_ inIDArray: [Int]) {
-        self.searchLocation = nil
         self.fetchDataItemsByIDs(inIDArray)
     }
 
@@ -2025,7 +2025,6 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      - parameter inPlaceIDArray: An Array of Int, with the data database IDs of the place objects Requested.
      */
     public func fetchPlaces(_ inPlaceIDArray: [Int]) {
-        self.searchLocation = nil
         self.fetchDataItemsByIDs(inPlaceIDArray, andPlugin: "places")
     }
 
@@ -2036,7 +2035,6 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      - parameter inUserIntegerIDArray: An Array of Int, with the data database IDs of the user objects Requested.
      */
     public func fetchUsers(_ inUserIntegerIDArray: [Int]) {
-        self.searchLocation = nil
         self.fetchDataItemsByIDs(inUserIntegerIDArray, andPlugin: "people")
     }
     
@@ -2047,7 +2045,6 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      - parameter inThingIntegerIDArray: An Array of Int, with the data database IDs of the thing objects Requested.
      */
     public func fetchThings(_ inThingIntegerIDArray: [Int]) {
-        self.searchLocation = nil
         self.fetchDataItemsByIDs(inThingIntegerIDArray, andPlugin: "things")
     }
     
@@ -2061,7 +2058,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
         self.searchLocation = nil
         self._fetchThings(inKeys)
     }
-
+    
     /* ################################################################## */
     /**
      This method will initiate a fetch of login objects, based upon a list of IDs.
@@ -2069,7 +2066,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      - parameter inLoginIntegerIDArray: An Array of Int, with the security database IDs of the login objects Requested.
      */
     public func fetchLogins(_ inLoginIntegerIDArray: [Int]) {
-        self.searchLocation = nil
+        self.searchLocation = nil   // This will always nil out if we are fetching logins.
         self._fetchLoginItems(inLoginIntegerIDArray)
     }
 
@@ -2080,7 +2077,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      - parameter inLoginStringIDArray: An Array of String, with the string login IDs of the login objects Requested.
      */
     public func fetchLogins(_ inLoginStringIDArray: [String]) {
-        self.searchLocation = nil
+        self.searchLocation = nil   // This will always nil out if we are fetching logins.
         self._fetchLoginItems(inLoginStringIDArray)
     }
     

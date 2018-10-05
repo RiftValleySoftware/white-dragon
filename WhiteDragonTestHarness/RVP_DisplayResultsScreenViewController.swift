@@ -201,26 +201,9 @@ class RVP_DisplayResultsScreenViewController: UIViewController, UIDocumentIntera
         }
         
         if self._fetchingChildren {
-            self._childrenArray = resultsArray.sorted {
-                var ret = $0.id < $1.id
-                
-                if !ret {   // Security objects get listed before data objects
-                    ret = $0 is A_RVP_Cocoa_SDK_Security_Object && $1 is A_RVP_Cocoa_SDK_Data_Object
-                }
-                
-                return ret
-            }
+            self._childrenArray = resultsArray
         } else {
-            self.resultsArray = resultsArray.sorted {
-                var ret = $0.id < $1.id
-                
-                if !ret {   // Security objects get listed before data objects
-                    ret = $0 is A_RVP_Cocoa_SDK_Security_Object && $1 is A_RVP_Cocoa_SDK_Data_Object
-                }
-                
-                return ret
-            }
-            
+            self.resultsArray = resultsArray
             self.resultsScrollView.results = self.resultsArray
         }
     }

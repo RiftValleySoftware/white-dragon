@@ -119,7 +119,9 @@ public class A_RVP_Cocoa_SDK_Data_Object: A_RVP_Cocoa_SDK_Object {
     
     /* ################################################################## */
     /**
-     - returns a Dictionary of Arrays of Int, with the IDs (not objects) of "children" records. The possible Dictionary keys are "people", "places" and "things". Each of the values will be an Array of Int, with the Children IDs. READ ONLY
+     This reyturns a Dictionary of Arrays of Int, with the IDs (not objects) of "children" records.
+     The possible Dictionary keys are "people", "places" and "things".
+     Each of the values will be an Array of Int, with the Children IDs. READ ONLY
      */
     public var childrenIDs: [String: [Int]] {
         var ret: [String: [Int]] = [:]
@@ -151,15 +153,13 @@ public class A_RVP_Cocoa_SDK_Data_Object: A_RVP_Cocoa_SDK_Object {
     /**
      This will return any distance sent by the server, or one calculated "on the spot,"
      if there was no server distance, the object has a location, and the searchLocation
-     instance property was set.
-     
-     - returns the distance, if provided. READ ONLY
+     instance property was set. Otherwise, it returns nil. READ ONLY
      */
     public var distance: CLLocationDistance? {
         var ret: CLLocationDistance?
         
         // If the server returned a distance, we always use that.
-        if let distance = self._myData["distance"] as? Double {
+        if let distance = self._myData["distance"] as? CLLocationDistance {
             ret = distance
         } else if let loca = self.location, let searchCent = self.searchLocation {  // Otherwise, use CoreLocation to calculate the distance.
             let location = CLLocation(latitude: loca.latitude, longitude: loca.longitude)
@@ -186,7 +186,9 @@ public class A_RVP_Cocoa_SDK_Data_Object: A_RVP_Cocoa_SDK_Object {
 
     /* ################################################################## */
     /**
-     - returns a "fuzz factor," which is the number of Kilometers of "slop" that location obfuscation uses. Be aware that it may not be available, in which case, this will be nil. If you set (or clear) the fuzz factor, the "isFuzzy" value may be changed.
+     This returns a "fuzz factor," which is the number of Kilometers of "slop" that location obfuscation uses.
+     Be aware that it may not be available, in which case, this will be nil.
+     If you set (or clear) the fuzz factor, the "isFuzzy" value may be changed.
      */
     public var fuzzFactor: Double? {
         get {
@@ -260,7 +262,7 @@ public class A_RVP_Cocoa_SDK_Data_Object: A_RVP_Cocoa_SDK_Object {
      This is a special "settable" property with the center of a radius search.
      If the object already has a "distance" property returned from the server,
      this is ignored. Otherwise, if it is provided, and the object has a long/lat,
-     the "distance" read-only property will return a Vincenty's Formulae distance
+     the "distance" read-only property will return a CoreLocation-calculated distance
      in Kilometers from this center.
      */
     public var searchLocation: CLLocationCoordinate2D? {
