@@ -3,3 +3,5 @@ xcodebuild_arguments:
     - "WhiteDragon.xcodeproj"
     - "-scheme"
     - "WhiteDragon"
+    - "-UseModernBuildSystem"
+    - "NO"
