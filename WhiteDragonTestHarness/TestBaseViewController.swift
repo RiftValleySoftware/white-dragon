@@ -22,6 +22,11 @@
 import UIKit
 import MapKit
 
+/* ###################################################################################################################################### */
+// MARK: - Main Class -
+/* ###################################################################################################################################### */
+/**
+ */
 class TestBaseViewController: UIViewController, RVP_Cocoa_SDK_Delegate, UIPickerViewDataSource, UIPickerViewDelegate {
     private var _spacing: [CGFloat] = [0, 100]
     private let _buttonStrings = ["LOGIN AS:", "LOGOUT"]
