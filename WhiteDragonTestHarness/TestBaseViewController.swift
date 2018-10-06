@@ -45,6 +45,9 @@ class TestBaseViewController: UIViewController, RVP_Cocoa_SDK_Delegate, UIPicker
     @IBOutlet weak var loginPickerView: UIPickerView!
     @IBOutlet weak var specificationItemsConstraint: NSLayoutConstraint!
     
+    /* ################################################################## */
+    /**
+     */
     var logins: [String] {
         if "sdk_1" == self.dbPrefix || "sdk_4" == self.dbPrefix {
             return ["admin", "MDAdmin", "VAAdmin", "DCAdmin", "WVAdmin", "DEAdmin", "MainAdmin", "Dilbert", "Wally", "Ted", "Alice", "Tina", "PHB", "MeLeet"]
@@ -53,6 +56,9 @@ class TestBaseViewController: UIViewController, RVP_Cocoa_SDK_Delegate, UIPicker
         return ["admin"]
     }
     
+    /* ################################################################## */
+    /**
+     */
     var presets: [(name: String, values: [Any])] {
         return []
     }
