@@ -31,7 +31,7 @@ public class RVP_Cocoa_SDK_Login: A_RVP_Cocoa_SDK_Security_Object {
     // MARK: - Public Methods and Calulated properties -
     /* ################################################################## */
     /**
-     - returns all of the values for this object, as a Dictionary.
+     - returns all of the values for this object, as a Dictionary. READ ONLY
      */
     override public var asDictionary: [String: Any?] {
         var ret = super.asDictionary

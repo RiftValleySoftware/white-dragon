@@ -46,7 +46,7 @@ public class A_RVP_Cocoa_SDK_Object: NSObject {
     // MARK: - Public Methods and Calulated properties -
     /* ################################################################## */
     /**
-     - returns all of the values for this object, as a Dictionary.
+     - returns all of the values for this object, as a Dictionary. READ ONLY
      */
     public var asDictionary: [String: Any?] {
         var ret: [String: Any?] = ["id": self.id, "name": self.name, "isWriteable": self.isWriteable, "isDirty": self.isDirty]
@@ -243,7 +243,7 @@ public class A_RVP_Cocoa_SDK_Object: NSObject {
     
     /* ################################################################## */
     /**
-     - returns the SDK instance that "owns" this instance.
+     - returns the SDK instance that "owns" this instance. READ ONLY
      */
     public var sdkInstance: RVP_Cocoa_SDK? {
         return self._sdkInstance

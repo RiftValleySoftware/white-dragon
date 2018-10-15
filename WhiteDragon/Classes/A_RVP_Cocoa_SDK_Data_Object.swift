@@ -60,7 +60,7 @@ public class A_RVP_Cocoa_SDK_Data_Object: A_RVP_Cocoa_SDK_Object {
     // MARK: - Public Methods and Calulated properties -
     /* ################################################################## */
     /**
-     - returns all of the values for this object, as a Dictionary.
+     - returns all of the values for this object, as a Dictionary. READ ONLY
      */
     override public var asDictionary: [String: Any?] {
         var ret = super.asDictionary
@@ -102,7 +102,7 @@ public class A_RVP_Cocoa_SDK_Data_Object: A_RVP_Cocoa_SDK_Object {
     
     /* ################################################################## */
     /**
-     - returns the payload. If possible. The payload will be expressed as a Data object. The type will be the MIME type.
+     - returns the payload. If possible. The payload will be expressed as a Data object. The type will be the MIME type. READ ONLY
      */
     public var payload: RVP_Cocoa_SDK_Payload? {
         var ret: RVP_Cocoa_SDK_Payload?

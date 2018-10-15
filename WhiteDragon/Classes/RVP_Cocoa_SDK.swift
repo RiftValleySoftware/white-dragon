@@ -184,7 +184,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
     /* ################################################################## */
     /**
      Returns a String, with the server secret and API Key already in URI form.
-     This should be appended to the URI, but be aware that it is not preceded by an ampersand (&) or question mark (?). You need to provide those, yourself.
+     This should be appended to the URI, but be aware that it is not preceded by an ampersand (&) or question mark (?). You need to provide those, yourself. READ ONLY
      */
     private var _loginParameters: String {
         if let secret = self._server_secret.urlEncodedString {
@@ -1331,7 +1331,9 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      - parameter inTagValues: This is a pre-formatted Dictionary of keys and values
      - parameter andLocation: This is an optional location/radius specifier. If not specified, location will not be considered.
      - parameter withPlugin: This is the plugin to search. It can be: "baseline", "people", "places", "things"
-     - parameter maxRadiusInKm: This is a "maximum radius." If left at 0, then only one radius search will be done. If more than zero, and more than the radius in the location, then the radius will be increaed by the auto-radius step size, and another call will be made, if the threshold has not been satisfied. If no location is given, this is ignored.
+     - parameter maxRadiusInKm: This is a "maximum radius." If left at 0, then only one radius search will be done.
+                                If more than zero, and more than the radius in the location, then the radius will be increaed by the auto-radius step size, and another call will be made,
+                                if the threshold has not been satisfied. If no location is given, this is ignored.
      */
     private func _fetchObjectsByString(_ inTagValues: [String: String], andLocation inLocation: LocationSpecification? = nil, withPlugin inPlugin: String, maxRadiusInKm inMaxRadiusInKm: Double = 0) {
         var plugin = inPlugin
