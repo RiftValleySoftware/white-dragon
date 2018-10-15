@@ -570,7 +570,7 @@ class RVP_DisplayElementView: UIView, AVAudioPlayerDelegate {
             if let value = tup.value {
                 let key = tup.key
                 
-                if !(["id", "name", "isDirty", "isWriteable", "readToken", "writeToken", "lastAccess", "children", "loginID", "userObjectID", "location", "rawLocation", "payload"]).contains(key) {
+                if !(["id", "name", "isDirty", "isWriteable", "readToken", "writeToken", "lastAccess", "childrenIDs", "loginID", "userObjectID", "location", "rawLocation", "payload"]).contains(key) {
                     if let strVal = value as? String {
                         self.addItemLabel(label: key, value: strVal)
                     } else if let boolVal = value as? Bool {
@@ -592,7 +592,7 @@ class RVP_DisplayElementView: UIView, AVAudioPlayerDelegate {
                     } else if let stringArrayVal = value as? [String] {
                         self.addItemLabel(label: key, value: "'" + stringArrayVal.joined(separator: "','") + "'")
                     } else {
-                        print("Unhandled: \(String(describing: value))")
+                        print("Unhandled for \(key): \(String(describing: value))")
                     }
                 }
             }
