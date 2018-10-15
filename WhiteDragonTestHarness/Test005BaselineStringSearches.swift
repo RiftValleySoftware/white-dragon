@@ -24,9 +24,9 @@ import MapKit
 
 class Test005BaselineStringSearches: TestBaseViewController {
     struct SearchStructure {
-        var tags: [String: String]
-        var location: RVP_Cocoa_SDK.LocationSpecification
-        var plugin: String
+        var tags: [String: String] = [:]
+        var location: RVP_Cocoa_SDK.LocationSpecification?
+        var plugin: String = ""
     }
     
     override var presets: [(name: String, values: [Any])] {
@@ -43,8 +43,20 @@ class Test005BaselineStringSearches: TestBaseViewController {
             return (name: "MDAdmin", values: [mdAdminObject])
         }
         
+        let mdAdminLocation = RVP_Cocoa_SDK.LocationSpecification(  coords: CLLocationCoordinate2D(latitude: 39.310103, longitude: -76.598405),
+                                                                    radiusInKm: 20.0,
+                                                                    autoRadiusThreshold: 1)
+        var imagesObject: (name: String, values: [Any]) {
+            let imagesObject = SearchStructure(    tags: ["tag1": "image"],
+                                                   location: nil,
+                                                   plugin: "baseline")
+            
+            return (name: "ImageThings", values: [imagesObject])
+        }
+
         retArray.append(mdAdminObject)
-        
+        retArray.append(imagesObject)
+
         return  retArray
     }
     
@@ -56,10 +68,10 @@ class Test005BaselineStringSearches: TestBaseViewController {
         if let sdkInstance = self.mySDKTester?.sdkInstance {
             self.activityScreen?.isHidden = false
             let row = self.objectListPicker.selectedRow(inComponent: 0)
-            if let searchParams = self.presets[row].values as? [SearchStructure] {
-                let tags = searchParams[0].tags
-                let location = searchParams[0].location
-                let plugin = searchParams[0].plugin
+            if let param = (self.presets[row].values as? [SearchStructure])?[0] {
+                let tags = param.tags
+                let location = param.location
+                let plugin = param.plugin
                 
                 sdkInstance.fetchObjectsByString(tags, andLocation: location, withPlugin: plugin)
             }

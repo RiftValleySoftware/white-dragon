@@ -1333,7 +1333,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      - parameter withPlugin: This is the plugin to search. It can be: "baseline", "people", "places", "things"
      - parameter maxRadiusInKm: This is a "maximum radius." If left at 0, then only one radius search will be done. If more than zero, and more than the radius in the location, then the radius will be increaed by the auto-radius step size, and another call will be made, if the threshold has not been satisfied. If no location is given, this is ignored.
      */
-    private func _fetchObjectsByString(_ inTagValues: [String: String], andLocation inLocation: LocationSpecification! = nil, withPlugin inPlugin: String, maxRadiusInKm inMaxRadiusInKm: Double = 0) {
+    private func _fetchObjectsByString(_ inTagValues: [String: String], andLocation inLocation: LocationSpecification? = nil, withPlugin inPlugin: String, maxRadiusInKm inMaxRadiusInKm: Double = 0) {
         var plugin = inPlugin
         var tagValues = inTagValues
         
@@ -1342,30 +1342,33 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
         var threshold: Int = 0
         // See if a valid max radius was specified.
         var maxRadius = inMaxRadiusInKm
+        
         var currentLocation = inLocation
+        
         if var location = currentLocation {
             if let thresh = location.autoRadiusThreshold, 0 < thresh {
                 threshold = thresh
                 // If we are in an auto-radius search, and are just beginning, then we start at the beginning with one step size.
                 if location.radiusInKm == inMaxRadiusInKm, 0 < inMaxRadiusInKm {
-                    currentLocation?.radiusInKm = self.autoRadiusStepSizeInKm
+                    location.radiusInKm = self.autoRadiusStepSizeInKm
                 } else if 0 == maxRadius {    // If we have no maximum size, then we are not doing an auto-radius.
                     threshold = 0
                 } else {    // Otherwise, One Step Beyond...
-                    currentLocation?.radiusInKm += self.autoRadiusStepSizeInKm
+                    location.radiusInKm += self.autoRadiusStepSizeInKm
                 }
-                if let radius = currentLocation?.radiusInKm {
-                    location.radiusInKm = radius
-                }
+                let radius = location.radiusInKm
+                location.radiusInKm = radius
             } else {
                 maxRadius = 0   // If we don't have a threshold, we don't have auto-radius.
                 threshold = 0
             }
             
-            if 0 > maxRadius || nil == currentLocation?.radiusInKm || ((currentLocation?.radiusInKm)! >= maxRadius) {   // If we are at the maximum, we're done.
+            if 0 > maxRadius || (location.radiusInKm >= maxRadius) {   // If we are at the maximum, we're done.
                 maxRadius = 0
                 threshold = 0
             }
+            
+            currentLocation! = location
         } else {
             maxRadius = 0   // Can't have a max radius with no location.
             threshold = 0
@@ -2086,7 +2089,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      This method starts a "generic" search, based upon the input given.
      
      Possible inTagValues keys are:
-     - "tag0", "venue" (you cannot directly search for the login ID of a user with this method, but you can look for a baseline tag0 value, which is the user login. Same for thing keys.)
+     - "tag0", "venue" (you cannot directly search for the login ID of a user with this method, but you can look for a baseline tag0 value, which is the user login as an Int. Same for thing keys, which are String.)
      - "tag1", "streetAddress", "surname", "description"
      - "tag2", "extraInformation", "middleName"
      - "tag3", "town", "givenName"
@@ -2103,22 +2106,23 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                                 If the object has one of its tags with a matching string (and the user has permission), it may be added to the returned set.
                                 Despite the plugin-specific keys, the search will search the tag position of all records, so specifying a givenName of "Billings" will also return any Place object that has a "town" of "Billings".
                                 If this is not specified, or is empty, then all results will be returned.
-                                In order to be considered in a location-based search (anLocation is set to a location), then the objects need to have a lat/long value assigned.
+                                In order to be considered in a location-based search (andLocation is set to a location), then the objects need to have a lat/long value assigned.
                                 if a value in inTagValues is an empty String (""), then the search will search explicitly for objects that do not have a value in that tag.
                                 if a value in inTagValues has only a wildcard ("%"), then that means that only objects that have non-empty values of that tag will be returned; regardless of the content of the tag.
 
      - parameter andLocation:   This is a tuple with the following structure:
-                                    **coords** This is a required CLLocationCoordinate2D struct, with a latitude and longitude.
-                                    **radiusInKm** This is a CLLocationDistance (Double) number, with a requested radius (in kilometers). If autoRadiusThreshold is set, and greater than zero, then this is a "maximum" radius. If the auto radius threshold is not specified, this is the full radius.
-                                    **autoRadiusThreshold** This is an optional Int, with a "threshold" number of results to be returned in an "auto-radius hunt."
+                                    - **coords** This is a required CLLocationCoordinate2D struct, with a latitude and longitude.
+                                    - **radiusInKm** This is a CLLocationDistance (Double) number, with a requested radius (in kilometers). If autoRadiusThreshold is set, and greater than zero, then this is a "maximum" radius. If the auto radius threshold is not specified, this is the full radius.
+                                    - **autoRadiusThreshold** This is an optional Int, with a "threshold" number of results to be returned in an "auto-radius hunt."
                                         This means that the SDK will search from the "coords" location, out, in progressively widening circles, until it either gets *at least* the number in this value, or reaches the maximum radius in "radiusInKm."
                                         If this is specified, the "radiusInKm" specifies the maximum radius to search. At the end of that search, any resources found will be returned, even if they are fewer than requested.
      
-     - parameter withPlugin:    This is an optional String. It can specify that only a certain plugin will be searched. For the default plugins, this can only be "people", "places" and "things." If not specified, then the "baseline" plugin will be searched (returns all types).
+     - parameter withPlugin:    This is an optional String. It can specify that only a certain plugin will be searched. For the default plugins, this can only be "baseline", "people", "places", and "things".
+                                If not specified, then the "baseline" plugin will be searched (returns all types).
      */
     public func fetchObjectsByString(_ inTagValues: [String: String]?, andLocation inLocation: LocationSpecification! = nil, withPlugin inPlugin: String = "baseline") {
         self.searchLocation = inLocation?.coords
-        self._fetchObjectsByString(type(of: self)._sortOutStrings(inTagValues, forPlugin: inPlugin), andLocation: inLocation, withPlugin: inPlugin, maxRadiusInKm: inLocation.radiusInKm)
+        self._fetchObjectsByString(type(of: self)._sortOutStrings(inTagValues, forPlugin: inPlugin), andLocation: inLocation, withPlugin: inPlugin, maxRadiusInKm: inLocation?.radiusInKm ?? 0)
     }
     
     /* ################################################################## */
