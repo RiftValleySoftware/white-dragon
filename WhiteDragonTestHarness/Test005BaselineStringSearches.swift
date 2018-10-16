@@ -35,6 +35,12 @@ class Test005BaselineStringSearches: TestBaseViewController {
         var tags: [String: String] = [:]
         var location: RVP_Cocoa_SDK.LocationSpecification?
         var plugin: String = ""
+        
+        init(tags: [String: String] = [:], location: RVP_Cocoa_SDK.LocationSpecification? = nil, plugin: String = "") {
+            self.tags = tags
+            self.location = location
+            self.plugin = plugin
+        }
     }
     
     /* ################################################################## */
@@ -62,11 +68,66 @@ class Test005BaselineStringSearches: TestBaseViewController {
                                                    location: nil,
                                                    plugin: "baseline")
             
-            return (name: "ImageThings", values: [imagesObject])
+            return (name: "Image Things", values: [imagesObject])
+        }
+        
+        var videosObject: (name: String, values: [Any]) {
+            let videosObject = SearchStructure(    tags: ["tag1": "video"],
+                                                   location: nil,
+                                                   plugin: "baseline")
+            
+            return (name: "Video Things", values: [videosObject])
+        }
+        
+        var churchesObject: (name: String, values: [Any]) {
+            let churchesObject = SearchStructure(    tags: ["venue": "%church%"],
+                                                     location: nil,
+                                                     plugin: "baseline")
+            
+            return (name: "Church Places", values: [churchesObject])
+        }
+        
+        var beastsOfNoNationsObject: (name: String, values: [Any]) {
+            let beastsOfNoNationsObject = SearchStructure(    tags: ["nation": ""],
+                                                              location: nil,
+                                                              plugin: "baseline")
+            
+            return (name: "Beasts of No Nations", values: [beastsOfNoNationsObject])
+        }
+        
+        var enoughObject: (name: String, values: [Any]) {
+            let enoughObject = SearchStructure(    tags: ["name": "%enough%"],
+                                                   location: nil,
+                                                   plugin: "baseline")
+            
+            return (name: "Enough in the Name", values: [enoughObject])
+        }
+        
+        var theObject: (name: String, values: [Any]) {
+            let theObject = SearchStructure(    tags: ["name": "%the%"],
+                                                location: nil,
+                                                plugin: "baseline")
+            
+            return (name: "The in the Name", values: [theObject])
+        }
+        
+        var anyTextObject: (name: String, values: [Any]) {
+            let anyTextObject = SearchStructure(    tags: ["tag9": "%"],
+                                                location: nil,
+                                                plugin: "baseline")
+            
+            return (name: "Anything in Tag 9", values: [anyTextObject])
         }
 
-        retArray.append(mdAdminObject)
-        retArray.append(imagesObject)
+        retArray.append(contentsOf: [mdAdminObject,
+                                     imagesObject,
+                                     videosObject,
+                                     churchesObject,
+                                     beastsOfNoNationsObject,
+                                     enoughObject,
+                                     theObject,
+                                     anyTextObject
+            ])
 
         return  retArray
     }
