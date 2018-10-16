@@ -2122,7 +2122,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      - parameter withPlugin:    This is an optional String. It can specify that only a certain plugin will be searched. For the default plugins, this can only be "baseline", "people", "places", and "things".
                                 If not specified, then the "baseline" plugin will be searched (returns all types).
      */
-    public func fetchObjectsByString(_ inTagValues: [String: String]?, andLocation inLocation: LocationSpecification! = nil, withPlugin inPlugin: String = "baseline") {
+    public func fetchObjectsUsingCriteria(_ inTagValues: [String: String]? = nil, andLocation inLocation: LocationSpecification! = nil, withPlugin inPlugin: String = "baseline") {
         self.searchLocation = inLocation?.coords
         self._fetchObjectsByString(type(of: self)._sortOutStrings(inTagValues, forPlugin: inPlugin), andLocation: inLocation, withPlugin: inPlugin, maxRadiusInKm: inLocation?.radiusInKm ?? 0)
     }

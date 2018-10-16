@@ -145,7 +145,7 @@ class Test005BaselineStringSearches: TestBaseViewController {
                 let location = param.location
                 let plugin = param.plugin
                 
-                sdkInstance.fetchObjectsByString(tags, andLocation: location, withPlugin: plugin)
+                sdkInstance.fetchObjectsUsingCriteria(tags, andLocation: location, withPlugin: plugin)
             }
         }
     }

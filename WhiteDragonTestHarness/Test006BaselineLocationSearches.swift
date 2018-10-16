@@ -28,6 +28,9 @@ import MapKit
 /**
  */
 class Test006BaselineLocationSearches: TestBaseViewController {
+    @IBOutlet weak var autoRadiusSegmentedSwitch: UISegmentedControl!
+    @IBOutlet weak var fixedRadiusSegmentedSwitch: UISegmentedControl!
+    
     /* ################################################################## */
     /**
      */
@@ -49,8 +52,71 @@ class Test006BaselineLocationSearches: TestBaseViewController {
             self.activityScreen?.isHidden = false
             let row = self.objectListPicker.selectedRow(inComponent: 0)
             if let objectLocation = self.presets[row].values as? [CLLocationDegrees] {
-                let locationCoords = CLLocationCoordinate2D(latitude: objectLocation[0], longitude: objectLocation[1])
+                var autoRadiusThreshold = 0
+                
+                switch self.autoRadiusSegmentedSwitch.selectedSegmentIndex {
+                case 1:
+                    autoRadiusThreshold = 1
+                case 2:
+                    autoRadiusThreshold = 5
+                case 3:
+                    autoRadiusThreshold = 10
+                case 4:
+                    autoRadiusThreshold = 20
+                case 5:
+                    autoRadiusThreshold = 100
+                default:
+                    autoRadiusThreshold = 0
+                }
+                
+                var radiusInKm: CLLocationDistance = 0
+                
+                switch self.fixedRadiusSegmentedSwitch.selectedSegmentIndex {
+                case 0:
+                    radiusInKm = 0.25
+                case 1:
+                    radiusInKm = 0.5
+                case 2:
+                    radiusInKm = 2
+                case 3:
+                    radiusInKm = 10
+                case 4:
+                    radiusInKm = 20
+                case 5:
+                    radiusInKm = 100
+                default:
+                    radiusInKm = 0
+                }
+                
+                let location = RVP_Cocoa_SDK.LocationSpecification( coords: CLLocationCoordinate2D(latitude: objectLocation[0], longitude: objectLocation[1]),
+                                                                    radiusInKm: radiusInKm,
+                                                                    autoRadiusThreshold: autoRadiusThreshold)
+                sdkInstance.fetchObjectsUsingCriteria(andLocation: location)
             }
         }
+    }
+    
+    /* ################################################################## */
+    /**
+     */
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.autoRadiusSegmentedSwitch.selectedSegmentIndex = 0
+        self.fixedRadiusSegmentedSwitch.selectedSegmentIndex = 0
+        self.fixedRadiusSegmentedSwitch.isEnabled = true
+    }
+    
+    /* ################################################################## */
+    /**
+     */
+    @IBAction func autoRadiusSwitchChanged(_ sender: UISegmentedControl) {
+        self.clearResults()
+    }
+    
+    /* ################################################################## */
+    /**
+     */
+    @IBAction func fixedRadiusSwitchChanged(_ sender: UISegmentedControl) {
+        self.clearResults()
     }
 }
