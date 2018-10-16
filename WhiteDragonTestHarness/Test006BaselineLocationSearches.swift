@@ -22,7 +22,15 @@
 import UIKit
 import MapKit
 
+/* ###################################################################################################################################### */
+// MARK: - Test Class -
+/* ###################################################################################################################################### */
+/**
+ */
 class Test006BaselineLocationSearches: TestBaseViewController {
+    /* ################################################################## */
+    /**
+     */
     override var presets: [(name: String, values: [Any])] {
         return  [(name: "The Washington Monument", values: [CLLocationDegrees(38.8895), CLLocationDegrees(-77.0353)]),
                  (name: "Baltimore Inner Harbor", values: [CLLocationDegrees(39.2858), CLLocationDegrees(-76.6131)]),

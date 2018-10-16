@@ -22,13 +22,24 @@
 import UIKit
 import MapKit
 
+/* ###################################################################################################################################### */
+// MARK: - Test Class -
+/* ###################################################################################################################################### */
+/**
+ */
 class Test005BaselineStringSearches: TestBaseViewController {
+    /* ################################################################## */
+    /**
+     */
     struct SearchStructure {
         var tags: [String: String] = [:]
         var location: RVP_Cocoa_SDK.LocationSpecification?
         var plugin: String = ""
     }
     
+    /* ################################################################## */
+    /**
+     */
     override var presets: [(name: String, values: [Any])] {
         var retArray: [(name: String, values: [Any])] = []
         
