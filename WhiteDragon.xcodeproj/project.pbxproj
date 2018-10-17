@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		D403CC1621653A5700FB6315 /* Test006BaselineLocationSearches.swift in Sources */ = {isa = PBXBuildFile; fileRef = D403CC1521653A5700FB6315 /* Test006BaselineLocationSearches.swift */; };
+		D410B1B921775C3A001A42A4 /* Test007MixedSearches.swift in Sources */ = {isa = PBXBuildFile; fileRef = D410B1B821775C3A001A42A4 /* Test007MixedSearches.swift */; };
 		D415A1C4215BF4AE00FE4991 /* Test003BasicThingListing.swift in Sources */ = {isa = PBXBuildFile; fileRef = D415A1C3215BF4AE00FE4991 /* Test003BasicThingListing.swift */; };
 		D418AF832165242D005FE28A /* Test005BaselineStringSearches.swift in Sources */ = {isa = PBXBuildFile; fileRef = D418AF822165242C005FE28A /* Test005BaselineStringSearches.swift */; };
 		D42432BE2162794100CF3C1F /* Test004BaselineSearches.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42432BD2162794100CF3C1F /* Test004BaselineSearches.swift */; };
@@ -75,6 +76,7 @@
 		52AF89BB14A3FA819E96EF06 /* Pods-WhiteDragonTestHarness.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WhiteDragonTestHarness.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WhiteDragonTestHarness/Pods-WhiteDragonTestHarness.debug.xcconfig"; sourceTree = "<group>"; };
 		6EE849B2D59254BD44D1DD0E /* Pods-WhiteDragonTestHarness.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WhiteDragonTestHarness.release.xcconfig"; path = "Pods/Target Support Files/Pods-WhiteDragonTestHarness/Pods-WhiteDragonTestHarness.release.xcconfig"; sourceTree = "<group>"; };
 		D403CC1521653A5700FB6315 /* Test006BaselineLocationSearches.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Test006BaselineLocationSearches.swift; sourceTree = "<group>"; };
+		D410B1B821775C3A001A42A4 /* Test007MixedSearches.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Test007MixedSearches.swift; sourceTree = "<group>"; };
 		D415A1C3215BF4AE00FE4991 /* Test003BasicThingListing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test003BasicThingListing.swift; sourceTree = "<group>"; };
 		D418AF822165242C005FE28A /* Test005BaselineStringSearches.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Test005BaselineStringSearches.swift; sourceTree = "<group>"; };
 		D42432BD2162794100CF3C1F /* Test004BaselineSearches.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Test004BaselineSearches.swift; sourceTree = "<group>"; };
@@ -251,6 +253,7 @@
 				D42432BD2162794100CF3C1F /* Test004BaselineSearches.swift */,
 				D418AF822165242C005FE28A /* Test005BaselineStringSearches.swift */,
 				D403CC1521653A5700FB6315 /* Test006BaselineLocationSearches.swift */,
+				D410B1B821775C3A001A42A4 /* Test007MixedSearches.swift */,
 			);
 			name = "Test Files";
 			sourceTree = "<group>";
@@ -561,6 +564,7 @@
 			files = (
 				D403CC1621653A5700FB6315 /* Test006BaselineLocationSearches.swift in Sources */,
 				D43CC118214C4EA900548B8E /* RVP_Cocoa_SDK_Thing.swift in Sources */,
+				D410B1B921775C3A001A42A4 /* Test007MixedSearches.swift in Sources */,
 				D48CBE712163AD0C001EF727 /* TestBaseViewController.swift in Sources */,
 				D4FF8B6521542E9F0051A0B8 /* RVP_DisplayElementView.swift in Sources */,
 				D48CBE6F21638ED8001EF727 /* RVP_ResultListViewController.swift in Sources */,

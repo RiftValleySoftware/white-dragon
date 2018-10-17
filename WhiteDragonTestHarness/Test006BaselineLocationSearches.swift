@@ -99,16 +99,6 @@ class Test006BaselineLocationSearches: TestBaseViewController {
     /* ################################################################## */
     /**
      */
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.autoRadiusSegmentedSwitch.selectedSegmentIndex = 0
-        self.fixedRadiusSegmentedSwitch.selectedSegmentIndex = 0
-        self.fixedRadiusSegmentedSwitch.isEnabled = true
-    }
-    
-    /* ################################################################## */
-    /**
-     */
     @IBAction func autoRadiusSwitchChanged(_ sender: UISegmentedControl) {
         self.clearResults()
     }
