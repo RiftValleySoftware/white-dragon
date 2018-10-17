@@ -334,7 +334,11 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
         
         for tup in inTagValues {
             switch tup.key {
-            case "name", "description", "tag2", "tag3", "tag4", "tag5", "tag6", "tag7", "tag8", "tag9":
+            case "tag0":
+                ret["key"] = tup.value
+            case "tag1", "description":
+                ret["description"] = tup.value
+            case "name", "tag2", "tag3", "tag4", "tag5", "tag6", "tag7", "tag8", "tag9":
                 ret[tup.key] = tup.value
             default:
                 break
@@ -1325,6 +1329,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      If the inTagValues Dictionary is non-empty, then the keys and values will be used to initiate a serach on the plugin selected by inPlugin.
      if a value in inTagValues is an empty String (""), then the search will search explicitly for objects that do not have a value in that tag.
      if a value in inTagValues has only a wildcard ("%"), then that means that only objects that have non-empty values of that tag will be returned; regardless of the content of the tag.
+     NOTE: Wildcard in tag0 (key) of Things will not work.
      
      If andLocation is non-nil, then it needs to have a location, and possibly a radius and auto-radius.
      
@@ -1382,6 +1387,12 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
             plugin += "/search/?"
         case "people":
             plugin += "/people/?show_details&"
+        case "things":
+            if let thingKey = tagValues["key"], let key = thingKey.urlEncodedString {
+                tagValues.removeValue(forKey: "key")
+                plugin += "/" + key
+            }
+            plugin += "/?show_details&"
         default:
             plugin += "/?show_details&"
         }
@@ -1463,6 +1474,12 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                                 self.searchLocation = inLocation?.coords
                                 self._fetchObjectsByString(inTagValues, andLocation: inLocation, withPlugin: inPlugin, maxRadiusInKm: inMaxRadiusInKm)
                             }
+                        }
+                    } else {
+                        if let objectArray = self._makeInstance(data: myData) {
+                            self._dataItems.append(contentsOf: objectArray)
+                            self._sortDataItems()
+                            self._sendItemsToDelegate(objectArray)
                         }
                     }
                 } else {
@@ -1938,7 +1955,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                         }
                     }
                     
-                    self._dataItems = []    // We nuke the cache when we log in.
+                    self.flushCache()    // We nuke the cache when we log in.
                     loginTask.resume()
                 } else {
                     self._handleError(SDK_Connection_Errors.invalidServerURI(url))
@@ -1987,7 +2004,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                     }
                 }
                 
-                self._dataItems = []    // We nuke the cache when we log out.
+                self.flushCache()    // We nuke the cache when we log out.
                 logoutTask.resume()
             } else {
                 self._handleError(SDK_Connection_Errors.invalidServerURI(url))
@@ -1995,6 +2012,14 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
         }
     }
 
+    /* ################################################################## */
+    /**
+     This simply empties our cache, forcing the next load to go out to the server.
+     */
+    public func flushCache() {
+        self._dataItems = []
+    }
+    
     /* ################################################################## */
     /**
      This is a general method for fetching items from the data database, by their numerical IDs.

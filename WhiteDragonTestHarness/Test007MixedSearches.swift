@@ -34,7 +34,14 @@ class Test007MixedSearches: Test006BaselineLocationSearches {
     @IBOutlet weak var tagTextValue1: UITextField!
     @IBOutlet weak var tagTextValue2: UITextField!
     @IBOutlet weak var tagTextValue3: UITextField!
-
+    @IBOutlet weak var pluginSegmentedSwitch: UISegmentedControl!
+    
+    /* ################################################################## */
+    /**
+     */
+    @IBAction func pluginSegmentedSwitchHit(_ sender: UISegmentedControl) {
+    }
+    
     /* ################################################################## */
     /**
      */
@@ -168,8 +175,14 @@ class Test007MixedSearches: Test006BaselineLocationSearches {
                 let selectedTag = String(self.tagSegmentedControl3.selectedSegmentIndex)
                 tags["tag\(selectedTag)"] = text
             }
-
-            sdkInstance.fetchObjectsUsingCriteria(tags, andLocation: inLocation)
+            
+            var usePlugin: String = ""
+            
+            if let plugin = self.pluginSegmentedSwitch.titleForSegment(at: self.pluginSegmentedSwitch.selectedSegmentIndex)?.lowercased() {
+                usePlugin = plugin
+            }
+            
+            sdkInstance.fetchObjectsUsingCriteria(tags, andLocation: inLocation, withPlugin: usePlugin)
         }
     }
 }

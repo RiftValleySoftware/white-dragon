@@ -84,6 +84,10 @@ class TestBaseViewController: UIViewController, RVP_Cocoa_SDK_Delegate, UIPicker
      */
     @IBAction func fetchDataButtonPressed(_ sender: UIButton) {
         self.activityScreen?.isHidden = false
+        if let sdkInstance = self.mySDKTester?.sdkInstance {
+            sdkInstance.flushCache()
+        }
+        
         self.getObjects()
     }
     
