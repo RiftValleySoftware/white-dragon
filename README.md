@@ -1,19 +1,19 @@
 \mainpage WHITE DRAGON IOS SDK
 
-![PHP BAOBAB SDK](images/WhiteDragon.png)
+![PHP BAOBAB SDK](doc-images/WhiteDragon.png)
 
 THE GREAT RIFT VALLEY PLATFORM COCOA SDK LIBRARY
 ==============================================
 
 Part of the Rift Valley Platform
 ----------------------------------
-![BAOBAB Server and The Rift Valley Platform](images/BothLogos.png)
+![BAOBAB Server and The Rift Valley Platform](doc-images/BothLogos.png)
 
 INTRODUCTION
 ============
 
 The WHITE DRAGON IOS SDK Layer is a general-purpose Cocoa ORM for the BAOBAB Server. It uses the REST API to communicate with the Server, and presents the server as a Swift Object Model for use by iOS/MacOS Swift applications.
-![BAOBAB SDK LAYERS](images/PHPSDKLayers.png)
+![BAOBAB SDK LAYERS](doc-images/PHPSDKLayers.png)
 
 ABOUT THE GREAT RIFT VALLEY PLATFORM
 ===================================
@@ -121,4 +121,4 @@ OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
 IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
 CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-![Little Green Viper Software Development LLC](images/viper.png)
+![Little Green Viper Software Development LLC](doc-images/viper.png)

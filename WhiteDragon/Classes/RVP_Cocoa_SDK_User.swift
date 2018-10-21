@@ -31,7 +31,7 @@ public class RVP_Cocoa_SDK_User: A_RVP_Cocoa_SDK_Data_Object {
     // MARK: - Public Methods and Calulated properties -
     /* ################################################################## */
     /**
-     - returns all of the values for this object, as a Dictionary. READ ONLY
+     - returns: all of the values for this object, as a Dictionary. READ ONLY
      */
     override public var asDictionary: [String: Any?] {
         var ret = super.asDictionary
@@ -81,7 +81,7 @@ public class RVP_Cocoa_SDK_User: A_RVP_Cocoa_SDK_Data_Object {
     
     /* ################################################################## */
     /**
-     - returns the user surname, as an optional String
+     - returns: the user surname, as an optional String
      */
     public var surname: String? {
         get {
@@ -103,7 +103,7 @@ public class RVP_Cocoa_SDK_User: A_RVP_Cocoa_SDK_Data_Object {
     
     /* ################################################################## */
     /**
-     - returns the user middle name, as an optional String
+     - returns: the user middle name, as an optional String
      */
     public var middleName: String? {
         get {
@@ -125,7 +125,7 @@ public class RVP_Cocoa_SDK_User: A_RVP_Cocoa_SDK_Data_Object {
     
     /* ################################################################## */
     /**
-     - returns the user given (first) name, as an optional String
+     - returns: the user given (first) name, as an optional String
      */
     public var givenName: String? {
         get {
@@ -147,7 +147,7 @@ public class RVP_Cocoa_SDK_User: A_RVP_Cocoa_SDK_Data_Object {
     
     /* ################################################################## */
     /**
-     - returns the user nickame, as an optional String
+     - returns: the user nickame, as an optional String
      */
     public var nickame: String? {
         get {
@@ -169,7 +169,7 @@ public class RVP_Cocoa_SDK_User: A_RVP_Cocoa_SDK_Data_Object {
     
     /* ################################################################## */
     /**
-     - returns the user prefix, as an optional String
+     - returns: the user prefix, as an optional String
      */
     public var prefix: String? {
         get {
@@ -191,7 +191,7 @@ public class RVP_Cocoa_SDK_User: A_RVP_Cocoa_SDK_Data_Object {
     
     /* ################################################################## */
     /**
-     - returns the user suffix, as an optional String
+     - returns: the user suffix, as an optional String
      */
     public var suffix: String? {
         get {
@@ -215,7 +215,7 @@ public class RVP_Cocoa_SDK_User: A_RVP_Cocoa_SDK_Data_Object {
     /**
      **NOTE:** Although this will let anyone with write permission set the ID, it will not be accepted on the server, unless the admin also has at least read permissions for the login object.
      
-     - returns the associated login ID (if any). 0, if no associated login.
+     - returns: the associated login ID (if any). 0, if no associated login.
      */
     public var loginID: Int {
         get {
@@ -237,7 +237,7 @@ public class RVP_Cocoa_SDK_User: A_RVP_Cocoa_SDK_Data_Object {
 
     /* ################################################################## */
     /**
-     - returns the tag7 String.
+     - returns: the tag7 String.
      */
     public var tag7: String {
         get {
@@ -259,7 +259,7 @@ public class RVP_Cocoa_SDK_User: A_RVP_Cocoa_SDK_Data_Object {
 
     /* ################################################################## */
     /**
-     - returns the tag8 String.
+     - returns: the tag8 String.
      */
     public var tag8: String {
         get {
@@ -281,7 +281,7 @@ public class RVP_Cocoa_SDK_User: A_RVP_Cocoa_SDK_Data_Object {
 
     /* ################################################################## */
     /**
-     - returns the tag9 String.
+     - returns: the tag9 String.
      */
     public var tag9: String {
         get {

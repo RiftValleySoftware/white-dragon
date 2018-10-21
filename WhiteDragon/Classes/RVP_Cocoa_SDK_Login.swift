@@ -31,7 +31,7 @@ public class RVP_Cocoa_SDK_Login: A_RVP_Cocoa_SDK_Security_Object {
     // MARK: - Public Methods and Calulated properties -
     /* ################################################################## */
     /**
-     - returns all of the values for this object, as a Dictionary. READ ONLY
+     - returns: all of the values for this object, as a Dictionary. READ ONLY
      */
     override public var asDictionary: [String: Any?] {
         var ret = super.asDictionary
@@ -49,7 +49,7 @@ public class RVP_Cocoa_SDK_Login: A_RVP_Cocoa_SDK_Security_Object {
     /**
      **NOTE:** Although this will let anyone with write permission set the ID, it will not be accepted on the server, unless the admin also has at least read permissions for the user object.
      
-     - returns the ID (Int) of any User Object associated with this login. nil, if there is none.
+     - returns: the ID (Int) of any User Object associated with this login. nil, if there is none.
      */
     public var userObjectID: Int? {
         get {
@@ -71,7 +71,7 @@ public class RVP_Cocoa_SDK_Login: A_RVP_Cocoa_SDK_Security_Object {
 
     /* ################################################################## */
     /**
-     - returns true, if this login is currently logged in. READ ONLY
+     - returns: true, if this login is currently logged in. READ ONLY
      */
     public var isLoggedIn: Bool {
         var ret = false
@@ -85,7 +85,7 @@ public class RVP_Cocoa_SDK_Login: A_RVP_Cocoa_SDK_Security_Object {
 
     /* ################################################################## */
     /**
-     - returns true, if this login is a Manager login. READ ONLY
+     - returns: true, if this login is a Manager login. READ ONLY
      */
     public var isManager: Bool {
         var ret = false
@@ -99,7 +99,7 @@ public class RVP_Cocoa_SDK_Login: A_RVP_Cocoa_SDK_Security_Object {
 
     /* ################################################################## */
     /**
-     - returns true, if this login is a "God" (Main admin) login. READ ONLY
+     - returns: true, if this login is a "God" (Main admin) login. READ ONLY
      */
     public var isMainAdmin: Bool {
         var ret = false

@@ -39,7 +39,7 @@ extension Array {
      
      - parameter chunkSize: The 1-based size (in Array elements) of each chunk.
      
-     - returns an Array of Arrays. Each element of the main Array is a smaller Array up to chunkSize Elements.
+     - returns: an Array of Arrays. Each element of the main Array is a smaller Array up to chunkSize Elements.
      */
     func chunk(_ chunkSize: Int) -> [[Element]] {
         return stride(from: 0, to: self.count, by: chunkSize).map { (startIndex) -> [Element] in

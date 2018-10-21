@@ -32,7 +32,7 @@ import PDFKit
 extension RVP_Cocoa_SDK_Payload {
     /* ################################################################## */
     /**
-     - returns the payload. If possible, as an object (images are UIImage, Video is AVAsset, PDF is PDFDocument, and text is String). Otherwise, nil (no payload) or as a Data object.
+     - returns: the payload. If possible, as an object (images are UIImage, Video is AVAsset, PDF is PDFDocument, and text is String). Otherwise, nil (no payload) or as a Data object.
      */
     public var payloadResolved: Any? {
         var ret: Any?

@@ -31,7 +31,18 @@ import MapKit
  Expressing it as a class gives us a couple of things: 1) It allows us to keep it as a reference, as opposed to a copy, and 2) It allows us to easily extend the class with data interpretation.
  */
 public class RVP_Cocoa_SDK_Payload {
+    /* ################################################################## */
+    // MARK: - Public Properties -
+    /* ################################################################## */
+    /**
+     The payload, as a Data object.
+     */
     public var payloadData: Data?
+
+    /* ################################################################## */
+    /**
+     The payload MIME type, as a String.
+     */
     public var payloadType: String = ""
     
     /* ################################################################## */
@@ -60,7 +71,7 @@ public class A_RVP_Cocoa_SDK_Data_Object: A_RVP_Cocoa_SDK_Object {
     // MARK: - Public Methods and Calulated properties -
     /* ################################################################## */
     /**
-     - returns all of the values for this object, as a Dictionary. READ ONLY
+     - returns: all of the values for this object, as a Dictionary. READ ONLY
      */
     override public var asDictionary: [String: Any?] {
         var ret = super.asDictionary
@@ -102,7 +113,7 @@ public class A_RVP_Cocoa_SDK_Data_Object: A_RVP_Cocoa_SDK_Object {
     
     /* ################################################################## */
     /**
-     - returns the payload. If possible. The payload will be expressed as a Data object. The type will be the MIME type. READ ONLY
+     - returns: the payload. If possible. The payload will be expressed as a Data object. The type will be the MIME type. READ ONLY
      */
     public var payload: RVP_Cocoa_SDK_Payload? {
         var ret: RVP_Cocoa_SDK_Payload?
@@ -119,7 +130,7 @@ public class A_RVP_Cocoa_SDK_Data_Object: A_RVP_Cocoa_SDK_Object {
     
     /* ################################################################## */
     /**
-     This reyturns a Dictionary of Arrays of Int, with the IDs (not objects) of "children" records.
+     - returns: a Dictionary of Arrays of Int, with the IDs (not objects) of "children" records.
      The possible Dictionary keys are "people", "places" and "things".
      Each of the values will be an Array of Int, with the Children IDs. READ ONLY
      */
@@ -135,7 +146,7 @@ public class A_RVP_Cocoa_SDK_Data_Object: A_RVP_Cocoa_SDK_Object {
     
     /* ################################################################## */
     /**
-     - returns the payload type (MIME type). READ ONLY
+     - returns: the payload type (MIME type). READ ONLY
      */
     public var payloadType: String {
         var ret: String = ""
@@ -151,7 +162,7 @@ public class A_RVP_Cocoa_SDK_Data_Object: A_RVP_Cocoa_SDK_Object {
     
     /* ################################################################## */
     /**
-     This will return any distance sent by the server, or one calculated "on the spot,"
+     - returns: any distance sent by the server, or one calculated "on the spot,"
      if there was no server distance, the object has a location, and the searchLocation
      instance property was set. Otherwise, it returns nil. READ ONLY
      */
@@ -172,7 +183,7 @@ public class A_RVP_Cocoa_SDK_Data_Object: A_RVP_Cocoa_SDK_Object {
     
     /* ################################################################## */
     /**
-     - returns true, if the instance is fuzzy. READ ONLY
+     - returns: true, if the instance is fuzzy. READ ONLY
      */
     public var isFuzzy: Bool {
         var ret: Bool = false
@@ -186,7 +197,7 @@ public class A_RVP_Cocoa_SDK_Data_Object: A_RVP_Cocoa_SDK_Object {
 
     /* ################################################################## */
     /**
-     This returns a "fuzz factor," which is the number of Kilometers of "slop" that location obfuscation uses.
+     - returns: a "fuzz factor," which is the number of Kilometers of "slop" that location obfuscation uses.
      Be aware that it may not be available, in which case, this will be nil.
      If you set (or clear) the fuzz factor, the "isFuzzy" value may be changed.
      */
@@ -213,7 +224,7 @@ public class A_RVP_Cocoa_SDK_Data_Object: A_RVP_Cocoa_SDK_Object {
 
     /* ################################################################## */
     /**
-     - returns an Int, which is the token assigned as an "extra" token that "can see through the fuzz," meaning that holders of that token can see the "raw" location.
+     - returns: an Int, which is the token assigned as an "extra" token that "can see through the fuzz," meaning that holders of that token can see the "raw" location.
      */
     public var canSeeThroughTheFuzz: Int? {
         get {
@@ -236,7 +247,7 @@ public class A_RVP_Cocoa_SDK_Data_Object: A_RVP_Cocoa_SDK_Object {
     
     /* ################################################################## */
     /**
-     - returns the longitude and latitude as a coordinate. Be aware that they may not be available, in which case, it will be nil.
+     - returns: the longitude and latitude as a coordinate. Be aware that they may not be available, in which case, it will be nil.
      */
     public var location: CLLocationCoordinate2D? {
         get {
@@ -259,11 +270,12 @@ public class A_RVP_Cocoa_SDK_Data_Object: A_RVP_Cocoa_SDK_Object {
 
     /* ################################################################## */
     /**
-     This is a special "settable" property with the center of a radius search.
+     - returns: the search location as a coordinate pair.
+     This is a special property with the center of a radius search.
      If the object already has a "distance" property returned from the server,
      this is ignored. Otherwise, if it is provided, and the object has a long/lat,
      the "distance" read-only property will return a CoreLocation-calculated distance
-     in Kilometers from this center.
+     in Kilometers from this center. READ ONLY
      */
     public var searchLocation: CLLocationCoordinate2D? {
         if let sdkInstance = self.sdkInstance {
@@ -275,7 +287,7 @@ public class A_RVP_Cocoa_SDK_Data_Object: A_RVP_Cocoa_SDK_Object {
     
     /* ################################################################## */
     /**
-     - returns the "raw" longitude and latitude as a coordinate. Be aware that they may not be available, in which case, it will be nil. READ ONLY
+     - returns: the "raw" longitude and latitude as a coordinate. Be aware that they may not be available, in which case, it will be nil. READ ONLY
      */
     public var rawLocation: CLLocationCoordinate2D? {
         var ret: CLLocationCoordinate2D?

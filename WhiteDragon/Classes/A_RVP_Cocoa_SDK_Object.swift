@@ -46,7 +46,7 @@ public class A_RVP_Cocoa_SDK_Object: NSObject {
     // MARK: - Public Methods and Calulated properties -
     /* ################################################################## */
     /**
-     - returns all of the values for this object, as a Dictionary. READ ONLY
+     - returns: all of the values for this object, as a Dictionary. READ ONLY
      */
     public var asDictionary: [String: Any?] {
         var ret: [String: Any?] = ["id": self.id, "name": self.name, "isWriteable": self.isWriteable, "isDirty": self.isDirty]
@@ -72,7 +72,7 @@ public class A_RVP_Cocoa_SDK_Object: NSObject {
     
     /* ################################################################## */
     /**
-     - returns true, if the data in the object has been changed since it was first created. READ ONLY
+     - returns: true, if the data in the object has been changed since it was first created. READ ONLY
      */
     public var isDirty: Bool {
         var ret: Bool = false
@@ -108,7 +108,7 @@ public class A_RVP_Cocoa_SDK_Object: NSObject {
 
     /* ################################################################## */
     /**
-     - returns the object ID, as an Int. READ ONLY
+     - returns: the object ID, as an Int. READ ONLY
      */
     public var id: Int {
         var ret = 0
@@ -122,7 +122,7 @@ public class A_RVP_Cocoa_SDK_Object: NSObject {
 
     /* ################################################################## */
     /**
-     - returns true, if the current login can edit this record. READ ONLY
+     - returns: true, if the current login can edit this record. READ ONLY
      */
     public var isWriteable: Bool {
         var ret = false
@@ -136,7 +136,7 @@ public class A_RVP_Cocoa_SDK_Object: NSObject {
     
     /* ################################################################## */
     /**
-     - returns the last time the object was accessed. Nil, if no date available. READ ONLY
+     - returns: the last time the object was accessed. Nil, if no date available. READ ONLY
      */
     public var lastAccess: Date? {
         if let dateString = self._myData["last_access"] as? String {
@@ -153,7 +153,7 @@ public class A_RVP_Cocoa_SDK_Object: NSObject {
 
     /* ################################################################## */
     /**
-     - returns the object name, as a String
+     - returns: the object name, as a String
      */
     public var name: String {
         get {
@@ -177,7 +177,7 @@ public class A_RVP_Cocoa_SDK_Object: NSObject {
     /**
      **NOTE:** Although this will let anyone with write permission set the token, it will not be accepted on the server, unless the admin also has the token.
      
-     - returns the read token, as an Int. Be aware that the read token may not be available, in which case, it will be nil.
+     - returns: the read token, as an Int. Be aware that the read token may not be available, in which case, it will be nil.
      */
     public var readToken: Int? {
         get {
@@ -201,7 +201,7 @@ public class A_RVP_Cocoa_SDK_Object: NSObject {
     /**
      **NOTE:** Although this will let anyone with write permission set the token, it will not be accepted on the server, unless the admin also has the token.
      
-     - returns the write token, as an Int. Be aware that the write token may not be available, in which case, it will be nil.
+     - returns: the write token, as an Int. Be aware that the write token may not be available, in which case, it will be nil.
      */
     public var writeToken: Int? {
         get {
@@ -223,7 +223,7 @@ public class A_RVP_Cocoa_SDK_Object: NSObject {
     
     /* ################################################################## */
     /**
-     - returns the language
+     - returns: the language
      */
     public var lang: String {
         get {
@@ -243,7 +243,7 @@ public class A_RVP_Cocoa_SDK_Object: NSObject {
     
     /* ################################################################## */
     /**
-     - returns the SDK instance that "owns" this instance. READ ONLY
+     - returns: the SDK instance that "owns" this instance. READ ONLY
      */
     public var sdkInstance: RVP_Cocoa_SDK? {
         return self._sdkInstance

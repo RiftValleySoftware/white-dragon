@@ -31,7 +31,7 @@ public class RVP_Cocoa_SDK_Thing: A_RVP_Cocoa_SDK_Data_Object {
     // MARK: - Public Methods and Calulated properties -
     /* ################################################################## */
     /**
-     - returns all of the values for this object, as a Dictionary. READ ONLY
+     - returns: all of the values for this object, as a Dictionary. READ ONLY
      */
     override public var asDictionary: [String: Any?] {
         var ret = super.asDictionary
@@ -81,7 +81,7 @@ public class RVP_Cocoa_SDK_Thing: A_RVP_Cocoa_SDK_Data_Object {
     
     /* ################################################################## */
     /**
-     - returns the thing key String.
+     - returns: the thing key String.
      */
     public var thingKey: String {
         get {
@@ -103,7 +103,7 @@ public class RVP_Cocoa_SDK_Thing: A_RVP_Cocoa_SDK_Data_Object {
     
     /* ################################################################## */
     /**
-     - returns the thing description String.
+     - returns: the thing description String.
      */
     public var thingDescription: String {
         get {
@@ -125,7 +125,7 @@ public class RVP_Cocoa_SDK_Thing: A_RVP_Cocoa_SDK_Data_Object {
 
     /* ################################################################## */
     /**
-     - returns the tag2 String.
+     - returns: the tag2 String.
      */
     public var tag2: String {
         get {
@@ -147,7 +147,7 @@ public class RVP_Cocoa_SDK_Thing: A_RVP_Cocoa_SDK_Data_Object {
 
     /* ################################################################## */
     /**
-     - returns the tag3 String.
+     - returns: the tag3 String.
      */
     public var tag3: String {
         get {
@@ -169,7 +169,7 @@ public class RVP_Cocoa_SDK_Thing: A_RVP_Cocoa_SDK_Data_Object {
 
     /* ################################################################## */
     /**
-     - returns the tag4 String.
+     - returns: the tag4 String.
      */
     public var tag4: String {
         get {
@@ -191,7 +191,7 @@ public class RVP_Cocoa_SDK_Thing: A_RVP_Cocoa_SDK_Data_Object {
 
     /* ################################################################## */
     /**
-     - returns the tag5 String.
+     - returns: the tag5 String.
      */
     public var tag5: String {
         get {
@@ -213,7 +213,7 @@ public class RVP_Cocoa_SDK_Thing: A_RVP_Cocoa_SDK_Data_Object {
 
     /* ################################################################## */
     /**
-     - returns the tag6 String.
+     - returns: the tag6 String.
      */
     public var tag6: String {
         get {
@@ -235,7 +235,7 @@ public class RVP_Cocoa_SDK_Thing: A_RVP_Cocoa_SDK_Data_Object {
 
     /* ################################################################## */
     /**
-     - returns the tag7 String.
+     - returns: the tag7 String.
      */
     public var tag7: String {
         get {
@@ -257,7 +257,7 @@ public class RVP_Cocoa_SDK_Thing: A_RVP_Cocoa_SDK_Data_Object {
 
     /* ################################################################## */
     /**
-     - returns the tag8 String.
+     - returns: the tag8 String.
      */
     public var tag8: String {
         get {
@@ -279,7 +279,7 @@ public class RVP_Cocoa_SDK_Thing: A_RVP_Cocoa_SDK_Data_Object {
     
     /* ################################################################## */
     /**
-     - returns the tag9 String.
+     - returns: the tag9 String.
      */
     public var tag9: String {
         get {

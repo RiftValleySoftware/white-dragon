@@ -31,7 +31,7 @@ public class RVP_Cocoa_SDK_Place: A_RVP_Cocoa_SDK_Data_Object {
     // MARK: - Public Methods and Calulated properties -
     /* ################################################################## */
     /**
-     - returns all of the values for this object, as a Dictionary. READ ONLY
+     - returns: all of the values for this object, as a Dictionary. READ ONLY
      */
     override public var asDictionary: [String: Any?] {
         var ret = super.asDictionary
@@ -85,7 +85,7 @@ public class RVP_Cocoa_SDK_Place: A_RVP_Cocoa_SDK_Data_Object {
 
     /* ################################################################## */
     /**
-     - returns the venue name String.
+     - returns: the venue name String.
      */
     public var venue: String {
         get {
@@ -113,7 +113,7 @@ public class RVP_Cocoa_SDK_Place: A_RVP_Cocoa_SDK_Data_Object {
 
     /* ################################################################## */
     /**
-     - returns the street address String.
+     - returns: the street address String.
      */
     public var streetAddress: String {
         get {
@@ -141,7 +141,7 @@ public class RVP_Cocoa_SDK_Place: A_RVP_Cocoa_SDK_Data_Object {
 
     /* ################################################################## */
     /**
-     - returns the extra information String.
+     - returns: the extra information String.
      */
     public var extraInformation: String {
         get {
@@ -169,7 +169,7 @@ public class RVP_Cocoa_SDK_Place: A_RVP_Cocoa_SDK_Data_Object {
 
     /* ################################################################## */
     /**
-     - returns the town/city/municipality String.
+     - returns: the town/city/municipality String.
      */
     public var town: String {
         get {
@@ -197,7 +197,7 @@ public class RVP_Cocoa_SDK_Place: A_RVP_Cocoa_SDK_Data_Object {
 
     /* ################################################################## */
     /**
-     - returns the county/sub-municipality String.
+     - returns: the county/sub-municipality String.
      */
     public var county: String {
         get {
@@ -225,7 +225,7 @@ public class RVP_Cocoa_SDK_Place: A_RVP_Cocoa_SDK_Data_Object {
 
     /* ################################################################## */
     /**
-     - returns the state/province String.
+     - returns: the state/province String.
      */
     public var state: String {
         get {
@@ -253,7 +253,7 @@ public class RVP_Cocoa_SDK_Place: A_RVP_Cocoa_SDK_Data_Object {
 
     /* ################################################################## */
     /**
-     - returns the postal/zip code String.
+     - returns: the postal/zip code String.
      */
     public var postalCode: String {
         get {
@@ -281,7 +281,7 @@ public class RVP_Cocoa_SDK_Place: A_RVP_Cocoa_SDK_Data_Object {
 
     /* ################################################################## */
     /**
-     - returns the nation String.
+     - returns: the nation String.
      */
     public var nation: String {
         get {
@@ -309,7 +309,7 @@ public class RVP_Cocoa_SDK_Place: A_RVP_Cocoa_SDK_Data_Object {
 
     /* ################################################################## */
     /**
-     - returns the tag8 String.
+     - returns: the tag8 String.
      */
     public var tag8: String {
         get {
@@ -331,7 +331,7 @@ public class RVP_Cocoa_SDK_Place: A_RVP_Cocoa_SDK_Data_Object {
 
     /* ################################################################## */
     /**
-     - returns the tag9 String.
+     - returns: the tag9 String.
      */
     public var tag9: String {
         get {
@@ -353,7 +353,7 @@ public class RVP_Cocoa_SDK_Place: A_RVP_Cocoa_SDK_Data_Object {
 
     /* ################################################################## */
     /**
-     - returns the basic address String. READ ONLY
+     - returns: the basic address String. READ ONLY
      */
     public var basicAddress: String {
         var ret: String = ""

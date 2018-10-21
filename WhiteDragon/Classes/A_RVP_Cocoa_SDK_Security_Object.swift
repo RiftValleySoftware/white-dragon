@@ -31,7 +31,7 @@ public class A_RVP_Cocoa_SDK_Security_Object: A_RVP_Cocoa_SDK_Object {
     // MARK: - Public Methods and Calulated properties -
     /* ################################################################## */
     /**
-     - returns all of the values for this object, as a Dictionary. READ ONLY
+     - returns: all of the values for this object, as a Dictionary. READ ONLY
      */
     override public var asDictionary: [String: Any?] {
         var ret = super.asDictionary
@@ -43,7 +43,7 @@ public class A_RVP_Cocoa_SDK_Security_Object: A_RVP_Cocoa_SDK_Object {
 
     /* ################################################################## */
     /**
-     - returns the object login ID, as a String. READ ONLY
+     - returns: the object login ID, as a String. READ ONLY
      */
     public var loginID: String {
         var ret = ""
@@ -57,7 +57,7 @@ public class A_RVP_Cocoa_SDK_Security_Object: A_RVP_Cocoa_SDK_Object {
     
     /* ################################################################## */
     /**
-     - returns the object security tokens, as an Array of Int. NOTE: The tokens are sorted, from lowest to highest, and include the ID of the login item. "1" is the "any logged-in-user" token that all logins are implied to have. READ ONLY
+     - returns: the object security tokens, as an Array of Int. NOTE: The tokens are sorted, from lowest to highest, and include the ID of the login item. "1" is the "any logged-in-user" token that all logins are implied to have. READ ONLY
      */
     public var securityTokens: [Int] {
         get {

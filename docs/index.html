@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>WhiteDragon  Reference</title>
+    <link rel="stylesheet" type="text/css" href="css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="js/jquery.min.js" defer></script>
+    <script src="js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a title="WhiteDragon  Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="index.html">WhiteDragon Docs</a> (100% documented)</p>
+        <p class="header-right"><a href="https://github.com/LittleGreenViper/white-dragon"><img src="img/gh.png"/>View on GitHub</a></p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="index.html">WhiteDragon Reference</a>
+        <img id="carat" src="img/carat.png" />
+        WhiteDragon  Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Classes/A_RVP_Cocoa_SDK_Data_Object.html">A_RVP_Cocoa_SDK_Data_Object</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/A_RVP_Cocoa_SDK_Object.html">A_RVP_Cocoa_SDK_Object</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/A_RVP_Cocoa_SDK_Security_Object.html">A_RVP_Cocoa_SDK_Security_Object</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/RVP_Cocoa_SDK.html">RVP_Cocoa_SDK</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/RVP_Cocoa_SDK.html#/s:11WhiteDragon13RVP_Cocoa_SDKC21LocationSpecificationV">– LocationSpecification</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/RVP_Cocoa_SDK.html#/s:11WhiteDragon13RVP_Cocoa_SDKC9HTTPErrorV">– HTTPError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/RVP_Cocoa_SDK/DisconnectionReason.html">– DisconnectionReason</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/RVP_Cocoa_SDK/SDK_Connection_Errors.html">– SDK_Connection_Errors</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/RVP_Cocoa_SDK/SDK_Data_Errors.html">– SDK_Data_Errors</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/RVP_Cocoa_SDK/SDK_Operation_Errors.html">– SDK_Operation_Errors</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/RVP_Cocoa_SDK/SDK_Error.html">– SDK_Error</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/RVP_Cocoa_SDK/Iterator.html">– Iterator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/RVP_Cocoa_SDK_Login.html">RVP_Cocoa_SDK_Login</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/RVP_Cocoa_SDK_Payload.html">RVP_Cocoa_SDK_Payload</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/RVP_Cocoa_SDK_Place.html">RVP_Cocoa_SDK_Place</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/RVP_Cocoa_SDK_Thing.html">RVP_Cocoa_SDK_Thing</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/RVP_Cocoa_SDK_User.html">RVP_Cocoa_SDK_User</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Protocols/RVP_Cocoa_SDK_Delegate.html">RVP_Cocoa_SDK_Delegate</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            
+            <p>\mainpage WHITE DRAGON IOS SDK</p>
+
+<p><img src="doc-images/WhiteDragon.png" alt="PHP BAOBAB SDK"></p>
+<h1 id='the-great-rift-valley-platform-cocoa-sdk-library' class='heading'>THE GREAT RIFT VALLEY PLATFORM COCOA SDK LIBRARY</h1>
+<h2 id='part-of-the-rift-valley-platform' class='heading'>Part of the Rift Valley Platform</h2>
+
+<p><img src="doc-images/BothLogos.png" alt="BAOBAB Server and The Rift Valley Platform"></p>
+<h1 id='introduction' class='heading'>INTRODUCTION</h1>
+
+<p>The WHITE DRAGON IOS SDK Layer is a general-purpose Cocoa ORM for the BAOBAB Server. It uses the REST API to communicate with the Server, and presents the server as a Swift Object Model for use by iOS/MacOS Swift applications.
+<img src="doc-images/PHPSDKLayers.png" alt="BAOBAB SDK LAYERS"></p>
+<h1 id='about-the-great-rift-valley-platform' class='heading'>ABOUT THE GREAT RIFT VALLEY PLATFORM</h1>
+
+<p>The Great Rift Valley Platform is a combined system of a central server (called <q>The BAOBAB Server</q>), providing a published <a href="https://en.wikipedia.org/wiki/Application_programming_interface">API (Application Programming Interface)</a>, which is accessible via the Internet, and various <q>endpoint</q> apps, such as WordPress plugins and iPhone apps that connect to the server, and allow interpretation and andministration by end-users.</p>
+
+<p>The server contains data. This data has the following characteristics:</p>
+
+<p>There are two separate databases: One is a <q>big</q> database that contains the actual data, and the other contains logins (the user has a login ID and a password), along with what are called <q>security tokens.</q> These databases can be entirely different servers and/or technologies.</p>
+
+<p>Security tokens are simple integers that logins <q>own.</q> If the login has this token (they can have a number of them), then a user that is logged in with that login will have either read/write, or read-only access to other logins in the security database, or data items in the main data database.</p>
+
+<p>Every item, in either database, has a read token and a write token. This is a single security token in each field. They can be the same. If a user has a write token, then they also can read. If they only have a read token, then they cannot modify the item, and may not be allowed to see a <q>raw</q> location (more on that in a bit).</p>
+
+<p>It is possible to allow any user (not just logged-in ones) read access to any data item, but non-logged-in users can never modify items. It is also possible to set item read tokens to allow any logged-in user to access the item (but no non-logged-in users). Of course, you can get a great deal more restrictive. Any data item can only have one token in the read slot, and one token in the write slot. You allow multiple logins to access these by giving the same token to multiple logins.</p>
+<h2 id='security-database' class='heading'>SECURITY DATABASE:</h2>
+
+<p>This contains either simple security tokens (items with no login information) or login records.</p>
+
+<p>A login record has a login ID (a string) and a password (stored in a secure hash format. We don&rsquo;t store cleartext passwords). When a user logs in, the login session is also stored in the security database. It is timed, so the user has only a certain duration before they need to refresh their login, or they will be automatically booted.</p>
+
+<p>Logins can be either regular logins (can log in, see and modify records), or a <q>manager</q> login (can create other logins. Any login with the appropriate write security token can edit other logins, but only managers can create or delete other logins).</p>
+
+<p>One login (any type) can be <q>promoted</q> by the server administrator to be the <q>God</q> login. This login has full rights to everything. It is also given a different login timeout (usually shorter than the regular one). The <q>promotion</q> is actually done in code, on the server. There is a configuration file that is edited to do this.</p>
+
+<p>All security database items (including logins) have a unique ID. This ID is a security token. By simply existing, a login has at least one token (its ID), but you can add a list of more tokens.</p>
+
+<p>Security tokens are enforced at a very low level in the system. If a user does not have the requisite token to view an asset, then that asset is never even accessed in the database. It is <q>invisible</q> to the user. Additionally, the user is never informed of the existence of tokens they don&rsquo;t <q>own.</q> They just never see them.</p>
+<h2 id='data-database' class='heading'>DATA DATABASE:</h2>
+
+<p>There are three kinds of default assets in the data database: People, Places and Things.</p>
+
+<ul>
+<li><p><strong>PEOPLE:</strong></p>
+
+<p>People are <q>users.</q> These can be associated with logins, but are not required to be associated with them, so you can have records of people that do not have access to the server. Additionally, logins do not have to have associated user objects. Associated user objects allow you to attach a lot more information to a login than what is provided by the security database; which is very simple.</p></li>
+<li><p><strong>PLACES:</strong></p>
+
+<p>Places are locations. They have addresses.</p></li>
+<li><p><strong>THINGS:</strong></p>
+
+<p>Things are fairly basic data <q>shoeboxes.</q> They can be accessed by <q>keys,</q> which are strings. You can attach pretty much any kind of data to a thing.</p></li>
+</ul>
+
+<p><strong>APPLIES TO ALL TYPES OF DATA DATABASE RECORDS:</strong></p>
+
+<p>Every item in the data database: Person, Place, Thing, has a set of common features. Some items are optimized to highlight certain data types, but they are all the same, under the skin:</p>
+
+<ul>
+<li><p><strong>PAYLOAD</strong></p>
+
+<p>You can attach a big honkin&rsquo; bit of data to every item. These shouldn&rsquo;t be too huge, but we&rsquo;ve tested up to 10MB. We suggest using this for things like photos and PDFs. The platform does not encrypt this data at a low level, but it will have no problem storing pre-encrypted data. The data can be quite small, like a single character or integer number.</p></li>
+<li><p><strong>LONG/LAT</strong></p>
+
+<p>Every item can have an associated longitude and latitude. If it has this, then you can do a location radius search, like you do with the BMLT. The big difference is that the search is a great deal more powerful than the BMLT search.</p></li>
+<li><p><strong>LOCATION OBFUSCATION</strong></p>
+
+<p>This was something that was suggested by a therapist. Anything with a long/lat (i.e. any item in the data database), can be made <q>fuzzy.</q> You give the item a <q>fuzz factor</q> in kilometers, and every access to the item&rsquo;s long/lat returns a slightly different result within a square that many kilometers away from the true location. You can give special tokens to certain logins that can <q>see through the fuzz,</q> and access the <q>raw</q> locations, but otherwise, the real long/lat is never exposed.</p>
+
+<p>Of course, you can pooch the whole thing by providing an accurate address.</p></li>
+<li><p><strong>AGGREGATION</strong></p>
+
+<p>You can attach other data database objects to data database records. These are called <q>children.</q> Each <q>child</q> has its own security tokens, so being a <q>child</q> of an object does not automatically confer any rights. Think of a user having attached medical records. The records will stay attached to the users, but only logins with read tokens for those records will even know they exist. They will never appear for others, so you could publicize a name for a person, but their address information could be sequestered, and even more confidential information can be secured even more tightly. A <q>child</q> can be associated with multiple records.</p></li>
+</ul>
+<h2 id='server-technology' class='heading'>SERVER TECHNOLOGY:</h2>
+
+<p>The server has deliberately been designed to use the most basic, vanilla hosting (like the BMLT). This means that it can be installed in fairly low-budget hosting solutions.</p>
+
+<p>BAOBAB allows either <a href="https://www.mysql.com">MySQL</a> or <a href="https://www.postgresql.org">PostgreSQL</a> to be used as the database engine. They can be completely separate from each other (no need to use the same server or even engine for both). This allows a configuarion like a hardened security database, while the main data database may be a high-performance database.</p>
+<h2 id='no-dependencies' class='heading'>NO DEPENDENCIES:</h2>
+
+<p>Modern server technologists love dependencies. These are installations of third-party packages or usage of external (usually cloud-based) services. This means that the programmer voluntarily cedes control of some fairly significant resources and access to these third parties. In many of the published security nightmares you are reading about, dependencies are a big factor. Someone included a library that was written with an exploit, and that library runs as a full admin, so that means that anyone that can get into that library can also get into your app.</p>
+
+<p>We&rsquo;ve written every. single. line. of. code. in The Great Rift Valley BAOBAB Server. The only dependency is on a bog-standard PHP 7 installation. We don&rsquo;t even ask for special PHP packages. The standard install that most hosting companies use is fine. It&rsquo;s also written in <q>boring old PHP.</q> This is not one of the <q>shiny new</q> languages. In fact, it&rsquo;s sneered at regularly by hipsters.</p>
+
+<p><a href="https://www.quora.com/Does-Facebook-still-use-PHP">Except that it&rsquo;s a primary language for Facebook.</a> They are actively supporting it and adding improvements to the language. It&rsquo;s not going anywhere, and it is fast as hell.</p>
+
+<p>Of course, one of the things that you do get with dependencies is a much <q>shinier</q> product. You can add a lot of <q>bells and whistles</q> by adding these libraries. The BAOBAB server may seem <q>dorky</q> compared to some of what&rsquo;s out there, but it is solid, secure and fast.</p>
+<h1 id='license-white-dragon-sdk' class='heading'>LICENSE (WHITE DRAGON SDK)</h1>
+<h2 id='mit-license' class='heading'>MIT License</h2>
+
+<p>© Copyright 2018, <a href="https://littlegreenviper.com">Little Green Viper Software Development LLC</a>.</p>
+
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
+files (the <q>Software</q>), to deal in the Software without restriction, including without limitation the rights to use, copy,
+modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following conditions:</p>
+
+<p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
+
+<p>THE SOFTWARE IS PROVIDED <q>AS IS</q>, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+
+<p><img src="doc-images/viper.png" alt="Little Green Viper Software Development LLC"></p>
+
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2018 <a class="link" href="https://littlegreenviper.com" target="_blank" rel="external">Little Green Viper Software Development LLC</a>. All rights reserved. (Last updated: 2018-10-21)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.3</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>
