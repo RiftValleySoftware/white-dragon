@@ -1423,7 +1423,7 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Text Search for Tag:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0VP-m9-JXo">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Text Search In Name:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0VP-m9-JXo">
                                         <rect key="frame" x="8" y="474" width="398" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="21" id="OKQ-Dm-rIN"/>
@@ -1433,38 +1433,8 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <segmentedControl opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" translatesAutoresizingMaskIntoConstraints="NO" id="mC2-yC-J2Z">
-                                        <rect key="frame" x="8" y="503" width="398" height="28"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="27" id="XNJ-mC-HVc"/>
-                                        </constraints>
-                                        <segments>
-                                            <segment title="0"/>
-                                            <segment title="1"/>
-                                            <segment title="2"/>
-                                            <segment title="3"/>
-                                            <segment title="4"/>
-                                            <segment title="5"/>
-                                            <segment title="6"/>
-                                            <segment title="7"/>
-                                            <segment title="8"/>
-                                            <segment title="9"/>
-                                        </segments>
-                                        <connections>
-                                            <action selector="tagSegmentedControl3Hit:" destination="iqd-DZ-5Jg" eventType="valueChanged" id="e2Z-Gb-99d"/>
-                                        </connections>
-                                    </segmentedControl>
-                                    <textField opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1N9-tb-iS1">
-                                        <rect key="frame" x="8" y="538" width="398" height="30"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="30" id="FWa-YZ-yHf"/>
-                                        </constraints>
-                                        <nil key="textColor"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                    </textField>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Plugin:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SQh-Ma-fJD">
-                                        <rect key="frame" x="8" y="572" width="398" height="21"/>
+                                        <rect key="frame" x="8" y="533" width="398" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="21" id="nfa-JM-ZvI"/>
                                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="21" id="ok2-hI-beb"/>
@@ -1474,7 +1444,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="1Yf-0N-rwR">
-                                        <rect key="frame" x="8" y="601" width="398" height="28"/>
+                                        <rect key="frame" x="8" y="562" width="398" height="28"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="27" id="ZCj-pB-tlx"/>
                                         </constraints>
@@ -1488,12 +1458,20 @@
                                             <action selector="pluginSegmentedSwitchHit:" destination="iqd-DZ-5Jg" eventType="valueChanged" id="kpp-4R-qHA"/>
                                         </connections>
                                     </segmentedControl>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1N9-tb-iS1">
+                                        <rect key="frame" x="8" y="499" width="398" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="FWa-YZ-yHf"/>
+                                        </constraints>
+                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="akc-3r-2CV" firstAttribute="leading" secondItem="cSi-to-KCi" secondAttribute="leading" constant="8" id="0XO-lz-bkV"/>
                                     <constraint firstItem="M7U-3F-vCW" firstAttribute="leading" secondItem="cSi-to-KCi" secondAttribute="leading" id="1BK-RO-quz"/>
-                                    <constraint firstAttribute="trailing" secondItem="mC2-yC-J2Z" secondAttribute="trailing" constant="8" id="1R2-91-BFI"/>
                                     <constraint firstItem="1Yf-0N-rwR" firstAttribute="top" secondItem="SQh-Ma-fJD" secondAttribute="bottom" constant="8" id="1hh-OP-zyP"/>
                                     <constraint firstItem="Owz-4h-tYw" firstAttribute="leading" secondItem="cSi-to-KCi" secondAttribute="leading" constant="8" id="8LP-BO-gvc"/>
                                     <constraint firstAttribute="trailing" secondItem="M7U-3F-vCW" secondAttribute="trailing" id="BDA-uc-Ibp"/>
@@ -1516,7 +1494,6 @@
                                     <constraint firstAttribute="trailing" secondItem="0VP-m9-JXo" secondAttribute="trailing" constant="8" id="bln-9c-s8q"/>
                                     <constraint firstAttribute="trailing" secondItem="SQh-Ma-fJD" secondAttribute="trailing" constant="8" id="c2q-kH-xOK"/>
                                     <constraint firstAttribute="trailing" secondItem="GiL-7Z-ExG" secondAttribute="trailing" id="dSv-lO-nYj"/>
-                                    <constraint firstItem="mC2-yC-J2Z" firstAttribute="top" secondItem="0VP-m9-JXo" secondAttribute="bottom" constant="8" id="e4b-uA-klI"/>
                                     <constraint firstItem="0VP-m9-JXo" firstAttribute="top" secondItem="C7L-F3-zko" secondAttribute="bottom" constant="4" id="f3V-Hp-ncW"/>
                                     <constraint firstItem="9td-BX-PXb" firstAttribute="top" secondItem="GiL-7Z-ExG" secondAttribute="bottom" constant="8" id="fBu-2r-JwG"/>
                                     <constraint firstAttribute="trailing" secondItem="TJQ-0O-A7p" secondAttribute="trailing" constant="8" id="fhQ-ZG-Iog"/>
@@ -1525,9 +1502,9 @@
                                     <constraint firstAttribute="trailing" secondItem="akc-3r-2CV" secondAttribute="trailing" constant="8" id="igr-7o-OU0"/>
                                     <constraint firstItem="fuJ-r4-s7X" firstAttribute="leading" secondItem="cSi-to-KCi" secondAttribute="leading" constant="8" id="iv0-53-kyX"/>
                                     <constraint firstItem="M7U-3F-vCW" firstAttribute="top" secondItem="yvz-sI-kPD" secondAttribute="bottom" id="j3d-Td-BZq"/>
-                                    <constraint firstItem="1N9-tb-iS1" firstAttribute="top" secondItem="mC2-yC-J2Z" secondAttribute="bottom" constant="8" id="j8d-bX-QRD"/>
                                     <constraint firstItem="C7L-F3-zko" firstAttribute="leading" secondItem="cSi-to-KCi" secondAttribute="leading" constant="8" id="kAH-2f-f9E"/>
                                     <constraint firstAttribute="trailing" secondItem="FYm-ly-Fy6" secondAttribute="trailing" constant="8" id="kfR-UI-sCr"/>
+                                    <constraint firstItem="1N9-tb-iS1" firstAttribute="top" secondItem="0VP-m9-JXo" secondAttribute="bottom" constant="4" id="kvF-39-nTx"/>
                                     <constraint firstItem="yvz-sI-kPD" firstAttribute="leading" secondItem="cSi-to-KCi" secondAttribute="leading" id="mAY-AU-CfB"/>
                                     <constraint firstAttribute="trailing" secondItem="1N9-tb-iS1" secondAttribute="trailing" constant="8" id="mDZ-RN-XWu"/>
                                     <constraint firstItem="ode-05-Zle" firstAttribute="top" secondItem="akc-3r-2CV" secondAttribute="bottom" constant="8" id="nBY-XA-zNQ"/>
@@ -1542,7 +1519,6 @@
                                     <constraint firstItem="ode-05-Zle" firstAttribute="leading" secondItem="cSi-to-KCi" secondAttribute="leading" constant="8" id="tHO-vB-fos"/>
                                     <constraint firstItem="M7U-3F-vCW" firstAttribute="leading" secondItem="cSi-to-KCi" secondAttribute="leading" id="vb6-ur-bkT"/>
                                     <constraint firstItem="FYm-ly-Fy6" firstAttribute="leading" secondItem="cSi-to-KCi" secondAttribute="leading" constant="8" id="xUV-5d-nMn"/>
-                                    <constraint firstItem="mC2-yC-J2Z" firstAttribute="leading" secondItem="cSi-to-KCi" secondAttribute="leading" constant="8" id="xaw-Ch-QRn"/>
                                     <constraint firstItem="MMg-M7-KyY" firstAttribute="top" secondItem="Kf0-JI-huo" secondAttribute="bottom" constant="8" id="xef-h3-ZUZ"/>
                                     <constraint firstItem="Kf0-JI-huo" firstAttribute="top" secondItem="FYm-ly-Fy6" secondAttribute="bottom" constant="8" id="xgs-lg-FqP"/>
                                     <constraint firstItem="Owz-4h-tYw" firstAttribute="top" secondItem="TJQ-0O-A7p" secondAttribute="bottom" constant="4" id="xtb-dQ-ydf"/>
@@ -1600,16 +1576,15 @@
                         <outlet property="fixedRadiusSegmentedSwitch" destination="MMg-M7-KyY" id="5yC-mN-v8C"/>
                         <outlet property="loginMainAdminButton" destination="e7I-EF-zve" id="9SS-l6-7T7"/>
                         <outlet property="loginPickerView" destination="xp9-Lr-8IZ" id="ri8-dK-XJK"/>
+                        <outlet property="nameTextValue" destination="1N9-tb-iS1" id="JTY-oz-nua"/>
                         <outlet property="objectListPicker" destination="M7U-3F-vCW" id="RYW-hz-NhB"/>
                         <outlet property="pluginSegmentedSwitch" destination="1Yf-0N-rwR" id="830-by-QgV"/>
                         <outlet property="specificationItemsConstraint" destination="vd2-ji-f15" id="9cB-8c-NJT"/>
                         <outlet property="specificationItemsView" destination="cSi-to-KCi" id="NZc-j8-HLZ"/>
                         <outlet property="tagSegmentedControl1" destination="ode-05-Zle" id="kA8-uq-ITD"/>
                         <outlet property="tagSegmentedControl2" destination="fuJ-r4-s7X" id="rvl-Il-xBr"/>
-                        <outlet property="tagSegmentedControl3" destination="mC2-yC-J2Z" id="9Jd-x2-1dn"/>
                         <outlet property="tagTextValue1" destination="TJQ-0O-A7p" id="fRm-bY-WQU"/>
                         <outlet property="tagTextValue2" destination="C7L-F3-zko" id="Kax-jP-0gr"/>
-                        <outlet property="tagTextValue3" destination="1N9-tb-iS1" id="C08-XT-oKa"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="N5d-e5-Pp2" userLabel="First Responder" sceneMemberID="firstResponder"/>

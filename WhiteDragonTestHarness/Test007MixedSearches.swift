@@ -30,10 +30,9 @@ import MapKit
 class Test007MixedSearches: Test006BaselineLocationSearches {
     @IBOutlet weak var tagSegmentedControl1: UISegmentedControl!
     @IBOutlet weak var tagSegmentedControl2: UISegmentedControl!
-    @IBOutlet weak var tagSegmentedControl3: UISegmentedControl!
     @IBOutlet weak var tagTextValue1: UITextField!
     @IBOutlet weak var tagTextValue2: UITextField!
-    @IBOutlet weak var tagTextValue3: UITextField!
+    @IBOutlet weak var nameTextValue: UITextField!
     @IBOutlet weak var pluginSegmentedSwitch: UISegmentedControl!
     
     /* ################################################################## */
@@ -53,8 +52,7 @@ class Test007MixedSearches: Test006BaselineLocationSearches {
             tagSegmentedControl2.isEnabled = true
             
             for segment in 0..<10 {
-                tagSegmentedControl2.setEnabled(segment != mySelectedIndex && segment != tagSegmentedControl3.selectedSegmentIndex, forSegmentAt: segment)
-                tagSegmentedControl3.setEnabled(segment != mySelectedIndex && segment != tagSegmentedControl2.selectedSegmentIndex, forSegmentAt: segment)
+                tagSegmentedControl2.setEnabled(segment != mySelectedIndex, forSegmentAt: segment)
             }
             
             self.tagTextValue1.becomeFirstResponder()
@@ -69,32 +67,12 @@ class Test007MixedSearches: Test006BaselineLocationSearches {
         
         if 0 <= mySelectedIndex {
             self.tagTextValue2.isEnabled = true
-            tagSegmentedControl3.isEnabled = true
 
             for segment in 0..<10 {
-                tagSegmentedControl1.setEnabled(segment != mySelectedIndex && segment != tagSegmentedControl3.selectedSegmentIndex, forSegmentAt: segment)
-                tagSegmentedControl3.setEnabled(segment != mySelectedIndex && segment != tagSegmentedControl1.selectedSegmentIndex, forSegmentAt: segment)
+                tagSegmentedControl1.setEnabled(segment != mySelectedIndex, forSegmentAt: segment)
            }
             
             self.tagTextValue2.becomeFirstResponder()
-        }
-    }
-    
-    /* ################################################################## */
-    /**
-     */
-    @IBAction func tagSegmentedControl3Hit(_ sender: Any) {
-        let mySelectedIndex = tagSegmentedControl3.selectedSegmentIndex
-        
-        if 0 <= mySelectedIndex {
-            self.tagTextValue3.isEnabled = true
-            
-            for segment in 0..<10 {
-                tagSegmentedControl1.setEnabled(segment != mySelectedIndex && segment != tagSegmentedControl2.selectedSegmentIndex, forSegmentAt: segment)
-                tagSegmentedControl2.setEnabled(segment != mySelectedIndex && segment != tagSegmentedControl1.selectedSegmentIndex, forSegmentAt: segment)
-            }
-            
-            self.tagTextValue3.becomeFirstResponder()
         }
     }
 
@@ -171,9 +149,8 @@ class Test007MixedSearches: Test006BaselineLocationSearches {
                 tags["tag\(selectedTag)"] = text
             }
             
-            if let text = self.tagTextValue3.text, !text.isEmpty {
-                let selectedTag = String(self.tagSegmentedControl3.selectedSegmentIndex)
-                tags["tag\(selectedTag)"] = text
+            if let text = self.nameTextValue.text, !text.isEmpty {
+                tags["name"] = text
             }
             
             var usePlugin: String = ""

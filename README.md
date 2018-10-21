@@ -1,9 +1,7 @@
-\mainpage WHITE DRAGON IOS SDK
-
 ![PHP BAOBAB SDK](doc-images/WhiteDragon.png)
 
-THE GREAT RIFT VALLEY PLATFORM COCOA SDK LIBRARY
-==============================================
+THE GREAT RIFT VALLEY PLATFORM COCOA SDK LIBRARY (WHITE DRAGON)
+===============================================================
 
 Part of the Rift Valley Platform
 ----------------------------------
