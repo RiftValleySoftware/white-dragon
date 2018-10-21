@@ -14,7 +14,7 @@
     <a title="RVP_Cocoa_SDK_Payload Class Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">WhiteDragon Docs</a> (100% documented)</p>
+        <p><a href="../index.html">WhiteDragon Docs</a> (0% documented)</p>
         <p class="header-right"><a href="https://github.com/LittleGreenViper/white-dragon"><img src="../img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -44,10 +44,10 @@
                 <a href="../Classes/RVP_Cocoa_SDK.html">RVP_Cocoa_SDK</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Classes/RVP_Cocoa_SDK.html#/s:11WhiteDragon13RVP_Cocoa_SDKC21LocationSpecificationV">– LocationSpecification</a>
+                <a href="../Classes/RVP_Cocoa_SDK/LocationSpecification.html">– LocationSpecification</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Classes/RVP_Cocoa_SDK.html#/s:11WhiteDragon13RVP_Cocoa_SDKC9HTTPErrorV">– HTTPError</a>
+                <a href="../Classes/RVP_Cocoa_SDK.html#/HTTPError">– HTTPError</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/RVP_Cocoa_SDK/DisconnectionReason.html">– DisconnectionReason</a>
@@ -98,12 +98,6 @@
         <section>
           <section class="section">
             <h1>RVP_Cocoa_SDK_Payload</h1>
-              <div class="declaration">
-                <div class="language">
-                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">RVP_Cocoa_SDK_Payload</span></code></pre>
-
-                </div>
-              </div>
             <p>This is a special class for representing the payload as an atomic object. It encapsulates the type and the payload, as a Data object.</p>
 
 <p>Expressing it as a class gives us a couple of things: 1) It allows us to keep it as a reference, as opposed to a copy, and 2) It allows us to easily extend the class with data interpretation.</p>
@@ -122,9 +116,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:11WhiteDragon21RVP_Cocoa_SDK_PayloadC11payloadData10Foundation0H0VSgvp"></a>
+                    <a name="/"></a>
                     <a name="//apple_ref/swift/Property/payloadData" class="dashAnchor"></a>
-                    <a class="token" href="#/s:11WhiteDragon21RVP_Cocoa_SDK_PayloadC11payloadData10Foundation0H0VSgvp">payloadData</a>
+                    <a class="token" href="#/">payloadData</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -135,23 +129,15 @@
                         <p>The payload, as a Data object.</p>
 
                       </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">payloadData</span><span class="p">:</span> <span class="kt">Data</span><span class="p">?</span></code></pre>
-
-                        </div>
-                      </div>
                     </section>
                   </div>
                 </li>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:11WhiteDragon21RVP_Cocoa_SDK_PayloadC11payloadTypeSSvp"></a>
+                    <a name="/"></a>
                     <a name="//apple_ref/swift/Property/payloadType" class="dashAnchor"></a>
-                    <a class="token" href="#/s:11WhiteDragon21RVP_Cocoa_SDK_PayloadC11payloadTypeSSvp">payloadType</a>
+                    <a class="token" href="#/">payloadType</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -161,14 +147,6 @@
                       <div class="abstract">
                         <p>The payload MIME type, as a String.</p>
 
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">payloadType</span><span class="p">:</span> <span class="kt">String</span></code></pre>
-
-                        </div>
                       </div>
                     </section>
                   </div>
@@ -187,9 +165,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:11WhiteDragon21RVP_Cocoa_SDK_PayloadC11payloadData0G4TypeAC10Foundation0H0V_SStcfc"></a>
+                    <a name="/"></a>
                     <a name="//apple_ref/swift/Method/init(payloadData:payloadType:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:11WhiteDragon21RVP_Cocoa_SDK_PayloadC11payloadData0G4TypeAC10Foundation0H0V_SStcfc">init(payloadData:payloadType:)</a>
+                    <a class="token" href="#/">init(payloadData:payloadType:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -199,45 +177,6 @@
                       <div class="abstract">
                         <p>Default Initializer.</p>
 
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="n"><a href="../Classes/RVP_Cocoa_SDK_Payload.html#/s:11WhiteDragon21RVP_Cocoa_SDK_PayloadC11payloadData10Foundation0H0VSgvp">payloadData</a></span> <span class="nv">inData</span><span class="p">:</span> <span class="kt">Data</span><span class="p">,</span> <span class="n"><a href="../Classes/RVP_Cocoa_SDK_Payload.html#/s:11WhiteDragon21RVP_Cocoa_SDK_PayloadC11payloadTypeSSvp">payloadType</a></span> <span class="nv">inType</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>payloadData</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The payload, as a Data object.</p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>payloadType</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The payload&rsquo;s MIME type.</p>
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
                       </div>
                     </section>
                   </div>
@@ -256,9 +195,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:11WhiteDragon21RVP_Cocoa_SDK_PayloadC15payloadResolvedypSgvp"></a>
+                    <a name="/"></a>
                     <a name="//apple_ref/swift/Property/payloadResolved" class="dashAnchor"></a>
-                    <a class="token" href="#/s:11WhiteDragon21RVP_Cocoa_SDK_PayloadC15payloadResolvedypSgvp">payloadResolved</a>
+                    <a class="token" href="#/">payloadResolved</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -267,18 +206,6 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">payloadResolved</span><span class="p">:</span> <span class="kt">Any</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Return Value</h4>
-                        <p>the payload. If possible, as an object (images are UIImage, Video is AVAsset, PDF is PDFDocument, and text is String). Otherwise, nil (no payload) or as a Data object.</p>
                       </div>
                     </section>
                   </div>

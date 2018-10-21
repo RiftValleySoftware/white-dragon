@@ -470,9 +470,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                             self._handleError(SDK_Data_Errors.invalidData(inData))
                         }
                     }
-                } else {
-                    self._handleError(SDK_Data_Errors.invalidData(inData))
-                }
+                }   // No data is not an error. It's just...no data.
             } else {
                 self._handleError(SDK_Data_Errors.invalidData(inData))
             }
@@ -1537,9 +1535,23 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      - autoRadiusThreshold: An optional field with a minimum number of results.
      */
     public struct LocationSpecification {
-        var coords: CLLocationCoordinate2D
-        var radiusInKm: CLLocationDistance
-        var autoRadiusThreshold: Int?
+        public var coords: CLLocationCoordinate2D
+        public var radiusInKm: CLLocationDistance
+        public var autoRadiusThreshold: Int?
+        
+        /* ################################################################## */
+        /**
+         Default Initializer.
+         
+         - parameter coords: A lat/long coordinate (in degrees) of the location
+         - parameter radiusInKm: A distance within which the search will be performed.
+         - parameter autoRadiusThreshold: An optional field with a minimum number of results.
+         */
+        public init(coords inCoords: CLLocationCoordinate2D, radiusInKm inRadiusInKm: CLLocationDistance, autoRadiusThreshold inAutoRadiusThreshold: Int?) {
+            self.coords = inCoords
+            self.radiusInKm = inRadiusInKm
+            self.autoRadiusThreshold = inAutoRadiusThreshold
+        }
     }
 
     /* ################################################################## */

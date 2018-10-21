@@ -20,6 +20,7 @@
 */
 
 import Foundation
+import WhiteDragon
 
 class WhiteDragonSDKTester {
     private var _connectionSession: URLSession?

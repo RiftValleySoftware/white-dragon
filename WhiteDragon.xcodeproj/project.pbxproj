@@ -15,28 +15,20 @@
 		D4333ED9215EA5EF0002EC2F /* RVP_Cocoa_SDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B94830213EEA6200A3560E /* RVP_Cocoa_SDK.swift */; };
 		D43CC10A214C4EA900548B8E /* A_RVP_Cocoa_SDK_Security_Object.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43CC103214C4EA900548B8E /* A_RVP_Cocoa_SDK_Security_Object.swift */; };
 		D43CC10B214C4EA900548B8E /* A_RVP_Cocoa_SDK_Security_Object.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43CC103214C4EA900548B8E /* A_RVP_Cocoa_SDK_Security_Object.swift */; };
-		D43CC10C214C4EA900548B8E /* A_RVP_Cocoa_SDK_Security_Object.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43CC103214C4EA900548B8E /* A_RVP_Cocoa_SDK_Security_Object.swift */; };
 		D43CC10D214C4EA900548B8E /* RVP_Cocoa_SDK_User.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43CC104214C4EA900548B8E /* RVP_Cocoa_SDK_User.swift */; };
 		D43CC10E214C4EA900548B8E /* RVP_Cocoa_SDK_User.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43CC104214C4EA900548B8E /* RVP_Cocoa_SDK_User.swift */; };
-		D43CC10F214C4EA900548B8E /* RVP_Cocoa_SDK_User.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43CC104214C4EA900548B8E /* RVP_Cocoa_SDK_User.swift */; };
 		D43CC110214C4EA900548B8E /* RVP_Cocoa_SDK_Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43CC105214C4EA900548B8E /* RVP_Cocoa_SDK_Place.swift */; };
 		D43CC111214C4EA900548B8E /* RVP_Cocoa_SDK_Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43CC105214C4EA900548B8E /* RVP_Cocoa_SDK_Place.swift */; };
-		D43CC112214C4EA900548B8E /* RVP_Cocoa_SDK_Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43CC105214C4EA900548B8E /* RVP_Cocoa_SDK_Place.swift */; };
 		D43CC113214C4EA900548B8E /* A_RVP_Cocoa_SDK_Data_Object.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43CC106214C4EA900548B8E /* A_RVP_Cocoa_SDK_Data_Object.swift */; };
 		D43CC114214C4EA900548B8E /* A_RVP_Cocoa_SDK_Data_Object.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43CC106214C4EA900548B8E /* A_RVP_Cocoa_SDK_Data_Object.swift */; };
-		D43CC115214C4EA900548B8E /* A_RVP_Cocoa_SDK_Data_Object.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43CC106214C4EA900548B8E /* A_RVP_Cocoa_SDK_Data_Object.swift */; };
 		D43CC116214C4EA900548B8E /* RVP_Cocoa_SDK_Thing.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43CC107214C4EA900548B8E /* RVP_Cocoa_SDK_Thing.swift */; };
 		D43CC117214C4EA900548B8E /* RVP_Cocoa_SDK_Thing.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43CC107214C4EA900548B8E /* RVP_Cocoa_SDK_Thing.swift */; };
-		D43CC118214C4EA900548B8E /* RVP_Cocoa_SDK_Thing.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43CC107214C4EA900548B8E /* RVP_Cocoa_SDK_Thing.swift */; };
 		D43CC119214C4EA900548B8E /* A_RVP_Cocoa_SDK_Object.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43CC108214C4EA900548B8E /* A_RVP_Cocoa_SDK_Object.swift */; };
 		D43CC11A214C4EA900548B8E /* A_RVP_Cocoa_SDK_Object.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43CC108214C4EA900548B8E /* A_RVP_Cocoa_SDK_Object.swift */; };
-		D43CC11B214C4EA900548B8E /* A_RVP_Cocoa_SDK_Object.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43CC108214C4EA900548B8E /* A_RVP_Cocoa_SDK_Object.swift */; };
 		D43CC11C214C4EA900548B8E /* RVP_Cocoa_SDK_Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43CC109214C4EA900548B8E /* RVP_Cocoa_SDK_Login.swift */; };
 		D43CC11D214C4EA900548B8E /* RVP_Cocoa_SDK_Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43CC109214C4EA900548B8E /* RVP_Cocoa_SDK_Login.swift */; };
-		D43CC11E214C4EA900548B8E /* RVP_Cocoa_SDK_Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43CC109214C4EA900548B8E /* RVP_Cocoa_SDK_Login.swift */; };
 		D43CC120214C4EB200548B8E /* RVP_Cocoa_SDK_Internal_Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43CC11F214C4EB200548B8E /* RVP_Cocoa_SDK_Internal_Utils.swift */; };
 		D43CC121214C4EB200548B8E /* RVP_Cocoa_SDK_Internal_Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43CC11F214C4EB200548B8E /* RVP_Cocoa_SDK_Internal_Utils.swift */; };
-		D43CC122214C4EB200548B8E /* RVP_Cocoa_SDK_Internal_Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43CC11F214C4EB200548B8E /* RVP_Cocoa_SDK_Internal_Utils.swift */; };
 		D4687FF42142E4D000293358 /* WhiteDragonSDKTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4687FF32142E4D000293358 /* WhiteDragonSDKTester.swift */; };
 		D477B405213EA86B0018AB45 /* WhiteDragon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D477B3FB213EA86B0018AB45 /* WhiteDragon.framework */; };
 		D477B40A213EA86B0018AB45 /* white_dragonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D477B409213EA86B0018AB45 /* white_dragonTests.swift */; };
@@ -50,7 +42,6 @@
 		D4A5C3432152BA6500159EFF /* TestHarnessUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A5C3422152BA6500159EFF /* TestHarnessUtilities.swift */; };
 		D4B94831213EEA6200A3560E /* RVP_Cocoa_SDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B94830213EEA6200A3560E /* RVP_Cocoa_SDK.swift */; };
 		D4CA327A215943D900A63DAD /* Test002BasicPlaceListing.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4CA3279215943D900A63DAD /* Test002BasicPlaceListing.swift */; };
-		D4D8703621446C0D001283D0 /* RVP_Cocoa_SDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B94830213EEA6200A3560E /* RVP_Cocoa_SDK.swift */; };
 		D4E2685E214302A2002ECE12 /* TestHarnessAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E2685D214302A2002ECE12 /* TestHarnessAppDelegate.swift */; };
 		D4E26863214302A2002ECE12 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4E26861214302A2002ECE12 /* Main.storyboard */; };
 		D4E26865214302A3002ECE12 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4E26864214302A3002ECE12 /* Assets.xcassets */; };
@@ -67,6 +58,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = D477B3FA213EA86B0018AB45;
 			remoteInfo = "white-dragon";
+		};
+		D48742F0217D32A500ADB0A3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D477B3F2213EA86B0018AB45 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D477B3FA213EA86B0018AB45;
+			remoteInfo = WhiteDragon;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -298,6 +296,7 @@
 				D477B3F7213EA86B0018AB45 /* Sources */,
 				D477B3F8213EA86B0018AB45 /* Frameworks */,
 				D477B3F9213EA86B0018AB45 /* Resources */,
+				D48742EF217D322E00ADB0A3 /* Jazzy */,
 			);
 			buildRules = (
 			);
@@ -340,6 +339,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				D48742F1217D32A500ADB0A3 /* PBXTargetDependency */,
 			);
 			name = WhiteDragonTestHarness;
 			productName = WhiteDragonTestHarness;
@@ -479,6 +479,24 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PROJECT_DIR}/Pods/SwiftLint/swiftlint\"\n";
 		};
+		D48742EF217D322E00ADB0A3 /* Jazzy */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = Jazzy;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PROJECT_DIR}/jazzy.command\"\n";
+		};
 		D4B94833213EFB8A00A3560E /* SwiftLINT */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -563,28 +581,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				D403CC1621653A5700FB6315 /* Test006BaselineLocationSearches.swift in Sources */,
-				D43CC118214C4EA900548B8E /* RVP_Cocoa_SDK_Thing.swift in Sources */,
 				D410B1B921775C3A001A42A4 /* Test007MixedSearches.swift in Sources */,
 				D48CBE712163AD0C001EF727 /* TestBaseViewController.swift in Sources */,
 				D4FF8B6521542E9F0051A0B8 /* RVP_DisplayElementView.swift in Sources */,
 				D48CBE6F21638ED8001EF727 /* RVP_ResultListViewController.swift in Sources */,
-				D43CC122214C4EB200548B8E /* RVP_Cocoa_SDK_Internal_Utils.swift in Sources */,
 				D4E2686E2143031E002ECE12 /* WhiteDragonSDKTester.swift in Sources */,
-				D43CC112214C4EA900548B8E /* RVP_Cocoa_SDK_Place.swift in Sources */,
 				D42432BE2162794100CF3C1F /* Test004BaselineSearches.swift in Sources */,
 				D4FC297D21514BFB008271E4 /* Test001BasicUserListing.swift in Sources */,
 				D4CA327A215943D900A63DAD /* Test002BasicPlaceListing.swift in Sources */,
-				D43CC10F214C4EA900548B8E /* RVP_Cocoa_SDK_User.swift in Sources */,
 				D4885EE42155216F00DF9862 /* RVP_DisplayResultsScrollView.swift in Sources */,
 				D48F4A5A215669D300597A2C /* RVP_DisplayResultsScreenViewController.swift in Sources */,
-				D43CC11B214C4EA900548B8E /* A_RVP_Cocoa_SDK_Object.swift in Sources */,
 				D4A3EFDB215E9A9C0056BBA9 /* RVP_iOS_SDK_Utils.swift in Sources */,
-				D43CC11E214C4EA900548B8E /* RVP_Cocoa_SDK_Login.swift in Sources */,
-				D4D8703621446C0D001283D0 /* RVP_Cocoa_SDK.swift in Sources */,
 				D418AF832165242D005FE28A /* Test005BaselineStringSearches.swift in Sources */,
-				D43CC115214C4EA900548B8E /* A_RVP_Cocoa_SDK_Data_Object.swift in Sources */,
 				D4E2685E214302A2002ECE12 /* TestHarnessAppDelegate.swift in Sources */,
-				D43CC10C214C4EA900548B8E /* A_RVP_Cocoa_SDK_Security_Object.swift in Sources */,
 				D4A5C3432152BA6500159EFF /* TestHarnessUtilities.swift in Sources */,
 				D415A1C4215BF4AE00FE4991 /* Test003BasicThingListing.swift in Sources */,
 			);
@@ -597,6 +606,11 @@
 			isa = PBXTargetDependency;
 			target = D477B3FA213EA86B0018AB45 /* WhiteDragon */;
 			targetProxy = D477B406213EA86B0018AB45 /* PBXContainerItemProxy */;
+		};
+		D48742F1217D32A500ADB0A3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D477B3FA213EA86B0018AB45 /* WhiteDragon */;
+			targetProxy = D48742F0217D32A500ADB0A3 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
