@@ -43,7 +43,7 @@ public class A_RVP_Cocoa_SDK_Object: NSObject {
     internal var _myOriginalData: [String: Any] = [:]
 
     /* ################################################################## */
-    // MARK: - Public Methods and Calulated properties -
+    // MARK: - PUBLIC PROPERTIES AND CALCULATED PROPERTIES
     /* ################################################################## */
     /**
      - returns: all of the values for this object, as a Dictionary. READ ONLY
@@ -250,6 +250,18 @@ public class A_RVP_Cocoa_SDK_Object: NSObject {
     }
     
     /* ################################################################## */
+    // MARK: - INTERNAL INSTANCE METHODS
+    /* ################################################################## */
+    /**
+     - returns: Any URI components to the save. The base class returns nothing.
+     */
+    internal func _getChangeURIComponents() -> String {
+        return ""
+    }
+
+    /* ################################################################## */
+    // MARK: - PUBLIC INSTANCE METHODS
+    /* ################################################################## */
     /**
      This is the default initializer.
      
@@ -260,5 +272,47 @@ public class A_RVP_Cocoa_SDK_Object: NSObject {
         self._sdkInstance = inSDKInstance
         self._myData = inData
         self._myOriginalData = inData
+    }
+    
+    /* ################################################################## */
+    /**
+     This will, if necessary, save any changes to this instance.
+     */
+    public func saveChanges() {
+        var uri = ""
+        
+        for item in self._myData {
+            // Everything can be cast to an NSObject, and we can compare them.
+            if "payload" != item.key, let original = self._myOriginalData[item.key] as? NSObject {  // Payload is handled differently
+                if let current = item.value as? NSObject {
+                    // All values should be convertible to String.
+                    if current != original, let uriKey = item.key.urlEncodedString, let valueString = (current as? String)?.urlEncodedString {
+                        if !uri.isEmpty {
+                            uri += "&"
+                        }
+                        
+                        uri += "\(uriKey)=\(valueString)"
+                    }
+                } else {    // This should never happen.
+                    #if DEBUG
+                    print("There Is An Error in the Data! This should not have been encountered! The Data Object is not NSObject-Castable!")
+                    #endif
+                    break
+                }
+            } else if "payload" == item.key {   // Payload needs to be sent either as inline data (PUT), or as multipart-form data (POST).
+                print("DEAL WITH PAYLOAD HERE")
+            }
+        }
+        
+        // We go through the original data as well, in case we deleted something.
+        for item in self._myOriginalData where nil == self._myData[item.key] {
+            if !uri.isEmpty {
+                uri += "&"
+            }
+            
+            uri += "\(item.key)=)"
+        }
+        
+        print(uri)
     }
 }

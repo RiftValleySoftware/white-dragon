@@ -32,7 +32,7 @@ import MapKit
  */
 public class RVP_Cocoa_SDK_Payload {
     /* ################################################################## */
-    // MARK: - Public Properties -
+    // MARK: - PUBLIC PROPERTIES
     /* ################################################################## */
     /**
      The payload, as a Data object.
@@ -46,7 +46,7 @@ public class RVP_Cocoa_SDK_Payload {
     public var payloadType: String = ""
     
     /* ################################################################## */
-    // MARK: - Public Methods -
+    // MARK: - PUBLIC METHODS
     /* ################################################################## */
     /**
      Default Initializer.
@@ -68,7 +68,7 @@ public class RVP_Cocoa_SDK_Payload {
  */
 public class A_RVP_Cocoa_SDK_Data_Object: A_RVP_Cocoa_SDK_Object {
     /* ################################################################## */
-    // MARK: - Public Methods and Calulated properties -
+    // MARK: - PUBLIC PROPERTIES AND CALCULATED PROPERTIES
     /* ################################################################## */
     /**
      - returns: all of the values for this object, as a Dictionary. READ ONLY
@@ -299,6 +299,8 @@ public class A_RVP_Cocoa_SDK_Data_Object: A_RVP_Cocoa_SDK_Object {
         return ret
     }
 
+    /* ################################################################## */
+    // MARK: - PUBLIC INSTANCE METHODS
     /* ################################################################## */
     /**
      This is the default initializer.
