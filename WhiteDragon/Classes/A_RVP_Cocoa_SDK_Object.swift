@@ -43,7 +43,7 @@ public class A_RVP_Cocoa_SDK_Object: NSObject {
     internal var _myOriginalData: [String: Any] = [:]
 
     /* ################################################################## */
-    // MARK: - PUBLIC PROPERTIES AND CALCULATED PROPERTIES
+    // MARK: - Public Properties and Calculated Properties
     /* ################################################################## */
     /**
      - returns: all of the values for this object, as a Dictionary. READ ONLY
@@ -250,7 +250,7 @@ public class A_RVP_Cocoa_SDK_Object: NSObject {
     }
     
     /* ################################################################## */
-    // MARK: - INTERNAL INSTANCE METHODS
+    // MARK: - Internal Instance Methods
     /* ################################################################## */
     /**
      - returns: Any URI components to the save. The base class returns nothing.
@@ -260,7 +260,7 @@ public class A_RVP_Cocoa_SDK_Object: NSObject {
     }
 
     /* ################################################################## */
-    // MARK: - PUBLIC INSTANCE METHODS
+    // MARK: - Public Instance Methods
     /* ################################################################## */
     /**
      This is the default initializer.

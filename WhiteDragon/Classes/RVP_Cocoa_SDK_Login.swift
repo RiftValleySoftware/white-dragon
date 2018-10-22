@@ -28,7 +28,7 @@ import Foundation
  */
 public class RVP_Cocoa_SDK_Login: A_RVP_Cocoa_SDK_Security_Object {
     /* ################################################################## */
-    // MARK: - PUBLIC PROPERTIES AND CALCULATED PROPERTIES
+    // MARK: - Public Properties and Calculated Properties
     /* ################################################################## */
     /**
      - returns: all of the values for this object, as a Dictionary. READ ONLY
@@ -112,7 +112,7 @@ public class RVP_Cocoa_SDK_Login: A_RVP_Cocoa_SDK_Security_Object {
     }
 
     /* ################################################################## */
-    // MARK: - PUBLIC INSTANCE METHODS
+    // MARK: - Public Instance Methods
     /* ################################################################## */
     /**
      This is the default initializer.
