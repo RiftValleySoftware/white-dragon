@@ -20,6 +20,7 @@
 */
 
 import UIKit
+import WhiteDragon
 
 /* ###################################################################################################################################### */
 // MARK: - Main Class -
@@ -28,5 +29,16 @@ import UIKit
  */
 @IBDesignable
 class RVP_EditElementViewController: UIViewController {
-
+    var editableObject: A_RVP_Cocoa_SDK_Object!
+    var sdkInstance: RVP_Cocoa_SDK!
+    @IBOutlet weak var saveButton: UIBarButtonItem!
+    @IBOutlet weak var cancelButton: UIBarButtonItem!
+    
+    @IBAction func saveButtonHit(_ sender: UIBarButtonItem) {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    @IBAction func cancelButtonHit(_ sender: Any) {
+        self.navigationController?.popViewController(animated: true)
+    }
 }

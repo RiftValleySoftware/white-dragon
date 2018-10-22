@@ -395,7 +395,7 @@
                                 </constraints>
                                 <state key="normal" title="EDIT RECORD"/>
                                 <connections>
-                                    <segue destination="c47-Vf-1Wl" kind="show" id="h7s-nu-EwR"/>
+                                    <segue destination="c47-Vf-1Wl" kind="show" identifier="edit-record-data" id="h7s-nu-EwR"/>
                                 </connections>
                             </button>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fNf-mv-eXk">
@@ -1615,6 +1615,22 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="WBV-1y-vYc"/>
                     </view>
+                    <navigationItem key="navigationItem" title="EDIT RECORD" id="JIE-nL-aSd">
+                        <barButtonItem key="leftBarButtonItem" title="CANCEL" id="JxQ-ws-W98">
+                            <connections>
+                                <action selector="cancelButtonHit:" destination="c47-Vf-1Wl" id="cAe-BF-klr"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="SAVE" id="DPp-RO-Dg4">
+                            <connections>
+                                <action selector="saveButtonHit:" destination="c47-Vf-1Wl" id="rst-ma-KqF"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="cancelButton" destination="JxQ-ws-W98" id="8MN-z9-kGs"/>
+                        <outlet property="saveButton" destination="DPp-RO-Dg4" id="HxC-ba-FL1"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xp4-27-cwz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
