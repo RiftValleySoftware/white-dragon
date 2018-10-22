@@ -28,7 +28,7 @@ import Foundation
  */
 public class A_RVP_Cocoa_SDK_Object: NSObject {
     /* ################################################################## */
-    // MARK: - Internal Variables -
+    // MARK: - Internal Properties
     /* ################################################################## */
     /** This is the SDK object that "owns" this instance. It may be nil for change history entries. */
     internal weak var _sdkInstance: RVP_Cocoa_SDK?
@@ -41,6 +41,48 @@ public class A_RVP_Cocoa_SDK_Object: NSObject {
     
     /** This is used to detect "dirty" conditions. This is a Dictionary full of SHA values of the original data. */
     internal var _myOriginalData: [String: Any] = [:]
+
+    /* ################################################################## */
+    // MARK: - Internal Calculated Properties
+    /* ################################################################## */
+    /**
+     - returns: The URI with any changed fields. Empty String, if no changes. READ ONLY
+     */
+    internal var _saveChangesURI: String {
+        var uri = ""
+        
+        for item in self._myData {
+            // Everything can be cast to an NSObject, and we can compare them.
+            if "payload" != item.key, let original = self._myOriginalData[item.key] as? NSObject {  // Payload is handled differently
+                if let current = item.value as? NSObject {
+                    // All values should be convertible to String.
+                    if current != original, let uriKey = item.key.urlEncodedString, let valueString = (current as? String)?.urlEncodedString {
+                        if !uri.isEmpty {
+                            uri += "&"
+                        }
+                        
+                        uri += "\(uriKey)=\(valueString)"
+                    }
+                } else {    // This should never happen.
+                    #if DEBUG
+                    print("There Is An Error in the Data! This should not have been encountered! The Data Object is not NSObject-Castable!")
+                    #endif
+                    break
+                }
+            }
+        }
+        
+        // We go through the original data as well, in case we deleted something.
+        for item in self._myOriginalData where nil == self._myData[item.key] {
+            if !uri.isEmpty {
+                uri += "&"
+            }
+            
+            uri += "\(item.key)=)"
+        }
+        
+        return uri
+    }
 
     /* ################################################################## */
     // MARK: - Public Properties and Calculated Properties
@@ -69,42 +111,6 @@ public class A_RVP_Cocoa_SDK_Object: NSObject {
 
         return ret
     }
-    
-    /* ################################################################## */
-    /**
-     - returns: true, if the data in the object has been changed since it was first created. READ ONLY
-     */
-    public var isDirty: Bool {
-        var ret: Bool = false
-        
-        for item in self._myData {
-            // Everything can be cast to an NSObject, and we can compare them.
-            if let original = self._myOriginalData[item.key] as? NSObject {
-                if let current = item.value as? NSObject {
-                    if current != original {
-                        ret = true
-                        break
-                    }
-                } else {    // This should never happen.
-                    #if DEBUG
-                    print("There Is An Error in the Data! This should not have been encountered! The Data Object is not NSObject-Castable!")
-                    #endif
-                    ret = true
-                    break
-                }
-            } else {    // If the item is missing, then we are definitely dirty.
-                ret = true
-                break
-            }
-        }
-        
-        // We go through the original data as well, in case we deleted something.
-        for item in self._myOriginalData where !ret && (nil == self._myData[item.key]) {
-            ret = true
-        }
-        
-        return ret
-    }
 
     /* ################################################################## */
     /**
@@ -118,6 +124,47 @@ public class A_RVP_Cocoa_SDK_Object: NSObject {
         }
         
         return ret
+    }
+
+    /* ################################################################## */
+    /**
+     - returns: true, if the data in the object has been changed since it was first created. READ ONLY
+     */
+    public var isDirty: Bool {
+        var ret: Bool = self.isNew    // New is automatically dirty.
+        
+        for item in self._myData where !ret {
+            // Everything can be cast to an NSObject, and we can compare them.
+            if let original = self._myOriginalData[item.key] as? NSObject {
+                if let current = item.value as? NSObject {
+                    if current != original {
+                        ret = true
+                    }
+                } else {    // This should never happen.
+                    #if DEBUG
+                    print("There Is An Error in the Data! This should not have been encountered! The Data Object is not NSObject-Castable!")
+                    #endif
+                    ret = true
+                }
+            } else {    // If the item was added, then we are definitely dirty.
+                ret = true
+            }
+        }
+        
+        // We go through the original data as well, in case we deleted something.
+        for item in self._myOriginalData where !ret && (nil == self._myData[item.key]) {
+            ret = true
+        }
+        
+        return ret
+    }
+
+    /* ################################################################## */
+    /**
+     - returns: true, if the object is a new object that did not come from the server. READ ONLY
+     */
+    public var isNew: Bool {
+        return 0 == self.id // If the ID is zero, then we are new.
     }
 
     /* ################################################################## */
@@ -276,43 +323,9 @@ public class A_RVP_Cocoa_SDK_Object: NSObject {
     
     /* ################################################################## */
     /**
-     This will, if necessary, save any changes to this instance.
+     This handles sending our data (if necessary) to the server.
      */
-    public func saveChanges() {
-        var uri = ""
-        
-        for item in self._myData {
-            // Everything can be cast to an NSObject, and we can compare them.
-            if "payload" != item.key, let original = self._myOriginalData[item.key] as? NSObject {  // Payload is handled differently
-                if let current = item.value as? NSObject {
-                    // All values should be convertible to String.
-                    if current != original, let uriKey = item.key.urlEncodedString, let valueString = (current as? String)?.urlEncodedString {
-                        if !uri.isEmpty {
-                            uri += "&"
-                        }
-                        
-                        uri += "\(uriKey)=\(valueString)"
-                    }
-                } else {    // This should never happen.
-                    #if DEBUG
-                    print("There Is An Error in the Data! This should not have been encountered! The Data Object is not NSObject-Castable!")
-                    #endif
-                    break
-                }
-            } else if "payload" == item.key {   // Payload needs to be sent either as inline data (PUT), or as multipart-form data (POST).
-                print("DEAL WITH PAYLOAD HERE")
-            }
-        }
-        
-        // We go through the original data as well, in case we deleted something.
-        for item in self._myOriginalData where nil == self._myData[item.key] {
-            if !uri.isEmpty {
-                uri += "&"
-            }
-            
-            uri += "\(item.key)=)"
-        }
-        
-        print(uri)
+    public func sendToServer() {
+        self._sdkInstance?._putObject(self)
     }
 }

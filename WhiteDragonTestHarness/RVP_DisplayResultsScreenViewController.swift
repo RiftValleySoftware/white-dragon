@@ -35,11 +35,13 @@ class RVP_DisplayResultsScreenViewController: UIViewController, UIDocumentIntera
             }
         }
     }
-
+    
     private var _childrenArray: [A_RVP_Cocoa_SDK_Object] = []
 
     @IBOutlet weak var resultsScrollView: RVP_DisplayResultsScrollView!
     @IBOutlet weak var activityView: UIView!
+    @IBOutlet weak var editRecordButton: UIButton!
+    
     var resultsArray: [A_RVP_Cocoa_SDK_Object] = []
     var sdkInstance: RVP_Cocoa_SDK!
     var documentDisplayController: UIDocumentInteractionController?
@@ -124,7 +126,7 @@ class RVP_DisplayResultsScreenViewController: UIViewController, UIDocumentIntera
         self.resultsScrollView.results = self.resultsArray
         self.resultsScrollView.sdkInstance = self.sdkInstance
         self.navigationController?.navigationBar.isHidden = false
-
+        self.editRecordButton?.isHidden = 1 < self.resultsArray.count || !self.resultsArray[0].isWriteable
         super.viewWillAppear(animated)
         self.done()
     }
@@ -201,11 +203,15 @@ class RVP_DisplayResultsScreenViewController: UIViewController, UIDocumentIntera
             resultsArray.append(contentsOf: toBeAdded)
         }
         
-        if self._fetchingChildren {
-            self._childrenArray = resultsArray
-        } else {
-            self.resultsArray = resultsArray
-            self.resultsScrollView.results = self.resultsArray
+        DispatchQueue.main.async {
+            if self._fetchingChildren {
+                self._childrenArray = resultsArray
+            } else {
+                self.resultsArray = resultsArray
+                self.resultsScrollView.results = self.resultsArray
+            }
+            
+            self.editRecordButton?.isHidden = 1 < self.resultsArray.count || !self.resultsArray[0].isWriteable
         }
     }
     

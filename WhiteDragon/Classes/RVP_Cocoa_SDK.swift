@@ -1417,7 +1417,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
             return ""
         }) as Array).joined(separator: "&")
         
-        self._fetchObjectsByStringPartDuex(url, tags: inTagValues, andLocation: currentLocation, withPlugin: inPlugin, maxRadiusInKm: maxRadius, threshold: threshold)
+        self._fetchObjectsByStringPartDeux(url, tags: inTagValues, andLocation: currentLocation, withPlugin: inPlugin, maxRadiusInKm: maxRadius, threshold: threshold)
     }
     
     /* ################################################################## */
@@ -1436,7 +1436,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      - parameter maxRadiusInKm: This is a "maximum radius." If left at 0, then only one radius search will be done. If more than zero, and more than the radius in the location, then the radius will be increaed by the auto-radius step size, and another call will be made, if the threshold has not been satisfied. If no location is given, this is ignored.
      - parameter threshold: This is an Int with a minimum count threshold. Default is 0.
      */
-    private func _fetchObjectsByStringPartDuex(_ inUrl: String, tags inTagValues: [String: String], andLocation inLocation: LocationSpecification! = nil, withPlugin inPlugin: String, maxRadiusInKm inMaxRadiusInKm: Double = 0, threshold inThreshold: Int = 0) {
+    private func _fetchObjectsByStringPartDeux(_ inUrl: String, tags inTagValues: [String: String], andLocation inLocation: LocationSpecification! = nil, withPlugin inPlugin: String, maxRadiusInKm inMaxRadiusInKm: Double = 0, threshold inThreshold: Int = 0) {
         // The request is a simple GET task, so we can just use a straight-up task for this.
         if let url_object = URL(string: inUrl) {
             type(of: self)._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
@@ -1521,6 +1521,34 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                 self._connectionSession.finishTasksAndInvalidate()   // Take off and nuke the site from orbit. It's the only way to be sure.
             }
             self._connectionSession = nil   // We had a strong reference, so we need to make sure we delete our reference.
+        }
+    }
+    
+    /* ################################################################## */
+    /**
+     This executes a PUT query to the server, sending the data as necessary.
+     
+     - parameter inPutObject: The object to send to the server.
+     */
+    internal func _putObject(_ inObjectToPut: A_RVP_Cocoa_SDK_Object) {
+        var uri = ""
+        var payloadString = ""
+        
+        if inObjectToPut.isDirty {
+            uri = inObjectToPut._saveChangesURI // First, get the changes URI.
+        }
+        
+        // If we have a dirty payload, then we take care of that here.
+        if let dataObject = inObjectToPut as? A_RVP_Cocoa_SDK_Data_Object, dataObject.isPayloadDirty, let tempPayloadString = dataObject.rawBase64Payload {
+            payloadString = tempPayloadString
+        }
+        
+        if !payloadString.isEmpty {
+            print("WE HAVE PAYLOAD")
+        }
+        
+        if !uri.isEmpty {
+            print("SAVE URI: \(uri)")
         }
     }
 

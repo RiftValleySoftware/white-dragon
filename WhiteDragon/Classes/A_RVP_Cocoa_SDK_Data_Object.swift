@@ -113,12 +113,54 @@ public class A_RVP_Cocoa_SDK_Data_Object: A_RVP_Cocoa_SDK_Object {
     
     /* ################################################################## */
     /**
-     - returns: the payload. If possible. The payload will be expressed as a Data object. The type will be the MIME type. READ ONLY
+     - returns: true, if we have a payload (or we no longer have a payload), and that represents a change from the original.
+     */
+    public var isPayloadDirty: Bool {
+        if let originalPayload = self._myOriginalData["payload"] as? String, let currentPayload = self._myData["payload"] as? String {
+            return originalPayload != currentPayload
+        } else if nil != self._myOriginalData["payload"] as? String {
+            return true
+        } else if nil != self._myData["payload"] as? String {
+            return true
+        }
+        
+        return false
+    }
+    
+    /* ################################################################## */
+    /**
+     - returns: the payload as a raw, Base64-encoded String.
+     */
+    public var rawBase64Payload: String? {
+        get {
+            var ret: String?
+            
+            if  let payload = self._myData["payload"] as? String {
+                ret = payload
+            }
+            
+            return ret
+        }
+        
+        set {
+            if self.isWriteable {
+                if newValue?.isEmpty ?? true {
+                    self._myData.removeValue(forKey: "payload")
+                } else {
+                    self._myData["payload"] = newValue
+                }
+            }
+        }
+    }
+    
+    /* ################################################################## */
+    /**
+     - returns: the payload, as interpreted. If possible. The payload will be expressed as a Data object. The type will be the MIME type. READ ONLY
      */
     public var payload: RVP_Cocoa_SDK_Payload? {
         var ret: RVP_Cocoa_SDK_Payload?
         
-        if  let payload = self._myData["payload"] as? String {
+        if  let payload = self.rawBase64Payload {
             // We need to remove the Base64 encoding for the data, then we convert it to a basic Data object.
             if let decodedData = NSData(base64Encoded: payload, options: NSData.Base64DecodingOptions(rawValue: 0)) as Data? {
                 ret = RVP_Cocoa_SDK_Payload(payloadData: decodedData, payloadType: self.payloadType)
@@ -127,7 +169,7 @@ public class A_RVP_Cocoa_SDK_Data_Object: A_RVP_Cocoa_SDK_Object {
         
         return ret
     }
-    
+
     /* ################################################################## */
     /**
      - returns: a Dictionary of Arrays of Int, with the IDs (not objects) of "children" records.
@@ -146,18 +188,30 @@ public class A_RVP_Cocoa_SDK_Data_Object: A_RVP_Cocoa_SDK_Object {
     
     /* ################################################################## */
     /**
-     - returns: the payload type (MIME type). READ ONLY
+     - returns: the payload type (MIME type)
      */
     public var payloadType: String {
-        var ret: String = ""
-        
-        if let payloadType = self._myData["payload_type"] as? String {
-            if let semicolon = payloadType.index(of: ";") {
-                ret = String(payloadType.prefix(upTo: semicolon))
+        get {
+            var ret: String = ""
+            
+            if let payloadType = self._myData["payload_type"] as? String {
+                if let semicolon = payloadType.index(of: ";") {
+                    ret = String(payloadType.prefix(upTo: semicolon))
+                }
             }
+            
+            return ret
         }
         
-        return ret
+        set {
+            if self.isWriteable {
+                if newValue.isEmpty {
+                    self._myData.removeValue(forKey: "payload_type")
+                } else {
+                    self._myData["payload_type"] = newValue
+                }
+            }
+        }
     }
     
     /* ################################################################## */
@@ -216,8 +270,13 @@ public class A_RVP_Cocoa_SDK_Data_Object: A_RVP_Cocoa_SDK_Object {
         
         set {
             if self.isWriteable {
-                self._myData["fuzz_factor"] = newValue
-                self._myData["fuzzy"] = 0.0 != newValue
+                if let fuzz = newValue, 0.0 < fuzz {
+                    self._myData["fuzz_factor"] = newValue
+                    self._myData["fuzzy"] = true
+                } else {
+                    self._myData.removeValue(forKey: "fuzz_factor")
+                    self._myData.removeValue(forKey: "fuzzy")
+                }
             }
         }
     }
@@ -241,6 +300,8 @@ public class A_RVP_Cocoa_SDK_Data_Object: A_RVP_Cocoa_SDK_Object {
         set {
             if self.isWriteable, let newVal = newValue, (self._sdkInstance?.securityTokens.contains(newVal))! {
                 self._myData["can_see_through_the_fuzz"] = newVal
+            } else {
+                self._myData.removeValue(forKey: "can_see_through_the_fuzz")
             }
         }
     }
@@ -264,6 +325,9 @@ public class A_RVP_Cocoa_SDK_Data_Object: A_RVP_Cocoa_SDK_Object {
             if self.isWriteable, let newVal = newValue {
                 self._myData["longitude"] = newVal.longitude
                 self._myData["latitude"] = newVal.latitude
+            } else {
+                self._myData.removeValue(forKey: "longitude")
+                self._myData.removeValue(forKey: "latitude")
             }
         }
     }
