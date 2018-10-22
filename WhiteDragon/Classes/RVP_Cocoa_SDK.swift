@@ -985,7 +985,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
         
         // First, we look for cached instances. If we have them, we send them to the delegate.
         for var id in inIntegerIDs {
-            for dataItem in self._dataItems {   // See if we already have this item. If so, we immediately fetch it.
+            for dataItem in self {   // See if we already have this item. If so, we immediately fetch it.
                 if let dataItem = dataItem as? A_RVP_Cocoa_SDK_Data_Object, dataItem.id == id {
                     cachedObjects.append(dataItem)
                     id = 0
@@ -1122,7 +1122,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
         
         // First, we look for cached instances. If we have them, we send them to the delegate.
         for var id in inIntegerIDs {
-            for dataItem in self._dataItems where dataItem is A_RVP_Cocoa_SDK_Security_Object && dataItem.id == id {
+            for dataItem in self where dataItem is A_RVP_Cocoa_SDK_Security_Object && dataItem.id == id {
                 cachedObjects.append(dataItem)
                 id = 0
             }
@@ -1163,7 +1163,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
         
         // First, we look for cached instances. If we have them, we send them to the delegate.
         for var id in inLoginIDs {
-            for dataItem in self._dataItems where dataItem is A_RVP_Cocoa_SDK_Security_Object {
+            for dataItem in self where dataItem is A_RVP_Cocoa_SDK_Security_Object {
                 if let secItem = dataItem as? A_RVP_Cocoa_SDK_Security_Object, secItem.loginID == id {
                     cachedObjects.append(dataItem)
                     id = ""
@@ -1206,7 +1206,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
 
         // First, we look for cached instances. If we have them, we send them to the delegate.
         for var key in inKeys {
-            for dataItem in self._dataItems where dataItem is RVP_Cocoa_SDK_Thing {
+            for dataItem in self where dataItem is RVP_Cocoa_SDK_Thing {
                 if let thing = dataItem as? RVP_Cocoa_SDK_Thing, thing.thingKey == key {
                     cachedObjects.append(thing)
                     key = ""
@@ -1527,8 +1527,12 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
     /* ################################################################## */
     // MARK: - Public Types and Structs
     /* ################################################################## */
-    /** This is the element type for the Sequence protocol. */
+    /**
+     This is the element type for the Sequence protocol.
+     */
     public typealias Element = A_RVP_Cocoa_SDK_Object
+
+    /* ################################################################## */
     /** This is how we specify the location for searches.
      - coords: A lat/long coordinate (in degrees) of the location
      - radiusInKm: A distance within which the search will be performed.
