@@ -315,7 +315,6 @@
 				D4AD1751217DE96100F768A3 /* Sources */,
 				D4AD1752217DE96100F768A3 /* Frameworks */,
 				D4AD1753217DE96100F768A3 /* CopyFiles */,
-				D4AD176D217DEDF500F768A3 /* Jazzy */,
 			);
 			buildRules = (
 			);
@@ -467,24 +466,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PROJECT_DIR}/Pods/SwiftLint/swiftlint\"\n";
-		};
-		D4AD176D217DEDF500F768A3 /* Jazzy */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = Jazzy;
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PROJECT_DIR}/jazzy.command\"\n";
 		};
 		EAF8F3A132FDE1CDCC332764 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
