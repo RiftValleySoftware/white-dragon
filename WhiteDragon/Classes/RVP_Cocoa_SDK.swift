@@ -1535,16 +1535,30 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      - autoRadiusThreshold: An optional field with a minimum number of results.
      */
     public struct LocationSpecification {
+        /* ############################################################## */
+        /**
+         A lat/long coordinate (in degrees) of the location.
+         */
         public var coords: CLLocationCoordinate2D
+
+        /* ############################################################## */
+        /**
+         A distance (in Kilometers) within which the search will be performed.
+         */
         public var radiusInKm: CLLocationDistance
+
+        /* ############################################################## */
+        /**
+         An optional field with a minimum number of results.
+         */
         public var autoRadiusThreshold: Int?
         
-        /* ################################################################## */
+        /* ############################################################## */
         /**
          Default Initializer.
          
-         - parameter coords: A lat/long coordinate (in degrees) of the location
-         - parameter radiusInKm: A distance within which the search will be performed.
+         - parameter coords: A lat/long coordinate (in degrees) of the location.
+         - parameter radiusInKm: A distance (in Kilometers) within which the search will be performed.
          - parameter autoRadiusThreshold: An optional field with a minimum number of results.
          */
         public init(coords inCoords: CLLocationCoordinate2D, radiusInKm inRadiusInKm: CLLocationDistance, autoRadiusThreshold inAutoRadiusThreshold: Int?) {
