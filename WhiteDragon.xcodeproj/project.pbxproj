@@ -12,15 +12,7 @@
 		D415A1C4215BF4AE00FE4991 /* Test003BasicThingListing.swift in Sources */ = {isa = PBXBuildFile; fileRef = D415A1C3215BF4AE00FE4991 /* Test003BasicThingListing.swift */; };
 		D418AF832165242D005FE28A /* Test005BaselineStringSearches.swift in Sources */ = {isa = PBXBuildFile; fileRef = D418AF822165242C005FE28A /* Test005BaselineStringSearches.swift */; };
 		D42432BE2162794100CF3C1F /* Test004BaselineSearches.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42432BD2162794100CF3C1F /* Test004BaselineSearches.swift */; };
-		D4333ED9215EA5EF0002EC2F /* RVP_Cocoa_SDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B94830213EEA6200A3560E /* RVP_Cocoa_SDK.swift */; };
-		D43CC10B214C4EA900548B8E /* A_RVP_Cocoa_SDK_Security_Object.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43CC103214C4EA900548B8E /* A_RVP_Cocoa_SDK_Security_Object.swift */; };
-		D43CC10E214C4EA900548B8E /* RVP_Cocoa_SDK_User.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43CC104214C4EA900548B8E /* RVP_Cocoa_SDK_User.swift */; };
-		D43CC111214C4EA900548B8E /* RVP_Cocoa_SDK_Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43CC105214C4EA900548B8E /* RVP_Cocoa_SDK_Place.swift */; };
-		D43CC114214C4EA900548B8E /* A_RVP_Cocoa_SDK_Data_Object.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43CC106214C4EA900548B8E /* A_RVP_Cocoa_SDK_Data_Object.swift */; };
-		D43CC117214C4EA900548B8E /* RVP_Cocoa_SDK_Thing.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43CC107214C4EA900548B8E /* RVP_Cocoa_SDK_Thing.swift */; };
-		D43CC11A214C4EA900548B8E /* A_RVP_Cocoa_SDK_Object.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43CC108214C4EA900548B8E /* A_RVP_Cocoa_SDK_Object.swift */; };
-		D43CC11D214C4EA900548B8E /* RVP_Cocoa_SDK_Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43CC109214C4EA900548B8E /* RVP_Cocoa_SDK_Login.swift */; };
-		D43CC121214C4EB200548B8E /* RVP_Cocoa_SDK_Internal_Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43CC11F214C4EB200548B8E /* RVP_Cocoa_SDK_Internal_Utils.swift */; };
+		D4420C32217DF66D00E46CCF /* WhiteDragonSDKTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4687FF32142E4D000293358 /* WhiteDragonSDKTester.swift */; };
 		D4687FF42142E4D000293358 /* WhiteDragonSDKTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4687FF32142E4D000293358 /* WhiteDragonSDKTester.swift */; };
 		D477B40A213EA86B0018AB45 /* white_dragonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D477B409213EA86B0018AB45 /* white_dragonTests.swift */; };
 		D4885EE42155216F00DF9862 /* RVP_DisplayResultsScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4885EE32155216F00DF9862 /* RVP_DisplayResultsScrollView.swift */; };
@@ -46,7 +38,6 @@
 		D4E26863214302A2002ECE12 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4E26861214302A2002ECE12 /* Main.storyboard */; };
 		D4E26865214302A3002ECE12 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4E26864214302A3002ECE12 /* Assets.xcassets */; };
 		D4E26868214302A4002ECE12 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4E26866214302A3002ECE12 /* LaunchScreen.storyboard */; };
-		D4E2686E2143031E002ECE12 /* WhiteDragonSDKTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4687FF32142E4D000293358 /* WhiteDragonSDKTester.swift */; };
 		D4FC297D21514BFB008271E4 /* Test001BasicUserListing.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FC297C21514BFB008271E4 /* Test001BasicUserListing.swift */; };
 		D4FF8B6521542E9F0051A0B8 /* RVP_DisplayElementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FF8B6421542E9F0051A0B8 /* RVP_DisplayElementView.swift */; };
 /* End PBXBuildFile section */
@@ -100,7 +91,6 @@
 		D43CC11F214C4EB200548B8E /* RVP_Cocoa_SDK_Internal_Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RVP_Cocoa_SDK_Internal_Utils.swift; path = Classes/RVP_Cocoa_SDK_Internal_Utils.swift; sourceTree = "<group>"; };
 		D444087121550797002CCA50 /* RevealServer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RevealServer.framework; path = "Pods/Reveal-SDK/RevealServer-18/iOS/RevealServer.framework"; sourceTree = "<group>"; };
 		D4687FF32142E4D000293358 /* WhiteDragonSDKTester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteDragonSDKTester.swift; sourceTree = "<group>"; };
-		D477B3FE213EA86B0018AB45 /* white_dragon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = white_dragon.h; sourceTree = "<group>"; };
 		D477B3FF213EA86B0018AB45 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D477B404213EA86B0018AB45 /* WhiteDragonTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WhiteDragonTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D477B409213EA86B0018AB45 /* white_dragonTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = white_dragonTests.swift; sourceTree = "<group>"; };
@@ -222,7 +212,6 @@
 		D48076802146B66A00ACC0FE /* Miscellaneous */ = {
 			isa = PBXGroup;
 			children = (
-				D477B3FE213EA86B0018AB45 /* white_dragon.h */,
 				D477B3FF213EA86B0018AB45 /* Info.plist */,
 			);
 			path = Miscellaneous;
@@ -497,17 +486,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				D4687FF42142E4D000293358 /* WhiteDragonSDKTester.swift in Sources */,
-				D43CC10B214C4EA900548B8E /* A_RVP_Cocoa_SDK_Security_Object.swift in Sources */,
-				D43CC117214C4EA900548B8E /* RVP_Cocoa_SDK_Thing.swift in Sources */,
-				D43CC114214C4EA900548B8E /* A_RVP_Cocoa_SDK_Data_Object.swift in Sources */,
 				D4A3EFDD215E9B4E0056BBA9 /* RVP_Cocoa_SDK_Utils.swift in Sources */,
-				D43CC111214C4EA900548B8E /* RVP_Cocoa_SDK_Place.swift in Sources */,
-				D43CC121214C4EB200548B8E /* RVP_Cocoa_SDK_Internal_Utils.swift in Sources */,
-				D4333ED9215EA5EF0002EC2F /* RVP_Cocoa_SDK.swift in Sources */,
-				D43CC10E214C4EA900548B8E /* RVP_Cocoa_SDK_User.swift in Sources */,
-				D43CC11A214C4EA900548B8E /* A_RVP_Cocoa_SDK_Object.swift in Sources */,
 				D477B40A213EA86B0018AB45 /* white_dragonTests.swift in Sources */,
-				D43CC11D214C4EA900548B8E /* RVP_Cocoa_SDK_Login.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -536,12 +516,12 @@
 				D48CBE712163AD0C001EF727 /* TestBaseViewController.swift in Sources */,
 				D4FF8B6521542E9F0051A0B8 /* RVP_DisplayElementView.swift in Sources */,
 				D48CBE6F21638ED8001EF727 /* RVP_ResultListViewController.swift in Sources */,
-				D4E2686E2143031E002ECE12 /* WhiteDragonSDKTester.swift in Sources */,
 				D42432BE2162794100CF3C1F /* Test004BaselineSearches.swift in Sources */,
 				D4FC297D21514BFB008271E4 /* Test001BasicUserListing.swift in Sources */,
 				D4CA327A215943D900A63DAD /* Test002BasicPlaceListing.swift in Sources */,
 				D4885EE42155216F00DF9862 /* RVP_DisplayResultsScrollView.swift in Sources */,
 				D48F4A5A215669D300597A2C /* RVP_DisplayResultsScreenViewController.swift in Sources */,
+				D4420C32217DF66D00E46CCF /* WhiteDragonSDKTester.swift in Sources */,
 				D4A3EFDB215E9A9C0056BBA9 /* RVP_Cocoa_SDK_Utils.swift in Sources */,
 				D418AF832165242D005FE28A /* Test005BaselineStringSearches.swift in Sources */,
 				D4E2685E214302A2002ECE12 /* TestHarnessAppDelegate.swift in Sources */,
