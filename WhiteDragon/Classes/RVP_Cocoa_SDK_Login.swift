@@ -28,6 +28,24 @@ import Foundation
  */
 public class RVP_Cocoa_SDK_Login: A_RVP_Cocoa_SDK_Security_Object {
     /* ################################################################## */
+    // MARK: - Internal Calculated Properties
+    /* ################################################################## */
+    /**
+     - returns: a string, with the "plugin path" for the data item. READ ONLY
+     */
+    override internal var _pluginPath: String {
+        return "/people/logins/" + String(self.id)
+    }
+    
+    /* ################################################################## */
+    /**
+     - returns: a string, with the plugin type. READ ONLY
+     */
+    override internal var _pluginType: String {
+        return "login"
+    }
+
+    /* ################################################################## */
     // MARK: - Public Properties and Calculated Properties
     /* ################################################################## */
     /**
@@ -44,7 +62,7 @@ public class RVP_Cocoa_SDK_Login: A_RVP_Cocoa_SDK_Security_Object {
         
         return ret
     }
-
+    
     /* ################################################################## */
     /**
      **NOTE:** Although this will let anyone with write permission set the ID, it will not be accepted on the server, unless the admin also has at least read permissions for the user object.

@@ -30,16 +30,29 @@ public class A_RVP_Cocoa_SDK_Object: NSObject {
     /* ################################################################## */
     // MARK: - Internal Properties
     /* ################################################################## */
-    /** This is the SDK object that "owns" this instance. It may be nil for change history entries. */
+    /**
+     This is the SDK object that "owns" this instance.
+     */
     internal weak var _sdkInstance: RVP_Cocoa_SDK?
     
-    /** This records changes made during the current instantiation (not before) of this object. It has a tuple with a "before" instance, and an "after" instance. */
-    internal var _changeHistory: [(before: A_RVP_Cocoa_SDK_Object?, after: A_RVP_Cocoa_SDK_Object?)] = []
+    /* ################################################################## */
+    /**
+     This records changes made during the current instantiation (not before) of this object. It has an Array of structs with a "before" instance, and an "after" instance.
+     
+     Changes are only kept for the lifetime of this instance.
+     */
+    internal var _changeHistory: [RVP_Change_Record] = []
     
-    /** This contains the actual JSON data that was read from the server for this record. */
+    /* ################################################################## */
+    /**
+     This contains the actual JSON data that was read from the server for this record.
+     */
     internal var _myData: [String: Any] = [:]
     
-    /** This is used to detect "dirty" conditions. This is a Dictionary full of SHA values of the original data. */
+    /* ################################################################## */
+    /**
+     This is used to detect "dirty" conditions. This is a Dictionary full of SHA values of the original data.
+     */
     internal var _myOriginalData: [String: Any] = [:]
 
     /* ################################################################## */
@@ -83,7 +96,100 @@ public class A_RVP_Cocoa_SDK_Object: NSObject {
         
         return uri
     }
+    
+    /* ################################################################## */
+    /**
+     - returns: a string, with the plugin type ("baseline", "people", "places" "things", "login". READ ONLY
+     */
+    internal var _pluginType: String {
+        return "baseline"
+    }
+    
+    /* ################################################################## */
+    /**
+     - returns: a string, with the "plugin path" for the data item. READ ONLY
+     */
+    internal var _pluginPath: String {
+        return "/baseline/" + String(self.id)
+    }
 
+    /* ################################################################## */
+    // MARK: - Internal Instance Methods
+    /* ################################################################## */
+    /**
+     This handles making change records from the response from a PUT command.
+     
+     - parameter inChangeData: The response, as Data. It is JSON, and will be parsed as such.
+     */
+    internal func _handleChangeResponse(_ inChangeData: Data) {
+        do {    // Extract a usable object from the given JSON data.
+            let temp = try JSONSerialization.jsonObject(with: inChangeData, options: [])
+            
+            // We will have different Dictionaries, dependent on which response we got, but we can parse them generically.
+            if let dict = temp as? [String: Any] {
+                self._parseChangeJSON(dict)
+            } else {
+                self._sdkInstance?._handleError(RVP_Cocoa_SDK.SDK_Data_Errors.invalidData(inChangeData))
+            }
+        } catch {   // We end up here if the response is not a proper JSON object.
+            self._sdkInstance?._handleError(RVP_Cocoa_SDK.SDK_Data_Errors.invalidData(inChangeData))
+        }
+    }
+    
+    /* ################################################################## */
+    /**
+     This handles making change records from the response from a PUT command.
+     
+     - parameter inChangeJSON: The response, as an unserialized JSON object (Dictionary).
+     */
+    internal func _parseChangeJSON(_ inChangeJSON: [String: Any]) {
+        // What we do, is recursively dive into the response, ignoring keys until we hit an Array with Dictionaries containing "before" and "after" keys.
+        // We then parse those into instances, which populate the change history for this instance.
+        for innerTuple in inChangeJSON {
+            if let bfArray = innerTuple.value as? [[String: [String: Any]]] {
+                var temp: RVP_Change_Record?
+                for innerInner in bfArray {
+                    if let beforeObject = innerInner["before"] {
+                        if nil == temp {
+                            temp = RVP_Change_Record(date: Date(), before: nil, after: nil)
+                        }
+                        // We specify these to be "forced" instances. We don't want the cached one.
+                        temp?.before = self._sdkInstance?._makeNewInstanceFromDictionary(beforeObject, parent: self._pluginType, forceNew: true)
+                    }
+                    
+                    if let afterObject = innerInner["after"] {
+                        temp?.after = self._sdkInstance?._makeNewInstanceFromDictionary(afterObject, parent: self._pluginType, forceNew: true)
+                    }
+                    
+                    if nil != temp?.before, nil != temp?.after {
+                        self._changeHistory.append(temp!)
+                    } else {
+                        self._parseChangeJSON(innerInner)
+                    }
+                }
+            } else {
+                if let value = innerTuple.value as? [String: Any] {
+                    self._parseChangeJSON(value)
+                }
+            }
+        }
+    }
+    
+    /* ################################################################## */
+    // MARK: - Public Data Structures
+    /* ################################################################## */
+    /**
+     This is a change record struct.
+     */
+    public struct RVP_Change_Record {
+        /** A Date object, with the time/date of the change. */
+        var date: Date
+        /** A copy of the object, before the change. */
+        var before: A_RVP_Cocoa_SDK_Object?
+        /** A copy of the object, after the change. */
+        var after: A_RVP_Cocoa_SDK_Object?
+    }
+    
     /* ################################################################## */
     // MARK: - Public Properties and Calculated Properties
     /* ################################################################## */
@@ -295,7 +401,7 @@ public class A_RVP_Cocoa_SDK_Object: NSObject {
     public var sdkInstance: RVP_Cocoa_SDK? {
         return self._sdkInstance
     }
-    
+
     /* ################################################################## */
     // MARK: - Internal Instance Methods
     /* ################################################################## */

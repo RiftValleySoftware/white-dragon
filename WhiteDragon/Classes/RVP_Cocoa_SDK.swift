@@ -480,7 +480,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
         
         return ret
     }
-
+    
     /* ################################################################## */
     /**
      This is a factory method for creating instances of data items.
@@ -498,7 +498,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      
      - returns: An optional array of new instances of concrete subclasses of A_RVP_IOS_SDK_Object.
      */
-    private func _makeInstance(data inData: Data) -> [A_RVP_Cocoa_SDK_Object]? {
+    internal func _makeInstance(data inData: Data) -> [A_RVP_Cocoa_SDK_Object]? {
         var ret: [A_RVP_Cocoa_SDK_Object] = []
         
         do {    // Extract a usable object from the given JSON data.
@@ -512,60 +512,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
         } catch {   // We end up here if the response is not a proper JSON object.
             self._handleError(SDK_Data_Errors.invalidData(inData))
         }
-
-        return ret
-    }
-
-    /* ################################################################## */
-    /**
-     This is a factory method that creates a new "leaf" instance (data item) from
-     a given Dictionary.
-     
-     It is assumed that the given Dictionary contains the fields necessary to describe a
-     standard data database or security database item. The Dictionary is first examined to
-     see if it is a security database item. If not, then the passed-in "parent" string is
-     required to determine the appropriate subclass.
-     
-     - parameter inDictionary: The Dictionary object with the item data.
-     - parameter parent: A String, with the key for the "parent" container.
-     
-     - returns: A new subclass instance of A_RVP_IOS_SDK_Object, or nil.
-     */
-    private func _makeNewInstanceFromDictionary(_ inDictionary: [String: Any], parent inParent: String) -> A_RVP_Cocoa_SDK_Object? {
-        var ret: A_RVP_Cocoa_SDK_Object?
-        var instance: A_RVP_Cocoa_SDK_Object?
-
-        if nil != inDictionary["login_id"] {    // We can easily determine whether or not this is a login. If so, we create a login object. This will be the only security database item.
-            instance = RVP_Cocoa_SDK_Login(sdkInstance: self, objectInfoData: inDictionary)
-        } else {    // The login was low-hanging fruit. For the rest, we need to depend on the "parent" passed in.
-            switch inParent {
-            case "my_info", "people":
-                instance = RVP_Cocoa_SDK_User(sdkInstance: self, objectInfoData: inDictionary)
-                
-            case "places":
-                instance = RVP_Cocoa_SDK_Place(sdkInstance: self, objectInfoData: inDictionary)
-                
-            case "things":
-                instance = RVP_Cocoa_SDK_Thing(sdkInstance: self, objectInfoData: inDictionary)
-                
-            default:
-                let data: Data = NSKeyedArchiver.archivedData(withRootObject: inDictionary)
-                self._handleError(SDK_Data_Errors.invalidData(data))
-            }
-        }
         
-        // Assuming we got something, we compare the temporary allocation with what we have in our cache.
-        if nil != instance {
-            // If we already have this object, we return our cached instance, instead of the one we just allocated.
-            if let existingInstance = self._findDatabaseItem(compInstance: instance!) {
-                ret = existingInstance
-            } else {    // Otherwise, we add our new instance to the cache, sort the cache, and return the instance.
-                self._dataItems.append(instance!)
-                self._sortDataItems()
-                ret = instance
-            }
-        }
-
         return ret
     }
     
@@ -639,29 +586,6 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
         }
         
         return ret
-    }
-
-    /* ################################################################## */
-    /**
-     This is called to send any errors back to the delegate.
-     
-     - parameter inError: The error being handled.
-     */
-    private func _handleError(_ inError: Error) {
-        self._delegate?.sdkInstance(self, sessionError: inError)
-    }
-
-    /* ################################################################## */
-    /**
-     This is called to handle an HTTP Status error. It will call the _handleError() method.
-     
-     - parameter inResponse: The HTTP Response object being handled.
-     */
-    private func _handleHTTPError(_ inResponse: HTTPURLResponse?) {
-        if let response = inResponse {
-            let error = HTTPError(code: response.statusCode, description: "")
-            self._handleError(error)
-        }
     }
 
     /* ################################################################## */
@@ -1509,6 +1433,56 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
     }
     
     /* ################################################################## */
+    /**
+     This sends a PUT command to the server.
+     
+     - parameter inURI: The URI to send to the server.
+     - parameter payloadData: This is a String, containing Base64-encoded data to be sent as a payload.
+     - parameter objectInstance: The instance of the data object that called this.
+     */
+    private func _sendPut(_ inURI: String, payloadData inPayloadString: String, objectInstance inObjectInstance: A_RVP_Cocoa_SDK_Object) {
+        print("PUT URI: \(inURI)")
+        
+        if let url_object = URL(string: inURI) {
+            let urlRequest = NSMutableURLRequest(url: url_object)
+            urlRequest.httpMethod = "PUT"
+            
+            if !inPayloadString.isEmpty {
+                urlRequest.httpBody = Data(base64Encoded: inPayloadString)
+                print("WE HAVE PAYLOAD")
+            }
+            
+            type(of: self)._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
+                self._openOperations += 1
+            }
+            
+            // We have to have an empty Data element in "from:", or we get an instant cancel. Not sure why. It may be a bug.
+            let putTask = self._connectionSession.uploadTask(with: urlRequest as URLRequest, from: Data()) { [unowned self, unowned inObjectInstance] data, response, error in
+                if let error = error {
+                    self._handleError(error)
+                    return
+                }
+                
+                guard let httpResponse = response as? HTTPURLResponse,
+                    (200...299).contains(httpResponse.statusCode) else {
+                        self._handleHTTPError(response as? HTTPURLResponse ?? nil)
+                        return
+                }
+                
+                if let data = data {    // Assuming we got a response, we send that to the instance that called us.
+                    inObjectInstance._handleChangeResponse(data)
+                }
+
+                type(of: self)._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
+                    self._openOperations -= 1
+                }
+            }
+            
+            putTask.resume()
+        }
+    }
+
+    /* ################################################################## */
     // MARK: - Internal Instance Methods
     /* ################################################################## */
     /**
@@ -1543,13 +1517,95 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
             payloadString = tempPayloadString
         }
         
-        if !payloadString.isEmpty {
-            print("WE HAVE PAYLOAD")
+        if !uri.isEmpty {
+            // This handles any login parameters.
+            let loginParams = self._loginParameters
+            
+            if !loginParams.isEmpty {
+                uri = self._server_uri + "/json" + inObjectToPut._pluginPath + "?" + loginParams + "&" + uri
+                
+                self._sendPut(uri, payloadData: payloadString, objectInstance: inObjectToPut)
+            }
+        }
+    }
+
+    /* ################################################################## */
+    /**
+     This is called to send any errors back to the delegate.
+     
+     - parameter inError: The error being handled.
+     */
+    internal func _handleError(_ inError: Error) {
+        self._delegate?.sdkInstance(self, sessionError: inError)
+    }
+    
+    /* ################################################################## */
+    /**
+     This is called to handle an HTTP Status error. It will call the _handleError() method.
+     
+     - parameter inResponse: The HTTP Response object being handled.
+     */
+    internal func _handleHTTPError(_ inResponse: HTTPURLResponse?) {
+        if let response = inResponse {
+            let error = HTTPError(code: response.statusCode, description: "")
+            self._handleError(error)
+        }
+    }
+
+    /* ################################################################## */
+    /**
+     This is a factory method that creates a new "leaf" instance (data item) from
+     a given Dictionary.
+     
+     It is assumed that the given Dictionary contains the fields necessary to describe a
+     standard data database or security database item. The Dictionary is first examined to
+     see if it is a security database item. If not, then the passed-in "parent" string is
+     required to determine the appropriate subclass.
+     
+     - parameter inDictionary: The Dictionary object with the item data.
+     - parameter parent: A String, with the key for the "parent" container.
+     - parameter forceNew: If true (default is false), then a brand new instance will be returned; whether or not we have a cache. Also, forced items will not be added to our cache.
+     
+     - returns: A new subclass instance of A_RVP_IOS_SDK_Object, or nil.
+     */
+    internal func _makeNewInstanceFromDictionary(_ inDictionary: [String: Any], parent inParent: String, forceNew inForceNew: Bool = false) -> A_RVP_Cocoa_SDK_Object? {
+        var ret: A_RVP_Cocoa_SDK_Object?
+        var instance: A_RVP_Cocoa_SDK_Object?
+        
+        if nil != inDictionary["login_id"] {    // We can easily determine whether or not this is a login. If so, we create a login object. This will be the only security database item.
+            instance = RVP_Cocoa_SDK_Login(sdkInstance: self, objectInfoData: inDictionary)
+        } else {    // The login was low-hanging fruit. For the rest, we need to depend on the "parent" passed in.
+            switch inParent {
+            case "my_info", "people":
+                instance = RVP_Cocoa_SDK_User(sdkInstance: self, objectInfoData: inDictionary)
+                
+            case "places":
+                instance = RVP_Cocoa_SDK_Place(sdkInstance: self, objectInfoData: inDictionary)
+                
+            case "things":
+                instance = RVP_Cocoa_SDK_Thing(sdkInstance: self, objectInfoData: inDictionary)
+                
+            default:
+                let data: Data = NSKeyedArchiver.archivedData(withRootObject: inDictionary)
+                self._handleError(SDK_Data_Errors.invalidData(data))
+            }
         }
         
-        if !uri.isEmpty {
-            print("SAVE URI: \(uri)")
+        // Assuming we got something, we compare the temporary allocation with what we have in our cache.
+        if nil != instance {
+            // If we already have this object, and we are not forcing, we return our cached instance, instead of the one we just allocated.
+            if !inForceNew, let existingInstance = self._findDatabaseItem(compInstance: instance!) {
+                ret = existingInstance
+            } else {    // Otherwise, we add our new instance to the cache, sort the cache, and return the instance. Forced items are not cached.
+                if !inForceNew {
+                    self._dataItems.append(instance!)
+                    self._sortDataItems()
+                }
+                ret = instance
+            }
         }
+        
+        return ret
     }
 
     /* ################################################################## */

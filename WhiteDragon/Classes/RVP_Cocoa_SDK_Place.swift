@@ -28,6 +28,24 @@ import Foundation
  */
 public class RVP_Cocoa_SDK_Place: A_RVP_Cocoa_SDK_Data_Object {
     /* ################################################################## */
+    // MARK: - Internal Calculated Properties
+    /* ################################################################## */
+    /**
+     - returns: a string, with the "plugin path" for the data item. READ ONLY
+     */
+    override internal var _pluginPath: String {
+        return "/places/" + String(self.id)
+    }
+    
+    /* ################################################################## */
+    /**
+     - returns: a string, with the plugin type. READ ONLY
+     */
+    override internal var _pluginType: String {
+        return "places"
+    }
+
+    /* ################################################################## */
     // MARK: - Public Properties and Calculated Properties
     /* ################################################################## */
     /**
@@ -82,7 +100,7 @@ public class RVP_Cocoa_SDK_Place: A_RVP_Cocoa_SDK_Data_Object {
 
         return ret
     }
-
+    
     /* ################################################################## */
     /**
      - returns: the venue name String.
