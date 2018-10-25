@@ -23,6 +23,15 @@ import UIKit
 import WhiteDragon
 
 /* ###################################################################################################################################### */
+// MARK: - Dynamic Cell Class -
+/* ###################################################################################################################################### */
+/**
+ */
+class RVP_EditElementViewTableViewCell: UITableViewCell {
+    
+}
+
+/* ###################################################################################################################################### */
 // MARK: - Main Class -
 /* ###################################################################################################################################### */
 /**
@@ -76,6 +85,8 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
     }
     
     override func viewDidLoad() {
+        self.tableView.register(UINib(nibName: "EditTableCell", bundle: nil), forCellReuseIdentifier: "EditTableCell")
+        
         if !(self.editableObject?.isWriteable ?? false) {
             self.navigationController?.popViewController(animated: true)
         }
@@ -90,6 +101,69 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
             }
         }
         super.viewDidLoad()
+    }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if section == 1 {
+            return 1
+        }
+        return super.tableView(tableView, numberOfRowsInSection: section)
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if indexPath.section == 1 {
+            let ret = UITableViewCell()
+            ret.backgroundColor = UIColor.clear
+            let testLabel = UILabel()
+            testLabel.backgroundColor = UIColor.clear
+            testLabel.textColor = UIColor.white
+            testLabel.font = UIFont.boldSystemFont(ofSize: 20)
+            testLabel.textAlignment = .center
+            testLabel.text = "TEST"
+            ret.addSubview(testLabel)
+            testLabel.translatesAutoresizingMaskIntoConstraints = false
+
+            ret.addConstraints([
+                NSLayoutConstraint(item: testLabel,
+                                   attribute: .top,
+                                   relatedBy: .equal,
+                                   toItem: ret,
+                                   attribute: .top,
+                                   multiplier: 1.0,
+                                   constant: 0),
+                NSLayoutConstraint(item: testLabel,
+                                   attribute: .left,
+                                   relatedBy: .equal,
+                                   toItem: ret,
+                                   attribute: .left,
+                                   multiplier: 1.0,
+                                   constant: 0),
+                NSLayoutConstraint(item: testLabel,
+                                   attribute: .bottom,
+                                   relatedBy: .equal,
+                                   toItem: ret,
+                                   attribute: .bottom,
+                                   multiplier: 1.0,
+                                   constant: 0),
+                NSLayoutConstraint(item: testLabel,
+                                   attribute: .right,
+                                   relatedBy: .equal,
+                                   toItem: ret,
+                                   attribute: .right,
+                                   multiplier: 1.0,
+                                   constant: 0)
+                ])
+            return ret
+        }
+        
+        return super.tableView(tableView, cellForRowAt: indexPath)
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.section == 1 {
+            return 44
+        }
+        return super.tableView(tableView, heightForRowAt: indexPath)
     }
     
     func syncObject() {
