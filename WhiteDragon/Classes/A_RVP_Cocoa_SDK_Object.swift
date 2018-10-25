@@ -430,6 +430,22 @@ public class A_RVP_Cocoa_SDK_Object: NSObject {
     
     /* ################################################################## */
     /**
+     This accesses the raw original data. READ ONLY
+     */
+    public var myOriginalData: [String: Any] {
+        return self._myOriginalData
+    }
+    
+    /* ################################################################## */
+    /**
+     This accesses the raw current data. READ ONLY
+     */
+    public var myData: [String: Any] {
+        return self._myData
+    }
+    
+    /* ################################################################## */
+    /**
      This reverts the data to the state before any changes were made.
      */
     public func revert() {
