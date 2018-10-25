@@ -231,17 +231,16 @@
 		D4C64B842150531F000ADD52 /* App Files */ = {
 			isa = PBXGroup;
 			children = (
-				D4E26861214302A2002ECE12 /* Main.storyboard */,
 				D4420C35217E586A00E46CCF /* RVP_EditElementViewController.swift */,
-				D48CBE702163AD0C001EF727 /* TestBaseViewController.swift */,
-				D4E2685D214302A2002ECE12 /* TestHarnessAppDelegate.swift */,
 				D48CBE6E21638ED8001EF727 /* RVP_ResultListViewController.swift */,
 				D48F4A59215669D300597A2C /* RVP_DisplayResultsScreenViewController.swift */,
-				D4885EE32155216F00DF9862 /* RVP_DisplayResultsScrollView.swift */,
 				D4FF8B6421542E9F0051A0B8 /* RVP_DisplayElementView.swift */,
+				D4885EE32155216F00DF9862 /* RVP_DisplayResultsScrollView.swift */,
+				D4E2685D214302A2002ECE12 /* TestHarnessAppDelegate.swift */,
 				D4A5C3422152BA6500159EFF /* TestHarnessUtilities.swift */,
-				D4E26864214302A3002ECE12 /* Assets.xcassets */,
+				D4E26861214302A2002ECE12 /* Main.storyboard */,
 				D4E26866214302A3002ECE12 /* LaunchScreen.storyboard */,
+				D4E26864214302A3002ECE12 /* Assets.xcassets */,
 				D4E26869214302A4002ECE12 /* Info.plist */,
 			);
 			name = "App Files";
@@ -250,6 +249,7 @@
 		D4C64B8521505342000ADD52 /* Test Files */ = {
 			isa = PBXGroup;
 			children = (
+				D48CBE702163AD0C001EF727 /* TestBaseViewController.swift */,
 				D4FC297C21514BFB008271E4 /* Test001BasicUserListing.swift */,
 				D4CA3279215943D900A63DAD /* Test002BasicPlaceListing.swift */,
 				D415A1C3215BF4AE00FE4991 /* Test003BasicThingListing.swift */,

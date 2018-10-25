@@ -1629,19 +1629,26 @@
                                                         <constraint firstAttribute="height" constant="21" id="oKi-nH-7HA"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="UI6-d4-Efw">
                                                     <rect key="frame" x="0.0" y="36" width="414" height="30"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="30" id="6Oj-pL-wK5"/>
                                                     </constraints>
-                                                    <nil key="textColor"/>
+                                                    <color key="textColor" red="1" green="1" blue="0.76078431369999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
+                                                    <connections>
+                                                        <action selector="determineSaveStatus:" destination="cPr-Ao-4wH" eventType="valueChanged" id="JxP-9E-Ael"/>
+                                                        <action selector="determineSaveStatus:" destination="cPr-Ao-4wH" eventType="editingDidEnd" id="fLD-oQ-FJf"/>
+                                                        <action selector="determineSaveStatus:" destination="cPr-Ao-4wH" eventType="editingChanged" id="m8p-PK-JKt"/>
+                                                    </connections>
                                                 </textField>
                                             </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
                                                 <constraint firstItem="UI6-d4-Efw" firstAttribute="leading" secondItem="98R-IR-2G1" secondAttribute="leading" id="1RN-a4-AZ2"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="r48-gu-2ZZ" secondAttribute="trailing" id="6ci-K1-UAR"/>
@@ -1651,22 +1658,83 @@
                                                 <constraint firstItem="UI6-d4-Efw" firstAttribute="top" secondItem="r48-gu-2ZZ" secondAttribute="bottom" constant="4" id="ttG-bk-bXZ"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="2fi-fq-2aC">
-                                        <rect key="frame" x="0.0" y="55" width="414" height="44"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="101" id="2fi-fq-2aC">
+                                        <rect key="frame" x="0.0" y="55" width="414" height="101"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="2fi-fq-2aC" id="dYD-ld-HMn">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="100.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Read Token:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c42-Rr-AVj">
+                                                    <rect key="frame" x="20" y="11" width="374" height="21"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="21" id="n4Y-6q-mlv"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LFj-CI-N7N">
+                                                    <rect key="frame" x="0.0" y="32" width="414" height="68.5"/>
+                                                    <color key="backgroundColor" red="1" green="1" blue="0.76078431369999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <connections>
+                                                        <outlet property="dataSource" destination="cPr-Ao-4wH" id="gMq-yp-Ce4"/>
+                                                        <outlet property="delegate" destination="cPr-Ao-4wH" id="0R0-7c-GR4"/>
+                                                    </connections>
+                                                </pickerView>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <constraints>
+                                                <constraint firstItem="LFj-CI-N7N" firstAttribute="leading" secondItem="dYD-ld-HMn" secondAttribute="leading" id="FCh-x7-AjB"/>
+                                                <constraint firstItem="c42-Rr-AVj" firstAttribute="leading" secondItem="dYD-ld-HMn" secondAttribute="leadingMargin" id="Iol-uQ-Aeh"/>
+                                                <constraint firstAttribute="bottom" secondItem="LFj-CI-N7N" secondAttribute="bottom" id="KiX-Tp-3gx"/>
+                                                <constraint firstItem="c42-Rr-AVj" firstAttribute="trailing" secondItem="dYD-ld-HMn" secondAttribute="trailingMargin" id="RQc-Vc-aTk"/>
+                                                <constraint firstItem="c42-Rr-AVj" firstAttribute="top" secondItem="dYD-ld-HMn" secondAttribute="topMargin" id="ZW2-pu-VX1"/>
+                                                <constraint firstAttribute="trailing" secondItem="LFj-CI-N7N" secondAttribute="trailing" id="bYq-vr-mf4"/>
+                                                <constraint firstItem="LFj-CI-N7N" firstAttribute="top" secondItem="c42-Rr-AVj" secondAttribute="bottom" id="jjg-KB-U0W"/>
+                                            </constraints>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="wCu-z7-hYe">
-                                        <rect key="frame" x="0.0" y="99" width="414" height="44"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="101" id="wCu-z7-hYe">
+                                        <rect key="frame" x="0.0" y="156" width="414" height="101"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="wCu-z7-hYe" id="eBd-xm-Dz8">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="100.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Write Token:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="maQ-qO-ZIh">
+                                                    <rect key="frame" x="20" y="11" width="374" height="21"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="21" id="wrm-Lj-Ql3"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qag-AC-Tbt">
+                                                    <rect key="frame" x="0.0" y="32" width="414" height="68.5"/>
+                                                    <color key="backgroundColor" red="1" green="1" blue="0.76078431369999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <connections>
+                                                        <outlet property="dataSource" destination="cPr-Ao-4wH" id="mSq-fT-7GV"/>
+                                                        <outlet property="delegate" destination="cPr-Ao-4wH" id="A9e-tf-6dw"/>
+                                                    </connections>
+                                                </pickerView>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="qag-AC-Tbt" secondAttribute="bottom" id="Fse-F8-1sQ"/>
+                                                <constraint firstItem="qag-AC-Tbt" firstAttribute="leading" secondItem="eBd-xm-Dz8" secondAttribute="leading" id="Ltt-Px-BZN"/>
+                                                <constraint firstAttribute="trailing" secondItem="qag-AC-Tbt" secondAttribute="trailing" id="R83-iM-Q0L"/>
+                                                <constraint firstItem="maQ-qO-ZIh" firstAttribute="top" secondItem="eBd-xm-Dz8" secondAttribute="topMargin" id="Rua-L7-bad"/>
+                                                <constraint firstItem="maQ-qO-ZIh" firstAttribute="leading" secondItem="eBd-xm-Dz8" secondAttribute="leadingMargin" id="U7D-e2-oFo"/>
+                                                <constraint firstItem="qag-AC-Tbt" firstAttribute="top" secondItem="maQ-qO-ZIh" secondAttribute="bottom" id="XUF-Wo-ad5"/>
+                                                <constraint firstItem="maQ-qO-ZIh" firstAttribute="trailing" secondItem="eBd-xm-Dz8" secondAttribute="trailingMargin" id="hNJ-Lr-78k"/>
+                                            </constraints>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -1682,7 +1750,7 @@
                                 <action selector="cancelButtonHit:" destination="cPr-Ao-4wH" id="HYR-O4-6qI"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="SAVE" id="DPp-RO-Dg4">
+                        <barButtonItem key="rightBarButtonItem" enabled="NO" title="SAVE" id="DPp-RO-Dg4">
                             <connections>
                                 <action selector="saveButtonHit:" destination="cPr-Ao-4wH" id="1Et-OC-Xv1"/>
                             </connections>
@@ -1691,12 +1759,15 @@
                     <connections>
                         <outlet property="cancelButton" destination="JxQ-ws-W98" id="RAe-k2-Yao"/>
                         <outlet property="nameTextField" destination="UI6-d4-Efw" id="k9X-AX-JsI"/>
+                        <outlet property="readTokenPickerView" destination="LFj-CI-N7N" id="hak-WF-hLW"/>
                         <outlet property="saveButton" destination="DPp-RO-Dg4" id="xpL-DA-Qyq"/>
+                        <outlet property="view" destination="3O0-kP-237" id="9AQ-5h-6xG"/>
+                        <outlet property="writeTokenPickerView" destination="qag-AC-Tbt" id="mjD-zg-WQl"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="A2A-Ot-q0V" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="652" y="3719"/>
+            <point key="canvasLocation" x="650.72463768115949" y="3718.5267857142853"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>

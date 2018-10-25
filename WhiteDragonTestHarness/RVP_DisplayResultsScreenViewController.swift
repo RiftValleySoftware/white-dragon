@@ -138,7 +138,6 @@ class RVP_DisplayResultsScreenViewController: UIViewController, UIDocumentIntera
      */
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destination = segue.destination as? RVP_EditElementViewController {
-            destination.sdkInstance = self.sdkInstance
             destination.editableObject = self.resultsArray[0]
         } else if let destination = segue.destination as? RVP_ResultListNavController {
             destination.resultObjectList = self._childrenArray

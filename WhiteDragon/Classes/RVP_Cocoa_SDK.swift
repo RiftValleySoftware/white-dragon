@@ -1805,7 +1805,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      
      Returns true, if we have a list of plugins, which means that we were able to communicate with the server.
      */
-    var isValid: Bool {
+    public var isValid: Bool {
         return !self._plugins.isEmpty
     }
     
@@ -1813,7 +1813,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
     /**
      Returns an Array of Int, with the current tokens. If logged in, then this will be at least 1, and the current ID of the login. If not logged in, this will return an empty Array.
      */
-    var securityTokens: [Int] {
+    public var securityTokens: [Int] {
         var ret: [Int] = []
         
         if self.isLoggedIn, let myInfo = self.myLoginInfo {
@@ -1827,7 +1827,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
     /**
      Returns the number of data items in our cache.
      */
-    var count: Int {
+    public var count: Int {
         return self._dataItems.count
     }
 
@@ -1835,7 +1835,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
     /**
      Returns true, if we have no items in our cache.
      */
-    var isEmpty: Bool {
+    public var isEmpty: Bool {
         return self._dataItems.isEmpty
     }
     
@@ -1843,7 +1843,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
     /**
      Returns the Array of plugins (if the SDK is connected to a valid server).
      */
-    var plugins: [String] {
+    public var plugins: [String] {
         return self._plugins
     }
     
@@ -1851,7 +1851,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
     /**
      Returns the step size, in kilometers, of the auto-radius search.
      */
-    var autoRadiusStepSizeInKm: Double {
+    public var autoRadiusStepSizeInKm: Double {
         get {
             return self._autoRadiusStepSizeInKm
         }
@@ -1869,7 +1869,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      
      - returns the indexed item. Nil, if the index is out of range.
      */
-    subscript(_ inIndex: Int) -> Element? {
+    public subscript(_ inIndex: Int) -> Element? {
         if (0 <= inIndex) && (inIndex < self.count) {
             return self._dataItems[inIndex]
         }

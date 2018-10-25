@@ -127,7 +127,8 @@ public class A_RVP_Cocoa_SDK_Object: NSObject {
             
             // We will have different Dictionaries, dependent on which response we got, but we can parse them generically.
             if let dict = temp as? [String: Any] {
-                self._parseChangeJSON(dict)
+                self._parseChangeJSON(dict) // Build our change history.
+                self._myOriginalData = self._myData // OK. The old is now the new. We no longer need to feel "dirty."
             } else {
                 self._sdkInstance?._handleError(RVP_Cocoa_SDK.SDK_Data_Errors.invalidData(inChangeData))
             }
@@ -425,6 +426,14 @@ public class A_RVP_Cocoa_SDK_Object: NSObject {
         self._sdkInstance = inSDKInstance
         self._myData = inData
         self._myOriginalData = inData
+    }
+    
+    /* ################################################################## */
+    /**
+     This reverts the data to the state before any changes were made.
+     */
+    public func revert() {
+        self._myData = self._myOriginalData
     }
     
     /* ################################################################## */
