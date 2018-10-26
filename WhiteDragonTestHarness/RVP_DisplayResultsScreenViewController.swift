@@ -27,7 +27,7 @@ import WhiteDragon
 /* ###################################################################################################################################### */
 /**
  */
-class RVP_DisplayResultsScreenViewController: UIViewController, UIDocumentInteractionControllerDelegate {
+class RVP_DisplayResultsScreenViewController: RVP_DisplayResultsBaseScreenViewController {
     private var _fetchingChildren = false {
         didSet {
             if self._fetchingChildren  && !oldValue {
@@ -41,12 +41,9 @@ class RVP_DisplayResultsScreenViewController: UIViewController, UIDocumentIntera
     private var _childrenArray: [A_RVP_Cocoa_SDK_Object] = []
 
     @IBOutlet weak var resultsScrollView: RVP_DisplayResultsScrollView!
-    @IBOutlet weak var activityView: UIView!
     @IBOutlet weak var editRecordButton: UIButton!
     
     var resultsArray: [A_RVP_Cocoa_SDK_Object] = []
-    var sdkInstance: RVP_Cocoa_SDK!
-    var documentDisplayController: UIDocumentInteractionController?
 
     /* ################################################################## */
     /**
@@ -87,28 +84,6 @@ class RVP_DisplayResultsScreenViewController: UIViewController, UIDocumentIntera
         }
         self.dismiss(animated: true, completion: nil)
     }
-
-    /* ################################################################## */
-    /**
-     */
-    @IBAction func displayEPUBButtonHit(_ sender: UIButton) {
-        self.start()
-        if !(self.documentDisplayController?.presentPreview(animated: true))! {
-            UIApplication.displayAlert("Unable to Display EPUB Document", inMessage: "You need to have iBooks installed.", presentedBy: self)
-            self.done()
-        }
-    }
-    
-    /* ################################################################## */
-    /**
-     */
-    @IBAction func displayGenericButtonHit(_ sender: UIButton) {
-        self.start()
-        if !(self.documentDisplayController?.presentPreview(animated: true))! {
-            UIApplication.displayAlert("Unable to Display the Document", inMessage: "", presentedBy: self)
-            self.done()
-        }
-    }
     
     /* ################################################################## */
     /**
@@ -147,46 +122,6 @@ class RVP_DisplayResultsScreenViewController: UIViewController, UIDocumentIntera
         
         super.prepare(for: segue, sender: nil)
     }
-
-    /* ################################################################## */
-    /**
-     */
-    func start() {
-        self.activityView.isHidden = false
-    }
-    
-    /* ################################################################## */
-    /**
-     */
-    func done() {
-        DispatchQueue.main.async {
-            if self._fetchingChildren {
-                self.performSegue(withIdentifier: "show-children", sender: nil)
-            }
-            
-            self.activityView.isHidden = true
-        }
-    }
-    
-    /* ################################################################## */
-    /**
-     */
-    func setEPUBDocumentFromData(_ inData: Data) {
-        do {
-            // We create a path to a unique temporary file to grab the media.
-            let url = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(UUID().uuidString + ".epub")
-            // Store the media in the temp file.
-            try inData.write(to: url, options: .atomic)
-            self.documentDisplayController = UIDocumentInteractionController(url: url)
-            self.documentDisplayController?.delegate = self
-            self.documentDisplayController?.name = "EPUB DOCUMENT"
-        } catch let error {
-            #if DEBUG
-            print("Error Encoding AV Media!: \(error)!")
-            #endif
-            NSLog("Error Encoding AV Media: %@", error._domain)
-        }
-    }
     
     /* ################################################################## */
     /**
@@ -217,26 +152,5 @@ class RVP_DisplayResultsScreenViewController: UIViewController, UIDocumentIntera
             
             self.editRecordButton?.isHidden = 1 < self.resultsArray.count || !self.resultsArray[0].isWriteable
         }
-    }
-    
-    /* ################################################################## */
-    /**
-     */
-    func documentInteractionControllerRectForPreview(_ controller: UIDocumentInteractionController) -> CGRect {
-        return self.view.bounds
-    }
-    
-    /* ################################################################## */
-    /**
-     */
-    func documentInteractionControllerViewForPreview(_ controller: UIDocumentInteractionController) -> UIView? {
-        return self.view
-    }
-    
-    /* ################################################################## */
-    /**
-     */
-    func documentInteractionControllerViewControllerForPreview(_ controller: UIDocumentInteractionController) -> UIViewController {
-        return self
     }
 }

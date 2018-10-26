@@ -772,7 +772,6 @@ class RVP_DisplayElementView: UIView, AVAudioPlayerDelegate {
                                    attribute: .notAnAttribute,
                                    multiplier: 1.0,
                                    constant: inHeight)])
-        } else {
         }
     }
     

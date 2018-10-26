@@ -39,6 +39,8 @@
 		D4E26863214302A2002ECE12 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4E26861214302A2002ECE12 /* Main.storyboard */; };
 		D4E26865214302A3002ECE12 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4E26864214302A3002ECE12 /* Assets.xcassets */; };
 		D4E26868214302A4002ECE12 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4E26866214302A3002ECE12 /* LaunchScreen.storyboard */; };
+		D4E74A822183712D00B1FB6C /* RVP_DisplayPayloadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E74A812183712D00B1FB6C /* RVP_DisplayPayloadView.swift */; };
+		D4E74A84218373E400B1FB6C /* RVP_DisplayResultsBaseScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E74A83218373E400B1FB6C /* RVP_DisplayResultsBaseScreenViewController.swift */; };
 		D4FC297D21514BFB008271E4 /* Test001BasicUserListing.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FC297C21514BFB008271E4 /* Test001BasicUserListing.swift */; };
 		D4FF8B6521542E9F0051A0B8 /* RVP_DisplayElementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FF8B6421542E9F0051A0B8 /* RVP_DisplayElementView.swift */; };
 /* End PBXBuildFile section */
@@ -112,6 +114,8 @@
 		D4E26864214302A3002ECE12 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D4E26867214302A3002ECE12 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D4E26869214302A4002ECE12 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D4E74A812183712D00B1FB6C /* RVP_DisplayPayloadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RVP_DisplayPayloadView.swift; sourceTree = "<group>"; };
+		D4E74A83218373E400B1FB6C /* RVP_DisplayResultsBaseScreenViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RVP_DisplayResultsBaseScreenViewController.swift; sourceTree = "<group>"; };
 		D4FC297C21514BFB008271E4 /* Test001BasicUserListing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test001BasicUserListing.swift; sourceTree = "<group>"; };
 		D4FF8B6421542E9F0051A0B8 /* RVP_DisplayElementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RVP_DisplayElementView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -233,8 +237,10 @@
 			children = (
 				D4420C35217E586A00E46CCF /* RVP_EditElementViewController.swift */,
 				D48CBE6E21638ED8001EF727 /* RVP_ResultListViewController.swift */,
+				D4E74A83218373E400B1FB6C /* RVP_DisplayResultsBaseScreenViewController.swift */,
 				D48F4A59215669D300597A2C /* RVP_DisplayResultsScreenViewController.swift */,
 				D4FF8B6421542E9F0051A0B8 /* RVP_DisplayElementView.swift */,
+				D4E74A812183712D00B1FB6C /* RVP_DisplayPayloadView.swift */,
 				D4885EE32155216F00DF9862 /* RVP_DisplayResultsScrollView.swift */,
 				D4E2685D214302A2002ECE12 /* TestHarnessAppDelegate.swift */,
 				D4A5C3422152BA6500159EFF /* TestHarnessUtilities.swift */,
@@ -515,8 +521,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				D4420C36217E586A00E46CCF /* RVP_EditElementViewController.swift in Sources */,
+				D4E74A84218373E400B1FB6C /* RVP_DisplayResultsBaseScreenViewController.swift in Sources */,
 				D403CC1621653A5700FB6315 /* Test006BaselineLocationSearches.swift in Sources */,
 				D410B1B921775C3A001A42A4 /* Test007MixedSearches.swift in Sources */,
+				D4E74A822183712D00B1FB6C /* RVP_DisplayPayloadView.swift in Sources */,
 				D48CBE712163AD0C001EF727 /* TestBaseViewController.swift in Sources */,
 				D4FF8B6521542E9F0051A0B8 /* RVP_DisplayElementView.swift in Sources */,
 				D48CBE6F21638ED8001EF727 /* RVP_ResultListViewController.swift in Sources */,
