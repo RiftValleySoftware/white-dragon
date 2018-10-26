@@ -251,10 +251,18 @@ public class A_RVP_Cocoa_SDK_Object: NSObject {
                     #if DEBUG
                     print("There Is An Error in the Data! This should not have been encountered! The Data Object is not NSObject-Castable!")
                     #endif
+                    if let originalString = original as? String { // Just make sure that we don't have an empty placeholder.
+                        ret = !originalString.isEmpty
+                    } else {
+                        ret = true
+                    }
+                }
+            } else {    // If the item was added, and is not empty, then we are definitely dirty.
+                if let originalString = item.value as? String { // Just make sure that we don't have an empty placeholder.
+                    ret = !originalString.isEmpty
+                } else {
                     ret = true
                 }
-            } else {    // If the item was added, then we are definitely dirty.
-                ret = true
             }
         }
         

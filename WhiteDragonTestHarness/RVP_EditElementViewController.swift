@@ -203,12 +203,13 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
     }
     
     override func viewDidLoad() {
-        self.tableView.register(UINib(nibName: "EditTableCell", bundle: nil), forCellReuseIdentifier: "EditTableCell")
-        
         if !(self.editableObject?.isWriteable ?? false) {
             self.navigationController?.popViewController(animated: true)
         }
+        
         self.nameTextField.text = self.editableObject.name
+        self.languageTextField.text = self.editableObject.lang
+
         if var tokenList = self.sdkInstance?.securityTokens {
             if let tokenValue = self.editableObject.writeToken, let selectedRow = tokenList.firstIndex(of: tokenValue) {
                 self.writeTokenPickerView.selectRow(selectedRow, inComponent: 0, animated: true)
@@ -218,6 +219,7 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
                 self.readTokenPickerView.selectRow(selectedRow, inComponent: 0, animated: true)
             }
         }
+        
         super.viewDidLoad()
     }
     
@@ -245,6 +247,7 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 1 {
+            let currentIndexedValue = self.generatedValuesAndLabels[indexPath.row]
             let ret = UITableViewCell()
             ret.backgroundColor = UIColor.clear
             let testLabel = UILabel()
@@ -252,7 +255,7 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
             testLabel.textColor = UIColor.white
             testLabel.font = UIFont.systemFont(ofSize: 17)
             testLabel.textAlignment = .left
-            testLabel.text = self.generatedValuesAndLabels[indexPath.row].label
+            testLabel.text = currentIndexedValue.label
             ret.addSubview(testLabel)
             testLabel.translatesAutoresizingMaskIntoConstraints = false
             
@@ -289,11 +292,11 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
             
             let testTextItem = UITextField()
             
+            testTextItem.text = currentIndexedValue.stringValue
+            testTextItem.font = self.nameTextField.font
+            testTextItem.textColor = self.nameTextField.textColor
             ret.addSubview(testTextItem)
             testTextItem.translatesAutoresizingMaskIntoConstraints = false
-            if let value = self.editableObject?.myData[self.generatedValuesAndLabels[indexPath.row].dataKey] as? String {
-                testTextItem.text = value
-            }
             ret.addConstraints([
                 NSLayoutConstraint(item: testTextItem,
                                    attribute: .bottom,
