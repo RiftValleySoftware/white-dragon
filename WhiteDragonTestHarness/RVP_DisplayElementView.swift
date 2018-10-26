@@ -430,10 +430,6 @@ class RVP_DisplayElementView: UIView, AVAudioPlayerDelegate {
     private var _observer = false
     
     var myController: RVP_DisplayResultsScreenViewController!
-    var myVideoPlayer: AVPlayer?
-    var myAudioPlayer: AVAudioPlayer?
-    var myPlayPauseButton: UIButton?
-    let buttonStrings = ["PLAY", "PAUSE"]
     
     /* ################################################################## */
     /**
@@ -442,53 +438,6 @@ class RVP_DisplayElementView: UIView, AVAudioPlayerDelegate {
         didSet {
             self.establishSubviews()
         }
-    }
-
-    /* ################################################################## */
-    /**
-     */
-    @objc func playPauseButtonHit(_ inButton: UIButton) {
-        if let player = self.myVideoPlayer {
-            if player.rate > 0 {
-                player.pause()
-            } else {
-                player.play()
-            }
-        } else if let player = self.myAudioPlayer {
-            if player.isPlaying {
-                player.pause()
-            } else {
-                player.play()
-            }
-        }
-        self.setPlayButtonText()
-    }
-    
-    /* ################################################################## */
-    /**
-     */
-    deinit {
-        if self._observer {
-            NotificationCenter.default.removeObserver(self)
-        }
-    }
-    
-    /* ################################################################## */
-    /**
-     */
-    override func removeFromSuperview() {
-        if nil != self.myAudioPlayer {
-            self.myAudioPlayer?.stop()
-        }
-        
-        if nil != self.myVideoPlayer {
-            self.myVideoPlayer?.pause()
-        }
-        
-        self.myAudioPlayer = nil
-        self.myVideoPlayer = nil
-        
-        super.removeFromSuperview()
     }
     
     /* ################################################################## */
@@ -704,19 +653,6 @@ class RVP_DisplayElementView: UIView, AVAudioPlayerDelegate {
     /* ################################################################## */
     /**
      */
-    func setPlayButtonText() {
-        if let playPauseButton = self.myPlayPauseButton {
-            if let player = self.myVideoPlayer {
-                playPauseButton.setTitle(((player.rate > 0) ? self.buttonStrings[1] : self.buttonStrings[0]), for: .normal)
-            } else if let player = self.myAudioPlayer {
-                playPauseButton.setTitle((player.isPlaying ? self.buttonStrings[1] : self.buttonStrings[0]), for: .normal)
-            }
-        }
-    }
-    
-    /* ################################################################## */
-    /**
-     */
     func applyConstraints(thisElement inThisElement: UIView, height inHeight: CGFloat) {
         var previousView: UIView!
         
@@ -779,101 +715,7 @@ class RVP_DisplayElementView: UIView, AVAudioPlayerDelegate {
     /**
      */
     func addPayloadHandler(_ inPayload: RVP_Cocoa_SDK_Payload) {
-        self.myVideoPlayer = nil
-        self.myAudioPlayer = nil
-        
-        if let payload = inPayload.payloadResolved {
-            var displayItem: UIView!
-            var aspect: CGFloat = 0
-            var height: CGFloat = 0
-
-            if let payloadAsImage = payload as? UIImage {
-                displayItem = UIImageView(image: payloadAsImage)
-                aspect = payloadAsImage.size.height / payloadAsImage.size.width
-            } else if let payloadAsString = payload as? String {
-                let textView = UITextView()
-                textView.backgroundColor = UIColor.init(red: 0.3, green: 0.3, blue: 0, alpha: 0.15)
-                textView.text = payloadAsString
-                displayItem = textView
-                aspect = 1.0
-            } else if let payloadAsPDF = payload as? PDFDocument {
-                let pdfView = PDFView()
-                pdfView.document = payloadAsPDF
-                pdfView.contentMode = .scaleAspectFit
-                pdfView.autoScales = true
-                displayItem = pdfView
-                aspect = 1.0
-            } else if let payloadAsMedia = payload as? AVAsset {
-                let playerItem = AVPlayerItem(asset: payloadAsMedia)
-                let videoTracks = payloadAsMedia.tracks(withMediaType: AVMediaType.video)
-                if let track = videoTracks.first {
-                    self.myVideoPlayer = AVPlayer(playerItem: playerItem)
-                    self._observer = true
-                    NotificationCenter.default.addObserver(self, selector: #selector(RVP_DisplayElementView.finished), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
-                    let size = track.naturalSize.applying(track.preferredTransform)
-                    aspect = size.height / size.width
-                    let myPlayerView = RVP_VideoPlayerView()
-                    myPlayerView.player = self.myVideoPlayer
-                    displayItem = myPlayerView
-                }
-            } else if let payloadData = payload as? Data {
-                do {
-                    try self.myAudioPlayer = AVAudioPlayer(data: payloadData)
-                    self.myAudioPlayer?.delegate = self
-                } catch {
-                    self.myController.setEPUBDocumentFromData(payloadData)
-                    let payloadButton = RVP_PayloadButton(payloadData)
-                    if inPayload.payloadType == "application/epub+zip" {
-                        payloadButton.addTarget(self.myController, action: #selector(RVP_DisplayResultsScreenViewController.displayEPUBButtonHit(_:)), for: .touchUpInside)
-                    } else {
-                        payloadButton.addTarget(self.myController, action: #selector(RVP_DisplayResultsScreenViewController.displayGenericButtonHit(_:)), for: .touchUpInside)
-                    }
-                    displayItem = payloadButton
-                    height = 30
-                }
-            }
-            
-            if nil != displayItem {
-                self.applyConstraints(thisElement: displayItem, height: height)
-                if 0 < aspect {
-                    self.addConstraints([
-                        NSLayoutConstraint(item: displayItem,
-                                           attribute: .height,
-                                           relatedBy: .equal,
-                                           toItem: displayItem,
-                                           attribute: .width,
-                                           multiplier: aspect,
-                                           constant: 0.0)])
-                }
-            }
-            
-            if nil != self.myVideoPlayer || nil != self.myAudioPlayer {
-                self.myPlayPauseButton = UIButton(type: .roundedRect)
-                if let playPauseButton = self.myPlayPauseButton {
-                    playPauseButton.addTarget(self, action: #selector(RVP_DisplayElementView.playPauseButtonHit(_:)), for: .touchUpInside)
-                    self.applyConstraints(thisElement: playPauseButton, height: 30)
-                    self.setPlayButtonText()
-                }
-            }
-        }
-    }
-    
-    /* ################################################################## */
-    /**
-     */
-    @objc func finished() {
-        DispatchQueue.main.async {
-            self.myVideoPlayer?.seek(to: CMTime.zero)
-            self.setPlayButtonText()
-        }
-    }
-
-    /* ################################################################## */
-    /**
-     */
-    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
-        DispatchQueue.main.async {
-            self.setPlayButtonText()
-        }
+        let payloadView = RVP_DisplayPayloadView(inPayload, controller: self.myController)
+        self.applyConstraints(thisElement: payloadView, height: 500)
     }
 }

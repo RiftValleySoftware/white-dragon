@@ -24,18 +24,111 @@ import AVKit
 import PDFKit
 import WhiteDragon
 
+/* ###################################################################################################################################### */
+// MARK: - Main Class -
+/* ###################################################################################################################################### */
+/**
+ */
 class RVP_DisplayPayloadView: UIView, AVAudioPlayerDelegate {
     private var _observer = false
     var myController: RVP_DisplayResultsBaseScreenViewController!
     var myVideoPlayer: AVPlayer?
     var myAudioPlayer: AVAudioPlayer?
     var myPlayPauseButton: UIButton?
+    var myPayload: RVP_Cocoa_SDK_Payload!
+    
     let buttonStrings = ["PLAY", "PAUSE"]
 
-    override func layoutSubviews() {
-        super.layoutSubviews()
+    /* ################################################################## */
+    /**
+     */
+    init(_ inPayload: RVP_Cocoa_SDK_Payload, controller inController: RVP_DisplayResultsBaseScreenViewController) {
+        super.init(frame: CGRect.zero)
+        self.myPayload = inPayload
+        self.myController = inController
     }
     
+    /* ################################################################## */
+    /**
+     */
+    deinit {
+        if self._observer {
+            NotificationCenter.default.removeObserver(self)
+        }
+    }
+
+    /* ################################################################## */
+    /**
+     */
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
+    /* ################################################################## */
+    /**
+     */
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        self.addPayloadHandler()
+    }
+    
+    /* ################################################################## */
+    /**
+     */
+    override func removeFromSuperview() {
+        if nil != self.myAudioPlayer {
+            self.myAudioPlayer?.stop()
+        }
+        
+        if nil != self.myVideoPlayer {
+            self.myVideoPlayer?.pause()
+        }
+        
+        self.myAudioPlayer = nil
+        self.myVideoPlayer = nil
+        
+        super.removeFromSuperview()
+    }
+    
+    /* ################################################################## */
+    /**
+     */
+    @objc func finished() {
+        DispatchQueue.main.async {
+            self.myVideoPlayer?.seek(to: CMTime.zero)
+            self.setPlayButtonText()
+        }
+    }
+
+    /* ################################################################## */
+    /**
+     */
+    @objc func playPauseButtonHit(_ inButton: UIButton) {
+        if let player = self.myVideoPlayer {
+            if player.rate > 0 {
+                player.pause()
+            } else {
+                player.play()
+            }
+        } else if let player = self.myAudioPlayer {
+            if player.isPlaying {
+                player.pause()
+            } else {
+                player.play()
+            }
+        }
+        self.setPlayButtonText()
+    }
+
+    /* ################################################################## */
+    /**
+     */
+    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
+        DispatchQueue.main.async {
+            self.setPlayButtonText()
+        }
+    }
+
     /* ################################################################## */
     /**
      */
@@ -48,7 +141,8 @@ class RVP_DisplayPayloadView: UIView, AVAudioPlayerDelegate {
         
         self.addSubview(inThisElement)
         inThisElement.translatesAutoresizingMaskIntoConstraints = false
-        
+        inThisElement.setContentCompressionResistancePriority(.required, for: .vertical)
+
         if nil != previousView {
             self.addConstraints([
                 NSLayoutConstraint(item: inThisElement,
@@ -113,11 +207,11 @@ class RVP_DisplayPayloadView: UIView, AVAudioPlayerDelegate {
     /* ################################################################## */
     /**
      */
-    func addPayloadHandler(_ inPayload: RVP_Cocoa_SDK_Payload) {
+    func addPayloadHandler() {
         self.myVideoPlayer = nil
         self.myAudioPlayer = nil
         
-        if let payload = inPayload.payloadResolved {
+        if let myPayload = self.myPayload, let payload = myPayload.payloadResolved {
             var displayItem: UIView!
             var aspect: CGFloat = 0
             var height: CGFloat = 0
@@ -144,7 +238,7 @@ class RVP_DisplayPayloadView: UIView, AVAudioPlayerDelegate {
                 if let track = videoTracks.first {
                     self.myVideoPlayer = AVPlayer(playerItem: playerItem)
                     self._observer = true
-                    NotificationCenter.default.addObserver(self, selector: #selector(RVP_DisplayElementView.finished), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
+                    NotificationCenter.default.addObserver(self, selector: #selector(type(of: self).finished), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
                     let size = track.naturalSize.applying(track.preferredTransform)
                     aspect = size.height / size.width
                     let myPlayerView = RVP_VideoPlayerView()
@@ -158,7 +252,7 @@ class RVP_DisplayPayloadView: UIView, AVAudioPlayerDelegate {
                 } catch {
                     self.myController.setEPUBDocumentFromData(payloadData)
                     let payloadButton = RVP_PayloadButton(payloadData)
-                    if inPayload.payloadType == "application/epub+zip" {
+                    if myPayload.payloadType == "application/epub+zip" {
                         payloadButton.addTarget(self.myController, action: #selector(RVP_DisplayResultsScreenViewController.displayEPUBButtonHit(_:)), for: .touchUpInside)
                     } else {
                         payloadButton.addTarget(self.myController, action: #selector(RVP_DisplayResultsScreenViewController.displayGenericButtonHit(_:)), for: .touchUpInside)
@@ -185,8 +279,9 @@ class RVP_DisplayPayloadView: UIView, AVAudioPlayerDelegate {
             if nil != self.myVideoPlayer || nil != self.myAudioPlayer {
                 self.myPlayPauseButton = UIButton(type: .roundedRect)
                 if let playPauseButton = self.myPlayPauseButton {
-                    playPauseButton.addTarget(self, action: #selector(RVP_DisplayElementView.playPauseButtonHit(_:)), for: .touchUpInside)
+                    playPauseButton.addTarget(self, action: #selector(type(of: self).playPauseButtonHit), for: .touchUpInside)
                     self.applyConstraints(thisElement: playPauseButton, height: 30)
+                    height += 30
                     self.setPlayButtonText()
                 }
             }

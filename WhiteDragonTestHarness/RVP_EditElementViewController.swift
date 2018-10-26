@@ -265,9 +265,9 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
             testTextItem.text = self.generatedValuesAndLabels[indexPath.row].stringValue
             testTextItem.font = self.nameTextField.font
             testTextItem.textColor = self.nameTextField.textColor
-            testTextItem.addTarget(self, action: #selector(type(of: self).determineSaveStatus), for: .editingDidEnd)
-            testTextItem.addTarget(self, action: #selector(type(of: self).determineSaveStatus), for: .editingChanged)
-            testTextItem.addTarget(self, action: #selector(type(of: self).determineSaveStatus), for: .editingDidEndOnExit)
+            testTextItem.addTarget(self, action: #selector(type(of: self).determineSaveStatus(_:)), for: .editingDidEnd)
+            testTextItem.addTarget(self, action: #selector(type(of: self).determineSaveStatus(_:)), for: .editingChanged)
+            testTextItem.addTarget(self, action: #selector(type(of: self).determineSaveStatus(_:)), for: .editingDidEndOnExit)
             self.generatedValuesAndLabels[indexPath.row].textItem = testTextItem
             ret.addSubview(testTextItem)
             testTextItem.translatesAutoresizingMaskIntoConstraints = false
