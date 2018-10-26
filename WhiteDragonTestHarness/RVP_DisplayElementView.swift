@@ -662,7 +662,8 @@ class RVP_DisplayElementView: UIView, AVAudioPlayerDelegate {
         
         self.addSubview(inThisElement)
         inThisElement.translatesAutoresizingMaskIntoConstraints = false
-        
+        inThisElement.setContentCompressionResistancePriority(.required, for: .vertical)
+
         if nil != previousView {
             self.addConstraints([
                 NSLayoutConstraint(item: inThisElement,
