@@ -446,10 +446,16 @@ public class A_RVP_Cocoa_SDK_Object: NSObject {
     
     /* ################################################################## */
     /**
-     This accesses the raw current data. READ ONLY
+     This accesses the raw current data.
      */
     public var myData: [String: Any] {
-        return self._myData
+        get {
+            return self._myData
+        }
+        
+        set {
+            self._myData = newValue
+        }
     }
     
     /* ################################################################## */

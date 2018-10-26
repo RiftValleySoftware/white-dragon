@@ -33,11 +33,13 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
         var label: String = ""
         var dataKey: String = ""
         var stringValue: String?
+        var textItem: UITextField!
         
         init(label inLabel: String, dataKey inDataKey: String, stringValue inStringValue: String?) {
             self.label = inLabel
             self.dataKey = inDataKey
             self.stringValue = inStringValue
+            self.textItem = nil
         }
     }
     
@@ -95,77 +97,48 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
         return ret
     }
     
-    var generatedValuesAndLabels: [GeneratedValuesAndLabels] {
-        var ret: [GeneratedValuesAndLabels] = []
+    var generatedValuesAndLabels: [GeneratedValuesAndLabels] = []
+    
+    func generateValuesAndLabels() {
+        let stringMap: [String: String] = [
+        "login_id": "Login ID:",
+        "tag0": "Tag 0:",
+        "tag1": "Tag 1:",
+        "tag2": "Tag 2:",
+        "tag3": "Tag 3:",
+        "tag4": "Tag 4:",
+        "tag5": "Tag 5:",
+        "tag6": "Tag 6:",
+        "tag7": "Tag 7:",
+        "tag8": "Tag 8:",
+        "tag9": "Tag 9:",
+        "surname": "Surname:",
+        "middle_name": "Middle Name:",
+        "given_name": "First Name:",
+        "nickname": "Nickname:",
+        "prefix": "Prefix:",
+        "suffix": "Suffix:",
+        "venue": "Venue Name:",
+        "street_address": "Street Address:",
+        "extra_information": "Extra Information:",
+        "town": "Town:",
+        "county": "County:",
+        "state": "State:",
+        "postal_code": "Zip Code:",
+        "nation": "Nation:",
+        "description": "Description:"
+        ]
+        
         if let currentData = self.editableObject?.myData {
             for oneValue in self.keyList {
-                var label = ""
                 let currentVal = currentData[oneValue] as? String ?? ""
-                
-                switch oneValue {
-                case "login_id":
-                    label = "Login ID:"
-                case "tag0":
-                    label = "Tag 0:"
-                case "tag1":
-                    label = "Tag 1:"
-                case "tag2":
-                    label = "Tag 2:"
-                case "tag3":
-                    label = "Tag 3:"
-                case "tag4":
-                    label = "Tag 4:"
-                case "tag5":
-                    label = "Tag 5:"
-                case "tag6":
-                    label = "Tag 6:"
-                case "tag7":
-                    label = "Tag 7:"
-                case "tag8":
-                    label = "Tag 8:"
-                case "tag9":
-                    label = "Tag 9:"
-                case "surname":
-                    label = "Surname:"
-                case "middle_name":
-                    label = "Middle Name:"
-                case "given_name":
-                    label = "First Name:"
-                case "nickname":
-                    label = "Nickname:"
-                case "prefix":
-                    label = "Prefix:"
-                case "suffix":
-                    label = "Suffix:"
-                case "venue":
-                    label = "Venue Name:"
-                case "street_address":
-                    label = "Street Address:"
-                case "extra_information":
-                    label = "Extra Information:"
-                case "town":
-                    label = "Town:"
-                case "county":
-                    label = "County:"
-                case "state":
-                    label = "State:"
-                case "postal_code":
-                    label = "Zip Code:"
-                case "nation":
-                    label = "Nation:"
-                case "description":
-                    label = "Description:"
-                default:
-                    break
-                }
-                
-                if !label.isEmpty {
-                    ret.append(GeneratedValuesAndLabels(label: label, dataKey: oneValue, stringValue: currentVal))
+                if let label = stringMap[oneValue] {
+                    if !label.isEmpty {
+                        generatedValuesAndLabels.append(GeneratedValuesAndLabels(label: label, dataKey: oneValue, stringValue: currentVal))
+                    }
                 }
             }
         }
-        
-        return ret
     }
     
     @IBAction func determineSaveStatus(_ sender: AnyObject? = nil) {
@@ -220,11 +193,9 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
             }
         }
         
+        self.generateValuesAndLabels()
+        
         super.viewDidLoad()
-    }
-    
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -247,7 +218,6 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 1 {
-            let currentIndexedValue = self.generatedValuesAndLabels[indexPath.row]
             let ret = UITableViewCell()
             ret.backgroundColor = UIColor.clear
             let testLabel = UILabel()
@@ -255,7 +225,7 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
             testLabel.textColor = UIColor.white
             testLabel.font = UIFont.systemFont(ofSize: 17)
             testLabel.textAlignment = .left
-            testLabel.text = currentIndexedValue.label
+            testLabel.text = self.generatedValuesAndLabels[indexPath.row].label
             ret.addSubview(testLabel)
             testLabel.translatesAutoresizingMaskIntoConstraints = false
             
@@ -292,9 +262,13 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
             
             let testTextItem = UITextField()
             
-            testTextItem.text = currentIndexedValue.stringValue
+            testTextItem.text = self.generatedValuesAndLabels[indexPath.row].stringValue
             testTextItem.font = self.nameTextField.font
             testTextItem.textColor = self.nameTextField.textColor
+            testTextItem.addTarget(self, action: #selector(type(of: self).determineSaveStatus), for: .editingDidEnd)
+            testTextItem.addTarget(self, action: #selector(type(of: self).determineSaveStatus), for: .editingChanged)
+            testTextItem.addTarget(self, action: #selector(type(of: self).determineSaveStatus), for: .editingDidEndOnExit)
+            self.generatedValuesAndLabels[indexPath.row].textItem = testTextItem
             ret.addSubview(testTextItem)
             testTextItem.translatesAutoresizingMaskIntoConstraints = false
             ret.addConstraints([
@@ -344,6 +318,16 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
         if let lang = self.languageTextField?.text, nil != self.editableObject?.lang || lang.isEmpty {
             if !lang.isEmpty || ((nil != self.editableObject?.lang) && (lang != self.editableObject?.lang)) {
                 self.editableObject.lang = lang
+            }
+        }
+        
+        for element in self.generatedValuesAndLabels {
+            if let newValue = element.textItem.text {
+                if let oldValue = self.editableObject.myData[element.dataKey] as? String {
+                    if !oldValue.isEmpty || !newValue.isEmpty, oldValue != newValue {
+                        self.editableObject.myData[element.dataKey] = newValue
+                    }
+                }
             }
         }
     }
