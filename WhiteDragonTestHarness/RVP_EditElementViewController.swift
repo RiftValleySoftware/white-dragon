@@ -199,8 +199,10 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 1 {
+        if 1 == section {
             return self.generatedValuesAndLabels.count
+        } else if 2 == section {
+            
         }
         return super.tableView(tableView, numberOfRowsInSection: section)
     }
@@ -210,8 +212,10 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
     }
 
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.section == 1 {
+        if 1 == indexPath.section {
             return 44
+        } else if 2 == indexPath.section {
+            
         }
         return super.tableView(tableView, heightForRowAt: indexPath)
     }
@@ -303,6 +307,7 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
                 ])
             
            return ret
+        } else if 2 == indexPath.section {
         }
         
         return super.tableView(tableView, cellForRowAt: indexPath)
