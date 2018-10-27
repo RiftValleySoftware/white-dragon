@@ -85,11 +85,7 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
                 }
             }
             
-            if 0 < aspect {
-                ret = aspect * self.view.bounds.size.width
-            }
-            
-            ret += buttonSpace
+            ret = (aspect * self.view.bounds.size.width) + buttonSpace
             
             self.cachedPayloadHeight = ret
         }
@@ -280,7 +276,7 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
         if 1 == section {
             return self.generatedValuesAndLabels.count
         } else if 2 == section {
-            return nil != self.editableObject?.myData["payload"] ? 1 : 0
+            return (nil != (self.editableObject?.asDictionary["payload"] as? RVP_Cocoa_SDK_Payload)) ? 1 : 0
         }
         return super.tableView(tableView, numberOfRowsInSection: section)
     }
