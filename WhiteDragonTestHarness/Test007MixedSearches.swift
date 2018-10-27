@@ -40,12 +40,14 @@ class Test007MixedSearches: Test006BaselineLocationSearches {
     /**
      */
     @IBAction func pluginSegmentedSwitchHit(_ sender: UISegmentedControl) {
+        self.clearResults()
     }
     
     /* ################################################################## */
     /**
      */
     @IBAction func tagSegmentedControl1Hit(_ sender: Any) {
+        self.clearResults()
         let mySelectedIndex = tagSegmentedControl1.selectedSegmentIndex
         
         if 0 <= mySelectedIndex {
@@ -64,6 +66,7 @@ class Test007MixedSearches: Test006BaselineLocationSearches {
     /**
      */
     @IBAction func tagSegmentedControl2Hit(_ sender: Any) {
+        self.clearResults()
         let mySelectedIndex = tagSegmentedControl2.selectedSegmentIndex
         
         if 0 <= mySelectedIndex {
@@ -123,7 +126,7 @@ class Test007MixedSearches: Test006BaselineLocationSearches {
             
             var location: RVP_Cocoa_SDK.LocationSpecification!
             
-            if 0 < autoRadiusThreshold && 0 < radiusInKm {
+            if 0 < autoRadiusThreshold || 0 < radiusInKm {
                 location = RVP_Cocoa_SDK.LocationSpecification( coords: CLLocationCoordinate2D(latitude: objectLocation[0], longitude: objectLocation[1]),
                                                                 radiusInKm: radiusInKm,
                                                                 autoRadiusThreshold: autoRadiusThreshold)

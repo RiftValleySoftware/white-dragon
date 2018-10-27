@@ -82,6 +82,7 @@ public protocol RVP_Cocoa_SDK_Delegate: class {
     /* ################################################################## */
     /**
      This is called with one or more data items. Each item is a single object.
+     In an auto-radius search, this may be called repeatedly.
      
      **NOTE:** This is not guaranteed to be called in the main thread!
      
@@ -90,6 +91,31 @@ public protocol RVP_Cocoa_SDK_Delegate: class {
      */
     func sdkInstance(_: RVP_Cocoa_SDK, fetchedDataItems: [A_RVP_Cocoa_SDK_Object])
     
+    /* ################################################################## */
+    /**
+     This is called with zero or more IDs. Base;ine searches are a "two-step" process, where IDs are fetched first, then objects.
+     This call is made between the two steps. In the case of auto-radius, the second step is not done until the end, so this is the only indication of progress.
+     In an auto-radius search, this will be called repeatedly, but the actual objects will not be fetched until the final call.
+     
+     **NOTE:** This is not guaranteed to be called in the main thread!
+     
+     - parameter sdkInstance: This is the SDK instance making the call.
+     - parameter baselineAutoRadiusIDs: An array of Int. This contains the current IDs for the interim step of a baseline search.
+     - parameter isFinal: This is true, if this was the last call for an auto-radius search. Remember that the call may be made before the threshold has been reached.
+     */
+    func sdkInstance(_: RVP_Cocoa_SDK, baselineAutoRadiusIDs: [Int], isFinal: Bool)
+
+    /* ################################################################## */
+    /**
+     This is called when the last auto-radius call has been made.
+     This is called BEFORE the results of that call come, so keep in mind that it is not the last. You should wait for sdkInstanceOperationComplete() to be called.
+     
+     **NOTE:** This is not guaranteed to be called in the main thread!
+     
+     - parameter sdkInstance: This is the SDK instance making the call.
+     */
+    func sdkInstanceFinalAutoRadiusCall(_: RVP_Cocoa_SDK)
+
     /* ################################################################## */
     /**
      This is called when an operation is complete.
@@ -531,23 +557,24 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      
      - returns: An Array of new subclass instances of A_RVP_IOS_SDK_Object.
      */
-    private func _makeInstancesFromDictionary(_ inDictionary: NSDictionary, parent inParent: String! = nil) -> [A_RVP_Cocoa_SDK_Object] {
+    private func _makeInstancesFromDictionary(_ inDictionary: NSDictionary, parent inParent: String? = nil) -> [A_RVP_Cocoa_SDK_Object] {
         var ret: [A_RVP_Cocoa_SDK_Object] = []
         // First, see if we have a data item. If so, we simply go right to the factory.
-        if nil != inParent, nil != inDictionary.object(forKey: "id"), nil != inDictionary.object(forKey: "name"), nil != inDictionary.object(forKey: "lang"), let object_data = inDictionary as? [String: Any] {
-            if let object = self._makeNewInstanceFromDictionary(object_data, parent: inParent) {
+        if let parent = inParent, nil != inDictionary.object(forKey: "id"), nil != inDictionary.object(forKey: "name"), nil != inDictionary.object(forKey: "lang"), let object_data = inDictionary as? [String: Any] {
+            if let object = self._makeNewInstanceFromDictionary(object_data, parent: parent) {
                 ret = [object]
             }
         } else { // Otherwise, we simply go down the rabbit-hole.
             for (key, value) in inDictionary {
-                if var forced_key = key as? String {    // This will be the "parent" key for the next level down.
-                    if "results" == forced_key {    // This is a special case for searches.
-                        forced_key = inParent
+                if var forcedKey = key as? String {    // This will be the "parent" key for the next level down.
+                    if "results" == forcedKey || forcedKey.isAnInteger, let parent = inParent {    // This is a special case for searches, or for what should be an Array, but was mapped to a Dictionary.
+                        forcedKey = parent
                     }
-                    if let forced_value = value as? NSDictionary {  // See whether we go Dictionary or Array.
-                        ret = [ret, self._makeInstancesFromDictionary(forced_value, parent: forced_key)].flatMap { $0 }   // The flatmap() method ensures that we merge the arrays "flat."
-                    } else if let forced_value = value as? NSArray {
-                        ret = [ret, self._makeInstancesFromArray(forced_value, parent: forced_key)].flatMap { $0 }
+                    let passKey = forcedKey
+                    if let forcedValue = value as? NSDictionary {  // See whether we go Dictionary or Array.
+                        ret = [ret, self._makeInstancesFromDictionary(forcedValue, parent: passKey)].flatMap { $0 }   // The flatmap() method ensures that we merge the arrays "flat."
+                    } else if let forcedValue = value as? NSArray {
+                        ret = [ret, self._makeInstancesFromArray(forcedValue, parent: forcedKey)].flatMap { $0 }
                     }
                 } else {
                     let data: Data = NSKeyedArchiver.archivedData(withRootObject: inDictionary)
@@ -600,6 +627,17 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
 
     /* ################################################################## */
     /**
+     This is called when we want to send interim baseline auto-radius results to the client.
+     
+     - parameter inIDArray: An Array of Int, containing zero or more IDs found so far.
+     - parameter isFinal: This is true (default is false), if this was the last call in an auto-radius search. Remember that the call may be made before the threshold has been reached.
+     */
+    private func _sendIDsToDelegate(_ inIDArray: [Int], isFinal inIsFinal: Bool = false) {
+        self._delegate?.sdkInstance(self, baselineAutoRadiusIDs: inIDArray, isFinal: inIsFinal)
+    }
+    
+    /* ################################################################## */
+    /**
      This is called with a list of one or more data items to be sent to the delegate.
      
      - parameter inItemArray: An Array of concrete instances of subclasses of A_RVP_IOS_SDK_Object.
@@ -607,7 +645,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
     private func _sendItemsToDelegate(_ inItemArray: [A_RVP_Cocoa_SDK_Object]) {
         self._delegate?.sdkInstance(self, fetchedDataItems: inItemArray)
     }
-
+    
     /* ################################################################## */
     /**
      This is called if we determine the server connection to be invalid.
@@ -1389,11 +1427,13 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                         }
                         
                         // If we are at the maximum for an auto-radius search, or we are not doing an auto-radius search, we simply fetch all the results as objects.
-                        if 0 == inMaxRadiusInKm || ids.count >= inThreshold || nil == inLocation || inLocation!.radiusInKm >= inMaxRadiusInKm {
+                        if let location = inLocation, ids.count >= inThreshold || location.radiusInKm >= inMaxRadiusInKm {
+                            self._delegate?.sdkInstanceFinalAutoRadiusCall(self)  // If we are at the end of our rope, we let the delegate know.
+                            self._sendIDsToDelegate(ids, isFinal: true)
                             self._fetchBaselineObjectsByID(ids)
                         } else {
                             if nil != inLocation {
-                                self.searchLocation = inLocation?.coords
+                                self._sendIDsToDelegate(ids)
                                 self._fetchObjectsByString(inTagValues, andLocation: inLocation, withPlugin: inPlugin, maxRadiusInKm: inMaxRadiusInKm)
                             }
                         }
@@ -1402,6 +1442,15 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                             self._dataItems.append(contentsOf: objectArray)
                             self._sortDataItems()
                             self._sendItemsToDelegate(objectArray)
+                            if let location = inLocation, objectArray.count >= inThreshold || location.radiusInKm >= inMaxRadiusInKm {  // If we are at the end of our rope, we let the delegate know.
+                                self._delegate?.sdkInstanceFinalAutoRadiusCall(self)
+                            }
+                        } else if let location = inLocation, location.radiusInKm >= inMaxRadiusInKm {
+                        }
+                        
+                        // If we are doing an auto-radius search, and aren't done yet, we go again.
+                        if let location = inLocation, 0 < inMaxRadiusInKm, self._dataItems.count < inThreshold, location.radiusInKm < inMaxRadiusInKm {
+                            self._fetchObjectsByString(inTagValues, andLocation: inLocation, withPlugin: inPlugin, maxRadiusInKm: inMaxRadiusInKm)
                         }
                     }
                 } else {

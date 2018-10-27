@@ -56,6 +56,19 @@ extension Array {
 extension String {
     /* ################################################################## */
     /**
+     This was cribbed from here: https://stackoverflow.com/a/42912862/879365
+     
+     - returns: true, if the string is all digits (an integer).
+     */
+    var isAnInteger: Bool {
+        if self.isEmpty { return false }
+        // The inverted set of .decimalDigits is every character minus digits
+        let nonDigits = CharacterSet.decimalDigits.inverted
+        return nil == self.rangeOfCharacter(from: nonDigits)
+    }
+
+    /* ################################################################## */
+    /**
      This tests a string to see if a given substring is present at the start.
      
      - parameter inSubstring: The substring to test.

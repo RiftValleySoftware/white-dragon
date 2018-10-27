@@ -449,6 +449,24 @@ class TestBaseViewController: UIViewController, RVP_Cocoa_SDK_Delegate, UIPicker
     /* ################################################################## */
     /**
      */
+    func sdkInstance(_: RVP_Cocoa_SDK, baselineAutoRadiusIDs: [Int], isFinal: Bool) {
+        #if DEBUG
+        print("Baseline IDs (\(baselineAutoRadiusIDs.count)): \(String(describing: baselineAutoRadiusIDs))" + (isFinal ? " Final Call" : ""))
+        #endif
+    }
+    
+    /* ################################################################## */
+    /**
+     */
+    func sdkInstanceFinalAutoRadiusCall(_: RVP_Cocoa_SDK) {
+        #if DEBUG
+        print("Final Call")
+        #endif
+    }
+
+    /* ################################################################## */
+    /**
+     */
     func sdkInstanceOperationComplete(_ inSDKInstance: RVP_Cocoa_SDK) {
         DispatchQueue.main.async {
             self.activityScreen?.isHidden = true
