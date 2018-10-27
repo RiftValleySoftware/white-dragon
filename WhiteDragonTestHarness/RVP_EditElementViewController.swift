@@ -20,6 +20,8 @@
 */
 
 import UIKit
+import AVKit
+import PDFKit
 import WhiteDragon
 
 /* ###################################################################################################################################### */
@@ -29,6 +31,9 @@ import WhiteDragon
  */
 @IBDesignable
 class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+    /* ################################################################## */
+    /**
+     */
     struct GeneratedValuesAndLabels {
         var label: String = ""
         var dataKey: String = ""
@@ -43,6 +48,7 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
         }
     }
     
+    var generatedValuesAndLabels: [GeneratedValuesAndLabels] = []
     var editableObject: A_RVP_Cocoa_SDK_Object!
     
     @IBOutlet weak var saveButton: UIBarButtonItem!
@@ -52,10 +58,48 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
     @IBOutlet weak var writeTokenPickerView: UIPickerView!
     @IBOutlet weak var languageTextField: UITextField!
     
+    /* ################################################################## */
+    /**
+     */
     var sdkInstance: RVP_Cocoa_SDK! {
         return self.editableObject.sdkInstance
     }
 
+    /* ################################################################## */
+    /**
+     */
+    var payloadHeight: CGFloat {
+        var aspect: CGFloat = 0
+        var buttonSpace: CGFloat = 0
+        var ret: CGFloat = 0
+        
+        if let payloadedObject = self.editableObject as? A_RVP_Cocoa_SDK_Data_Object, let payload = payloadedObject.payload?.payloadResolved {
+            if let payloadAsImage = payload as? UIImage {
+                aspect = payloadAsImage.size.height / payloadAsImage.size.width
+            } else if let payloadAsMedia = payload as? AVAsset {
+                let videoTracks = payloadAsMedia.tracks(withMediaType: AVMediaType.video)
+                if let track = videoTracks.first {
+                    let size = track.naturalSize.applying(track.preferredTransform)
+                    aspect = size.height / size.width
+                }
+                buttonSpace = 30
+            } else if nil != payload as? Data {
+                buttonSpace = 30
+            }
+        }
+        
+        if 0 < aspect {
+            ret = aspect * self.view.bounds.size.width
+        }
+        
+        ret += buttonSpace
+        
+        return ret
+    }
+
+    /* ################################################################## */
+    /**
+     */
     var keyList: [String] {
         var ret: [String] = ["name", "lang", "read_token", "write_token"]
         
@@ -97,8 +141,9 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
         return ret
     }
     
-    var generatedValuesAndLabels: [GeneratedValuesAndLabels] = []
-    
+    /* ################################################################## */
+    /**
+     */
     func generateValuesAndLabels() {
         let stringMap: [String: String] = [
         "login_id": "Login ID:",
@@ -141,11 +186,17 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
         }
     }
     
+    /* ################################################################## */
+    /**
+     */
     @IBAction func determineSaveStatus(_ sender: AnyObject? = nil) {
         self.syncObject()
         self.saveButton.isEnabled = self.editableObject.isDirty
     }
     
+    /* ################################################################## */
+    /**
+     */
     @IBAction func saveButtonHit(_ sender: UIBarButtonItem) {
         self.syncObject()
         if self.editableObject.isDirty {
@@ -154,6 +205,9 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
         self.navigationController?.popViewController(animated: true)
     }
     
+    /* ################################################################## */
+    /**
+     */
     @IBAction func cancelButtonHit(_ sender: Any) {
         if self.editableObject.isDirty {
             let alertController = UIAlertController(title: "Changes Have Been Made", message: "Do you want to lose the changes?", preferredStyle: .alert)
@@ -174,7 +228,10 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
             self.navigationController?.popViewController(animated: true)
         }
     }
-    
+
+    /* ################################################################## */
+    /**
+     */
     override func viewDidLoad() {
         if !(self.editableObject?.isWriteable ?? false) {
             self.navigationController?.popViewController(animated: true)
@@ -198,11 +255,14 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
         super.viewDidLoad()
     }
 
+    /* ################################################################## */
+    /**
+     */
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if 1 == section {
             return self.generatedValuesAndLabels.count
         } else if 2 == section {
-            
+            return nil != self.editableObject?.myData["payload"] ? 1 : 0
         }
         return super.tableView(tableView, numberOfRowsInSection: section)
     }
@@ -220,6 +280,9 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
         return super.tableView(tableView, heightForRowAt: indexPath)
     }
     
+    /* ################################################################## */
+    /**
+     */
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 1 {
             let ret = UITableViewCell()
@@ -313,6 +376,9 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
         return super.tableView(tableView, cellForRowAt: indexPath)
     }
     
+    /* ################################################################## */
+    /**
+     */
     func syncObject() {
         if let name = self.nameTextField?.text, nil != self.editableObject?.name || name.isEmpty {
             if !name.isEmpty || ((nil != self.editableObject?.name) && (name != self.editableObject?.name)) {
@@ -337,10 +403,16 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
         }
     }
     
+    /* ################################################################## */
+    /**
+     */
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
     
+    /* ################################################################## */
+    /**
+     */
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         if self.readTokenPickerView == pickerView {
             if let tokenList = self.sdkInstance?.securityTokens {
@@ -354,6 +426,9 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
         return 0
     }
     
+    /* ################################################################## */
+    /**
+     */
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         if self.readTokenPickerView == pickerView {
             if var tokenList = self.sdkInstance?.securityTokens {
@@ -369,6 +444,9 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
         return ""
     }
     
+    /* ################################################################## */
+    /**
+     */
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if self.readTokenPickerView == pickerView {
             if var tokenList = self.sdkInstance?.securityTokens {

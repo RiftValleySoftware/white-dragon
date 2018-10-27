@@ -42,31 +42,6 @@ class RVP_DisplayPayloadView: UIView, AVAudioPlayerDelegate {
     /* ################################################################## */
     /**
      */
-    var payloadSpaceNeeds: (aspect: CGFloat, buttonSpace: CGFloat) {
-        var aspect: CGFloat = 0
-        var buttonSpace: CGFloat = 0
-        
-        if let myPayload = self.myPayload, let payload = myPayload.payloadResolved {
-            if let payloadAsImage = payload as? UIImage {
-                aspect = payloadAsImage.size.height / payloadAsImage.size.width
-            } else if let payloadAsMedia = payload as? AVAsset {
-                let videoTracks = payloadAsMedia.tracks(withMediaType: AVMediaType.video)
-                if let track = videoTracks.first {
-                    let size = track.naturalSize.applying(track.preferredTransform)
-                    aspect = size.height / size.width
-                }
-                buttonSpace = 30
-            } else if nil != payload as? Data {
-                buttonSpace = 30
-            }
-        }
-        
-        return (aspect: aspect, buttonSpace: buttonSpace)
-    }
-
-    /* ################################################################## */
-    /**
-     */
     init(_ inPayload: RVP_Cocoa_SDK_Payload, controller inController: RVP_DisplayResultsBaseScreenViewController) {
         super.init(frame: CGRect.zero)
         self.myPayload = inPayload
