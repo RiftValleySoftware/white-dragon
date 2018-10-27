@@ -53,6 +53,7 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
     var sdkInstance: RVP_Cocoa_SDK!
     var documentDisplayController: UIDocumentInteractionController?
     var cachedPayloadHeight: CGFloat = 0
+    var payloadDisplayView: RVP_DisplayPayloadView!
 
     @IBOutlet weak var saveButton: UIBarButtonItem!
     @IBOutlet weak var cancelButton: UIBarButtonItem!
@@ -242,6 +243,13 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
             UIApplication.displayAlert("Unable to Display the Document", inMessage: "", presentedBy: self)
         }
     }
+    
+    /* ################################################################## */
+    /**
+     */
+    @IBAction func changePayloadButtonHit(_ sender: UIButton) {
+        self.tableView.reloadRows(at: [IndexPath(row: 0, section: 2)], with: .none)
+    }
 
     /* ################################################################## */
     /**
@@ -391,6 +399,9 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
             
            return ret
         } else if 2 == indexPath.section {
+            self.payloadDisplayView?.removeFromSuperview()
+            self.payloadDisplayView = nil
+            
             let ret = UITableViewCell()
             ret.backgroundColor = UIColor.clear
             
@@ -436,6 +447,7 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
             
             let buttonObject = UIButton()
             buttonObject.setTitle("CHANGE PAYLOAD", for: .normal)
+            buttonObject.addTarget(self, action: #selector(type(of: self).changePayloadButtonHit(_:)), for: .touchUpInside)
             ret.addSubview(buttonObject)
             buttonObject.titleLabel?.font = self.nameTextField.font
             buttonObject.setTitleColor(self.nameTextField.textColor, for: .normal)
@@ -479,9 +491,9 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
                 
                 let payloadContainer = UIView()
                 
-                let payloadView = RVP_DisplayPayloadView(payload, controller: self)
-                payloadView.frame = newFrame
-                payloadContainer.addSubview(payloadView)
+                self.payloadDisplayView = RVP_DisplayPayloadView(payload, controller: self)
+                self.payloadDisplayView.frame = newFrame
+                payloadContainer.addSubview(self.payloadDisplayView)
 
                 ret.addSubview(payloadContainer)
 
