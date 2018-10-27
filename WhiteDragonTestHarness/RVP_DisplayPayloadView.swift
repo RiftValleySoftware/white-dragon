@@ -31,7 +31,7 @@ import WhiteDragon
  */
 class RVP_DisplayPayloadView: UIView, AVAudioPlayerDelegate {
     private var _observer = false
-    var myController: RVP_DisplayResultsBaseScreenViewController!
+    var myController: RVP_DisplayResultsHasSDK!
     var myVideoPlayer: AVPlayer?
     var myAudioPlayer: AVAudioPlayer?
     var myPlayPauseButton: UIButton?
@@ -42,7 +42,7 @@ class RVP_DisplayPayloadView: UIView, AVAudioPlayerDelegate {
     /* ################################################################## */
     /**
      */
-    init(_ inPayload: RVP_Cocoa_SDK_Payload, controller inController: RVP_DisplayResultsBaseScreenViewController) {
+    init(_ inPayload: RVP_Cocoa_SDK_Payload, controller inController: RVP_DisplayResultsHasSDK) {
         super.init(frame: CGRect.zero)
         self.myPayload = inPayload
         self.myController = inController

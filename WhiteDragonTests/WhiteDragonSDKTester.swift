@@ -53,7 +53,7 @@ class WhiteDragonSDKTester {
         if let db = inDBPrefix.urlEncodedString {
             let url = "https://littlegreenviper.com/fuggedaboudit/set-db/index.php?l=2&s=Rambunkchous&d=" + db
             if let url_object = URL(string: url) {
-                if let setuBDTask = (self._connectionSession?.dataTask(with: url_object) { [unowned self] _, response, error in
+                if let setuBDTask = (self._connectionSession?.dataTask(with: url_object) { [weak self] _, response, error in
                             if let error = error {
                                 #if DEBUG
                                 print("DB Setup Error: \(error)!")
@@ -67,7 +67,7 @@ class WhiteDragonSDKTester {
                                     #endif
                                     return
                             }
-                            self._setupDBComplete()
+                            self?._setupDBComplete()
                     }) {
                     setuBDTask.resume()
                 }

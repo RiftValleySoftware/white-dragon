@@ -30,7 +30,7 @@ import WhiteDragon
 /**
  */
 @IBDesignable
-class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate, UIPickerViewDataSource, RVP_DisplayResultsHasSDK {
     /* ################################################################## */
     /**
      */
@@ -50,49 +50,49 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
     
     var generatedValuesAndLabels: [GeneratedValuesAndLabels] = []
     var editableObject: A_RVP_Cocoa_SDK_Object!
-    
+    var sdkInstance: RVP_Cocoa_SDK!
+    var documentDisplayController: UIDocumentInteractionController?
+    var cachedPayloadHeight: CGFloat = 0
+
     @IBOutlet weak var saveButton: UIBarButtonItem!
     @IBOutlet weak var cancelButton: UIBarButtonItem!
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var readTokenPickerView: UIPickerView!
     @IBOutlet weak var writeTokenPickerView: UIPickerView!
     @IBOutlet weak var languageTextField: UITextField!
-    
-    /* ################################################################## */
-    /**
-     */
-    var sdkInstance: RVP_Cocoa_SDK! {
-        return self.editableObject.sdkInstance
-    }
 
     /* ################################################################## */
     /**
      */
     var payloadHeight: CGFloat {
-        var aspect: CGFloat = 0
-        var buttonSpace: CGFloat = 0
-        var ret: CGFloat = 0
-        
-        if let payloadedObject = self.editableObject as? A_RVP_Cocoa_SDK_Data_Object, let payload = payloadedObject.payload?.payloadResolved {
-            if let payloadAsImage = payload as? UIImage {
-                aspect = payloadAsImage.size.height / payloadAsImage.size.width
-            } else if let payloadAsMedia = payload as? AVAsset {
-                let videoTracks = payloadAsMedia.tracks(withMediaType: AVMediaType.video)
-                if let track = videoTracks.first {
-                    let size = track.naturalSize.applying(track.preferredTransform)
-                    aspect = size.height / size.width
+        var ret: CGFloat = self.cachedPayloadHeight
+        if 0 == ret {
+            var aspect: CGFloat = 0
+            var buttonSpace: CGFloat = 0
+            
+            if let payloadedObject = self.editableObject as? A_RVP_Cocoa_SDK_Data_Object, let payload = payloadedObject.payload?.payloadResolved {
+                if let payloadAsImage = payload as? UIImage {
+                    aspect = payloadAsImage.size.height / payloadAsImage.size.width
+                } else if let payloadAsMedia = payload as? AVAsset {
+                    let videoTracks = payloadAsMedia.tracks(withMediaType: AVMediaType.video)
+                    if let track = videoTracks.first {
+                        let size = track.naturalSize.applying(track.preferredTransform)
+                        aspect = size.height / size.width
+                    }
+                    buttonSpace = 30
+                } else if nil != payload as? Data {
+                    buttonSpace = 30
                 }
-                buttonSpace = 30
-            } else if nil != payload as? Data {
-                buttonSpace = 30
             }
+            
+            if 0 < aspect {
+                ret = aspect * self.view.bounds.size.width
+            }
+            
+            ret += buttonSpace
+            
+            self.cachedPayloadHeight = ret
         }
-        
-        if 0 < aspect {
-            ret = aspect * self.view.bounds.size.width
-        }
-        
-        ret += buttonSpace
         
         return ret
     }
@@ -232,6 +232,24 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
     /* ################################################################## */
     /**
      */
+    @IBAction func displayEPUBButtonHit(_ sender: UIButton) {
+        if !(self.documentDisplayController?.presentPreview(animated: true))! {
+            UIApplication.displayAlert("Unable to Display EPUB Document", inMessage: "You need to have iBooks installed.", presentedBy: self)
+        }
+    }
+    
+    /* ################################################################## */
+    /**
+     */
+    @IBAction func displayGenericButtonHit(_ sender: UIButton) {
+        if !(self.documentDisplayController?.presentPreview(animated: true))! {
+            UIApplication.displayAlert("Unable to Display the Document", inMessage: "", presentedBy: self)
+        }
+    }
+
+    /* ################################################################## */
+    /**
+     */
     override func viewDidLoad() {
         if !(self.editableObject?.isWriteable ?? false) {
             self.navigationController?.popViewController(animated: true)
@@ -273,9 +291,9 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
 
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if 1 == indexPath.section {
-            return 44
+            return super.tableView(tableView, heightForRowAt: IndexPath(row: 0, section: 0))
         } else if 2 == indexPath.section {
-            
+            return self.payloadHeight
         }
         return super.tableView(tableView, heightForRowAt: indexPath)
     }
@@ -371,6 +389,22 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
             
            return ret
         } else if 2 == indexPath.section {
+            let ret = UITableViewCell()
+            ret.backgroundColor = UIColor.clear
+            
+            let dictionary = self.editableObject.asDictionary
+            if let payload = dictionary["payload"] as? RVP_Cocoa_SDK_Payload {
+                let newFrame = CGRect(origin: CGPoint.zero, size: CGSize(width: self.view.bounds.size.width, height: self.payloadHeight))
+                
+                let payloadContainer = UIView(frame: newFrame)
+                
+                let payloadView = RVP_DisplayPayloadView(payload, controller: self)
+                payloadView.frame = newFrame
+                payloadContainer.addSubview(payloadView)
+
+                ret.addSubview(payloadContainer)
+            }
+           return ret
         }
         
         return super.tableView(tableView, cellForRowAt: indexPath)
@@ -460,5 +494,25 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
         }
         self.syncObject()
         self.determineSaveStatus()
+    }
+    
+    /* ################################################################## */
+    /**
+     */
+    func setEPUBDocumentFromData(_ inData: Data) {
+        do {
+            // We create a path to a unique temporary file to grab the media.
+            let url = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(UUID().uuidString + ".epub")
+            // Store the media in the temp file.
+            try inData.write(to: url, options: .atomic)
+            self.documentDisplayController = UIDocumentInteractionController(url: url)
+            self.documentDisplayController?.delegate = self
+            self.documentDisplayController?.name = "EPUB DOCUMENT"
+        } catch let error {
+            #if DEBUG
+            print("Error Encoding AV Media!: \(error)!")
+            #endif
+            NSLog("Error Encoding AV Media: %@", error._domain)
+        }
     }
 }

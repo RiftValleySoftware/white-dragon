@@ -35,6 +35,20 @@ class Test006BaselineLocationSearches: TestBaseViewController {
     /* ################################################################## */
     /**
      */
+    @IBAction func autoRadiusSwitchChanged(_ sender: UISegmentedControl) {
+        self.clearResults()
+    }
+    
+    /* ################################################################## */
+    /**
+     */
+    @IBAction func fixedRadiusSwitchChanged(_ sender: UISegmentedControl) {
+        self.clearResults()
+    }
+
+    /* ################################################################## */
+    /**
+     */
     override var presets: [(name: String, values: [Any])] {
         return  [(name: "The Washington Monument", values: [CLLocationDegrees(38.8895), CLLocationDegrees(-77.0353)]),
                  (name: "Baltimore Inner Harbor", values: [CLLocationDegrees(39.2858), CLLocationDegrees(-76.6131)]),
@@ -95,19 +109,5 @@ class Test006BaselineLocationSearches: TestBaseViewController {
                 sdkInstance.fetchObjectsUsingCriteria(andLocation: location)
             }
         }
-    }
-    
-    /* ################################################################## */
-    /**
-     */
-    @IBAction func autoRadiusSwitchChanged(_ sender: UISegmentedControl) {
-        self.clearResults()
-    }
-    
-    /* ################################################################## */
-    /**
-     */
-    @IBAction func fixedRadiusSwitchChanged(_ sender: UISegmentedControl) {
-        self.clearResults()
     }
 }

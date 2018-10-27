@@ -114,6 +114,7 @@ class RVP_DisplayResultsScreenViewController: RVP_DisplayResultsBaseScreenViewCo
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destination = segue.destination as? RVP_EditElementViewController {
             destination.editableObject = self.resultsArray[0]
+            destination.sdkInstance = self.sdkInstance
         } else if let destination = segue.destination as? RVP_ResultListNavController {
             destination.resultObjectList = self._childrenArray
             self._fetchingChildren = false

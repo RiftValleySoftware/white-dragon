@@ -27,7 +27,18 @@ import WhiteDragon
 /* ###################################################################################################################################### */
 /**
  */
-class RVP_DisplayResultsBaseScreenViewController: UIViewController, UIDocumentInteractionControllerDelegate {
+protocol RVP_DisplayResultsHasSDK: UIDocumentInteractionControllerDelegate {
+    var sdkInstance: RVP_Cocoa_SDK! {get set}
+    var documentDisplayController: UIDocumentInteractionController? {get set}
+    func setEPUBDocumentFromData(_ inData: Data)
+}
+
+/* ###################################################################################################################################### */
+// MARK: - Main Class -
+/* ###################################################################################################################################### */
+/**
+ */
+class RVP_DisplayResultsBaseScreenViewController: UIViewController, RVP_DisplayResultsHasSDK, UIDocumentInteractionControllerDelegate {
     var sdkInstance: RVP_Cocoa_SDK!
     var documentDisplayController: UIDocumentInteractionController?
     @IBOutlet weak var activityView: UIView!
