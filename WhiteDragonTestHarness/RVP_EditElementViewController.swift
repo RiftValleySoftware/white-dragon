@@ -90,7 +90,7 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
             self.cachedPayloadHeight = ret
         }
         
-        return ret
+        return ret + 51
     }
 
     /* ################################################################## */
@@ -254,7 +254,7 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
         self.nameTextField.text = self.editableObject.name
         self.languageTextField.text = self.editableObject.lang
 
-        if var tokenList = self.sdkInstance?.securityTokens {
+        if var tokenList = self.editableObject.sdkInstance?.securityTokens {
             if let tokenValue = self.editableObject.writeToken, let selectedRow = tokenList.firstIndex(of: tokenValue) {
                 self.writeTokenPickerView.selectRow(selectedRow, inComponent: 0, animated: true)
             }
@@ -281,10 +281,16 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
         return super.tableView(tableView, numberOfRowsInSection: section)
     }
     
+    /* ################################################################## */
+    /**
+     */
     override func tableView(_ tableView: UITableView, indentationLevelForRowAt indexPath: IndexPath) -> Int {
         return super.tableView(tableView, indentationLevelForRowAt: IndexPath(row: 0, section: 0))
     }
 
+    /* ################################################################## */
+    /**
+     */
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if 1 == indexPath.section {
             return super.tableView(tableView, heightForRowAt: IndexPath(row: 0, section: 0))
@@ -388,17 +394,129 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
             let ret = UITableViewCell()
             ret.backgroundColor = UIColor.clear
             
+            let testLabel = UILabel()
+            testLabel.backgroundColor = UIColor.clear
+            testLabel.textColor = UIColor.white
+            testLabel.font = UIFont.systemFont(ofSize: 17)
+            testLabel.textAlignment = .left
+            testLabel.text = "Payload:"
+            ret.addSubview(testLabel)
+            testLabel.translatesAutoresizingMaskIntoConstraints = false
+            
+            ret.addConstraints([
+                NSLayoutConstraint(item: testLabel,
+                                   attribute: .top,
+                                   relatedBy: .equal,
+                                   toItem: ret,
+                                   attribute: .top,
+                                   multiplier: 1.0,
+                                   constant: 0),
+                NSLayoutConstraint(item: testLabel,
+                                   attribute: .left,
+                                   relatedBy: .equal,
+                                   toItem: ret,
+                                   attribute: .leftMargin,
+                                   multiplier: 1.0,
+                                   constant: 0),
+                NSLayoutConstraint(item: testLabel,
+                                   attribute: .height,
+                                   relatedBy: .equal,
+                                   toItem: nil,
+                                   attribute: .notAnAttribute,
+                                   multiplier: 1.0,
+                                   constant: 21),
+                NSLayoutConstraint(item: testLabel,
+                                   attribute: .right,
+                                   relatedBy: .equal,
+                                   toItem: ret,
+                                   attribute: .right,
+                                   multiplier: 1.0,
+                                   constant: 0)
+                ])
+            
+            let buttonObject = UIButton()
+            buttonObject.setTitle("CHANGE PAYLOAD", for: .normal)
+            ret.addSubview(buttonObject)
+            buttonObject.titleLabel?.font = self.nameTextField.font
+            buttonObject.setTitleColor(self.nameTextField.textColor, for: .normal)
+
+            buttonObject.translatesAutoresizingMaskIntoConstraints = false
+
+            ret.addConstraints([
+                NSLayoutConstraint(item: buttonObject,
+                                   attribute: .top,
+                                   relatedBy: .equal,
+                                   toItem: testLabel,
+                                   attribute: .bottom,
+                                   multiplier: 1.0,
+                                   constant: 0),
+                NSLayoutConstraint(item: buttonObject,
+                                   attribute: .left,
+                                   relatedBy: .equal,
+                                   toItem: ret,
+                                   attribute: .leftMargin,
+                                   multiplier: 1.0,
+                                   constant: 0),
+                NSLayoutConstraint(item: buttonObject,
+                                   attribute: .height,
+                                   relatedBy: .equal,
+                                   toItem: nil,
+                                   attribute: .notAnAttribute,
+                                   multiplier: 1.0,
+                                   constant: 30),
+                NSLayoutConstraint(item: buttonObject,
+                                   attribute: .right,
+                                   relatedBy: .equal,
+                                   toItem: ret,
+                                   attribute: .right,
+                                   multiplier: 1.0,
+                                   constant: 0)
+                ])
+
             let dictionary = self.editableObject.asDictionary
             if let payload = dictionary["payload"] as? RVP_Cocoa_SDK_Payload {
-                let newFrame = CGRect(origin: CGPoint.zero, size: CGSize(width: self.view.bounds.size.width, height: self.payloadHeight))
+                let newFrame = CGRect(origin: CGPoint.zero, size: CGSize(width: self.view.bounds.size.width, height: self.payloadHeight - 51))
                 
-                let payloadContainer = UIView(frame: newFrame)
+                let payloadContainer = UIView()
                 
                 let payloadView = RVP_DisplayPayloadView(payload, controller: self)
                 payloadView.frame = newFrame
                 payloadContainer.addSubview(payloadView)
 
                 ret.addSubview(payloadContainer)
+
+                payloadContainer.translatesAutoresizingMaskIntoConstraints = false
+                
+                ret.addConstraints([
+                    NSLayoutConstraint(item: payloadContainer,
+                                       attribute: .top,
+                                       relatedBy: .equal,
+                                       toItem: buttonObject,
+                                       attribute: .bottom,
+                                       multiplier: 1.0,
+                                       constant: 0),
+                    NSLayoutConstraint(item: payloadContainer,
+                                       attribute: .left,
+                                       relatedBy: .equal,
+                                       toItem: ret,
+                                       attribute: .left,
+                                       multiplier: 1.0,
+                                       constant: 0),
+                    NSLayoutConstraint(item: payloadContainer,
+                                       attribute: .bottom,
+                                       relatedBy: .equal,
+                                       toItem: ret,
+                                       attribute: .bottom,
+                                       multiplier: 1.0,
+                                       constant: 0),
+                    NSLayoutConstraint(item: payloadContainer,
+                                       attribute: .right,
+                                       relatedBy: .equal,
+                                       toItem: ret,
+                                       attribute: .right,
+                                       multiplier: 1.0,
+                                       constant: 0)
+                    ])
             }
            return ret
         }
@@ -424,11 +542,7 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
         
         for element in self.generatedValuesAndLabels {
             if let newValue = element.textItem.text {
-                if let oldValue = self.editableObject.myData[element.dataKey] as? String {
-                    if !oldValue.isEmpty || !newValue.isEmpty, oldValue != newValue {
-                        self.editableObject.myData[element.dataKey] = newValue
-                    }
-                }
+                self.editableObject.myData[element.dataKey] = newValue
             }
         }
     }
@@ -445,11 +559,11 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
      */
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         if self.readTokenPickerView == pickerView {
-            if let tokenList = self.sdkInstance?.securityTokens {
+            if let tokenList = self.editableObject.sdkInstance?.securityTokens {
                 return tokenList.count + 1
             }
         } else if self.writeTokenPickerView == pickerView {
-            if let tokenList = self.sdkInstance?.securityTokens {
+            if let tokenList = self.editableObject.sdkInstance?.securityTokens {
                 return tokenList.count
             }
         }
@@ -461,12 +575,12 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
      */
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         if self.readTokenPickerView == pickerView {
-            if var tokenList = self.sdkInstance?.securityTokens {
+            if var tokenList = self.editableObject.sdkInstance?.securityTokens {
                 tokenList.insert(0, at: 0)
                 return String(tokenList[row])
             }
         } else if self.writeTokenPickerView == pickerView {
-            if var tokenList = self.sdkInstance?.securityTokens {
+            if var tokenList = self.editableObject.sdkInstance?.securityTokens {
                 return String(tokenList[row])
             }
         }
@@ -479,12 +593,12 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
      */
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if self.readTokenPickerView == pickerView {
-            if var tokenList = self.sdkInstance?.securityTokens {
+            if var tokenList = self.editableObject.sdkInstance?.securityTokens {
                 tokenList.insert(0, at: 0)
                 self.editableObject.readToken = tokenList[row]
             }
         } else if self.writeTokenPickerView == pickerView {
-            if var tokenList = self.sdkInstance?.securityTokens {
+            if var tokenList = self.editableObject.sdkInstance?.securityTokens {
                 self.editableObject.writeToken = tokenList[row]
             }
         }

@@ -258,11 +258,7 @@ public class A_RVP_Cocoa_SDK_Object: NSObject {
                     }
                 }
             } else {    // If the item was added, and is not empty, then we are definitely dirty.
-                if let originalString = item.value as? String { // Just make sure that we don't have an empty placeholder.
-                    ret = !originalString.isEmpty
-                } else {
-                    ret = true
-                }
+                ret = true
             }
         }
         
