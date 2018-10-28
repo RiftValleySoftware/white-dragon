@@ -25,6 +25,31 @@ import PDFKit
 import WhiteDragon
 
 /* ###################################################################################################################################### */
+// MARK: - Media Selector Class -
+/* ###################################################################################################################################### */
+/**
+ */
+class RVP_MediaChoiceViewController: UITableViewController {
+    var controller: RVP_EditElementViewController!
+    
+    /* ################################################################## */
+    /**
+     */
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let fileList: [String] = ["",
+            "IMAGE.jpg",
+            "TEXT.txt",
+            "PDF.pdf",
+            "VIDEO.mp4",
+            "EPUB.epub",
+            "AUDIO.mp3"
+        ]
+        self.controller.setMediaChoice(fileList[indexPath.row])
+        self.dismiss(animated: true, completion: nil)
+    }
+}
+
+/* ###################################################################################################################################### */
 // MARK: - Main Class -
 /* ###################################################################################################################################### */
 /**
@@ -141,6 +166,13 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
     /* ################################################################## */
     /**
      */
+    func setMediaChoice(_ inFileName: String) {
+        
+    }
+    
+    /* ################################################################## */
+    /**
+     */
     func generateValuesAndLabels() {
         let stringMap: [String: String] = [
         "login_id": "Login ID:",
@@ -248,7 +280,7 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
     /**
      */
     @IBAction func changePayloadButtonHit(_ sender: UIButton) {
-        self.tableView.reloadRows(at: [IndexPath(row: 0, section: 2)], with: .none)
+        self.performSegue(withIdentifier: "show-payload-choices", sender: nil)
     }
 
     /* ################################################################## */
@@ -276,7 +308,15 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
         
         super.viewDidLoad()
     }
-
+    
+    /* ################################################################## */
+    /**
+     */
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let destination = segue.destination as? RVP_MediaChoiceViewController {
+            destination.controller = self
+        }
+    }
     /* ################################################################## */
     /**
      */
