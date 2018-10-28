@@ -167,7 +167,41 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
     /**
      */
     func setMediaChoice(_ inFileName: String) {
+        if inFileName.isEmpty {
+            self.editableObject?.myData["payload"] = nil
+            self.editableObject?.myData["payload_type"] = ""
+        } else {
+            let nameType = inFileName.components(separatedBy: ".")
+            if let mediaFileURL = Bundle.main.url(forResource: nameType[0], withExtension: nameType[1]) {
+                do {
+                    let dataItem = try Data(contentsOf: mediaFileURL)
+                    let base64String = dataItem.base64EncodedString()
+                    self.editableObject?.myData["payload"] = base64String
+                    switch nameType[1] {
+                    case "txt":
+                        self.editableObject?.myData["payload_type"] = "text/plain;base64"
+                    case "jpg":
+                        self.editableObject?.myData["payload_type"] = "image/jpeg;base64"
+                    case "pdf":
+                        self.editableObject?.myData["payload_type"] = "application/pdf;base64"
+                    case "epub":
+                        self.editableObject?.myData["payload_type"] = "application/epub+zip;base64"
+                    case "mp4":
+                        self.editableObject?.myData["payload_type"] = "video/mp4;base64"
+                    case "mp3":
+                        self.editableObject?.myData["payload_type"] = "audio/mp3;base64"
+                    default:
+                        break
+                    }
+                } catch {
+                    
+                }
+            }
+        }
         
+        let payloadIndexPath = IndexPath(row: 0, section: 2)
+        self.determineSaveStatus()
+        self.tableView.reloadRows(at: [payloadIndexPath], with: UITableView.RowAnimation.none)
     }
     
     /* ################################################################## */
@@ -324,7 +358,7 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
         if 1 == section {
             return self.generatedValuesAndLabels.count
         } else if 2 == section {
-            return (nil != (self.editableObject?.asDictionary["payload"] as? RVP_Cocoa_SDK_Payload)) ? 1 : 0
+            return 1
         }
         return super.tableView(tableView, numberOfRowsInSection: section)
     }

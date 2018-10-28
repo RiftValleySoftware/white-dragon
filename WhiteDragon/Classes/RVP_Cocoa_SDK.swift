@@ -1495,18 +1495,14 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
         if let url_object = URL(string: inURI) {
             let urlRequest = NSMutableURLRequest(url: url_object)
             urlRequest.httpMethod = "PUT"
-            
-            if !inPayloadString.isEmpty {
-                urlRequest.httpBody = Data(base64Encoded: inPayloadString)
-                print("WE HAVE PAYLOAD")
-            }
-            
+            let payloadData = inPayloadString.data(using: .utf8) ?? Data()
+
             type(of: self)._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
                 self._openOperations += 1
             }
             
             // We have to have an empty Data element in "from:", or we get an instant cancel. Not sure why. It may be a bug.
-            let putTask = self._connectionSession.uploadTask(with: urlRequest as URLRequest, from: Data()) { [unowned self, unowned inObjectInstance] data, response, error in
+            let putTask = self._connectionSession.uploadTask(with: urlRequest as URLRequest, from: payloadData) { [unowned self, unowned inObjectInstance] data, response, error in
                 if let error = error {
                     self._handleError(error)
                     return
@@ -1563,10 +1559,17 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
         
         // If we have a dirty payload, then we take care of that here.
         if let dataObject = inObjectToPut as? A_RVP_Cocoa_SDK_Data_Object, dataObject.isPayloadDirty, let tempPayloadString = dataObject.rawBase64Payload {
-            payloadString = tempPayloadString
+            if !tempPayloadString.isEmpty {
+                payloadString = tempPayloadString
+            } else {    // Removal is easy.
+                if !uri.isEmpty {
+                    uri += "&"
+                }
+                uri += "remove_payload"
+            }
         }
         
-        if !uri.isEmpty {
+        if !uri.isEmpty || !payloadString.isEmpty {
             // This handles any login parameters.
             let loginParams = self._loginParameters
             
