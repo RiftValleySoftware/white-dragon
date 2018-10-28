@@ -14,6 +14,11 @@
 		D42432BE2162794100CF3C1F /* Test004BaselineSearches.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42432BD2162794100CF3C1F /* Test004BaselineSearches.swift */; };
 		D4420C32217DF66D00E46CCF /* WhiteDragonSDKTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4687FF32142E4D000293358 /* WhiteDragonSDKTester.swift */; };
 		D4420C36217E586A00E46CCF /* RVP_EditElementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4420C35217E586A00E46CCF /* RVP_EditElementViewController.swift */; };
+		D462417621853B73001C8D14 /* VIDEO.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = D462417121853B40001C8D14 /* VIDEO.mp4 */; };
+		D462417721853B73001C8D14 /* EPUB.epub in Resources */ = {isa = PBXBuildFile; fileRef = D462417221853B40001C8D14 /* EPUB.epub */; };
+		D462417821853B73001C8D14 /* TEXT.txt in Resources */ = {isa = PBXBuildFile; fileRef = D462417321853B40001C8D14 /* TEXT.txt */; };
+		D462417921853B73001C8D14 /* PDF.pdf in Resources */ = {isa = PBXBuildFile; fileRef = D462417421853B40001C8D14 /* PDF.pdf */; };
+		D462417A21853B73001C8D14 /* IMAGE.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D462417521853B40001C8D14 /* IMAGE.jpg */; };
 		D4687FF42142E4D000293358 /* WhiteDragonSDKTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4687FF32142E4D000293358 /* WhiteDragonSDKTester.swift */; };
 		D477B40A213EA86B0018AB45 /* white_dragonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D477B409213EA86B0018AB45 /* white_dragonTests.swift */; };
 		D4885EE42155216F00DF9862 /* RVP_DisplayResultsScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4885EE32155216F00DF9862 /* RVP_DisplayResultsScrollView.swift */; };
@@ -94,6 +99,11 @@
 		D43CC11F214C4EB200548B8E /* RVP_Cocoa_SDK_Internal_Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RVP_Cocoa_SDK_Internal_Utils.swift; path = Classes/RVP_Cocoa_SDK_Internal_Utils.swift; sourceTree = "<group>"; };
 		D4420C35217E586A00E46CCF /* RVP_EditElementViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RVP_EditElementViewController.swift; sourceTree = "<group>"; };
 		D444087121550797002CCA50 /* RevealServer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RevealServer.framework; path = "Pods/Reveal-SDK/RevealServer-18/iOS/RevealServer.framework"; sourceTree = "<group>"; };
+		D462417121853B40001C8D14 /* VIDEO.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = VIDEO.mp4; sourceTree = "<group>"; };
+		D462417221853B40001C8D14 /* EPUB.epub */ = {isa = PBXFileReference; lastKnownFileType = file; path = EPUB.epub; sourceTree = "<group>"; };
+		D462417321853B40001C8D14 /* TEXT.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = TEXT.txt; sourceTree = "<group>"; };
+		D462417421853B40001C8D14 /* PDF.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = PDF.pdf; sourceTree = "<group>"; };
+		D462417521853B40001C8D14 /* IMAGE.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = IMAGE.jpg; sourceTree = "<group>"; };
 		D4687FF32142E4D000293358 /* WhiteDragonSDKTester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteDragonSDKTester.swift; sourceTree = "<group>"; };
 		D477B3FF213EA86B0018AB45 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D477B404213EA86B0018AB45 /* WhiteDragonTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WhiteDragonTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -156,6 +166,18 @@
 				6EE849B2D59254BD44D1DD0E /* Pods-WhiteDragonTestHarness.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		D462417021853B40001C8D14 /* media */ = {
+			isa = PBXGroup;
+			children = (
+				D462417121853B40001C8D14 /* VIDEO.mp4 */,
+				D462417221853B40001C8D14 /* EPUB.epub */,
+				D462417321853B40001C8D14 /* TEXT.txt */,
+				D462417421853B40001C8D14 /* PDF.pdf */,
+				D462417521853B40001C8D14 /* IMAGE.jpg */,
+			);
+			path = media;
 			sourceTree = "<group>";
 		};
 		D477B3F1213EA86B0018AB45 = {
@@ -247,6 +269,7 @@
 				D4E26861214302A2002ECE12 /* Main.storyboard */,
 				D4E26866214302A3002ECE12 /* LaunchScreen.storyboard */,
 				D4E26864214302A3002ECE12 /* Assets.xcassets */,
+				D462417021853B40001C8D14 /* media */,
 				D4E26869214302A4002ECE12 /* Info.plist */,
 			);
 			name = "App Files";
@@ -398,6 +421,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D462417621853B73001C8D14 /* VIDEO.mp4 in Resources */,
+				D462417721853B73001C8D14 /* EPUB.epub in Resources */,
+				D462417821853B73001C8D14 /* TEXT.txt in Resources */,
+				D462417921853B73001C8D14 /* PDF.pdf in Resources */,
+				D462417A21853B73001C8D14 /* IMAGE.jpg in Resources */,
 				D4E26868214302A4002ECE12 /* LaunchScreen.storyboard in Resources */,
 				D4E26865214302A3002ECE12 /* Assets.xcassets in Resources */,
 				D4E26863214302A2002ECE12 /* Main.storyboard in Resources */,
