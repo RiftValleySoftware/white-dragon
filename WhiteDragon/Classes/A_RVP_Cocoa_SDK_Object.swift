@@ -66,7 +66,7 @@ public class A_RVP_Cocoa_SDK_Object: NSObject {
         
         for item in self._myData {
             // Everything can be cast to an NSObject, and we can compare them.
-            if "payload" != item.key, let original = self._myOriginalData[item.key] as? NSObject {  // Payload is handled differently
+            if "payload" != item.key, "payload_type" != item.key, let original = self._myOriginalData[item.key] as? NSObject {  // Payload is handled differently
                 if let current = item.value as? NSObject {
                     // All values should be convertible to String.
                     if current != original, let uriKey = item.key.urlEncodedString, let valueString = (current as? String)?.urlEncodedString {
@@ -86,12 +86,12 @@ public class A_RVP_Cocoa_SDK_Object: NSObject {
         }
         
         // We go through the original data as well, in case we deleted something.
-        for item in self._myOriginalData where nil == self._myData[item.key] {
+        for item in self._myOriginalData where "payload" != item.key && "payload_type" != item.key && nil == self._myData[item.key] {
             if !uri.isEmpty {
                 uri += "&"
             }
             
-            uri += "\(item.key)=)"
+            uri += "\(item.key)="
         }
         
         return uri

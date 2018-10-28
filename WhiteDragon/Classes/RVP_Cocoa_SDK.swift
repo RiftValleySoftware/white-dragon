@@ -1488,20 +1488,20 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      - parameter inURI: The URI to send to the server.
      - parameter payloadData: This is a String, containing Base64-encoded data to be sent as a payload.
      - parameter objectInstance: The instance of the data object that called this.
+     - parameter method: The HTTP method to be used for this transaction.
      */
-    private func _sendPut(_ inURI: String, payloadData inPayloadString: String, objectInstance inObjectInstance: A_RVP_Cocoa_SDK_Object) {
+    private func _sendData(_ inURI: String, payloadData inPayloadString: String, objectInstance inObjectInstance: A_RVP_Cocoa_SDK_Object, method inMethod: String = "PUT") {
         print("PUT URI: \(inURI)")
         
         if let url_object = URL(string: inURI) {
             let urlRequest = NSMutableURLRequest(url: url_object)
-            urlRequest.httpMethod = "PUT"
-            let payloadData = inPayloadString.data(using: .utf8) ?? Data()
+            urlRequest.httpMethod = inMethod
+            let payloadData = inPayloadString.data(using: .utf8) ?? Data()  // Since we have already got Base64 data, we don't need to re-encode it. You need an empty Data object if no payload.
 
             type(of: self)._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
                 self._openOperations += 1
             }
             
-            // We have to have an empty Data element in "from:", or we get an instant cancel. Not sure why. It may be a bug.
             let putTask = self._connectionSession.uploadTask(with: urlRequest as URLRequest, from: payloadData) { [unowned self, unowned inObjectInstance] data, response, error in
                 if let error = error {
                     self._handleError(error)
@@ -1539,7 +1539,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
             if self._newSession {   // We only nuke the session if we created it.
                 self._connectionSession.finishTasksAndInvalidate()   // Take off and nuke the site from orbit. It's the only way to be sure.
             }
-            self._connectionSession = nil   // We had a strong reference, so we need to make sure we delete our reference.
+            self._connectionSession = nil   // Just to be anal.
         }
     }
     
@@ -1567,6 +1567,11 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                 }
                 uri += "remove_payload"
             }
+        } else if let dataObject = inObjectToPut as? A_RVP_Cocoa_SDK_Data_Object, dataObject.isPayloadDirty {
+            if !uri.isEmpty {
+                uri += "&"
+            }
+            uri += "remove_payload"
         }
         
         if !uri.isEmpty || !payloadString.isEmpty {
@@ -1576,7 +1581,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
             if !loginParams.isEmpty {
                 uri = self._server_uri + "/json" + inObjectToPut._pluginPath + "?" + loginParams + "&" + uri
                 
-                self._sendPut(uri, payloadData: payloadString, objectInstance: inObjectToPut)
+                self._sendData(uri, payloadData: payloadString, objectInstance: inObjectToPut, method: "PUT")
             }
         }
     }
@@ -1616,7 +1621,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      
      - parameter inDictionary: The Dictionary object with the item data.
      - parameter parent: A String, with the key for the "parent" container.
-     - parameter forceNew: If true (default is false), then a brand new instance will be returned; whether or not we have a cache. Also, forced items will not be added to our cache.
+     - parameter forceNew: If true (default is false), then a brand new instance will be returned; whether or not we have a cache (Meaning it's an independent copy -caveat emptor). Also, forced items will not be added to our cache. We Use the Force [Luke] to store before and after objects in the change records.
      
      - returns: A new subclass instance of A_RVP_IOS_SDK_Object, or nil.
      */
