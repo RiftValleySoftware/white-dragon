@@ -106,7 +106,9 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
                         aspect = size.height / size.width
                     }
                     buttonSpace = 30
-                } else if nil != payload as? Data {
+                } else if payload is String {
+                    aspect = 1.0
+                } else if payload is Data {
                     buttonSpace = 30
                 }
             }
@@ -603,6 +605,17 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
                                        multiplier: 1.0,
                                        constant: 0)
                     ])
+            }
+            
+            if let lastView = ret.subviews.last {
+                ret.addConstraints([
+                    NSLayoutConstraint(item: lastView,
+                                       attribute: .bottom,
+                                       relatedBy: .equal,
+                                       toItem: ret,
+                                       attribute: .bottom,
+                                       multiplier: 1.0,
+                                       constant: -10)])
             }
            return ret
         }

@@ -221,7 +221,7 @@ class RVP_DisplayPayloadView: UIView, AVAudioPlayerDelegate {
                 aspect = payloadAsImage.size.height / payloadAsImage.size.width
             } else if let payloadAsString = payload as? String {
                 let textView = UITextView()
-                textView.backgroundColor = UIColor.init(red: 0.3, green: 0.3, blue: 0, alpha: 0.15)
+                textView.backgroundColor = UIColor.white
                 textView.text = payloadAsString
                 displayItem = textView
                 aspect = 1.0
