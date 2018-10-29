@@ -299,18 +299,57 @@
                                             <segue destination="I1P-kr-mZ7" kind="presentation" id="1ep-HH-kmb"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MMe-1j-UKr">
+                                        <rect key="frame" x="0.0" y="345" width="414" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="Dai-zl-l9o"/>
+                                        </constraints>
+                                        <state key="normal" title="Create Just A New Login"/>
+                                        <connections>
+                                            <action selector="createNewLoginButtonPressed:" destination="NoU-S8-adh" eventType="touchUpInside" id="anX-Vs-qPb"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R70-C7-0Sv">
+                                        <rect key="frame" x="0.0" y="383" width="414" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="8Ed-oN-eH9"/>
+                                        </constraints>
+                                        <state key="normal" title="Create Just A New User"/>
+                                        <connections>
+                                            <action selector="createNewUserButtonPressed:" destination="NoU-S8-adh" eventType="touchUpInside" id="zXu-ke-5jw"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2PY-l2-0nh">
+                                        <rect key="frame" x="0.0" y="421" width="414" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="wdN-6L-zPW"/>
+                                        </constraints>
+                                        <state key="normal" title="Create Both A New Login and A New User"/>
+                                        <connections>
+                                            <action selector="createNewButtonPressed:" destination="NoU-S8-adh" eventType="touchUpInside" id="3Ff-ME-REA"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="43N-aJ-4LO" secondAttribute="trailing" id="0vM-fW-9wu"/>
                                     <constraint firstAttribute="trailing" secondItem="eFU-Eg-Ciy" secondAttribute="trailing" id="8my-C0-saO"/>
                                     <constraint firstItem="43N-aJ-4LO" firstAttribute="leading" secondItem="d0U-ig-Vsi" secondAttribute="leading" id="CyX-cH-Tnq"/>
+                                    <constraint firstItem="2PY-l2-0nh" firstAttribute="top" secondItem="R70-C7-0Sv" secondAttribute="bottom" constant="8" id="Dxp-4e-SqQ"/>
                                     <constraint firstItem="43N-aJ-4LO" firstAttribute="top" secondItem="eFU-Eg-Ciy" secondAttribute="bottom" id="J2H-GK-wbt"/>
                                     <constraint firstItem="43N-aJ-4LO" firstAttribute="leading" secondItem="d0U-ig-Vsi" secondAttribute="leading" id="KH8-Ft-Uiw"/>
+                                    <constraint firstItem="R70-C7-0Sv" firstAttribute="leading" secondItem="d0U-ig-Vsi" secondAttribute="leading" id="NM2-in-XlA"/>
                                     <constraint firstItem="Qz9-cW-mf5" firstAttribute="leading" secondItem="d0U-ig-Vsi" secondAttribute="leading" id="RGC-Cz-Khq"/>
+                                    <constraint firstItem="R70-C7-0Sv" firstAttribute="top" secondItem="MMe-1j-UKr" secondAttribute="bottom" constant="8" id="Sjh-5V-3eG"/>
+                                    <constraint firstAttribute="trailing" secondItem="2PY-l2-0nh" secondAttribute="trailing" id="UYf-lX-Mgn"/>
+                                    <constraint firstItem="2PY-l2-0nh" firstAttribute="leading" secondItem="d0U-ig-Vsi" secondAttribute="leading" id="XR7-aC-0EJ"/>
                                     <constraint firstAttribute="trailing" secondItem="43N-aJ-4LO" secondAttribute="trailing" id="aY1-3C-0yc"/>
+                                    <constraint firstAttribute="trailing" secondItem="R70-C7-0Sv" secondAttribute="trailing" id="feI-gL-0nL"/>
                                     <constraint firstItem="Qz9-cW-mf5" firstAttribute="centerY" secondItem="d0U-ig-Vsi" secondAttribute="centerY" id="fs9-NL-6eH"/>
+                                    <constraint firstItem="MMe-1j-UKr" firstAttribute="leading" secondItem="d0U-ig-Vsi" secondAttribute="leading" id="ge9-yq-UoT"/>
+                                    <constraint firstItem="MMe-1j-UKr" firstAttribute="top" secondItem="Qz9-cW-mf5" secondAttribute="bottom" constant="8" id="i8b-ye-4vg"/>
                                     <constraint firstItem="eFU-Eg-Ciy" firstAttribute="top" secondItem="d0U-ig-Vsi" secondAttribute="top" id="jKD-Fv-sNV"/>
+                                    <constraint firstAttribute="trailing" secondItem="MMe-1j-UKr" secondAttribute="trailing" id="nIz-48-NNm"/>
                                     <constraint firstAttribute="trailing" secondItem="Qz9-cW-mf5" secondAttribute="trailing" id="tEa-0b-Rez"/>
                                     <constraint firstItem="eFU-Eg-Ciy" firstAttribute="leading" secondItem="d0U-ig-Vsi" secondAttribute="leading" id="vLC-Va-DXz"/>
                                 </constraints>
@@ -565,11 +604,22 @@
                                             <segue destination="I1P-kr-mZ7" kind="presentation" id="7yD-4z-J96"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="scr-Xc-5Fp">
+                                        <rect key="frame" x="0.0" y="345" width="414" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="wY0-0z-tBZ"/>
+                                        </constraints>
+                                        <state key="normal" title="Create A New Place"/>
+                                        <connections>
+                                            <action selector="createNewButtonPressed:" destination="de3-IP-65R" eventType="touchUpInside" id="u0H-Gj-l5L"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="I3U-r3-Ql1" firstAttribute="leading" secondItem="R2M-g4-Km1" secondAttribute="leading" id="0Pn-jX-MBV"/>
                                     <constraint firstItem="I3U-r3-Ql1" firstAttribute="top" secondItem="nZ8-qN-3Sp" secondAttribute="bottom" id="2nV-XW-zhb"/>
+                                    <constraint firstAttribute="trailing" secondItem="scr-Xc-5Fp" secondAttribute="trailing" id="Bem-Gt-k5C"/>
                                     <constraint firstAttribute="trailing" secondItem="nZ8-qN-3Sp" secondAttribute="trailing" id="Cwu-b1-tfh"/>
                                     <constraint firstItem="nZ8-qN-3Sp" firstAttribute="leading" secondItem="R2M-g4-Km1" secondAttribute="leading" id="DbC-FE-YwA"/>
                                     <constraint firstItem="I3U-r3-Ql1" firstAttribute="leading" secondItem="R2M-g4-Km1" secondAttribute="leading" id="LOe-e1-QAO"/>
@@ -577,6 +627,8 @@
                                     <constraint firstAttribute="trailing" secondItem="N3L-Ah-rK3" secondAttribute="trailing" id="g8V-CB-RbA"/>
                                     <constraint firstItem="nZ8-qN-3Sp" firstAttribute="top" secondItem="R2M-g4-Km1" secondAttribute="top" id="hdm-PS-GJs"/>
                                     <constraint firstAttribute="trailing" secondItem="I3U-r3-Ql1" secondAttribute="trailing" id="lii-CY-k99"/>
+                                    <constraint firstItem="scr-Xc-5Fp" firstAttribute="leading" secondItem="R2M-g4-Km1" secondAttribute="leading" id="pok-WF-pHH"/>
+                                    <constraint firstItem="scr-Xc-5Fp" firstAttribute="top" secondItem="N3L-Ah-rK3" secondAttribute="bottom" constant="8" id="wzP-k9-dmU"/>
                                     <constraint firstItem="N3L-Ah-rK3" firstAttribute="leading" secondItem="R2M-g4-Km1" secondAttribute="leading" id="z0S-eZ-VYc"/>
                                     <constraint firstItem="N3L-Ah-rK3" firstAttribute="centerY" secondItem="R2M-g4-Km1" secondAttribute="centerY" id="zzf-96-eKC"/>
                                 </constraints>
@@ -700,6 +752,16 @@
                                             <segue destination="I1P-kr-mZ7" kind="presentation" id="EDy-cp-Y8d"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KK2-CF-AD0">
+                                        <rect key="frame" x="0.0" y="345" width="414" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="6EI-j2-vpY"/>
+                                        </constraints>
+                                        <state key="normal" title="Create A New Thing"/>
+                                        <connections>
+                                            <action selector="createNewButtonPressed:" destination="tRk-FW-bgm" eventType="touchUpInside" id="ORT-aI-OkP"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
@@ -713,7 +775,10 @@
                                     <constraint firstItem="YEk-5c-8xV" firstAttribute="top" secondItem="ux4-lq-vAk" secondAttribute="bottom" id="bS5-23-KwV"/>
                                     <constraint firstItem="YPH-EU-myU" firstAttribute="leading" secondItem="njy-gN-Jw9" secondAttribute="leading" id="d6n-Zz-iFW"/>
                                     <constraint firstAttribute="trailing" secondItem="YEk-5c-8xV" secondAttribute="trailing" id="fTK-Ow-afi"/>
+                                    <constraint firstItem="KK2-CF-AD0" firstAttribute="leading" secondItem="njy-gN-Jw9" secondAttribute="leading" id="jJ5-HF-IdC"/>
                                     <constraint firstItem="ux4-lq-vAk" firstAttribute="leading" secondItem="njy-gN-Jw9" secondAttribute="leading" id="kh6-ip-xtU"/>
+                                    <constraint firstAttribute="trailing" secondItem="KK2-CF-AD0" secondAttribute="trailing" id="ohq-pC-LLh"/>
+                                    <constraint firstItem="KK2-CF-AD0" firstAttribute="top" secondItem="YPH-EU-myU" secondAttribute="bottom" constant="8" id="v6d-fw-6Jj"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vk0-NU-cTx">
@@ -1863,7 +1928,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="JPEG IMAGE" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XxK-DM-fb7">
-                                                    <rect key="frame" x="20" y="0.0" width="374" height="50.5"/>
+                                                    <rect key="frame" x="20" y="0.0" width="374" height="43.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -1885,7 +1950,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TEXT" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wuR-na-PPK">
-                                                    <rect key="frame" x="20" y="0.0" width="374" height="50.5"/>
+                                                    <rect key="frame" x="20" y="0.0" width="374" height="43.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -1907,7 +1972,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PDF" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nt2-tn-OhL">
-                                                    <rect key="frame" x="20" y="0.0" width="374" height="50.5"/>
+                                                    <rect key="frame" x="20" y="0.0" width="374" height="43.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -1929,7 +1994,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MP4 VIDEO" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qgX-OH-Men">
-                                                    <rect key="frame" x="20" y="0.0" width="374" height="50.5"/>
+                                                    <rect key="frame" x="20" y="0.0" width="374" height="43.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -1951,7 +2016,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="EPUB" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wWD-XD-0iX">
-                                                    <rect key="frame" x="20" y="0.0" width="374" height="50.5"/>
+                                                    <rect key="frame" x="20" y="0.0" width="374" height="43.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -1973,7 +2038,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MP3 AUDIO" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XUF-o2-aAx">
-                                                    <rect key="frame" x="20" y="0.0" width="374" height="50.5"/>
+                                                    <rect key="frame" x="20" y="0.0" width="374" height="43.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -2002,6 +2067,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="FIc-tv-XMe"/>
+        <segue reference="EDy-cp-Y8d"/>
     </inferredMetricsTieBreakers>
 </document>

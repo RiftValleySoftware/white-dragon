@@ -53,4 +53,22 @@ class Test001BasicUserListing: TestBaseViewController {
             }
         }
     }
+
+    /* ################################################################## */
+    /**
+     */
+    @IBAction override func createNewButtonPressed(_ sender: UIButton) {
+    }
+
+    /* ################################################################## */
+    /**
+     */
+    @IBAction func createNewUserButtonPressed(_ sender: UIButton) {
+    }
+
+    /* ################################################################## */
+    /**
+     */
+    @IBAction func createNewLoginButtonPressed(_ sender: UIButton) {
+    }
 }
