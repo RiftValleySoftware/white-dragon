@@ -1581,7 +1581,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
             if !loginParams.isEmpty {
                 uri = self._server_uri + "/json" + inObjectToPut._pluginPath + "?" + loginParams + "&" + uri
                 
-                self._sendData(uri, payloadData: payloadString, objectInstance: inObjectToPut, method: "PUT")
+                self._sendData(uri, payloadData: payloadString, objectInstance: inObjectToPut, method: inObjectToPut.isNew ? "POST" : "PUT")
             }
         }
     }

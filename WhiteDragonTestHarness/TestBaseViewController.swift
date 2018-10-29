@@ -182,6 +182,7 @@ class TestBaseViewController: UIViewController, RVP_Cocoa_SDK_Delegate, UIPicker
     @IBOutlet weak var loginMainAdminButton: UIButton!
     @IBOutlet weak var loginPickerView: UIPickerView!
     @IBOutlet weak var specificationItemsConstraint: NSLayoutConstraint!
+    @IBOutlet weak var createNewButton: UIButton!
     
     /* ################################################################## */
     /**
@@ -232,9 +233,28 @@ class TestBaseViewController: UIViewController, RVP_Cocoa_SDK_Delegate, UIPicker
     /* ################################################################## */
     /**
      */
-    @IBAction func createNewButtonPressed(_ sender: UIButton) {
+    @IBAction func createNewButtonPressed(_ sender: UIButton) {}
+    
+    /* ################################################################## */
+    /**
+     */
+    func checkButtonVisibility() {
+        if let button = self.createNewButton, let sdkObject = self.mySDKTester?.sdkInstance {
+            button.isHidden = !sdkObject.isLoggedIn
+        }
+        
+        self.activityScreen?.isHidden = true
+        self.loginMainAdminButton?.isHidden = false
+        self.displayResultsButton?.isHidden = self.objectList.isEmpty
     }
-
+    
+    /* ################################################################## */
+    /**
+     */
+    func callCreateNewEditor(_ inEditElement: A_RVP_Cocoa_SDK_Object) {
+        self.performSegue(withIdentifier: "create-new-edit", sender: inEditElement)
+    }
+    
     /* ################################################################## */
     /**
      */
@@ -243,6 +263,7 @@ class TestBaseViewController: UIViewController, RVP_Cocoa_SDK_Delegate, UIPicker
         self.clearResults()
         self.mySDKTester = WhiteDragonSDKTester(dbPrefix: self.dbPrefix, delegate: self, session: TestHarnessAppDelegate.testHarnessDelegate.connectionSession)
         self.loginMainAdminButton.setTitle(self._buttonStrings[0], for: .normal)
+        self.checkButtonVisibility()
     }
     
     /* ################################################################## */
@@ -269,6 +290,8 @@ class TestBaseViewController: UIViewController, RVP_Cocoa_SDK_Delegate, UIPicker
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destination = segue.destination as? RVP_ResultListNavController {
             destination.resultObjectList = self.objectList
+        } else if "create-new-edit" == segue.identifier, let destination = segue.destination as? RVP_EditElementViewController, let sender = sender as? A_RVP_Cocoa_SDK_Object {
+            destination.editableObject = sender
         }
         super.prepare(for: segue, sender: nil)
     }
@@ -374,9 +397,7 @@ class TestBaseViewController: UIViewController, RVP_Cocoa_SDK_Delegate, UIPicker
             }
             
             self.loginMainAdminButton.setTitle(loginID, for: .normal)
-            self.activityScreen?.isHidden = true
-            self.loginMainAdminButton?.isHidden = false
-            self.displayResultsButton?.isHidden = self.objectList.isEmpty
+            self.checkButtonVisibility()
         }
     }
     
@@ -388,6 +409,7 @@ class TestBaseViewController: UIViewController, RVP_Cocoa_SDK_Delegate, UIPicker
         print("Instance disconnected because \(inReason)!")
         #endif
         DispatchQueue.main.async {
+            self.checkButtonVisibility()
         }
     }
     
@@ -399,6 +421,7 @@ class TestBaseViewController: UIViewController, RVP_Cocoa_SDK_Delegate, UIPicker
         print("Instance Error: \(inError)!")
         #endif
         DispatchQueue.main.async {
+            self.checkButtonVisibility()
         }
     }
     

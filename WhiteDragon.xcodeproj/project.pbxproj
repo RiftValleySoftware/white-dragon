@@ -229,13 +229,13 @@
 		D480767F2146B64000ACC0FE /* Instances */ = {
 			isa = PBXGroup;
 			children = (
-				D43CC106214C4EA900548B8E /* A_RVP_Cocoa_SDK_Data_Object.swift */,
 				D43CC108214C4EA900548B8E /* A_RVP_Cocoa_SDK_Object.swift */,
+				D43CC106214C4EA900548B8E /* A_RVP_Cocoa_SDK_Data_Object.swift */,
 				D43CC103214C4EA900548B8E /* A_RVP_Cocoa_SDK_Security_Object.swift */,
 				D43CC109214C4EA900548B8E /* RVP_Cocoa_SDK_Login.swift */,
+				D43CC104214C4EA900548B8E /* RVP_Cocoa_SDK_User.swift */,
 				D43CC105214C4EA900548B8E /* RVP_Cocoa_SDK_Place.swift */,
 				D43CC107214C4EA900548B8E /* RVP_Cocoa_SDK_Thing.swift */,
-				D43CC104214C4EA900548B8E /* RVP_Cocoa_SDK_User.swift */,
 			);
 			name = Instances;
 			sourceTree = "<group>";

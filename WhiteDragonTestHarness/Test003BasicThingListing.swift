@@ -73,6 +73,13 @@ class Test003BasicThingListing: TestBaseViewController {
     /* ################################################################## */
     /**
      */
+    override func checkButtonVisibility() {
+        
+    }
+
+    /* ################################################################## */
+    /**
+     */
     @IBAction override func createNewButtonPressed(_ sender: UIButton) {
     }
 }

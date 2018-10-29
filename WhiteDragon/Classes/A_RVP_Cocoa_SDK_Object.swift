@@ -64,9 +64,24 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
     internal var _saveChangesURI: String {
         var uri = ""
         
-        for item in self._myData {
-            // Everything can be cast to an NSObject, and we can compare them.
-            if "payload" != item.key, "payload_type" != item.key, let original = self._myOriginalData[item.key] as? NSObject {  // Payload is handled differently
+        for item in self._myData where "writeable" != item.key && "id" != item.key && "payload" != item.key && "payload_type" != item.key {
+            if self.isNew {
+                if let current = item.value as? NSObject {
+                    // All values should be convertible to String.
+                    if let uriKey = item.key.urlEncodedString, let valueString = (current as? String)?.urlEncodedString {
+                        if !uri.isEmpty {
+                            uri += "&"
+                        }
+                        
+                        uri += "\(uriKey)=\(valueString)"
+                    }
+                } else {    // This should never happen.
+                    #if DEBUG
+                    print("There Is An Error in the Data! This should not have been encountered! The Data Object is not NSObject-Castable!")
+                    #endif
+                    break
+                }
+            } else if let original = self._myOriginalData[item.key] as? NSObject {  // Payload is handled differently
                 if let current = item.value as? NSObject {
                     // All values should be convertible to String.
                     if current != original, let uriKey = item.key.urlEncodedString, let valueString = (current as? String)?.urlEncodedString {
@@ -110,7 +125,7 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
      - returns: a string, with the "plugin path" for the data item. READ ONLY
      */
     internal var _pluginPath: String {
-        return "/baseline/" + String(self.id)
+        return "/baseline/" + (0 != self.id ? String(self.id) : "")
     }
 
     /* ################################################################## */
@@ -424,12 +439,25 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
      This is the default initializer.
      
      - parameter sdkInstance: REQUIRED (Can be nil) This is the SDK instance that "owns" this object. It may be nil for history instances.
-     - parameter objectInfoData: REQUIRED This is the parsed JSON data for this object, as a Dictionary.
+     - parameter objectInfoData: REQUIRED This is the parsed JSON data for this object, as a Dictionary. If it is empty, then this is considered a brand new object, and its ID will be zero, read and write will be set to 1, and it will be marked writeable. Additionally, nothing will be saved to the original data cache.
      */
     public init(sdkInstance inSDKInstance: RVP_Cocoa_SDK?, objectInfoData inData: [String: Any]) {
+        super.init()
         self._sdkInstance = inSDKInstance
-        self._myData = inData   // This will change as we edit the object.
-        self._myOriginalData = inData   // This is a "snapshot of the "before" state of the object.
+        var inMutableData = inData
+        if inMutableData.isEmpty {
+            inMutableData["id"] = 0
+            inMutableData["read_token"] = 1
+            inMutableData["write_token"] = 1
+            inMutableData["writeable"] = true
+            if self is RVP_Cocoa_SDK_Login {    // We generate a random string for the login ID.
+                inMutableData["login_id"] = NSUUID().uuidString
+            }
+            self._myData = inMutableData   // This will change as we edit the object.
+        } else {
+            self._myData = inData   // This will change as we edit the object.
+            self._myOriginalData = inData   // This is a "snapshot of the "before" state of the object.
+        }
     }
     
     /* ################################################################## */

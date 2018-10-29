@@ -348,11 +348,31 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
     /* ################################################################## */
     /**
      */
+    override func viewWillAppear(_ animated: Bool) {
+        self.saveButton.isEnabled = self.editableObject.isDirty
+        super.viewWillAppear(animated)
+    }
+    
+    /* ################################################################## */
+    /**
+     */
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destination = segue.destination as? RVP_MediaChoiceViewController {
             destination.controller = self
         }
     }
+
+    /* ################################################################## */
+    /**
+     */
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        if self.editableObject is RVP_Cocoa_SDK_Login {
+            return super.numberOfSections(in: tableView) - 1
+        }
+        
+        return super.numberOfSections(in: tableView)
+    }
+    
     /* ################################################################## */
     /**
      */

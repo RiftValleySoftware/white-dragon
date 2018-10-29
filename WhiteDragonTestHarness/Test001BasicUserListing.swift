@@ -21,6 +21,7 @@
 
 import UIKit
 import MapKit
+import WhiteDragon
 
 /* ###################################################################################################################################### */
 // MARK: - Test Class -
@@ -28,6 +29,9 @@ import MapKit
 /**
  */
 class Test001BasicUserListing: TestBaseViewController {
+    @IBOutlet weak var createNewLoginButton: UIButton!
+    @IBOutlet weak var createNewUserButton: UIButton!
+    
     /* ################################################################## */
     /**
      */
@@ -53,13 +57,34 @@ class Test001BasicUserListing: TestBaseViewController {
             }
         }
     }
-
+    
     /* ################################################################## */
     /**
      */
-    @IBAction override func createNewButtonPressed(_ sender: UIButton) {
+    override func checkButtonVisibility() {
+        if let button = self.createNewLoginButton, let sdkObject = self.mySDKTester?.sdkInstance {
+            button.isHidden = !sdkObject.isManager
+        }
+        if let button = self.createNewUserButton, let sdkObject = self.mySDKTester?.sdkInstance {
+            button.isHidden = !sdkObject.isManager
+        }
+        if let button = self.createNewButton, let sdkObject = self.mySDKTester?.sdkInstance {
+            button.isHidden = !sdkObject.isManager
+        }
+        
+        self.activityScreen?.isHidden = true
+        self.loginMainAdminButton?.isHidden = false
+        self.displayResultsButton?.isHidden = self.objectList.isEmpty
     }
-
+    
+    /* ################################################################## */
+    /**
+     */
+    @IBAction func createNewLoginButtonPressed(_ sender: UIButton) {
+        let newLogin = RVP_Cocoa_SDK_Login(sdkInstance: self.mySDKTester?.sdkInstance, objectInfoData: [:])
+        self.callCreateNewEditor(newLogin)
+    }
+    
     /* ################################################################## */
     /**
      */
@@ -69,6 +94,6 @@ class Test001BasicUserListing: TestBaseViewController {
     /* ################################################################## */
     /**
      */
-    @IBAction func createNewLoginButtonPressed(_ sender: UIButton) {
+    @IBAction override func createNewButtonPressed(_ sender: UIButton) {
     }
 }

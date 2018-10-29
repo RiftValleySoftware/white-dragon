@@ -34,7 +34,7 @@ public class RVP_Cocoa_SDK_Login: A_RVP_Cocoa_SDK_Security_Object {
      - returns: a string, with the "plugin path" for the data item. READ ONLY
      */
     override internal var _pluginPath: String {
-        return "/people/logins/" + String(self.id)
+        return "/people/logins/" + (0 != self.id ? String(self.id) : "")
     }
     
     /* ################################################################## */

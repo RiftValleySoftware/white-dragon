@@ -34,7 +34,7 @@ public class RVP_Cocoa_SDK_Place: A_RVP_Cocoa_SDK_Data_Object {
      - returns: a string, with the "plugin path" for the data item. READ ONLY
      */
     override internal var _pluginPath: String {
-        return "/places/" + String(self.id)
+        return "/places/" + (0 != self.id ? String(self.id) : "")
     }
     
     /* ################################################################## */

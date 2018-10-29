@@ -299,7 +299,7 @@
                                             <segue destination="I1P-kr-mZ7" kind="presentation" id="1ep-HH-kmb"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MMe-1j-UKr">
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MMe-1j-UKr">
                                         <rect key="frame" x="0.0" y="345" width="414" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="Dai-zl-l9o"/>
@@ -309,7 +309,7 @@
                                             <action selector="createNewLoginButtonPressed:" destination="NoU-S8-adh" eventType="touchUpInside" id="anX-Vs-qPb"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R70-C7-0Sv">
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R70-C7-0Sv">
                                         <rect key="frame" x="0.0" y="383" width="414" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="8Ed-oN-eH9"/>
@@ -319,7 +319,7 @@
                                             <action selector="createNewUserButtonPressed:" destination="NoU-S8-adh" eventType="touchUpInside" id="zXu-ke-5jw"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2PY-l2-0nh">
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2PY-l2-0nh">
                                         <rect key="frame" x="0.0" y="421" width="414" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="wdN-6L-zPW"/>
@@ -399,6 +399,9 @@
                     </userDefinedRuntimeAttributes>
                     <connections>
                         <outlet property="activityScreen" destination="pBS-8p-kGs" id="kRL-IG-n8J"/>
+                        <outlet property="createNewButton" destination="2PY-l2-0nh" id="qX4-T0-Adk"/>
+                        <outlet property="createNewLoginButton" destination="R70-C7-0Sv" id="MtG-YW-ph2"/>
+                        <outlet property="createNewUserButton" destination="MMe-1j-UKr" id="vcj-Jy-yy7"/>
                         <outlet property="displayResultsButton" destination="Qz9-cW-mf5" id="5Ib-vD-BNA"/>
                         <outlet property="fetchDataButton" destination="eFU-Eg-Ciy" id="SFU-0W-FmB"/>
                         <outlet property="loginMainAdminButton" destination="SZ7-ca-1uH" id="DNS-1M-ajn"/>
@@ -406,6 +409,7 @@
                         <outlet property="objectListPicker" destination="43N-aJ-4LO" id="w42-nK-BeO"/>
                         <outlet property="specificationItemsConstraint" destination="A3S-bj-dzk" id="PqL-QJ-5Cf"/>
                         <outlet property="specificationItemsView" destination="d0U-ig-Vsi" id="wDm-C7-eoC"/>
+                        <segue destination="miH-bl-OqI" kind="show" identifier="create-new-edit" id="Efr-3V-JZo"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZlU-sJ-6DL" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -604,7 +608,7 @@
                                             <segue destination="I1P-kr-mZ7" kind="presentation" id="7yD-4z-J96"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="scr-Xc-5Fp">
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="scr-Xc-5Fp">
                                         <rect key="frame" x="0.0" y="345" width="414" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="wY0-0z-tBZ"/>
@@ -678,6 +682,7 @@
                     </userDefinedRuntimeAttributes>
                     <connections>
                         <outlet property="activityScreen" destination="UnB-8P-3Q1" id="P6W-fz-1jg"/>
+                        <outlet property="createNewButton" destination="scr-Xc-5Fp" id="p46-O4-jl0"/>
                         <outlet property="displayResultsButton" destination="N3L-Ah-rK3" id="RC2-o6-rC1"/>
                         <outlet property="fetchDataButton" destination="nZ8-qN-3Sp" id="VGD-lJ-CxH"/>
                         <outlet property="loginMainAdminButton" destination="74F-NX-5he" id="ciW-4x-63i"/>
@@ -752,7 +757,7 @@
                                             <segue destination="I1P-kr-mZ7" kind="presentation" id="EDy-cp-Y8d"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KK2-CF-AD0">
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KK2-CF-AD0">
                                         <rect key="frame" x="0.0" y="345" width="414" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="6EI-j2-vpY"/>
@@ -826,6 +831,7 @@
                     </userDefinedRuntimeAttributes>
                     <connections>
                         <outlet property="activityScreen" destination="vk0-NU-cTx" id="YCf-hk-Y9P"/>
+                        <outlet property="createNewButton" destination="KK2-CF-AD0" id="c0w-0K-KW1"/>
                         <outlet property="displayResultsButton" destination="YPH-EU-myU" id="bYi-fy-m8i"/>
                         <outlet property="fetchDataButton" destination="ux4-lq-vAk" id="O50-kf-DlR"/>
                         <outlet property="loginMainAdminButton" destination="ToW-WE-rDS" id="vLL-V4-Y5L"/>
@@ -2067,6 +2073,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="EDy-cp-Y8d"/>
+        <segue reference="Efr-3V-JZo"/>
+        <segue reference="7yD-4z-J96"/>
     </inferredMetricsTieBreakers>
 </document>
