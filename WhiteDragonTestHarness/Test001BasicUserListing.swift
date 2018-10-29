@@ -31,6 +31,7 @@ import WhiteDragon
 class Test001BasicUserListing: TestBaseViewController {
     @IBOutlet weak var createNewLoginButton: UIButton!
     @IBOutlet weak var createNewUserButton: UIButton!
+    @IBOutlet weak var fetchAllLoginsButton: UIButton!
     
     /* ################################################################## */
     /**
@@ -71,12 +72,26 @@ class Test001BasicUserListing: TestBaseViewController {
         if let button = self.createNewButton, let sdkObject = self.mySDKTester?.sdkInstance {
             button.isHidden = !sdkObject.isManager
         }
-        
+        if let button = self.fetchAllLoginsButton, let sdkObject = self.mySDKTester?.sdkInstance {
+            button.isHidden = !sdkObject.isManager
+        }
+
         self.activityScreen?.isHidden = true
         self.loginMainAdminButton?.isHidden = false
         self.displayResultsButton?.isHidden = self.objectList.isEmpty
     }
     
+    /* ################################################################## */
+    /**
+     */
+    @IBAction func fetchAllLoginsButtonHit(_ sender: UIButton) {
+        self.clearResults()
+        if let sdkInstance = self.mySDKTester?.sdkInstance {
+            self.activityScreen?.isHidden = false
+            sdkInstance.fetchLogins([2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25])
+        }
+    }
+
     /* ################################################################## */
     /**
      */
