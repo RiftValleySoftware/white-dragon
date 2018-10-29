@@ -51,7 +51,7 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
     
     /* ################################################################## */
     /**
-     This is used to detect "dirty" conditions. This is a Dictionary full of SHA values of the original data.
+     This is used to detect "dirty" conditions. This is a Dictionary copy of the original data.
      */
     internal var _myOriginalData: [String: Any] = [:]
 
@@ -428,8 +428,8 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
      */
     public init(sdkInstance inSDKInstance: RVP_Cocoa_SDK?, objectInfoData inData: [String: Any]) {
         self._sdkInstance = inSDKInstance
-        self._myData = inData
-        self._myOriginalData = inData
+        self._myData = inData   // This will change as we edit the object.
+        self._myOriginalData = inData   // This is a "snapshot of the "before" state of the object.
     }
     
     /* ################################################################## */
