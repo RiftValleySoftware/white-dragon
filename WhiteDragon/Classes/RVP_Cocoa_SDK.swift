@@ -1488,9 +1488,9 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      - parameter inURI: The URI to send to the server.
      - parameter payloadData: This is a String, containing Base64-encoded data to be sent as a payload.
      - parameter objectInstance: The instance of the data object that called this.
-     - parameter method: The HTTP method to be used for this transaction.
+     - parameter method: The HTTP method to be used for this transaction ("PUT" or "POST").
      */
-    private func _sendData(_ inURI: String, payloadData inPayloadString: String, objectInstance inObjectInstance: A_RVP_Cocoa_SDK_Object, method inMethod: String = "PUT") {
+    private func _sendData(_ inURI: String, payloadData inPayloadString: String, objectInstance inObjectInstance: A_RVP_Cocoa_SDK_Object, method inMethod: String) {
         print("PUT URI: \(inURI)")
         
         if let url_object = URL(string: inURI) {
@@ -1567,7 +1567,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                 }
                 uri += "remove_payload"
             }
-        } else if let dataObject = inObjectToPut as? A_RVP_Cocoa_SDK_Data_Object, dataObject.isPayloadDirty {
+        } else if let dataObject = inObjectToPut as? A_RVP_Cocoa_SDK_Data_Object, dataObject.isPayloadDirty {   // Otherwise, we may need to specifically remove it.
             if !uri.isEmpty {
                 uri += "&"
             }

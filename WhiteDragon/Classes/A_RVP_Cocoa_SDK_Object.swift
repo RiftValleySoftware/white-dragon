@@ -26,7 +26,7 @@ import Foundation
 /* ###################################################################################################################################### */
 /**
  */
-public class A_RVP_Cocoa_SDK_Object: NSObject {
+public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
     /* ################################################################## */
     // MARK: - Internal Properties
     /* ################################################################## */
@@ -468,5 +468,66 @@ public class A_RVP_Cocoa_SDK_Object: NSObject {
      */
     public func sendToServer() {
         self._sdkInstance?._putObject(self)
+    }
+    
+    /* ################################################################## */
+    // MARK: - Public Sequence Protocol Methods, Typedefs and Structs
+    /* ################################################################## */
+    /**
+     This is the element type for the Sequence protocol.
+     */
+    public typealias Element = Any?
+    
+    /* ################################################################## */
+    /**
+     We have a subscript to return values, as if we were directly accessing the data. READ ONLY.
+     This returns the "asDictionary" response, as opposed to direct "myData" access (use "myData" for that).
+     */
+    public subscript(_ inKey: String) -> Element? {
+        return self.asDictionary[inKey]
+    }
+    
+    /* ################################################################## */
+    /**
+     This is the Sequence Iterator Struct. This iterates the "asDictionary" response. READ ONLY.
+     */
+    public struct Iterator: IteratorProtocol {
+        /** This is the captured list that we're iterating. */
+        private let _owner: A_RVP_Cocoa_SDK_Object
+        /** This is the current item in that list. */
+        private var _index: Int
+        
+        /* ############################################################## */
+        /**
+         The default initializer.
+         
+         - parameter inOwner: This is the object to be iterated. The asDictionary output will be iterated. READ ONLY.
+         */
+        init(_ inOwner: A_RVP_Cocoa_SDK_Object) {
+            self._owner = inOwner
+            self._index = 0
+        }
+        
+        /* ############################################################## */
+        /**
+         Simple "next" iterator method. Order is not guaranteed. This iterates the "live" object directly; not a copy.
+         */
+        mutating public func next() -> Element? {
+            let iteratorListKeyArray = Array(self._owner.asDictionary.keys)
+            if self._index < iteratorListKeyArray.count {
+                let iteratorListKey = iteratorListKeyArray[self._index]
+                self._index += 1
+                return self._owner.asDictionary[iteratorListKey]
+            } else {
+                return nil
+            }
+        }
+    }
+    /* ################################################################## */
+    /**
+     - returns: a new iterator for the instance, which iterates the asDictionary response.It is read-only.
+     */
+    public func makeIterator() -> A_RVP_Cocoa_SDK_Object.Iterator {
+        return Iterator(self)
     }
 }
