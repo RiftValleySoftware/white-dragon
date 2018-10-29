@@ -64,7 +64,7 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
     internal var _saveChangesURI: String {
         var uri = ""
         
-        for item in self._myData where "writeable" != item.key && "id" != item.key && "payload" != item.key && "payload_type" != item.key {
+        for item in self._myData where "fuzzy" != item.key && "createLogin" != item.key && "writeable" != item.key && "id" != item.key && "payload" != item.key && "payload_type" != item.key {
             if self.isNew {
                 if let current = item.value as? NSObject {
                     // All values should be convertible to String.
@@ -100,8 +100,17 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
             }
         }
         
+        // There's a special circumstance, where we can create a login ID to go with the user.
+        if self.isNew, self is RVP_Cocoa_SDK_User, let create = self._myData["create_login"] as? Bool, create {
+            if !uri.isEmpty {
+                uri += "&"
+            }
+            
+            uri += "login_user"
+        }
+        
         // We go through the original data as well, in case we deleted something.
-        for item in self._myOriginalData where "payload" != item.key && "payload_type" != item.key && nil == self._myData[item.key] {
+        for item in self._myOriginalData where "fuzzy" != item.key && "createLogin" != item.key && "writeable" != item.key && "id" != item.key && "payload" != item.key && "payload_type" != item.key && nil == self._myData[item.key] {
             if !uri.isEmpty {
                 uri += "&"
             }
@@ -165,22 +174,45 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
             if let bfArray = innerTuple.value as? [[String: [String: Any]]] {
                 var temp: RVP_Change_Record?
                 for innerInner in bfArray {
-                    if let beforeObject = innerInner["before"] {
-                        if nil == temp {
-                            temp = RVP_Change_Record(date: Date(), before: nil, after: nil)
+                    if let newValue = innerInner["new_login"] {
+                        if let ret = self._sdkInstance?._makeNewInstanceFromDictionary(newValue, parent: self._pluginType) {
+                            self._sdkInstance?._sendItemsToDelegate([ret])
+                            break
                         }
-                        // We specify these to be "forced" instances. We don't want the cached one.
-                        temp?.before = self._sdkInstance?._makeNewInstanceFromDictionary(beforeObject, parent: self._pluginType, forceNew: true)
-                    }
-                    
-                    if let afterObject = innerInner["after"] {
-                        temp?.after = self._sdkInstance?._makeNewInstanceFromDictionary(afterObject, parent: self._pluginType, forceNew: true)
-                    }
-                    
-                    if nil != temp?.before, nil != temp?.after {
-                        self._changeHistory.append(temp!)
+                    } else if let newValue = innerInner["new_user"] {
+                        if let ret = self._sdkInstance?._makeNewInstanceFromDictionary(newValue, parent: self._pluginType) {
+                            self._sdkInstance?._sendItemsToDelegate([ret])
+                            break
+                        }
+                    } else if let newValue = innerInner["new_place"] {
+                        if let ret = self._sdkInstance?._makeNewInstanceFromDictionary(newValue, parent: self._pluginType) {
+                            self._sdkInstance?._sendItemsToDelegate([ret])
+                            break
+                        }
+                    } else if let newValue = innerInner["new_thing"] {
+                        if let ret = self._sdkInstance?._makeNewInstanceFromDictionary(newValue, parent: self._pluginType) {
+                            self._sdkInstance?._sendItemsToDelegate([ret])
+                            break
+                        }
                     } else {
-                        self._parseChangeJSON(innerInner)
+                        if let beforeObject = innerInner["before"] {
+                            if nil == temp {
+                                temp = RVP_Change_Record(date: Date(), before: nil, after: nil)
+                            }
+                            // We specify these to be "forced" instances. We don't want the cached one.
+                            temp?.before = self._sdkInstance?._makeNewInstanceFromDictionary(beforeObject, parent: self._pluginType, forceNew: true)
+                        }
+                        
+                        if let afterObject = innerInner["after"] {
+                            temp?.after = self._sdkInstance?._makeNewInstanceFromDictionary(afterObject, parent: self._pluginType, forceNew: true)
+                        }
+                        
+                        if nil != temp?.before, nil != temp?.after {
+                            self._changeHistory.append(temp!)
+                            break
+                        } else {
+                            self._parseChangeJSON(innerInner)
+                        }
                     }
                 }
             } else {

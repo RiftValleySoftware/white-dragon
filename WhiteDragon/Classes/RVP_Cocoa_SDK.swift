@@ -638,16 +638,6 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
     
     /* ################################################################## */
     /**
-     This is called with a list of one or more data items to be sent to the delegate.
-     
-     - parameter inItemArray: An Array of concrete instances of subclasses of A_RVP_IOS_SDK_Object.
-     */
-    private func _sendItemsToDelegate(_ inItemArray: [A_RVP_Cocoa_SDK_Object]) {
-        self._delegate?.sdkInstance(self, fetchedDataItems: inItemArray)
-    }
-    
-    /* ################################################################## */
-    /**
      This is called if we determine the server connection to be invalid.
      
      If the delegate is valid, we call it with a notice that the session disconnected because of an invalid server connection.
@@ -1541,6 +1531,16 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
             }
             self._connectionSession = nil   // Just to be anal.
         }
+    }
+    
+    /* ################################################################## */
+    /**
+     This is called with a list of one or more data items to be sent to the delegate.
+     
+     - parameter inItemArray: An Array of concrete instances of subclasses of A_RVP_IOS_SDK_Object.
+     */
+    internal func _sendItemsToDelegate(_ inItemArray: [A_RVP_Cocoa_SDK_Object]) {
+        self._delegate?.sdkInstance(self, fetchedDataItems: inItemArray)
     }
     
     /* ################################################################## */

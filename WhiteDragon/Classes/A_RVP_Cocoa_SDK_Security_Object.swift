@@ -37,6 +37,9 @@ public class A_RVP_Cocoa_SDK_Security_Object: A_RVP_Cocoa_SDK_Object {
         var ret = super.asDictionary
         ret["loginID"] = self.loginID
         ret["securityTokens"] = self.securityTokens
+        if let password = self._myData["password"] as? String { // This is a special case for when the login was just created. The password is rather ephemeral.
+            ret["password"] = password
+        }
 
         return ret
     }

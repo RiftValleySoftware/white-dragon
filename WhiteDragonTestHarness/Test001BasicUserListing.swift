@@ -104,11 +104,16 @@ class Test001BasicUserListing: TestBaseViewController {
     /**
      */
     @IBAction func createNewUserButtonPressed(_ sender: UIButton) {
+        let newUser = RVP_Cocoa_SDK_User(sdkInstance: self.mySDKTester?.sdkInstance, objectInfoData: [:])
+        self.callCreateNewEditor(newUser)
     }
 
     /* ################################################################## */
     /**
      */
     @IBAction override func createNewButtonPressed(_ sender: UIButton) {
+        let newUser = RVP_Cocoa_SDK_User(sdkInstance: self.mySDKTester?.sdkInstance, objectInfoData: [:])
+        newUser.myData["createLogin"] = true
+        self.callCreateNewEditor(newUser)
     }
 }
