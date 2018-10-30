@@ -44,8 +44,10 @@ class RVP_MediaChoiceViewController: UITableViewController {
             "EPUB.epub",
             "AUDIO.mp3"
         ]
-        self.controller.setMediaChoice(fileList[indexPath.row])
-        self.dismiss(animated: true, completion: nil)
+        DispatchQueue.main.async {
+            self.controller.setMediaChoice(fileList[indexPath.row])
+            self.dismiss(animated: true, completion: nil)
+        }
     }
 }
 
@@ -172,8 +174,8 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
      */
     func setMediaChoice(_ inFileName: String) {
         if inFileName.isEmpty {
-            self.editableObject?.myData["payload"] = nil
-            self.editableObject?.myData["payload_type"] = ""
+            self.editableObject?.myData.removeValue(forKey: "payload")
+            self.editableObject?.myData.removeValue(forKey: "payload_type")
         } else {
             let nameType = inFileName.components(separatedBy: ".")
             if let mediaFileURL = Bundle.main.url(forResource: nameType[0], withExtension: nameType[1]) {

@@ -51,6 +51,35 @@ extension Array {
 
 /* ###################################################################### */
 /**
+ From here: https://stackoverflow.com/a/45305316/879365
+ 
+ This helps us to determine the data type. It isn't particularly robust, but is better than nothing.
+ */
+extension Data {
+    /** MIME types, based on the first byte. */
+    private static let _mimeTypeSignatures: [UInt8: String] = [
+        0xFF: "image/jpeg",
+        0x89: "image/png",
+        0x47: "image/gif",
+        0x49: "image/tiff",
+        0x4D: "image/tiff",
+        0x25: "application/pdf",
+        0xD0: "application/vnd",
+        0x46: "text/plain"
+        ]
+    
+    /* ################################################################## */
+    /**
+     - returns: the best guess at the data type.
+     */
+    var mimeType: String {
+        var c: UInt8 = 0
+        copyBytes(to: &c, count: 1)
+        return Data._mimeTypeSignatures[c] ?? "application/octet-stream"
+    }
+}
+/* ###################################################################### */
+/**
  This adds various functionality to the String class.
  */
 extension String {

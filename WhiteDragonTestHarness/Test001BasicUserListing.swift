@@ -63,22 +63,24 @@ class Test001BasicUserListing: TestBaseViewController {
     /**
      */
     override func checkButtonVisibility() {
-        if let button = self.createNewLoginButton, let sdkObject = self.mySDKTester?.sdkInstance {
-            button.isHidden = !sdkObject.isManager
-        }
-        if let button = self.createNewUserButton, let sdkObject = self.mySDKTester?.sdkInstance {
-            button.isHidden = !sdkObject.isManager
-        }
-        if let button = self.createNewButton, let sdkObject = self.mySDKTester?.sdkInstance {
-            button.isHidden = !sdkObject.isManager
-        }
-        if let button = self.fetchAllLoginsButton, let sdkObject = self.mySDKTester?.sdkInstance {
-            button.isHidden = !sdkObject.isManager
-        }
+        DispatchQueue.main.async {
+            if let button = self.createNewLoginButton, let sdkObject = self.mySDKTester?.sdkInstance {
+                button.isHidden = !sdkObject.isManager
+            }
+            if let button = self.createNewUserButton, let sdkObject = self.mySDKTester?.sdkInstance {
+                button.isHidden = !sdkObject.isManager
+            }
+            if let button = self.createNewButton, let sdkObject = self.mySDKTester?.sdkInstance {
+                button.isHidden = !sdkObject.isManager
+            }
+            if let button = self.fetchAllLoginsButton, let sdkObject = self.mySDKTester?.sdkInstance {
+                button.isHidden = !sdkObject.isManager
+            }
 
-        self.activityScreen?.isHidden = true
-        self.loginMainAdminButton?.isHidden = false
-        self.displayResultsButton?.isHidden = self.objectList.isEmpty
+            self.activityScreen?.isHidden = true
+            self.loginMainAdminButton?.isHidden = false
+            self.displayResultsButton?.isHidden = self.objectList.isEmpty
+        }
     }
     
     /* ################################################################## */

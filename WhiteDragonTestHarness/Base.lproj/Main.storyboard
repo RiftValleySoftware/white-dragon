@@ -538,7 +538,7 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="resultListTableView" destination="Wrh-LV-TDc" id="qer-wJ-Tff"/>
-                        <segue destination="lZe-K9-CEg" kind="show" identifier="show-object-details" id="N7O-Vx-JQj"/>
+                        <segue destination="lZe-K9-CEg" kind="show" identifier="show-object-details" id="Pik-IA-3im"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tJw-Db-EXD" userLabel="First Responder" sceneMemberID="firstResponder"/>

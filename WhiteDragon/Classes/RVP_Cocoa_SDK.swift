@@ -1478,21 +1478,18 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      - parameter inURI: The URI to send to the server.
      - parameter payloadData: This is a String, containing Base64-encoded data to be sent as a payload.
      - parameter objectInstance: The instance of the data object that called this.
-     - parameter method: The HTTP method to be used for this transaction ("PUT" or "POST").
      */
-    private func _sendData(_ inURI: String, payloadData inPayloadString: String, objectInstance inObjectInstance: A_RVP_Cocoa_SDK_Object, method inMethod: String) {
-        print("PUT URI: \(inURI)")
-        
+    private func _sendPUTData(_ inURI: String, payloadData inPayloadString: String, objectInstance inObjectInstance: A_RVP_Cocoa_SDK_Object) {
         if let url_object = URL(string: inURI) {
             let urlRequest = NSMutableURLRequest(url: url_object)
-            urlRequest.httpMethod = inMethod
+            urlRequest.httpMethod = "PUT"
             let payloadData = inPayloadString.data(using: .utf8) ?? Data()  // Since we have already got Base64 data, we don't need to re-encode it. You need an empty Data object if no payload.
-
+            
             type(of: self)._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
                 self._openOperations += 1
             }
             
-            let putTask = self._connectionSession.uploadTask(with: urlRequest as URLRequest, from: payloadData) { [unowned self, unowned inObjectInstance] data, response, error in
+            self._connectionSession.uploadTask(with: urlRequest as URLRequest, from: payloadData) { [unowned self, unowned inObjectInstance] data, response, error in
                 if let error = error {
                     self._handleError(error)
                     return
@@ -1507,13 +1504,65 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                 if let data = data {    // Assuming we got a response, we send that to the instance that called us.
                     inObjectInstance._handleChangeResponse(data)
                 }
-
+                
                 type(of: self)._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
                     self._openOperations -= 1
                 }
+            }.resume()
+        }
+    }
+    
+    /* ################################################################## */
+    /**
+     This sends a POST command to the server.
+     
+     - parameter inURI: The URI to send to the server.
+     - parameter payloadData: This is a String, containing Base64-encoded data to be sent as a payload.
+     - parameter objectInstance: The instance of the data object that called this.
+     */
+    private func _sendPOSTData(_ inURI: String, payloadData inPayloadString: String, objectInstance inObjectInstance: A_RVP_Cocoa_SDK_Object) {
+        if let url_object = URL(string: inURI) {
+            var urlRequest = URLRequest(url: url_object)
+            urlRequest.httpMethod = "POST"
+            if !inPayloadString.isEmpty {
+                let boundary = "Boundary-\(NSUUID().uuidString)"
+                urlRequest.setValue("Content-Type: multipart/form-data", forHTTPHeaderField: "Expect")
+                urlRequest.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+                let payloadData = inPayloadString.data(using: .utf8) ?? Data()  // Since we have already got Base64 data, we don't need to re-encode it. You need an empty Data object if no payload.
+                var body = Data()
+                body.append("--\(boundary)\r\n".data(using: String.Encoding.utf8)!)
+                body.append("Content-Disposition:form-data; name=\"payload\"; filename=\"payload\"\r\n\r\n".data(using: String.Encoding.utf8)!)
+                body.append(payloadData)
+                body.append("\r\n--\(boundary)--\r\n".data(using: String.Encoding.utf8)!)
+                urlRequest.httpBody = body as Data
             }
             
-            putTask.resume()
+            type(of: self)._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
+                self._openOperations += 1
+            }
+            
+            if let session = self._connectionSession {
+                session.dataTask(with: urlRequest) { [unowned self, unowned inObjectInstance] data, response, error in
+                    if let error = error {
+                        self._handleError(error)
+                        return
+                    }
+                    
+                    guard let httpResponse = response as? HTTPURLResponse,
+                        (200...299).contains(httpResponse.statusCode) else {
+                            self._handleHTTPError(response as? HTTPURLResponse ?? nil)
+                            return
+                    }
+
+                    if let data = data {    // Assuming we got a response, we send that to the instance that called us.
+                        inObjectInstance._handleChangeResponse(data)
+                    }
+
+                    type(of: self)._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
+                        self._openOperations -= 1
+                    }
+                }.resume()
+            }
         }
     }
 
@@ -1581,7 +1630,11 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
             if !loginParams.isEmpty {
                 uri = self._server_uri + "/json" + inObjectToPut._pluginPath + "?" + loginParams + "&" + uri
                 
-                self._sendData(uri, payloadData: payloadString, objectInstance: inObjectToPut, method: inObjectToPut.isNew ? "POST" : "PUT")
+                if inObjectToPut.isNew {
+                    self._sendPOSTData(uri, payloadData: payloadString, objectInstance: inObjectToPut)
+                } else {
+                    self._sendPUTData(uri, payloadData: payloadString, objectInstance: inObjectToPut)
+                }
             }
         }
     }
@@ -2191,6 +2244,30 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
         self._dataItems = []
     }
     
+    /* ################################################################## */
+    /**
+     This creates a new login object, with a preset list of tokens. You must be logged in as at least a Manager to be able to execute this method.
+     
+     - parameter loginIDString: The requested Login ID. It will need to be unique in the server.
+     - parameter tokens: An optional parameter that will contain a list of integer tokens, denoting the security access for the new login. If left out or empty, then the login's token will only its ID.
+     */
+    public func createNewLogin(loginIDString inLoginString: String, tokens inTokenArray: [Int] = []) {
+        
+    }
+    
+    /* ################################################################## */
+    /**
+     This creates a new user object, with a preset list of tokens. You must be logged in as at least a Manager to be able to execute this method.
+     If you supply login credentials, it will try to create an associated login for the user.
+     
+     - parameter name: A name for the user. This is different from the various name fields.
+     - parameter loginIDString: An optional parameter that will contain a requested Login ID. It will need to be unique in the server.
+     - parameter tokens: An optional parameter that will contain a list of integer tokens, denoting the security access for the new login. If left out or empty, then the login's token will only its ID.
+     */
+    public func createNewUser(name inNameString: String, loginIDString inLoginString: String = "", tokens inTokenArray: [Int] = []) {
+        
+    }
+
     /* ################################################################## */
     /**
      This is a general method for fetching items from the data database, by their numerical IDs.

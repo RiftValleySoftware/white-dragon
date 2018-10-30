@@ -239,13 +239,15 @@ class TestBaseViewController: UIViewController, RVP_Cocoa_SDK_Delegate, UIPicker
     /**
      */
     func checkButtonVisibility() {
-        if let button = self.createNewButton, let sdkObject = self.mySDKTester?.sdkInstance {
-            button.isHidden = !sdkObject.isLoggedIn
+        DispatchQueue.main.async {
+            if let button = self.createNewButton, let sdkObject = self.mySDKTester?.sdkInstance {
+                button.isHidden = !sdkObject.isManager
+            }
+            
+            self.activityScreen?.isHidden = true
+            self.loginMainAdminButton?.isHidden = false
+            self.displayResultsButton?.isHidden = self.objectList.isEmpty
         }
-        
-        self.activityScreen?.isHidden = true
-        self.loginMainAdminButton?.isHidden = false
-        self.displayResultsButton?.isHidden = self.objectList.isEmpty
     }
     
     /* ################################################################## */

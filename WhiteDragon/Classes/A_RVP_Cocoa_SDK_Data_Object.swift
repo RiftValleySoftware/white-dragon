@@ -140,6 +140,8 @@ public class A_RVP_Cocoa_SDK_Data_Object: A_RVP_Cocoa_SDK_Object {
         
         set {
             if self.isWriteable {
+                // We are not exactly sure what kind of payload it is...
+                self._myData.removeValue(forKey: "payload_type")
                 if newValue?.isEmpty ?? true {
                     self._myData.removeValue(forKey: "payload")
                 } else {
@@ -156,16 +158,20 @@ public class A_RVP_Cocoa_SDK_Data_Object: A_RVP_Cocoa_SDK_Object {
     public var payload: RVP_Cocoa_SDK_Payload? {
         var ret: RVP_Cocoa_SDK_Payload?
         
-        if  let payload = self.rawBase64Payload {
+        if  let rawPayload = self.rawBase64Payload {
             // We need to remove the Base64 encoding for the data, then we convert it to a basic Data object.
-            if let decodedData = NSData(base64Encoded: payload, options: NSData.Base64DecodingOptions(rawValue: 0)) as Data? {
-                ret = RVP_Cocoa_SDK_Payload(payloadData: decodedData, payloadType: self.payload?.payloadType ?? "")
+            if let decodedData = NSData(base64Encoded: rawPayload, options: NSData.Base64DecodingOptions(rawValue: 0)) as Data? {
+                var payLoadType = self._myData["payload_type"] as? String ?? ""
+                if payLoadType.isEmpty {
+                    payLoadType = decodedData.mimeType
+                }
+                ret = RVP_Cocoa_SDK_Payload(payloadData: decodedData, payloadType: payLoadType)
             }
         }
         
         return ret
     }
-
+    
     /* ################################################################## */
     /**
      - returns: a Dictionary of Arrays of Int, with the IDs (not objects) of "children" records.

@@ -74,7 +74,7 @@ class Test003BasicThingListing: TestBaseViewController {
     /**
      */
     override func checkButtonVisibility() {
-        
+        super.checkButtonVisibility()
     }
 
     /* ################################################################## */
