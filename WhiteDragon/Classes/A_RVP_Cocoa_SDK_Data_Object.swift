@@ -76,13 +76,9 @@ public class A_RVP_Cocoa_SDK_Data_Object: A_RVP_Cocoa_SDK_Object {
     override public var asDictionary: [String: Any?] {
         var ret = super.asDictionary
         
-        if self.isFuzzy {
-            ret["isFuzzy"] = true
-        }
+        ret["isFuzzy"] = self.isFuzzy
         
-        if !self.childrenIDs.isEmpty {
-            ret["childrenIDs"] = self.childrenIDs
-        }
+        ret["childrenIDs"] = self.childrenIDs
 
         if let fuzzFactor = self.fuzzFactor, 0.0 < fuzzFactor {
             ret["fuzzFactor"] = fuzzFactor
@@ -163,7 +159,7 @@ public class A_RVP_Cocoa_SDK_Data_Object: A_RVP_Cocoa_SDK_Object {
         if  let payload = self.rawBase64Payload {
             // We need to remove the Base64 encoding for the data, then we convert it to a basic Data object.
             if let decodedData = NSData(base64Encoded: payload, options: NSData.Base64DecodingOptions(rawValue: 0)) as Data? {
-                ret = RVP_Cocoa_SDK_Payload(payloadData: decodedData, payloadType: self.payloadType)
+                ret = RVP_Cocoa_SDK_Payload(payloadData: decodedData, payloadType: self.payload?.payloadType ?? "")
             }
         }
         
@@ -184,34 +180,6 @@ public class A_RVP_Cocoa_SDK_Data_Object: A_RVP_Cocoa_SDK_Object {
         }
         
         return ret
-    }
-    
-    /* ################################################################## */
-    /**
-     - returns: the payload type (MIME type)
-     */
-    public var payloadType: String {
-        get {
-            var ret: String = ""
-            
-            if let payloadType = self._myData["payload_type"] as? String {
-                if let semicolon = payloadType.index(of: ";") {
-                    ret = String(payloadType.prefix(upTo: semicolon))
-                }
-            }
-            
-            return ret
-        }
-        
-        set {
-            if self.isWriteable {
-                if newValue.isEmpty {
-                    self._myData.removeValue(forKey: "payload_type")
-                } else {
-                    self._myData["payload_type"] = newValue
-                }
-            }
-        }
     }
     
     /* ################################################################## */

@@ -450,13 +450,8 @@ class RVP_DisplayElementView: UIView, AVAudioPlayerDelegate {
             self.addTopLabel(name: displayedElement.name, id: displayedElement.id)
             self.addItemLabel(label: "Modified", value: displayedElement.isDirty ? "true" : "false")
             self.addItemLabel(label: "Writeable", value: displayedElement.isWriteable ? "true" : "false")
-            if let token = displayedElement.readToken {
-                self.addItemLabel(label: "Read Token", value: String(token))
-            }
-            
-            if let token = displayedElement.writeToken {
-                self.addItemLabel(label: "Write Token", value: String(token))
-            }
+            self.addItemLabel(label: "Read Token", value: String(displayedElement.readToken))
+            self.addItemLabel(label: "Write Token", value: String(displayedElement.writeToken))
             
             if let lastAccess = displayedElement.lastAccess {
                 let dateFormatter = DateFormatter()

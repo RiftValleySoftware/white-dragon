@@ -25,6 +25,7 @@ import Foundation
 // MARK: - Main Class -
 /* ###################################################################################################################################### */
 /**
+ This is the fundamental base class for the various data item classes. It aggregates a bunch of generic functionality that can be applied across the board.
  */
 public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
     /* ################################################################## */
@@ -82,6 +83,7 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
             && "is_main_admin" != item.key
             && "fuzzy" != item.key
             && "createLogin" != item.key
+            && "distance" != item.key
             && "writeable" != item.key
             && "id" != item.key
             && "payload" != item.key
@@ -157,6 +159,7 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
             && "is_main_admin" != item.key
             && "fuzzy" != item.key
             && "createLogin" != item.key
+            && "distance" != item.key
             && "writeable" != item.key
             && "id" != item.key
             && "payload" != item.key
@@ -291,25 +294,23 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
     // MARK: - Public Properties and Calculated Properties
     /* ################################################################## */
     /**
+     This returns keys that are the same as calculated public properties, so you can use it
+     to get the methods/calculated properties you need to make changes.
+     
      - returns: all of the values for this object, as a Dictionary. READ ONLY
      */
     public var asDictionary: [String: Any?] {
-        var ret: [String: Any?] = ["id": self.id, "name": self.name, "isWriteable": self.isWriteable, "isDirty": self.isDirty]
-
-        if let readToken = self.readToken {
-            ret["readToken"] = readToken
-        }
-        
-        if let writeToken = self.writeToken {
-            ret["writeToken"] = writeToken
-        }
+        var ret: [String: Any?] = ["id": self.id,
+                                   "name": self.name,
+                                   "lang": self.lang,
+                                   "isWriteable": self.isWriteable,
+                                   "isDirty": self.isDirty,
+                                   "isNew": self.isNew,
+                                   "readToken": self.readToken,
+                                   "writeToken": self.writeToken]
         
         if let lastAccess = self.lastAccess {
             ret["lastAccess"] = lastAccess
-        }
-        
-        if !self.lang.isEmpty {
-            ret["lang"] = self.lang
         }
 
         return ret
@@ -324,6 +325,62 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
         
         if let id = self._myData["id"] as? Int {
             ret = id
+        }
+        
+        return ret
+    }
+
+    /* ################################################################## */
+    /**
+     - returns: the object name, as a String
+     */
+    public var name: String {
+        get {
+            var ret = ""
+            
+            if let name = self._myData["name"] as? String {
+                ret = name
+            }
+            
+            return ret
+        }
+        
+        set {
+            if self.isWriteable {
+                self._myData["name"] = newValue
+            }
+        }
+    }
+    
+    /* ################################################################## */
+    /**
+     - returns: the language
+     */
+    public var lang: String {
+        get {
+            var ret: String = ""
+            
+            if let lang = self._myData["lang"] as? String {
+                ret = lang
+            }
+            
+            return ret
+        }
+        
+        set {
+            self._myData["lang"] = newValue
+        }
+    }
+
+    /* ################################################################## */
+    /**
+     - returns: true, if the current login can edit this record. READ ONLY
+     */
+    public var isWriteable: Bool {
+        var ret = false
+        
+        if let writeable = self._myData["writeable"] as? Bool {
+            ret = writeable
         }
         
         return ret
@@ -373,69 +430,16 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
     public var isNew: Bool {
         return 0 == self.id // If the ID is zero, then we are new.
     }
-
-    /* ################################################################## */
-    /**
-     - returns: true, if the current login can edit this record. READ ONLY
-     */
-    public var isWriteable: Bool {
-        var ret = false
-        
-        if let writeable = self._myData["writeable"] as? Bool {
-            ret = writeable
-        }
-        
-        return ret
-    }
-    
-    /* ################################################################## */
-    /**
-     - returns: the last time the object was accessed. Nil, if no date available. READ ONLY
-     */
-    public var lastAccess: Date? {
-        if let dateString = self._myData["last_access"] as? String {
-            let dateFormatter = ISO8601DateFormatter()
-            let options: ISO8601DateFormatter.Options = [.withYear, .withMonth, .withDay, .withDashSeparatorInDate, .withSpaceBetweenDateAndTime, .withTime, .withColonSeparatorInTime]
-            dateFormatter.formatOptions = options
-            if let date = dateFormatter.date(from: dateString) {
-                return date
-            }
-        }
-        
-        return nil
-    }
-
-    /* ################################################################## */
-    /**
-     - returns: the object name, as a String
-     */
-    public var name: String {
-        get {
-            var ret = ""
-            
-            if let name = self._myData["name"] as? String {
-                ret = name
-            }
-            
-            return ret
-        }
-        
-        set {
-            if self.isWriteable {
-                self._myData["name"] = newValue
-            }
-        }
-    }
     
     /* ################################################################## */
     /**
      **NOTE:** Although this will let anyone with write permission set the token, it will not be accepted on the server, unless the admin also has the token.
      
-     - returns: the read token, as an Int. Be aware that the read token may not be available, in which case, it will be nil.
+     - returns: the read token, as an Int.
      */
-    public var readToken: Int? {
+    public var readToken: Int {
         get {
-            var ret: Int?
+            var ret: Int = 0
             
             if let id = self._myData["read_token"] as? Int {
                 ret = id
@@ -455,11 +459,11 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
     /**
      **NOTE:** Although this will let anyone with write permission set the token, it will not be accepted on the server, unless the admin also has the token.
      
-     - returns: the write token, as an Int. Be aware that the write token may not be available, in which case, it will be nil.
+     - returns: the write token, as an Int.
      */
-    public var writeToken: Int? {
+    public var writeToken: Int {
         get {
-            var ret: Int?
+            var ret: Int = 1
             
             if let id = self._myData["write_token"] as? Int {
                 ret = id
@@ -477,24 +481,21 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
     
     /* ################################################################## */
     /**
-     - returns: the language
+     - returns: the last time the object was accessed. Nil, if no date available. READ ONLY
      */
-    public var lang: String {
-        get {
-            var ret: String = ""
-            
-            if let lang = self._myData["lang"] as? String {
-                ret = lang
+    public var lastAccess: Date? {
+        if let dateString = self._myData["last_access"] as? String {
+            let dateFormatter = ISO8601DateFormatter()
+            let options: ISO8601DateFormatter.Options = [.withYear, .withMonth, .withDay, .withDashSeparatorInDate, .withSpaceBetweenDateAndTime, .withTime, .withColonSeparatorInTime]
+            dateFormatter.formatOptions = options
+            if let date = dateFormatter.date(from: dateString) {
+                return date
             }
-            
-            return ret
         }
         
-        set {
-            self._myData["lang"] = newValue
-        }
+        return nil
     }
-    
+
     /* ################################################################## */
     /**
      - returns: the SDK instance that "owns" this instance. READ ONLY

@@ -348,11 +348,11 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
         self.languageTextField.text = self.editableObject.lang
 
         if var tokenList = self.editableObject.sdkInstance?.securityTokens {
-            if let tokenValue = self.editableObject.writeToken, let selectedRow = tokenList.firstIndex(of: tokenValue) {
+            if let selectedRow = tokenList.firstIndex(of: self.editableObject.writeToken) {
                 self.writeTokenPickerView.selectRow(selectedRow, inComponent: 0, animated: true)
             }
             tokenList.insert(0, at: 0)
-            if let tokenValue = self.editableObject.readToken, let selectedRow = tokenList.firstIndex(of: tokenValue) {
+            if let selectedRow = tokenList.firstIndex(of: self.editableObject.readToken) {
                 self.readTokenPickerView.selectRow(selectedRow, inComponent: 0, animated: true)
             }
         }
