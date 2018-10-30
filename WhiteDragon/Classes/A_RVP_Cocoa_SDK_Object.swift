@@ -64,7 +64,20 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
     internal var _saveChangesURI: String {
         var uri = ""
         
-        for item in self._myData where "fuzzy" != item.key && "createLogin" != item.key && "writeable" != item.key && "id" != item.key && "payload" != item.key && "payload_type" != item.key {
+        var dataList = self._myData
+        var oldDataList = self._myOriginalData
+        
+        // We have a special place in our heart for passwords.
+        if self is RVP_Cocoa_SDK_Login && nil == dataList["password"] {
+            dataList["password"] = ""
+        }
+        
+        if self is RVP_Cocoa_SDK_Login && nil == oldDataList["password"] {
+            oldDataList["password"] = ""
+        }
+
+        // We go through, ignoring some of the temporary and calculated fields, and the payload.
+        for item in dataList where "is_manager" != item.key && "is_main_admin" != item.key && "fuzzy" != item.key && "createLogin" != item.key && "writeable" != item.key && "id" != item.key && "payload" != item.key && "payload_type" != item.key {
             if self.isNew {
                 if let current = item.value as? NSObject {
                     // All values should be convertible to String.
@@ -81,15 +94,25 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
                     #endif
                     break
                 }
-            } else if let original = self._myOriginalData[item.key] as? NSObject {  // Payload is handled differently
+            } else if let original = oldDataList[item.key] as? NSObject {  // Payload is handled differently
                 if let current = item.value as? NSObject {
                     // All values should be convertible to String.
-                    if current != original, let uriKey = item.key.urlEncodedString, let valueString = (current as? String)?.urlEncodedString {
+                    if current != original, let uriKey = item.key.urlEncodedString {
                         if !uri.isEmpty {
                             uri += "&"
                         }
                         
-                        uri += "\(uriKey)=\(valueString)"
+                        if let valueString = (current as? String)?.urlEncodedString {
+                            uri += "\(uriKey)=\(valueString)"
+                        } else if let valueInt = current as? Int {
+                            uri += "\(uriKey)=\(String(valueInt))"
+                        } else if let valueFloat = current as? Float {
+                            uri += "\(uriKey)=\(String(valueFloat))"
+                        } else if let valueDouble = current as? Double {
+                            uri += "\(uriKey)=\(String(valueDouble))"
+                        } else if let valueBool = current as? Bool {
+                            uri += "\(uriKey)=\(valueBool ? "1" : "0")"
+                        }
                     }
                 } else {    // This should never happen.
                     #if DEBUG
@@ -110,7 +133,7 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
         }
         
         // We go through the original data as well, in case we deleted something.
-        for item in self._myOriginalData where "fuzzy" != item.key && "createLogin" != item.key && "writeable" != item.key && "id" != item.key && "payload" != item.key && "payload_type" != item.key && nil == self._myData[item.key] {
+        for item in oldDataList where "is_manager" != item.key && "is_main_admin" != item.key && "fuzzy" != item.key && "createLogin" != item.key && "writeable" != item.key && "id" != item.key && "payload" != item.key && "payload_type" != item.key && nil == dataList[item.key] {
             if !uri.isEmpty {
                 uri += "&"
             }
@@ -171,30 +194,30 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
         // What we do, is recursively dive into the response, ignoring keys until we hit an Array with Dictionaries containing "before" and "after" keys.
         // We then parse those into instances, which populate the change history for this instance.
         for innerTuple in inChangeJSON {
-            if let bfArray = innerTuple.value as? [[String: [String: Any]]] {
-                var temp: RVP_Change_Record?
-                for innerInner in bfArray {
-                    if let newValue = innerInner["new_login"] {
-                        if let ret = self._sdkInstance?._makeNewInstanceFromDictionary(newValue, parent: self._pluginType) {
-                            self._sdkInstance?._sendItemsToDelegate([ret])
-                            break
-                        }
-                    } else if let newValue = innerInner["new_user"] {
-                        if let ret = self._sdkInstance?._makeNewInstanceFromDictionary(newValue, parent: self._pluginType) {
-                            self._sdkInstance?._sendItemsToDelegate([ret])
-                            break
-                        }
-                    } else if let newValue = innerInner["new_place"] {
-                        if let ret = self._sdkInstance?._makeNewInstanceFromDictionary(newValue, parent: self._pluginType) {
-                            self._sdkInstance?._sendItemsToDelegate([ret])
-                            break
-                        }
-                    } else if let newValue = innerInner["new_thing"] {
-                        if let ret = self._sdkInstance?._makeNewInstanceFromDictionary(newValue, parent: self._pluginType) {
-                            self._sdkInstance?._sendItemsToDelegate([ret])
-                            break
-                        }
-                    } else {
+            if let innerCast = innerTuple.value as? [String: Any] {
+                if let newValue = innerCast["new_login"] as? [String: Any] {
+                    if let ret = self._sdkInstance?._makeNewInstanceFromDictionary(newValue, parent: self._pluginType) {
+                        self._sdkInstance?._sendItemsToDelegate([ret])
+                        break
+                    }
+                } else if let newValue = innerCast["new_user"] as? [String: Any] {
+                    if let ret = self._sdkInstance?._makeNewInstanceFromDictionary(newValue, parent: self._pluginType) {
+                        self._sdkInstance?._sendItemsToDelegate([ret])
+                        break
+                    }
+                } else if let newValue = innerCast["new_place"] as? [String: Any] {
+                    if let ret = self._sdkInstance?._makeNewInstanceFromDictionary(newValue, parent: self._pluginType) {
+                        self._sdkInstance?._sendItemsToDelegate([ret])
+                        break
+                    }
+                } else if let newValue = innerCast["new_thing"] as? [String: Any] {
+                    if let ret = self._sdkInstance?._makeNewInstanceFromDictionary(newValue, parent: self._pluginType) {
+                        self._sdkInstance?._sendItemsToDelegate([ret])
+                        break
+                    }
+                } else if let bfArray = innerTuple.value as? [[String: [String: Any]]] {
+                    var temp: RVP_Change_Record?
+                    for innerInner in bfArray {
                         if let beforeObject = innerInner["before"] {
                             if nil == temp {
                                 temp = RVP_Change_Record(date: Date(), before: nil, after: nil)
@@ -214,10 +237,8 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
                             self._parseChangeJSON(innerInner)
                         }
                     }
-                }
-            } else {
-                if let value = innerTuple.value as? [String: Any] {
-                    self._parseChangeJSON(value)
+                } else {
+                    self._parseChangeJSON(innerCast)
                 }
             }
         }

@@ -129,6 +129,7 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
         
         if self.editableObject is RVP_Cocoa_SDK_Login {
             ret.append("login_id")
+            ret.append("password")
         } else if self.editableObject is RVP_Cocoa_SDK_User {
             ret.append("surname")
             ret.append("middle_name")
@@ -211,32 +212,33 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
      */
     func generateValuesAndLabels() {
         let stringMap: [String: String] = [
-        "login_id": "Login ID:",
-        "tag0": "Tag 0:",
-        "tag1": "Tag 1:",
-        "tag2": "Tag 2:",
-        "tag3": "Tag 3:",
-        "tag4": "Tag 4:",
-        "tag5": "Tag 5:",
-        "tag6": "Tag 6:",
-        "tag7": "Tag 7:",
-        "tag8": "Tag 8:",
-        "tag9": "Tag 9:",
-        "surname": "Surname:",
-        "middle_name": "Middle Name:",
-        "given_name": "First Name:",
-        "nickname": "Nickname:",
-        "prefix": "Prefix:",
-        "suffix": "Suffix:",
-        "venue": "Venue Name:",
-        "street_address": "Street Address:",
-        "extra_information": "Extra Information:",
-        "town": "Town:",
-        "county": "County:",
-        "state": "State:",
-        "postal_code": "Zip Code:",
-        "nation": "Nation:",
-        "description": "Description:"
+            "login_id": "Login ID:",
+            "password": "Password:",
+            "tag0": "Tag 0:",
+            "tag1": "Tag 1:",
+            "tag2": "Tag 2:",
+            "tag3": "Tag 3:",
+            "tag4": "Tag 4:",
+            "tag5": "Tag 5:",
+            "tag6": "Tag 6:",
+            "tag7": "Tag 7:",
+            "tag8": "Tag 8:",
+            "tag9": "Tag 9:",
+            "surname": "Surname:",
+            "middle_name": "Middle Name:",
+            "given_name": "First Name:",
+            "nickname": "Nickname:",
+            "prefix": "Prefix:",
+            "suffix": "Suffix:",
+            "venue": "Venue Name:",
+            "street_address": "Street Address:",
+            "extra_information": "Extra Information:",
+            "town": "Town:",
+            "county": "County:",
+            "state": "State:",
+            "postal_code": "Zip Code:",
+            "nation": "Nation:",
+            "description": "Description:"
         ]
         
         if let currentData = self.editableObject?.myData {
@@ -411,12 +413,22 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
         if indexPath.section == 1 {
             let ret = UITableViewCell()
             ret.backgroundColor = UIColor.clear
+            var labelText: String = ""
+            var fieldText: String = ""
+
+            if indexPath.row < self.generatedValuesAndLabels.count {
+                labelText = self.generatedValuesAndLabels[indexPath.row].label
+                fieldText = self.generatedValuesAndLabels[indexPath.row].stringValue ?? ""
+            } else {
+                labelText = "password"
+            }
+            
             let testLabel = UILabel()
             testLabel.backgroundColor = UIColor.clear
             testLabel.textColor = UIColor.white
             testLabel.font = UIFont.systemFont(ofSize: 17)
             testLabel.textAlignment = .left
-            testLabel.text = self.generatedValuesAndLabels[indexPath.row].label
+            testLabel.text = labelText
             ret.addSubview(testLabel)
             testLabel.translatesAutoresizingMaskIntoConstraints = false
             
@@ -453,7 +465,7 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
             
             let testTextItem = UITextField()
             
-            testTextItem.text = self.generatedValuesAndLabels[indexPath.row].stringValue
+            testTextItem.text = fieldText
             testTextItem.font = self.nameTextField.font
             testTextItem.textColor = self.nameTextField.textColor
             testTextItem.addTarget(self, action: #selector(type(of: self).determineSaveStatus(_:)), for: .editingDidEnd)
