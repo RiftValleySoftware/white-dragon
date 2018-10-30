@@ -77,7 +77,15 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
         }
 
         // We go through, ignoring some of the temporary and calculated fields, and the payload.
-        for item in dataList where "is_manager" != item.key && "is_main_admin" != item.key && "fuzzy" != item.key && "createLogin" != item.key && "writeable" != item.key && "id" != item.key && "payload" != item.key && "payload_type" != item.key {
+        for item in dataList where
+            "is_manager" != item.key
+            && "is_main_admin" != item.key
+            && "fuzzy" != item.key
+            && "createLogin" != item.key
+            && "writeable" != item.key
+            && "id" != item.key
+            && "payload" != item.key
+            && "payload_type" != item.key {
             if self.isNew {
                 if let current = item.value as? NSObject {
                     // All values should be convertible to String.
@@ -96,21 +104,32 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
                 }
             } else if let original = oldDataList[item.key] as? NSObject {  // Payload is handled differently
                 if let current = item.value as? NSObject {
+                    if "associated_login_id" == item.key {
+                        if !(self._sdkInstance?.isMainAdmin ?? false) {    // Only the main admin can change associated logins
+                            continue
+                        }
+                    }
                     // All values should be convertible to String.
-                    if current != original, let uriKey = item.key.urlEncodedString {
+                    if current != original, var uriKey = item.key.urlEncodedString {
                         if !uri.isEmpty {
                             uri += "&"
                         }
                         
+                        // There's a special case for this.
+                        if "associated_login_id" == uriKey, self._sdkInstance?.isMainAdmin ?? false {
+                            uriKey = "login_id"
+                        }
+                        
+                        // Conversion to string options for various data types.
                         if let valueString = (current as? String)?.urlEncodedString {
                             uri += "\(uriKey)=\(valueString)"
-                        } else if let valueInt = current as? Int {
+                        } else if let valueInt = current as? Int {  // Swift can get a bit particular about the various types of numbers, so just to be safe, I check each one.
                             uri += "\(uriKey)=\(String(valueInt))"
                         } else if let valueFloat = current as? Float {
                             uri += "\(uriKey)=\(String(valueFloat))"
                         } else if let valueDouble = current as? Double {
                             uri += "\(uriKey)=\(String(valueDouble))"
-                        } else if let valueBool = current as? Bool {
+                        } else if let valueBool = current as? Bool {    // Bool is expressed as a 1 or a 0
                             uri += "\(uriKey)=\(valueBool ? "1" : "0")"
                         }
                     }
@@ -124,7 +143,7 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
         }
         
         // There's a special circumstance, where we can create a login ID to go with the user.
-        if self.isNew, self is RVP_Cocoa_SDK_User, let create = self._myData["create_login"] as? Bool, create {
+        if self.isNew, self is RVP_Cocoa_SDK_User, self.sdkInstance?.isManager ?? false, let create = self._myData["create_login"] as? Bool, create {
             if !uri.isEmpty {
                 uri += "&"
             }
@@ -133,7 +152,16 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
         }
         
         // We go through the original data as well, in case we deleted something.
-        for item in oldDataList where "is_manager" != item.key && "is_main_admin" != item.key && "fuzzy" != item.key && "createLogin" != item.key && "writeable" != item.key && "id" != item.key && "payload" != item.key && "payload_type" != item.key && nil == dataList[item.key] {
+        for item in oldDataList where
+            "is_manager" != item.key
+            && "is_main_admin" != item.key
+            && "fuzzy" != item.key
+            && "createLogin" != item.key
+            && "writeable" != item.key
+            && "id" != item.key
+            && "payload" != item.key
+            && "payload_type" != item.key
+            && nil == dataList[item.key] {
             if !uri.isEmpty {
                 uri += "&"
             }

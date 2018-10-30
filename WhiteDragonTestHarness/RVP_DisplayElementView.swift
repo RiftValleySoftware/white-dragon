@@ -480,9 +480,6 @@ class RVP_DisplayElementView: UIView, AVAudioPlayerDelegate {
                 if let userID = loginItem.userObjectID {
                     self.addUserButton(userID, sdkInstance: displayedElement.sdkInstance!)
                 }
-                if let password = loginItem.myData["password"] as? String {
-                    self.addItemLabel(label: "Password", value: password)
-                }
             }
             
             if let item = displayedElement as? A_RVP_Cocoa_SDK_Data_Object, let location = item.location {

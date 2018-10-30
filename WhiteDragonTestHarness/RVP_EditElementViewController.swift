@@ -131,6 +131,7 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
             ret.append("login_id")
             ret.append("password")
         } else if self.editableObject is RVP_Cocoa_SDK_User {
+            ret.append("associated_login_id")
             ret.append("surname")
             ret.append("middle_name")
             ret.append("given_name")
@@ -213,6 +214,7 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
     func generateValuesAndLabels() {
         let stringMap: [String: String] = [
             "login_id": "Login ID:",
+            "associated_login_id": "Login ID:",
             "password": "Password:",
             "tag0": "Tag 0:",
             "tag1": "Tag 1:",
@@ -243,10 +245,23 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
         
         if let currentData = self.editableObject?.myData {
             for oneValue in self.keyList {
-                let currentVal = currentData[oneValue] as? String ?? ""
+                var currentVal = currentData[oneValue] as? String ?? ""
+                if currentVal.isEmpty, let cVal = currentData[oneValue] as? Int {
+                    currentVal = String(cVal)
+                }
+                if currentVal.isEmpty, let cVal = currentData[oneValue] as? Float {
+                    currentVal = String(cVal)
+                }
+                if currentVal.isEmpty, let cVal = currentData[oneValue] as? Double {
+                    currentVal = String(cVal)
+                }
+
                 if let label = stringMap[oneValue] {
                     if !label.isEmpty {
-                        generatedValuesAndLabels.append(GeneratedValuesAndLabels(label: label, dataKey: oneValue, stringValue: currentVal))
+                        let isMainAdmin = self.editableObject.sdkInstance?.isMainAdmin ?? false
+                        if "associated_login_id" != oneValue || isMainAdmin {
+                            generatedValuesAndLabels.append(GeneratedValuesAndLabels(label: label, dataKey: oneValue, stringValue: currentVal))
+                        }
                     }
                 }
             }
@@ -416,12 +431,8 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
             var labelText: String = ""
             var fieldText: String = ""
 
-            if indexPath.row < self.generatedValuesAndLabels.count {
-                labelText = self.generatedValuesAndLabels[indexPath.row].label
-                fieldText = self.generatedValuesAndLabels[indexPath.row].stringValue ?? ""
-            } else {
-                labelText = "password"
-            }
+            labelText = self.generatedValuesAndLabels[indexPath.row].label
+            fieldText = self.generatedValuesAndLabels[indexPath.row].stringValue ?? ""
             
             let testLabel = UILabel()
             testLabel.backgroundColor = UIColor.clear

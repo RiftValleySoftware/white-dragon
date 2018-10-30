@@ -241,6 +241,8 @@ public class RVP_Cocoa_SDK_User: A_RVP_Cocoa_SDK_Data_Object {
             
             if let id = self._myData["associated_login_id"] as? Int {
                 ret = id
+            } else if let id = self._myData["associated_login_id"] as? String, let intVal = Int(id) { // Since it's entirely possible to set this from a string, let's make sure it's an Int.
+                ret = intVal
             }
             
             return ret
