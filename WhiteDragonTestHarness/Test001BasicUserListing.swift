@@ -24,6 +24,34 @@ import MapKit
 import WhiteDragon
 
 /* ###################################################################################################################################### */
+// MARK: - Select New Login Stuff Class -
+/* ###################################################################################################################################### */
+/**
+ */
+class SelectNewUserLoginViewController: UIViewController {
+    var sdkInstance: RVP_Cocoa_SDK!
+    @IBOutlet var saveButton: UIBarButtonItem!
+    @IBOutlet var chooseLoginIDTextField: UITextField!
+    @IBOutlet var nameTextField: UITextField!
+
+    @IBAction func loginIDChanged(_ sender: UITextField) {
+        self.saveButton.isEnabled = !(self.chooseLoginIDTextField.text?.isEmpty ?? false && self.nameTextField.text?.isEmpty ?? false)
+    }
+
+    @IBAction func nameChanged(_ sender: UITextField) {
+        self.saveButton.isEnabled = !(self.chooseLoginIDTextField.text?.isEmpty ?? false && self.nameTextField.text?.isEmpty ?? false)
+    }
+
+    @IBAction func saveButtonHit(_ sender: Any) {
+        self.dismiss(animated: true)
+    }
+    
+    @IBAction func cancelButtonHit(_ sender: Any) {
+        self.dismiss(animated: true)
+    }
+}
+
+/* ###################################################################################################################################### */
 // MARK: - Test Class -
 /* ###################################################################################################################################### */
 /**
@@ -86,6 +114,15 @@ class Test001BasicUserListing: TestBaseViewController {
     /* ################################################################## */
     /**
      */
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let destination = segue.destination as? SelectNewUserLoginViewController, let sdkInstance = sender as? RVP_Cocoa_SDK {
+            destination.sdkInstance = sdkInstance
+        }
+    }
+    
+    /* ################################################################## */
+    /**
+     */
     @IBAction func fetchAllLoginsButtonHit(_ sender: UIButton) {
         self.clearResults()
         if let sdkInstance = self.mySDKTester?.sdkInstance {
@@ -114,8 +151,6 @@ class Test001BasicUserListing: TestBaseViewController {
     /**
      */
     @IBAction override func createNewButtonPressed(_ sender: UIButton) {
-        let newUser = RVP_Cocoa_SDK_User(sdkInstance: self.mySDKTester?.sdkInstance, objectInfoData: [:])
-        newUser.myData["createLogin"] = true
-        self.callCreateNewEditor(newUser)
+        self.performSegue(withIdentifier: "select-login-id", sender: self.mySDKTester?.sdkInstance)
     }
 }

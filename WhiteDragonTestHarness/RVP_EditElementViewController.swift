@@ -215,8 +215,9 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
      */
     func generateValuesAndLabels() {
         let stringMap: [String: String] = [
-            "login_id": "Login ID:",
-            "associated_login_id": "Login ID:",
+            "login_id": "Numerical Login ID:",
+            "associated_login_id": "Numerical Login ID:",
+            "new_login_id_string": "New String Login ID:",
             "password": "Password:",
             "tag0": "Tag 0:",
             "tag1": "Tag 1:",
