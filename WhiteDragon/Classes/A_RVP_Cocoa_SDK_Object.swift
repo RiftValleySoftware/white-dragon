@@ -76,6 +76,16 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
         if self is RVP_Cocoa_SDK_Login && nil == oldDataList["password"] {
             oldDataList["password"] = ""
         }
+        
+        if nil != dataList["associated_login_id"] || nil != oldDataList["associated_login_id"] {
+            if self._sdkInstance?.isMainAdmin ?? false {    // Only the main admin can change associated logins
+                dataList["login_id"] =  dataList["associated_login_id"]  // We morhp into the version the server understands.
+                oldDataList["login_id"] =  dataList["associated_login_id"]
+            }
+            
+            dataList.removeValue(forKey: "associated_login_id") // In either case, we remove the original.
+            oldDataList.removeValue(forKey: "associated_login_id")
+        }
 
         // We go through, ignoring some of the temporary and calculated fields, and the payload.
         for item in dataList where
@@ -91,12 +101,23 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
             if self.isNew {
                 if let current = item.value as? NSObject {
                     // All values should be convertible to String.
-                    if let uriKey = item.key.urlEncodedString, let valueString = (current as? String)?.urlEncodedString {
+                    if let uriKey = item.key.urlEncodedString {
                         if !uri.isEmpty {
                             uri += "&"
                         }
                         
-                        uri += "\(uriKey)=\(valueString)"
+                        // Conversion to string options for various data types.
+                        if let valueString = (current as? String)?.urlEncodedString {
+                            uri += "\(uriKey)=\(valueString)"
+                        } else if let valueInt = current as? Int {  // Swift can get a bit particular about the various types of numbers, so just to be safe, I check each one.
+                            uri += "\(uriKey)=\(String(valueInt))"
+                        } else if let valueFloat = current as? Float {
+                            uri += "\(uriKey)=\(String(valueFloat))"
+                        } else if let valueDouble = current as? Double {
+                            uri += "\(uriKey)=\(String(valueDouble))"
+                        } else if let valueBool = current as? Bool {    // Bool is expressed as a 1 or a 0
+                            uri += "\(uriKey)=\(valueBool ? "1" : "0")"
+                        }
                     }
                 } else {    // This should never happen.
                     #if DEBUG
@@ -106,11 +127,6 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
                 }
             } else if let original = oldDataList[item.key] as? NSObject {  // Payload is handled differently
                 if let current = item.value as? NSObject {
-                    if "associated_login_id" == item.key {
-                        if !(self._sdkInstance?.isMainAdmin ?? false) {    // Only the main admin can change associated logins
-                            continue
-                        }
-                    }
                     // All values should be convertible to String.
                     if current != original, var uriKey = item.key.urlEncodedString {
                         if !uri.isEmpty {

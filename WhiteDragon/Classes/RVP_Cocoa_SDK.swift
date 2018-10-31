@@ -2243,30 +2243,6 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
     public func flushCache() {
         self._dataItems = []
     }
-    
-    /* ################################################################## */
-    /**
-     This creates a new login object, with a preset list of tokens. You must be logged in as at least a Manager to be able to execute this method.
-     
-     - parameter loginIDString: The requested Login ID. It will need to be unique in the server.
-     - parameter tokens: An optional parameter that will contain a list of integer tokens, denoting the security access for the new login. If left out or empty, then the login's token will only its ID.
-     */
-    public func createNewLogin(loginIDString inLoginString: String, tokens inTokenArray: [Int] = []) {
-        
-    }
-    
-    /* ################################################################## */
-    /**
-     This creates a new user object, with a preset list of tokens. You must be logged in as at least a Manager to be able to execute this method.
-     If you supply login credentials, it will try to create an associated login for the user.
-     
-     - parameter name: A name for the user. This is different from the various name fields.
-     - parameter loginIDString: An optional parameter that will contain a requested Login ID. It will need to be unique in the server.
-     - parameter tokens: An optional parameter that will contain a list of integer tokens, denoting the security access for the new login. If left out or empty, then the login's token will only its ID.
-     */
-    public func createNewUser(name inNameString: String, loginIDString inLoginString: String = "", tokens inTokenArray: [Int] = []) {
-        
-    }
 
     /* ################################################################## */
     /**
