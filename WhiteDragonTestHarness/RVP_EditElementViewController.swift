@@ -22,6 +22,7 @@
 import UIKit
 import AVKit
 import PDFKit
+import MapKit
 import WhiteDragon
 
 /* ###################################################################################################################################### */
@@ -88,6 +89,7 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
     @IBOutlet weak var readTokenPickerView: UIPickerView!
     @IBOutlet weak var writeTokenPickerView: UIPickerView!
     @IBOutlet weak var languageTextField: UITextField!
+    @IBOutlet weak var locationButton: UIButton!
 
     /* ################################################################## */
     /**
@@ -133,6 +135,11 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
             ret.append("login_id")
             ret.append("password")
         } else if self.editableObject is RVP_Cocoa_SDK_User {
+            ret.append("longitude")
+            ret.append("latitude")
+            ret.append("raw_longitude")
+            ret.append("raw_latitude")
+            ret.append("fuzz_factor")
             ret.append("associated_login_id")
             ret.append("surname")
             ret.append("middle_name")
@@ -143,7 +150,13 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
             ret.append("tag7")
             ret.append("tag8")
             ret.append("tag9")
+            ret.append("children")
         } else if self.editableObject is RVP_Cocoa_SDK_Place {
+            ret.append("longitude")
+            ret.append("latitude")
+            ret.append("raw_longitude")
+            ret.append("raw_latitude")
+            ret.append("fuzz_factor")
             ret.append("venue")
             ret.append("street_address")
             ret.append("extra_information")
@@ -154,7 +167,13 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
             ret.append("nation")
             ret.append("tag8")
             ret.append("tag9")
+            ret.append("children")
         } else if self.editableObject is RVP_Cocoa_SDK_Thing {
+            ret.append("longitude")
+            ret.append("latitude")
+            ret.append("raw_longitude")
+            ret.append("raw_latitude")
+            ret.append("fuzz_factor")
             ret.append("description")
             ret.append("tag2")
             ret.append("tag3")
@@ -164,6 +183,7 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
             ret.append("tag7")
             ret.append("tag8")
             ret.append("tag9")
+            ret.append("children")
         }
         
         return ret
@@ -219,6 +239,9 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
             "associated_login_id": "Numerical Login ID:",
             "new_login_id_string": "New String Login ID:",
             "password": "Password:",
+            "latitude": "Latitude:",
+            "longitude": "Longitude:",
+            "fuzz_factor": "Fuzz Factor:",
             "tag0": "Tag 0:",
             "tag1": "Tag 1:",
             "tag2": "Tag 2:",
@@ -243,10 +266,20 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
             "state": "State:",
             "postal_code": "Zip Code:",
             "nation": "Nation:",
-            "description": "Description:"
+            "description": "Description:",
+            "children": "Children:"
         ]
         
-        if let currentData = self.editableObject?.myData {
+        if var currentData = self.editableObject?.myData {
+            if nil != currentData["raw_latitude"] {
+                currentData["latitude"] = currentData["raw_latitude"]
+            }
+            if nil != currentData["raw_longitude"] {
+                currentData["longitude"] = currentData["raw_longitude"]
+            }
+            currentData.removeValue(forKey: "coords")
+            currentData.removeValue(forKey: "raw_latitude")
+            currentData.removeValue(forKey: "raw_longitude")
             for oneValue in self.keyList {
                 var currentVal = currentData[oneValue] as? String ?? ""
                 if currentVal.isEmpty, let cVal = currentData[oneValue] as? Int {
@@ -258,7 +291,9 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
                 if currentVal.isEmpty, let cVal = currentData[oneValue] as? Double {
                     currentVal = String(cVal)
                 }
-
+                if currentVal.isEmpty, let cVal = currentData[oneValue] as? [String: [Int]] {
+                    currentVal = String(describing: cVal)
+                }
                 if let label = stringMap[oneValue] {
                     if !label.isEmpty {
                         let isMainAdmin = self.editableObject.sdkInstance?.isMainAdmin ?? false
