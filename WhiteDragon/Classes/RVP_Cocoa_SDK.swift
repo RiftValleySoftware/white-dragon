@@ -1628,6 +1628,24 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
     
     /* ################################################################## */
     /**
+     This is called with a list of one or more IDs of objects to be deleted from the server.
+     
+     - parameter inIDArray: An Array of Int, with the IDs of the objects to be deleted from the server..
+     */
+    internal func _deleteObjects(_ inIDArray: [Int]) {
+    }
+    
+    /* ################################################################## */
+    /**
+     This is called with a list of one or more objects to be deleted from the server.
+     
+     - parameter inItemArray: An Array of concrete instances of subclasses of A_RVP_IOS_SDK_Object.
+     */
+    internal func _deleteObjects(_ inItemArray: [A_RVP_Cocoa_SDK_Object]) {
+    }
+
+    /* ################################################################## */
+    /**
      This executes a PUT query to the server, sending the data as necessary.
      
      - parameter inPutObject: The object to send to the server.
