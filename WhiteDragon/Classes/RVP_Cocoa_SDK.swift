@@ -90,7 +90,20 @@ public protocol RVP_Cocoa_SDK_Delegate: class {
      - parameter fetchedDataItems: An array of subclasses of A_RVP_IOS_SDK_Object.
      */
     func sdkInstance(_: RVP_Cocoa_SDK, fetchedDataItems: [A_RVP_Cocoa_SDK_Object])
-    
+
+    /* ################################################################## */
+    /**
+     This is called when a new object has been created in the system.
+     It is called once per new object, just before sdkInstance(_:,fetchedDataItems:),
+     which will be called with the same object, in an Array of one element.
+     
+     **NOTE:** This is not guaranteed to be called in the main thread!
+     
+     - parameter sdkInstance: This is the SDK instance making the call.
+     - parameter newObject: The newly-created object.
+     */
+    func sdkInstance(_: RVP_Cocoa_SDK, newObject: A_RVP_Cocoa_SDK_Object)
+
     /* ################################################################## */
     /**
      This is called with zero or more IDs. Base;ine searches are a "two-step" process, where IDs are fetched first, then objects.
@@ -657,7 +670,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
     private func _callDelegateLoginValid(_ inIsLoggedIn: Bool) {
         self._delegate?.sdkInstance(self, loginValid: inIsLoggedIn)
     }
-    
+
     /* ################################################################## */
     /**
      This fetches objects from the data database server.
@@ -1565,6 +1578,27 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
             }
         }
     }
+    
+    /* ################################################################## */
+    // MARK: - Internal Stored Properties
+    /* ################################################################## */
+    /**
+     This is a semaphore that is set when we are creating a user/login pair.
+     The way that this works, is that the main appl calls createUserLoginPair(loginString:,name:),
+     and this semaphore is set. The SDK then attempts to create the login object.
+     If that is successful, then it will continue, and create the user object to accompany
+     the new login object, after informing the delegate of the new login object, but will not be called
+     with the sdkInstance(_:,fetchedDataItems:) call.
+     If the login object creation fails, the main app delegate will be called with an error.
+     If it is successful, the delegate is then called with the new user object,
+     */
+    internal var _creatingUserLoginPair: Bool = false
+
+    /** This will contain the temporary new login during a login/user creation. */
+    internal var _newLoginInstance: A_RVP_Cocoa_SDK_Object!
+
+    /** This will contain the temporary new user during a login/user creation. */
+    internal var _newUserInstance: A_RVP_Cocoa_SDK_Object!
 
     /* ################################################################## */
     // MARK: - Internal Instance Methods
@@ -1646,6 +1680,9 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      - parameter inError: The error being handled.
      */
     internal func _handleError(_ inError: Error) {
+        self._newLoginInstance = nil    // Make sure these are switched off.
+        self._newUserInstance = nil
+        self._creatingUserLoginPair = false
         self._delegate?.sdkInstance(self, sessionError: inError)
     }
     
@@ -1716,6 +1753,33 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
         }
         
         return ret
+    }
+
+    /* ################################################################## */
+    /**
+     This is called when we want to send a newly-minted object from the server to the delegate.
+     
+     - parameter inNewObject: The object to be sent to the delegate.
+     */
+    internal func _callDelegateNewItem(_ inNewObject: A_RVP_Cocoa_SDK_Object) {
+        self._delegate?.sdkInstance(self, newObject: inNewObject)
+    }
+    
+    /* ################################################################## */
+    // MARK: - Internal URLSessionDelegate Protocol Methods
+    /* ################################################################## */
+    /**
+     This is called when the the session becomes invalid for any reason.
+     
+     - parameter session: The session calling this.
+     - parameter didBecomeInvalidWithError: The error (if any) that caused the invalidation.
+     */
+    internal func urlSession(_ session: URLSession, didBecomeInvalidWithError error: Error?) {
+        self._plugins = []  // This makes the session invalid.
+        if let error = error {  // If there was an error, we report it first.
+            self._handleError(error)
+        }
+        self._reportSessionValidity()   // Report the invalid session.
     }
 
     /* ################################################################## */
@@ -1843,6 +1907,8 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
         case unknown(Int)
         /** Invalid Parameters Provided. */
         case invalidParameters
+        /** The attempted creation of a new login failed, as the ID is already taken. */
+        case duplicateLoginID
     }
 
     /* ################################################################## */
@@ -2027,25 +2093,6 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
     }
     
     /* ################################################################## */
-    // MARK: - Internal URLSessionDelegate Protocol Methods
-    /* ################################################################## */
-    /**
-     This is called when the the session becomes invalid for any reason.
-     
-     - parameter session: The session calling this.
-     - parameter didBecomeInvalidWithError: The error (if any) that caused the invalidation.
-     */
-    internal func urlSession(_ session: URLSession, didBecomeInvalidWithError error: Error?) {
-        self._plugins = []  // This makes the session invalid.
-        if let error = error {  // If there was an error, we report it first.
-            self._handleError(error)
-        }
-        self._reportSessionValidity()   // Report the invalid session.
-    }
-    
-    /* ################################################################## */
-    // MARK: - Public Properties and Calculated Properties
-    /* ################################################################## */
     /**
      This is the login info for our current login. Returns nil, if not logged in.
      */
@@ -2060,7 +2107,9 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
     public var myUserInfo: RVP_Cocoa_SDK_User? {
         return self._userInfo
     }
-
+    
+    /* ################################################################## */
+    // MARK: - Public Stored Properties
     /* ################################################################## */
     /**
      This is a special "settable" property with the center of a radius search.
@@ -2244,6 +2293,34 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
         self._dataItems = []
     }
 
+    /* ################################################################## */
+    /**
+     The way that this works, is that the main app calls createUserLoginPair(loginString:,name:),
+     and a semaphore is set. The SDK then attempts to create the login object.
+     If that is successful, then it will continue, and create the user object to accompany
+     the new login object, after informing the delegate of the new login object, but will not be called
+     with the sdkInstance(_:,fetchedDataItems:) call.
+     If the login object creation fails, the main app delegate will be called with an error.
+     If it is successful, the delegate is then called with the new user object.
+     This will create a completely "bald" set of objects, with only the login ID, name, and default
+     security tokens.
+     This can only be called if you are logged in as a manager.
+     
+     - parameter loginString: The Requested login ID string. It must be unique in the server, and the operation will fail, if it is already taken.
+     - parameter name: A requested name for the objects (will be applied to both). It is optional. If not supplied, the Login ID will be used for the name.
+     */
+    public func createUserLoginPair(loginString inLoginStringID: String, name inName: String = "") {
+        self._creatingUserLoginPair = true
+        self._newLoginInstance = nil
+        self._newUserInstance = nil
+        var useName = inName
+        if useName.isEmpty {
+            useName = inLoginStringID
+        }
+        self._newLoginInstance = RVP_Cocoa_SDK_Login(sdkInstance: self, objectInfoData: ["name": useName, "login_string": inLoginStringID])
+        self._newLoginInstance.sendToServer()
+    }
+    
     /* ################################################################## */
     /**
      This is a general method for fetching items from the data database, by their numerical IDs.

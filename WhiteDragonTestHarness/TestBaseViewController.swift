@@ -494,7 +494,14 @@ class TestBaseViewController: UIViewController, RVP_Cocoa_SDK_Delegate, UIPicker
         print("Final Call")
         #endif
     }
-
+    
+    /* ################################################################## */
+    /**
+     */
+    func sdkInstance(_: RVP_Cocoa_SDK, newObject: A_RVP_Cocoa_SDK_Object) {
+        
+    }
+    
     /* ################################################################## */
     /**
      */

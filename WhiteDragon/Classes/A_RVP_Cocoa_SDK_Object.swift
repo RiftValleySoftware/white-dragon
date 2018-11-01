@@ -29,6 +29,54 @@ import Foundation
  */
 public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
     /* ################################################################## */
+    // MARK: - Private Methods
+    /* ################################################################## */
+    /**
+     This parses a new login object, and may also begin a user creation (depending on whether or not we are creating a pair).
+     
+     - parameter valueDictionary: This is a Dictionary of values to be applied to the new login.
+     */
+    private func _handleNewLogin(valueDictionary inValue: [String: Any]) {
+        if let ret = self._sdkInstance?._makeNewInstanceFromDictionary(inValue, parent: self._pluginType) {
+            self._sdkInstance?._callDelegateNewItem(ret)
+            if self._sdkInstance?._creatingUserLoginPair ?? false {  // If this was a standalone, we send to the delegate. Otherwise, we create a new user, and wait.
+                if let newLogin = ret as? RVP_Cocoa_SDK_Login { // Make sure we have an actual login. If so, we create a new user.
+                    self._sdkInstance?._newLoginInstance = ret
+                    self._sdkInstance?._newUserInstance = RVP_Cocoa_SDK_User(sdkInstance: self._sdkInstance, objectInfoData: ["associated_login_id": newLogin.id, "name": newLogin.name])
+                    self._sdkInstance?._newUserInstance.sendToServer()
+                } else {
+                    self._sdkInstance?._handleError(RVP_Cocoa_SDK.SDK_Data_Errors.invalidData(Data()))
+                }
+            } else {
+                self._sdkInstance?._newLoginInstance = nil
+                self._sdkInstance?._newUserInstance = nil
+                self._sdkInstance?._creatingUserLoginPair = false
+                self._sdkInstance?._sendItemsToDelegate([ret])
+            }
+        }
+    }
+    
+    /* ################################################################## */
+    /**
+     This parses a new user object. It may work in conjunction with a previously created login.
+     
+     - parameter valueDictionary: This is a Dictionary of values to be applied to the new login.
+     */
+    private func _handleNewUser(valueDictionary inValue: [String: Any]) {
+        if let ret = self._sdkInstance?._makeNewInstanceFromDictionary(inValue, parent: self._pluginType) {
+            self._sdkInstance?._callDelegateNewItem(ret)
+            if let newLogin = self._sdkInstance?._newLoginInstance {
+                self._sdkInstance?._sendItemsToDelegate([newLogin, ret])
+            } else {
+                self._sdkInstance?._sendItemsToDelegate([ret])
+            }
+            self._sdkInstance?._newLoginInstance = nil  // These get nilled out, no matter what.
+            self._sdkInstance?._newUserInstance = nil
+            self._sdkInstance?._creatingUserLoginPair = false
+        }
+    }
+    
+    /* ################################################################## */
     // MARK: - Internal Properties
     /* ################################################################## */
     /**
@@ -233,6 +281,14 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
     
     /* ################################################################## */
     /**
+     - returns: Any URI components to the save. The base class returns nothing.
+     */
+    internal func _getChangeURIComponents() -> String {
+        return ""
+    }
+    
+    /* ################################################################## */
+    /**
      This handles making change records from the response from a PUT command.
      
      - parameter inChangeJSON: The response, as an unserialized JSON object (Dictionary).
@@ -243,22 +299,18 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
         for innerTuple in inChangeJSON {
             if let innerCast = innerTuple.value as? [String: Any] {
                 if let newValue = innerCast["new_login"] as? [String: Any] {
-                    if let ret = self._sdkInstance?._makeNewInstanceFromDictionary(newValue, parent: self._pluginType) {
-                        self._sdkInstance?._sendItemsToDelegate([ret])
-                        break
-                    }
+                    self._handleNewLogin(valueDictionary: newValue)
                 } else if let newValue = innerCast["new_user"] as? [String: Any] {
-                    if let ret = self._sdkInstance?._makeNewInstanceFromDictionary(newValue, parent: self._pluginType) {
-                        self._sdkInstance?._sendItemsToDelegate([ret])
-                        break
-                    }
+                    self._handleNewUser(valueDictionary: newValue)
                 } else if let newValue = innerCast["new_place"] as? [String: Any] {
                     if let ret = self._sdkInstance?._makeNewInstanceFromDictionary(newValue, parent: self._pluginType) {
+                        self._sdkInstance?._callDelegateNewItem(ret)
                         self._sdkInstance?._sendItemsToDelegate([ret])
                         break
                     }
                 } else if let newValue = innerCast["new_thing"] as? [String: Any] {
                     if let ret = self._sdkInstance?._makeNewInstanceFromDictionary(newValue, parent: self._pluginType) {
+                        self._sdkInstance?._callDelegateNewItem(ret)
                         self._sdkInstance?._sendItemsToDelegate([ret])
                         break
                     }
@@ -290,7 +342,7 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
             }
         }
     }
-    
+
     /* ################################################################## */
     // MARK: - Public Data Structures
     /* ################################################################## */
@@ -518,16 +570,6 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
      */
     public var sdkInstance: RVP_Cocoa_SDK? {
         return self._sdkInstance
-    }
-
-    /* ################################################################## */
-    // MARK: - Internal Instance Methods
-    /* ################################################################## */
-    /**
-     - returns: Any URI components to the save. The base class returns nothing.
-     */
-    internal func _getChangeURIComponents() -> String {
-        return ""
     }
 
     /* ################################################################## */

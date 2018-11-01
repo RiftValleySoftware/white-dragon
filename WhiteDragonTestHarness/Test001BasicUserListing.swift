@@ -43,6 +43,7 @@ class SelectNewUserLoginViewController: UIViewController {
     }
 
     @IBAction func saveButtonHit(_ sender: Any) {
+        self.sdkInstance?.createUserLoginPair(loginString: self.chooseLoginIDTextField.text!, name: self.nameTextField.text!)
         self.dismiss(animated: true)
     }
     
@@ -118,6 +119,8 @@ class Test001BasicUserListing: TestBaseViewController {
         if let destination = segue.destination as? SelectNewUserLoginViewController, let sdkInstance = sender as? RVP_Cocoa_SDK {
             destination.sdkInstance = sdkInstance
         }
+        
+        super.prepare(for: segue, sender: sender)
     }
     
     /* ################################################################## */
