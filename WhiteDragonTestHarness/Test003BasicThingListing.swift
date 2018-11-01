@@ -21,6 +21,7 @@
 
 import UIKit
 import MapKit
+import WhiteDragon
 
 /* ###################################################################################################################################### */
 // MARK: - Test Class -
@@ -73,13 +74,8 @@ class Test003BasicThingListing: TestBaseViewController {
     /* ################################################################## */
     /**
      */
-    override func checkButtonVisibility() {
-        super.checkButtonVisibility()
-    }
-
-    /* ################################################################## */
-    /**
-     */
     @IBAction override func createNewButtonPressed(_ sender: UIButton) {
+        let newThing = RVP_Cocoa_SDK_Thing(sdkInstance: self.mySDKTester?.sdkInstance, objectInfoData: [:])
+        self.callCreateNewEditor(newThing)
     }
 }

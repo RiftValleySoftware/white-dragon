@@ -536,7 +536,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Mbv-mp-X17" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1875.3623188405797" y="2453.5714285714284"/>
+            <point key="canvasLocation" x="-1874" y="2346"/>
         </scene>
         <!--Details View Controller-->
         <scene sceneID="cxf-7J-jz5">
@@ -607,7 +607,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="185-bF-61J" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-142.02898550724638" y="3718.5267857142853"/>
+            <point key="canvasLocation" x="-458" y="3059"/>
         </scene>
         <!--RESULTS-->
         <scene sceneID="KhR-TH-o1f">
@@ -651,7 +651,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tJw-Db-EXD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="612" y="2992"/>
+            <point key="canvasLocation" x="245" y="3059"/>
         </scene>
         <!--Result List Nav Controller-->
         <scene sceneID="p1h-FH-MuC">
@@ -667,7 +667,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GVM-R9-fGR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="612" y="2278"/>
+            <point key="canvasLocation" x="245" y="2346"/>
         </scene>
         <!--TEST 002-->
         <scene sceneID="Egu-nX-ZOT">
@@ -737,7 +737,7 @@
                                         </constraints>
                                         <state key="normal" title="Create A New Place"/>
                                         <connections>
-                                            <action selector="createNewButtonPressed:" destination="de3-IP-65R" eventType="touchUpInside" id="u0H-Gj-l5L"/>
+                                            <action selector="createNewButtonPressed:" destination="de3-IP-65R" eventType="touchUpInside" id="bJi-do-Aex"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -804,7 +804,7 @@
                     </userDefinedRuntimeAttributes>
                     <connections>
                         <outlet property="activityScreen" destination="UnB-8P-3Q1" id="P6W-fz-1jg"/>
-                        <outlet property="createNewButton" destination="scr-Xc-5Fp" id="p46-O4-jl0"/>
+                        <outlet property="createNewButton" destination="scr-Xc-5Fp" id="Qtc-MS-l9r"/>
                         <outlet property="displayResultsButton" destination="N3L-Ah-rK3" id="RC2-o6-rC1"/>
                         <outlet property="fetchDataButton" destination="nZ8-qN-3Sp" id="VGD-lJ-CxH"/>
                         <outlet property="loginMainAdminButton" destination="74F-NX-5he" id="ciW-4x-63i"/>
@@ -812,6 +812,7 @@
                         <outlet property="objectListPicker" destination="I3U-r3-Ql1" id="132-e3-GhL"/>
                         <outlet property="specificationItemsConstraint" destination="bKK-zu-DTg" id="PAo-OA-Wrg"/>
                         <outlet property="specificationItemsView" destination="R2M-g4-Km1" id="YeC-GG-FbT"/>
+                        <segue destination="miH-bl-OqI" kind="show" identifier="create-new-edit" id="aCm-gI-Yt4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0hb-oh-nUz" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -961,6 +962,7 @@
                         <outlet property="objectListPicker" destination="YEk-5c-8xV" id="RpF-Ht-mpf"/>
                         <outlet property="specificationItemsConstraint" destination="V5z-IN-fWv" id="lAg-hl-yQ7"/>
                         <outlet property="specificationItemsView" destination="njy-gN-Jw9" id="2dH-2g-gUa"/>
+                        <segue destination="miH-bl-OqI" kind="show" identifier="create-new-edit" id="AZD-Rw-O5a"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Jjv-dK-Nov" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2013,7 +2015,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="L7j-BY-mUB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="625" y="3719"/>
+            <point key="canvasLocation" x="-1172" y="3059"/>
         </scene>
         <!--Media Choice View Controller-->
         <scene sceneID="lMU-nk-ZEb">
@@ -2191,11 +2193,12 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="COq-Hx-oAT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1465.217391304348" y="3718.5267857142853"/>
+            <point key="canvasLocation" x="-1172" y="3798"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="Efr-3V-JZo"/>
-        <segue reference="1ep-HH-kmb"/>
+        <segue reference="Pik-IA-3im"/>
+        <segue reference="B9D-u3-Kz9"/>
+        <segue reference="FIc-tv-XMe"/>
     </inferredMetricsTieBreakers>
 </document>

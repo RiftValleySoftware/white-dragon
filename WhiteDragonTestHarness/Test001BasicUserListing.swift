@@ -149,7 +149,7 @@ class Test001BasicUserListing: TestBaseViewController {
         let newUser = RVP_Cocoa_SDK_User(sdkInstance: self.mySDKTester?.sdkInstance, objectInfoData: [:])
         self.callCreateNewEditor(newUser)
     }
-
+    
     /* ################################################################## */
     /**
      */
