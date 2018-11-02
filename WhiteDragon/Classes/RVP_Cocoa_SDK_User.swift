@@ -31,12 +31,12 @@ public class RVP_Cocoa_SDK_User: A_RVP_Cocoa_SDK_Data_Object {
     // MARK: - Internal Calculated Properties
     /* ################################################################## */
     /**
-     - returns: a string, with the "plugin path" for the data item. READ ONLY
+     - returns: a string, with the "plugin path" for the data item, with no ID attached. READ ONLY
      */
-    override internal var _pluginPath: String {
-        return "/people/people/" + (0 != self.id ? String(self.id) : "")
+    override internal var _pluginPathNoID: String {
+        return "/" + self._pluginType + "/people"
     }
-    
+
     /* ################################################################## */
     /**
      - returns: a string, with the plugin type. READ ONLY

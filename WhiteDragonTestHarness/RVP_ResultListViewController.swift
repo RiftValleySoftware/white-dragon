@@ -28,6 +28,10 @@ import WhiteDragon
 /**
  */
 class RVP_ResultListNavController: UINavigationController {
+    var sdkObject: RVP_Cocoa_SDK!
+    /* ################################################################## */
+    /**
+     */
     var resultObjectList: [A_RVP_Cocoa_SDK_Object] = [] {
         didSet {
             self.resultObjectList = self.resultObjectList.sorted {
@@ -57,6 +61,9 @@ class RVP_ResultListNavController: UINavigationController {
 /**
  */
 class RVP_ResultListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    /* ################################################################## */
+    /**
+     */
     var resultObjectList: [A_RVP_Cocoa_SDK_Object] {
         get {
             if let navCtl = self.navigationController as? RVP_ResultListNavController {
@@ -73,8 +80,29 @@ class RVP_ResultListViewController: UIViewController, UITableViewDelegate, UITab
         }
     }
     
-    @IBOutlet weak var resultListTableView: UITableView!
+    /* ################################################################## */
+    /**
+     */
+    var sdkInstance: RVP_Cocoa_SDK! {
+        get {
+            if let navCtl = self.navigationController as? RVP_ResultListNavController {
+                return navCtl.sdkObject
+            }
+            
+            return nil
+        }
+        
+        set {
+            if let navCtl = self.navigationController as? RVP_ResultListNavController {
+                navCtl.sdkObject = newValue
+            }
+        }
+    }
     
+    @IBOutlet weak var resultListTableView: UITableView!
+    @IBOutlet weak var editButton: UIBarButtonItem!
+    @IBOutlet weak var deleteButton: UIBarButtonItem!
+
     /* ################################################################## */
     /**
      */
@@ -85,10 +113,60 @@ class RVP_ResultListViewController: UIViewController, UITableViewDelegate, UITab
     /* ################################################################## */
     /**
      */
-    @IBAction func doneButtonHit(_ sender: Any) {
-        self.dismiss(animated: false, completion: nil)
+    private func _determineEditEligibility() {
+        var editable: Bool = false
+        
+        for item in self.resultObjectList where item.isWriteable {
+            editable = true
+            break
+        }
+        
+        self.editButton.isEnabled = editable
     }
     
+    /* ################################################################## */
+    /**
+     */
+    private func _determineDeleteEligibility() {
+        self.deleteButton.isEnabled = nil != self.resultListTableView.indexPathsForSelectedRows && 0 < (self.resultListTableView.indexPathsForSelectedRows?.count)!
+    }
+
+    /* ################################################################## */
+    /**
+     */
+    @IBAction func backButtonHit(_ sender: Any) {
+        self.dismiss(animated: false, completion: nil)
+    }
+
+    /* ################################################################## */
+    /**
+     */
+    @IBAction func deleteButtonHit(_ sender: Any) {
+        if let selectedRows = self.resultListTableView.indexPathsForSelectedRows, 0 < selectedRows.count {
+            var instanceList: [A_RVP_Cocoa_SDK_Object] = []
+            
+            for selectedRow in selectedRows {
+                instanceList.append(self.resultObjectList[selectedRow.row])
+            }
+            
+            self.sdkInstance.deleteObjects(instanceList)
+        }
+    }
+
+    /* ################################################################## */
+    /**
+     */
+    @IBAction func editButtonHit(_ sender: Any! = nill) {
+        if self.resultListTableView.isEditing {
+            self.editButton.title = "Edit"
+            self.deleteButton.isEnabled = false
+            self.resultListTableView.isEditing = false
+        } else {
+            self.editButton.title = "Done"
+            self.resultListTableView.isEditing = true
+        }
+    }
+
     /* ################################################################## */
     /**
      */
@@ -154,7 +232,34 @@ class RVP_ResultListViewController: UIViewController, UITableViewDelegate, UITab
     /* ################################################################## */
     /**
      */
+    func deleteTheseItems(_ inItems: [A_RVP_Cocoa_SDK_Object]) {
+        var deleteIndexes: [Int] = []
+        for index in 0..<self.resultObjectList.count {
+            let inCompInstance = self.resultObjectList[index]
+            for item in inItems where item.id == inCompInstance.id {
+                // OK. The ID is unique in each database, so we check to see if an existing object and the given object are in the same database.
+                if (item is A_RVP_Cocoa_SDK_Security_Object && inCompInstance is A_RVP_Cocoa_SDK_Security_Object) || (item is A_RVP_Cocoa_SDK_Data_Object && inCompInstance is A_RVP_Cocoa_SDK_Data_Object) {
+                    deleteIndexes.append(index)
+                }
+            }
+        }
+        
+        if !deleteIndexes.isEmpty {
+            deleteIndexes = deleteIndexes.reversed()
+            for index in 0..<deleteIndexes.count {
+                self.resultObjectList.remove(at: deleteIndexes[index])
+            }
+            
+            self.editButtonHit()
+            self.resultListTableView.reloadData()
+        }
+    }
+
+    /* ################################################################## */
+    /**
+     */
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        self._determineEditEligibility()
         return resultObjectList.count
     }
 
@@ -190,11 +295,42 @@ class RVP_ResultListViewController: UIViewController, UITableViewDelegate, UITab
     /* ################################################################## */
     /**
      */
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return self.resultObjectList[indexPath.row].isWriteable ? .delete : .none
+    }
+    
+    /* ################################################################## */
+    /**
+     */
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if 0 < self.resultObjectList.count, indexPath.row < self.resultObjectList.count {
+        if !tableView.isEditing, 0 < self.resultObjectList.count, indexPath.row < self.resultObjectList.count {
             tableView.deselectRow(at: indexPath, animated: true)
             let rowObject = self.resultObjectList[indexPath.row]
             self._showObjectDetails(rowObject)
+        } else {
+            self._determineDeleteEligibility()
         }
+    }
+    
+    /* ################################################################## */
+    /**
+     */
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        if tableView.isEditing {
+            self._determineDeleteEligibility()
+        }
+    }
+    
+    /* ################################################################## */
+    /**
+     */
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        var ret = false
+        
+        if 0 < self.resultObjectList.count, indexPath.row < self.resultObjectList.count {
+            ret = self.resultObjectList[indexPath.row].isWriteable
+        }
+        
+        return ret
     }
 }

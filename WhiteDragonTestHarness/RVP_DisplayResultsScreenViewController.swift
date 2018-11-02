@@ -117,11 +117,18 @@ class RVP_DisplayResultsScreenViewController: RVP_DisplayResultsBaseScreenViewCo
             destination.sdkInstance = self.sdkInstance
         } else if let destination = segue.destination as? RVP_ResultListNavController {
             destination.resultObjectList = self._childrenArray
+            destination.sdkObject = self.sdkInstance
             self._fetchingChildren = false
             self._childrenArray = []
        }
         
         super.prepare(for: segue, sender: nil)
+    }
+    
+    /* ################################################################## */
+    /**
+     */
+    func refresh() {
     }
     
     /* ################################################################## */

@@ -78,6 +78,23 @@ extension Data {
         return Data._mimeTypeSignatures[c] ?? "application/octet-stream"
     }
 }
+
+/* ###################################################################### */
+/**
+ From here: https://stackoverflow.com/a/33553374/879365
+ 
+ This makes it easy to remove duplicates from an Array.
+ */
+public extension Sequence where Element: Equatable {
+    var uniqueElements: [Element] {
+        return self.reduce(into: []) { uniqueElements, element in
+            if !uniqueElements.contains(element) {
+                uniqueElements.append(element)
+            }
+        }
+    }
+}
+
 /* ###################################################################### */
 /**
  This adds various functionality to the String class.

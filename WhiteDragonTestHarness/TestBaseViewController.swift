@@ -292,6 +292,7 @@ class TestBaseViewController: UIViewController, RVP_Cocoa_SDK_Delegate, UIPicker
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destination = segue.destination as? RVP_ResultListNavController {
             destination.resultObjectList = self.objectList
+            destination.sdkObject = self.mySDKTester?.sdkInstance
         } else if "create-new-edit" == segue.identifier, let destination = segue.destination as? RVP_EditElementViewController, let sender = sender as? A_RVP_Cocoa_SDK_Object {
             destination.editableObject = sender
         }
@@ -427,6 +428,17 @@ class TestBaseViewController: UIViewController, RVP_Cocoa_SDK_Delegate, UIPicker
         }
     }
     
+    /* ################################################################## */
+    /**
+     */
+    func sdkInstance(_: RVP_Cocoa_SDK, deletedDataItems: [A_RVP_Cocoa_SDK_Object]) {
+        DispatchQueue.main.async {
+            if let topperTemp = UIApplication.getTopmostViewController() as? RVP_ResultListViewController {
+                topperTemp.deleteTheseItems(deletedDataItems)
+            }
+        }
+    }
+
     /* ################################################################## */
     /**
      */

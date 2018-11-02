@@ -252,7 +252,15 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
      - returns: a string, with the "plugin path" for the data item. READ ONLY
      */
     internal var _pluginPath: String {
-        return "/baseline/" + (0 != self.id ? String(self.id) : "")
+        return self._pluginPathNoID + "/" + (0 != self.id ? String(self.id) : "")
+    }
+    
+    /* ################################################################## */
+    /**
+     - returns: a string, with the "plugin path" for the data item, with no ID attached. READ ONLY
+     */
+    internal var _pluginPathNoID: String {
+        return "/baseline"
     }
 
     /* ################################################################## */

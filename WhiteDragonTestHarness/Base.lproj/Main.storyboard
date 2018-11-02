@@ -547,14 +547,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MrC-ei-tLi" customClass="RVP_DisplayResultsScrollView" customModule="WhiteDragonTestHarness" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="744"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="695"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <connections>
                                     <outlet property="myViewController" destination="lZe-K9-CEg" id="pNA-Rr-2k2"/>
                                 </connections>
                             </scrollView>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gHA-vF-VTS">
-                                <rect key="frame" x="8" y="744" width="398" height="30"/>
+                                <rect key="frame" x="8" y="695" width="398" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="7So-Ci-1HJ"/>
                                 </constraints>
@@ -564,10 +564,10 @@
                                 </connections>
                             </button>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fNf-mv-eXk">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="774"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="725"/>
                                 <subviews>
                                     <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="8t3-CA-TNf">
-                                        <rect key="frame" x="188.5" y="368.5" width="37" height="37"/>
+                                        <rect key="frame" x="188.5" y="344" width="37" height="37"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="37" id="OWF-8w-RVB"/>
                                             <constraint firstAttribute="width" constant="37" id="ZpE-ZU-6Fb"/>
@@ -617,8 +617,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="30" estimatedRowHeight="30" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Wrh-LV-TDc">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="774"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelectionDuringEditing="YES" allowsMultipleSelectionDuringEditing="YES" rowHeight="30" estimatedRowHeight="30" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Wrh-LV-TDc">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="725"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="separatorColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <connections>
@@ -636,15 +636,32 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="owj-gP-S9z"/>
                     </view>
+                    <toolbarItems/>
                     <navigationItem key="navigationItem" title="RESULTS" id="kJJ-PB-g3L">
-                        <barButtonItem key="leftBarButtonItem" style="done" systemItem="done" id="dXb-pU-dph">
+                        <barButtonItem key="leftBarButtonItem" title="BACK" style="done" id="dXb-pU-dph">
                             <connections>
-                                <action selector="doneButtonHit:" destination="XxK-Xd-M1F" id="plz-Bd-YBx"/>
+                                <action selector="backButtonHit:" destination="XxK-Xd-M1F" id="plz-Bd-YBx"/>
                             </connections>
                         </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem enabled="NO" title="Edit" id="mB7-BK-vwr">
+                                <connections>
+                                    <action selector="editButtonHit:" destination="XxK-Xd-M1F" id="EEm-wU-5eb"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem enabled="NO" title="Delete" id="q0H-k7-A8K">
+                                <color key="tintColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <action selector="deleteButtonHit:" destination="XxK-Xd-M1F" id="72a-0o-x09"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="deleteButton" destination="q0H-k7-A8K" id="r5H-ik-zHq"/>
+                        <outlet property="editButton" destination="mB7-BK-vwr" id="839-rp-O6v"/>
                         <outlet property="resultListTableView" destination="Wrh-LV-TDc" id="qer-wJ-Tff"/>
                         <segue destination="lZe-K9-CEg" kind="show" identifier="show-object-details" id="Pik-IA-3im"/>
                     </connections>

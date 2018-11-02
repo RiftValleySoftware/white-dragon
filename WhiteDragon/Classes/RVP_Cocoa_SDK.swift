@@ -90,6 +90,18 @@ public protocol RVP_Cocoa_SDK_Delegate: class {
      - parameter fetchedDataItems: An array of subclasses of A_RVP_IOS_SDK_Object.
      */
     func sdkInstance(_: RVP_Cocoa_SDK, fetchedDataItems: [A_RVP_Cocoa_SDK_Object])
+    
+    /* ################################################################## */
+    /**
+     This is called with one or more data items. Each item is a single object.
+     This returns the items that were deleted (they no longer exist) in the database.
+     
+     **NOTE:** This is not guaranteed to be called in the main thread!
+     
+     - parameter sdkInstance: This is the SDK instance making the call.
+     - parameter deletedDataItems: An array of subclasses of A_RVP_IOS_SDK_Object.
+     */
+    func sdkInstance(_: RVP_Cocoa_SDK, deletedDataItems: [A_RVP_Cocoa_SDK_Object])
 
     /* ################################################################## */
     /**
@@ -1580,6 +1592,88 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
     }
     
     /* ################################################################## */
+    /**
+     This sends a DELETE command to the server.
+     
+     - parameter inURI: The URI to send to the server.
+     */
+    private func _sendDelete(_ inURI: String) {
+        if let url_object = URL(string: inURI) {
+            var urlRequest = URLRequest(url: url_object)
+            urlRequest.httpMethod = "DELETE"
+            
+            type(of: self)._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
+                self._openOperations += 1
+            }
+            
+            self._connectionSession?.uploadTask(with: urlRequest, from: Data()) { [unowned self] data, response, error in
+                if let error = error {
+                    self._handleError(error)
+                    return
+                }
+                
+                guard let httpResponse = response as? HTTPURLResponse,
+                    (200...299).contains(httpResponse.statusCode) else {
+                        self._handleHTTPError(response as? HTTPURLResponse ?? nil)
+                        return
+                }
+                
+                if let data = data {    // Assuming we got a response, we send that to the instance that called us.
+                    do {    // Extract a usable object from the given JSON data.
+                        let parsedObject: Any = try JSONSerialization.jsonObject(with: data, options: [])
+                        
+                        var resultList: [A_RVP_Cocoa_SDK_Object] = []  // This will contain our deleted items.
+                        var parent: String = ""
+                        
+                        // Yeah, this is an awkward mess, but Swift isn't quite flexible enough to let me do the kind of freewheeling casting that I can get away with in PHP.
+                        // This allows us to have two levels deep results, with generic plugin names.
+                        // If we ever get around to writing more plugins, this will need to be revisited, but so will some other stuff in the SDK.
+                        if let parsedDictionary = parsedObject as? [String: Any] {
+                            for keyValue in parsedDictionary {
+                                if let secondLevel = keyValue.value as? [String: Any] {
+                                    for nextKeyValue in secondLevel {
+                                        if let resultArray = nextKeyValue.value as? [[String: Any]] {
+                                            parent = keyValue.key
+                                            for item in resultArray {
+                                                if let itemObject = self._makeNewInstanceFromDictionary(item, parent: parent, forceNew: true) {
+                                                    resultList.append(itemObject)
+                                                }
+                                            }
+                                        } else if let thirdLevel = nextKeyValue.value as? [String: Any] {
+                                            for yetAnotherKeyValue in thirdLevel {
+                                                if let resultArray = yetAnotherKeyValue.value as? [[String: Any]] {
+                                                    parent = yetAnotherKeyValue.key
+                                                    for item in resultArray {
+                                                        if let itemObject = self._makeNewInstanceFromDictionary(item, parent: parent, forceNew: true) {
+                                                            resultList.append(itemObject)
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        
+                        // If we got any objects, we simply flush our cache, and send the items to the delegate.
+                        if !resultList.isEmpty {
+                            self.flushCache()
+                            self._delegate?.sdkInstance(self, deletedDataItems: resultList)
+                        }
+                    } catch {   // We end up here if the response is not a proper JSON object.
+                        self._handleError(RVP_Cocoa_SDK.SDK_Data_Errors.invalidData(data))
+                    }
+                }
+                
+                type(of: self)._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
+                    self._openOperations -= 1
+                }
+                }.resume()
+        }
+    }
+
+    /* ################################################################## */
     // MARK: - Internal Stored Properties
     /* ################################################################## */
     /**
@@ -1624,24 +1718,6 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      */
     internal func _sendItemsToDelegate(_ inItemArray: [A_RVP_Cocoa_SDK_Object]) {
         self._delegate?.sdkInstance(self, fetchedDataItems: inItemArray)
-    }
-    
-    /* ################################################################## */
-    /**
-     This is called with a list of one or more IDs of objects to be deleted from the server.
-     
-     - parameter inIDArray: An Array of Int, with the IDs of the objects to be deleted from the server..
-     */
-    internal func _deleteObjects(_ inIDArray: [Int]) {
-    }
-    
-    /* ################################################################## */
-    /**
-     This is called with a list of one or more objects to be deleted from the server.
-     
-     - parameter inItemArray: An Array of concrete instances of subclasses of A_RVP_IOS_SDK_Object.
-     */
-    internal func _deleteObjects(_ inItemArray: [A_RVP_Cocoa_SDK_Object]) {
     }
 
     /* ################################################################## */
@@ -2172,6 +2248,66 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
         self.connect(loginID: inLoginID, password: inPassword, timeout: inLoginTimeout)
     }
     
+    /* ################################################################## */
+    /**
+     This is called with a list of one or more objects to be deleted from the server.
+     
+     This will sort through the objects, and will only delete ones we currently have cached.
+     It will figure out whether or not the object is a security object or a data object, and perform the required deletion for each type.
+     
+     - parameter inItemArray: An Array of concrete instances of subclasses of A_RVP_IOS_SDK_Object.
+     */
+    public func deleteObjects(_ inItemArray: [A_RVP_Cocoa_SDK_Object]) {
+        // The first thing we do, is sort by plugin path, which we'll use for the next step.
+        let sortedList = inItemArray.sorted(by: { (a, b) -> Bool in
+            if a._pluginPathNoID < b._pluginPathNoID {
+                return true
+            } else if a._pluginPathNoID == b._pluginPathNoID {
+                return a.id < b.id
+            }
+            
+            return false
+        })
+        
+        let keyArray = sortedList.map { (a) -> String in
+            return a._pluginPathNoID
+        }.uniqueElements
+        
+        // At this point, keyArray has an Array with the unique plugin paths we'll need for the lists of IDs. Time to sort out the IDs.
+        var deleteDictionary: [String: [Int]] = [:]
+        for key in keyArray {
+            for item in sortedList where key == item._pluginPathNoID {
+                if nil == deleteDictionary[key] {
+                    deleteDictionary[key] = [item.id]
+                } else {
+                    deleteDictionary[key]?.append(item.id)
+                }
+            }
+        }
+        
+        // OK. Now we have a list of plugin paths and IDs to accompany them. We generate a list of URIs to send to the server.
+        var uriList: [String] = []
+        
+        for delList in deleteDictionary {
+            for idArray in delList.value.chunk(10) {    // Break up, if we have too many.
+                let uriString = delList.key + "/" + (idArray.map { String($0) }).joined(separator: ",")
+                uriList.append(uriString)
+            }
+        }
+        
+        // Now, we have a list of delete URIs to send to the server. Let's get to work...
+        
+        for var uri in uriList {
+            let loginParams = self._loginParameters
+            
+            if !loginParams.isEmpty {
+                uri = self._server_uri + "/json" + uri + "?" + self._loginParameters
+                
+                self._sendDelete(uri)
+            }
+        }
+    }
+
     /* ################################################################## */
     /**
      This will connect to the server. If login credentials are provided, then it will also log in.
