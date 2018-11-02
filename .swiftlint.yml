@@ -16,6 +16,7 @@ opt_in_rules:
 - comma
 
 excluded:
+- Package.swift
 - Pods/Reveal-SDK
 - Pods/Headers
 - Pods/SwiftLint

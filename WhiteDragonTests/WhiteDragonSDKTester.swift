@@ -1,6 +1,6 @@
 /***************************************************************************************************************************/
 /**
-    © Copyright 2018, Little Green Viper Software Development LLC.
+    © Copyright 2018, The Great Rift Valley Software Company.
     
     MIT License
     
@@ -16,7 +16,7 @@
     IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
     CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     
-    Little Green Viper Software Development: https://littlegreenviper.com
+    The Great Rift Valley Software Company: https://riftvalleysoftware.com
 */
 
 import Foundation
@@ -27,7 +27,7 @@ class WhiteDragonSDKTester {
     private weak var _delegate: RVP_Cocoa_SDK_Delegate?
     private var _newSession: Bool = false
     
-    let uri: String = "https://littlegreenviper.com/fuggedaboudit/baobab/index.php"
+    let uri: String = "https://riftvalleysoftware.com/fuggedaboudit/baobab/index.php"
     let secret: String = "Supercalifragilisticexpialidocious"
     let adminLogin: String = "admin"
     let normalTimeout: TimeInterval = 3600
@@ -51,7 +51,7 @@ class WhiteDragonSDKTester {
      */
     private func _setDBUp(_ inDBPrefix: String) {
         if let db = inDBPrefix.urlEncodedString {
-            let url = "https://littlegreenviper.com/fuggedaboudit/set-db/index.php?l=2&s=Rambunkchous&d=" + db
+            let url = "https://riftvalleysoftware.com/fuggedaboudit/set-db/index.php?l=2&s=Rambunkchous&d=" + db
             if let url_object = URL(string: url) {
                 if let setuBDTask = (self._connectionSession?.dataTask(with: url_object) { [weak self] _, response, error in
                             if let error = error {

@@ -1,6 +1,6 @@
 /***************************************************************************************************************************/
 /**
-    © Copyright 2018, Little Green Viper Software Development LLC.
+    © Copyright 2018, The Great Rift Valley Software Company.
     
     MIT License
  
@@ -16,7 +16,7 @@
     IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
     CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     
-    Little Green Viper Software Development: https://littlegreenviper.com
+    The Great Rift Valley Software Company: https://riftvalleysoftware.com
 */
 
 import Foundation
@@ -561,11 +561,13 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
      */
     public var lastAccess: Date? {
         if let dateString = self._myData["last_access"] as? String {
-            let dateFormatter = ISO8601DateFormatter()
-            let options: ISO8601DateFormatter.Options = [.withYear, .withMonth, .withDay, .withDashSeparatorInDate, .withSpaceBetweenDateAndTime, .withTime, .withColonSeparatorInTime]
-            dateFormatter.formatOptions = options
-            if let date = dateFormatter.date(from: dateString) {
-                return date
+            if #available(OSX 10.12, iOS 11.0, *) { // Annoying, but it keeps SPM from puking.
+                let dateFormatter = ISO8601DateFormatter()
+                let options: ISO8601DateFormatter.Options = [.withYear, .withMonth, .withDay, .withDashSeparatorInDate, .withSpaceBetweenDateAndTime, .withTime, .withColonSeparatorInTime]
+                dateFormatter.formatOptions = options
+                if let date = dateFormatter.date(from: dateString) {
+                    return date
+                }
             }
         }
         
