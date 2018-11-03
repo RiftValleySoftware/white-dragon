@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4A52D2FB10DA518F0FB039AB /* Pods_WhiteDragon_OSX_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E7E3D40668D2FA9EBCC27A8 /* Pods_WhiteDragon_OSX_.framework */; };
-		53283E5F5155AB532A17978B /* Pods_WhiteDragon_iOS_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33857872F527994DB9372916 /* Pods_WhiteDragon_iOS_.framework */; };
 		D48ED6BB218DF59B00380FCA /* WhiteDragon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D48ED6B1218DF59B00380FCA /* WhiteDragon.framework */; };
 		D48ED6C0218DF59B00380FCA /* WhiteDragonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48ED6BF218DF59B00380FCA /* WhiteDragonTests.swift */; };
 		D4E6E797218DF710008CA31F /* RVP_Cocoa_SDK_Internal_Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E6E78E218DF710008CA31F /* RVP_Cocoa_SDK_Internal_Utils.swift */; };
@@ -53,9 +51,6 @@
 /* Begin PBXFileReference section */
 		33857872F527994DB9372916 /* Pods_WhiteDragon_iOS_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WhiteDragon_iOS_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E7E3D40668D2FA9EBCC27A8 /* Pods_WhiteDragon_OSX_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WhiteDragon_OSX_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		521CBDB76B9A5B923B6EAE1D /* Pods-WhiteDragon(OSX).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WhiteDragon(OSX).release.xcconfig"; path = "Pods/Target Support Files/Pods-WhiteDragon(OSX)/Pods-WhiteDragon(OSX).release.xcconfig"; sourceTree = "<group>"; };
-		5404CDBF7E58C67B81CC6A99 /* Pods-WhiteDragon(iOS).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WhiteDragon(iOS).debug.xcconfig"; path = "Pods/Target Support Files/Pods-WhiteDragon(iOS)/Pods-WhiteDragon(iOS).debug.xcconfig"; sourceTree = "<group>"; };
-		D2BBFBD193C432AA4036822E /* Pods-WhiteDragon(OSX).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WhiteDragon(OSX).debug.xcconfig"; path = "Pods/Target Support Files/Pods-WhiteDragon(OSX)/Pods-WhiteDragon(OSX).debug.xcconfig"; sourceTree = "<group>"; };
 		D48ED6B1218DF59B00380FCA /* WhiteDragon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = WhiteDragon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D48ED6BA218DF59B00380FCA /* WhiteDragon(iOS)Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "WhiteDragon(iOS)Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D48ED6BF218DF59B00380FCA /* WhiteDragonTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteDragonTests.swift; sourceTree = "<group>"; };
@@ -74,7 +69,6 @@
 		D4E6E7B1218DFAB8008CA31F /* WhiteDragon(OSX)Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "WhiteDragon(OSX)Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4E6E7CA218DFC30008CA31F /* ios-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ios-Info.plist"; sourceTree = "<group>"; };
 		D4E6E7CB218DFC30008CA31F /* osx-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "osx-Info.plist"; sourceTree = "<group>"; };
-		E65781BE26DDED46C2D605A9 /* Pods-WhiteDragon(iOS).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WhiteDragon(iOS).release.xcconfig"; path = "Pods/Target Support Files/Pods-WhiteDragon(iOS)/Pods-WhiteDragon(iOS).release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,7 +76,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				53283E5F5155AB532A17978B /* Pods_WhiteDragon_iOS_.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -106,24 +99,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4A52D2FB10DA518F0FB039AB /* Pods_WhiteDragon_OSX_.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		80B34C80E3AA7827A4CD2A31 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				5404CDBF7E58C67B81CC6A99 /* Pods-WhiteDragon(iOS).debug.xcconfig */,
-				E65781BE26DDED46C2D605A9 /* Pods-WhiteDragon(iOS).release.xcconfig */,
-				D2BBFBD193C432AA4036822E /* Pods-WhiteDragon(OSX).debug.xcconfig */,
-				521CBDB76B9A5B923B6EAE1D /* Pods-WhiteDragon(OSX).release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 		CA362530EA3B5D31D47C140B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -140,7 +121,6 @@
 				D48ED6BE218DF59B00380FCA /* WhiteDragonTests */,
 				D48ED6B2218DF59B00380FCA /* Products */,
 				CA362530EA3B5D31D47C140B /* Frameworks */,
-				80B34C80E3AA7827A4CD2A31 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -617,7 +597,6 @@
 		};
 		D48ED6C6218DF59B00380FCA /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5404CDBF7E58C67B81CC6A99 /* Pods-WhiteDragon(iOS).debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
@@ -644,7 +623,6 @@
 		};
 		D48ED6C7218DF59B00380FCA /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E65781BE26DDED46C2D605A9 /* Pods-WhiteDragon(iOS).release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
@@ -709,7 +687,6 @@
 		};
 		D4E6E7BB218DFAB9008CA31F /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D2BBFBD193C432AA4036822E /* Pods-WhiteDragon(OSX).debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -739,7 +716,6 @@
 		};
 		D4E6E7BC218DFAB9008CA31F /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 521CBDB76B9A5B923B6EAE1D /* Pods-WhiteDragon(OSX).release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
