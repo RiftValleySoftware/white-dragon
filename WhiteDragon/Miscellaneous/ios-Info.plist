@@ -13,14 +13,15 @@
 	<key>CFBundleName</key>
 	<string>$(PRODUCT_NAME)</string>
 	<key>CFBundlePackageType</key>
-	<string>BNDL</string>
+	<string>FMWK</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>1.0.0</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
-	<key>RVP_TestServer_URI</key>
-	<string>http://localhost/rvp-php-sdk/test/baobab/index.php</string>
-	<key>RVP_Test_Server_DB_URI</key>
-	<string>http://localhost/rvp-php-sdk/test/set-db/index.php?l=2&amp;s=Rambunkchous&amp;d=</string>
+	<string>1000</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 </dict>
 </plist>
