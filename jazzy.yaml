@@ -2,6 +2,4 @@ xcodebuild_arguments:
     - "-project"
     - "WhiteDragon.xcodeproj"
     - "-scheme"
-    - "WhiteDragon"
-    - "Module"
-    - "WhiteDragon"
+    - "WhiteDragon(iOS)"
