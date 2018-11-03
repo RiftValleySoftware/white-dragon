@@ -134,6 +134,19 @@ class RVP_DisplayResultsScreenViewController: RVP_DisplayResultsBaseScreenViewCo
     /* ################################################################## */
     /**
      */
+    override func done() {
+        super.done()
+        
+        DispatchQueue.main.async {
+            if !self._childrenArray.isEmpty {
+                self.performSegue(withIdentifier: "show-children", sender: nil)
+            }
+        }
+    }
+
+    /* ################################################################## */
+    /**
+     */
     func addNewItems(_ fetchedDataItems: [A_RVP_Cocoa_SDK_Object]) {
         var resultsArray: [A_RVP_Cocoa_SDK_Object] = self._fetchingChildren ? self._childrenArray : self.resultsArray
         var toBeAdded: [A_RVP_Cocoa_SDK_Object] = []
