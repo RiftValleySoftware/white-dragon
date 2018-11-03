@@ -27,7 +27,7 @@ class WhiteDragonSDKTester {
     private weak var _delegate: RVP_Cocoa_SDK_Delegate?
     private var _newSession: Bool = false
     
-    let uri: String = "https://riftvalleysoftware.com/fuggedaboudit/baobab/index.php"
+    let uri: String = "https://littlegreenviper.com/test-server/baobab/index.php"
     let secret: String = "Supercalifragilisticexpialidocious"
     let adminLogin: String = "admin"
     let normalTimeout: TimeInterval = 3600
@@ -51,7 +51,7 @@ class WhiteDragonSDKTester {
      */
     private func _setDBUp(_ inDBPrefix: String) {
         if let db = inDBPrefix.urlEncodedString {
-            let url = "https://riftvalleysoftware.com/fuggedaboudit/set-db/index.php?l=2&s=Rambunkchous&d=" + db
+            let url = "https://littlegreenviper.com/test-server/set-db/index.php?l=2&s=Rambunkchous&d=" + db
             if let url_object = URL(string: url) {
                 if let setuBDTask = (self._connectionSession?.dataTask(with: url_object) { [weak self] _, response, error in
                             if let error = error {

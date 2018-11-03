@@ -21,7 +21,7 @@
 		D462417921853B73001C8D14 /* PDF.pdf in Resources */ = {isa = PBXBuildFile; fileRef = D462417421853B40001C8D14 /* PDF.pdf */; };
 		D462417A21853B73001C8D14 /* IMAGE.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D462417521853B40001C8D14 /* IMAGE.jpg */; };
 		D4687FF42142E4D000293358 /* WhiteDragonSDKTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4687FF32142E4D000293358 /* WhiteDragonSDKTester.swift */; };
-		D477B40A213EA86B0018AB45 /* white_dragonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D477B409213EA86B0018AB45 /* white_dragonTests.swift */; };
+		D477B40A213EA86B0018AB45 /* WhiteDragonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D477B409213EA86B0018AB45 /* WhiteDragonTests.swift */; };
 		D4885EE42155216F00DF9862 /* RVP_DisplayResultsScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4885EE32155216F00DF9862 /* RVP_DisplayResultsScrollView.swift */; };
 		D48CBE6F21638ED8001EF727 /* RVP_ResultListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48CBE6E21638ED8001EF727 /* RVP_ResultListViewController.swift */; };
 		D48CBE712163AD0C001EF727 /* TestBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48CBE702163AD0C001EF727 /* TestBaseViewController.swift */; };
@@ -108,7 +108,7 @@
 		D4687FF32142E4D000293358 /* WhiteDragonSDKTester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteDragonSDKTester.swift; sourceTree = "<group>"; };
 		D477B3FF213EA86B0018AB45 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D477B404213EA86B0018AB45 /* WhiteDragonTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WhiteDragonTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		D477B409213EA86B0018AB45 /* white_dragonTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = white_dragonTests.swift; sourceTree = "<group>"; };
+		D477B409213EA86B0018AB45 /* WhiteDragonTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteDragonTests.swift; sourceTree = "<group>"; };
 		D477B40B213EA86B0018AB45 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D4885EE32155216F00DF9862 /* RVP_DisplayResultsScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RVP_DisplayResultsScrollView.swift; sourceTree = "<group>"; };
 		D48CBE6E21638ED8001EF727 /* RVP_ResultListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RVP_ResultListViewController.swift; sourceTree = "<group>"; };
@@ -220,7 +220,7 @@
 			isa = PBXGroup;
 			children = (
 				D4687FF32142E4D000293358 /* WhiteDragonSDKTester.swift */,
-				D477B409213EA86B0018AB45 /* white_dragonTests.swift */,
+				D477B409213EA86B0018AB45 /* WhiteDragonTests.swift */,
 				D477B40B213EA86B0018AB45 /* Info.plist */,
 			);
 			path = WhiteDragonTests;
@@ -534,7 +534,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D4687FF42142E4D000293358 /* WhiteDragonSDKTester.swift in Sources */,
-				D477B40A213EA86B0018AB45 /* white_dragonTests.swift in Sources */,
+				D477B40A213EA86B0018AB45 /* WhiteDragonTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
