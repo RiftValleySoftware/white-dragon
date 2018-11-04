@@ -191,6 +191,9 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
     /** This is the server's sectret. */
     private var _server_secret: String = ""
     
+    /** This is the version reported by the server. */
+    private var _server_version: String = ""
+
     /** If _loggedIn is true, then this must be non-nil, and is the time at which the login was made. */
     private var _loginTime: Date! = nil
     
@@ -507,11 +510,16 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                                 ret[key] = plugin_response
                             }
 
+                        case "version":
+                            if let plugin_response = value as? String {
+                                self._server_version = plugin_response
+                            }
+
                         case "plugins":
                             if let plugin_response = value as? [String] {
                                 ret[key] = plugin_response
                             }
-                            
+
                         case "serverinfo", "search_location", "tokens", "bulk_upload", "token", "id":
                             if let plugin_response = value as? [String: Any] {
                                 ret[key] = plugin_response
@@ -521,6 +529,8 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                             self._handleError(SDK_Data_Errors.invalidData(inData))
                         }
                     }
+                } else if let baseline_response = main_object["version"] as? String {
+                    self._server_version = baseline_response
                 }   // No data is not an error. It's just...no data.
             } else {
                 self._handleError(SDK_Data_Errors.invalidData(inData))
@@ -792,7 +802,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                     }
                     if 400 == httpResponse.statusCode { // If we get nothing but a 400, we assume there is no user info, and go straight to completion.
                         if self._plugins.isEmpty {
-                            self._fetchBaselinePlugins()
+                            self._validateServer()
                         } else {
                             self._reportSessionValidity()   // We report whether or not this session is valid.
                             self._callDelegateLoginValid(self.isLoggedIn)   // OK. We're done. Tell the delegate whether or not we are logged in.
@@ -802,14 +812,14 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                             if 1 == object.count {
                                 self._userInfo = object[0]
                                 if self._plugins.isEmpty {
-                                    self._fetchBaselinePlugins()
+                                    self._validateServer()
                                 } else {
                                     self._reportSessionValidity()   // We report whether or not this session is valid.
                                     self._callDelegateLoginValid(self.isLoggedIn)   // OK. We're done. Tell the delegate whether or not we are logged in.
                                 }
                             } else {
                                 if self._plugins.isEmpty {
-                                    self._fetchBaselinePlugins()
+                                    self._validateServer()
                                 } else {
                                     self._reportSessionValidity()   // We report whether or not this session is valid.
                                     self._callDelegateLoginValid(self.isLoggedIn)   // OK. We're done. Tell the delegate whether or not we are logged in.
@@ -1256,9 +1266,11 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
     /**
      This method fetches the plugin array from the server. This is used as a "validity" test.
      A valid server will always return this list, and you don't need to be logged in.
+     
+     - parameter inGetVersion: If this is true (default), then we get the version first, then the plugins.
      */
-    private func _fetchBaselinePlugins() {
-        let url = self._server_uri + "/json/baseline"
+    private func _validateServer(_ inGetVersion: Bool = true) {
+        let url = self._server_uri + "/json/baseline" + (inGetVersion ? "/version" : "")
         // The plugin list is a simple GET task, so we can just use a straight-up task for this.
         if let url_object = URL(string: url) {
             type(of: self)._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
@@ -1275,7 +1287,10 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                         return
                 }
                 if let mimeType = httpResponse.mimeType, "application/json" == mimeType, let data = data {
-                    if let plugins = self._parseBaselineResponse(data: data) as? [String: [String]] {
+                    if inGetVersion {
+                        _ = self._parseBaselineResponse(data: data)
+                        self._validateServer(false)
+                    } else if let plugins = self._parseBaselineResponse(data: data) as? [String: [String]] {
                         if let plugin_array = plugins["plugins"] {
                             self._plugins = plugin_array
                             self._reportSessionValidity()   // We report whether or not this session is valid.
@@ -1296,7 +1311,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
             self._handleError(SDK_Connection_Errors.invalidServerURI(url))
         }
     }
-    
+
     /* ################################################################## */
     /**
      This method will do a search of the server, based on the input data.
@@ -2328,7 +2343,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
             self.login(loginID: inLoginId, password: inPassword, timeout: inLoginTimeout)
         } else {    // Otherwise, simply fetch the baseline plugins, which will result in the delegate being called.
             if self._plugins.isEmpty {
-                self._fetchBaselinePlugins()
+                self._validateServer()
             } else {
                 self._reportSessionValidity()   // We report whether or not this session is valid.
                 self._callDelegateLoginValid(self.isLoggedIn)   // OK. We're done. Tell the delegate whether or not we are logged in.
