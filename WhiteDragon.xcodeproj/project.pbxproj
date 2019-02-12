@@ -121,7 +121,6 @@
 				CA1F6188F2866A3C1790D89B /* Pods-WhiteDragon(iOS).debug.xcconfig */,
 				300F3D6F7F8D7970173D169F /* Pods-WhiteDragon(iOS).release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -290,7 +289,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1000;
-				LastUpgradeCheck = 1000;
+				LastUpgradeCheck = 1010;
 				ORGANIZATIONNAME = "The Great Rift Valley Software Company";
 				TargetAttributes = {
 					D48ED6B0218DF59B00380FCA = {
@@ -712,7 +711,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5DD5111C931F7BD6D9C1A61B /* Pods-WhiteDragon(OSX).debug.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
@@ -742,7 +741,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E06EA99F4E98BF478707349E /* Pods-WhiteDragon(OSX).release.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
