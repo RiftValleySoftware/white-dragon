@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <Group
+      location = "container:"
+      name = "Meta">
+      <FileRef
+         location = "group:icon.png">
+      </FileRef>
+      <FileRef
+         location = "group:README.md">
+      </FileRef>
+      <FileRef
+         location = "group:CHANGELOG.md">
+      </FileRef>
+      <FileRef
+         location = "group:LICENSE.txt">
+      </FileRef>
+      <FileRef
+         location = "group:Podfile">
+      </FileRef>
+      <FileRef
+         location = "group:WhiteDragon.podspec">
+      </FileRef>
+      <FileRef
+         location = "group:.swift-version">
+      </FileRef>
+      <FileRef
+         location = "group:.swiftlint.yml">
+      </FileRef>
+      <FileRef
+         location = "group:jazzy.command">
+      </FileRef>
+      <FileRef
+         location = "group:jazzy.yaml">
+      </FileRef>
+      <FileRef
+         location = "group:Package.swift">
+      </FileRef>
+   </Group>
+   <FileRef
+      location = "group:WhiteDragon.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:WhiteDragonTestHarness.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:Pods/Pods.xcodeproj">
+   </FileRef>
+</Workspace>
