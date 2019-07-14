@@ -86,6 +86,7 @@ extension Data {
  This makes it easy to remove duplicates from an Array.
  */
 public extension Sequence where Element: Equatable {
+    /// This is a primitive (old=fashioned) way to remove duplicates. It's better to simply cast to a Set.
     var uniqueElements: [Element] {
         return self.reduce(into: []) { uniqueElements, element in
             if !uniqueElements.contains(element) {

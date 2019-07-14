@@ -4,113 +4,136 @@
     <title>RVP_Cocoa_SDK_Delegate Protocol Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
-    <meta charset='utf-8'>
+    <meta charset="utf-8">
     <script src="../js/jquery.min.js" defer></script>
     <script src="../js/jazzy.js" defer></script>
     
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
   </head>
   <body>
+
     <a name="//apple_ref/swift/Protocol/RVP_Cocoa_SDK_Delegate" class="dashAnchor"></a>
+
     <a title="RVP_Cocoa_SDK_Delegate Protocol Reference"></a>
-    <header>
-      <div class="content-wrapper">
-        <p><a href="../index.html">WhiteDragon Docs</a> (99% documented)</p>
-        <p class="header-right"><a href="https://github.com/LittleGreenViper/white-dragon"><img src="../img/gh.png"/>View on GitHub</a></p>
-      </div>
-    </header>
-    <div class="content-wrapper">
-      <p id="breadcrumbs">
-        <a href="../index.html">WhiteDragon Reference</a>
-        <img id="carat" src="../img/carat.png" />
-        RVP_Cocoa_SDK_Delegate Protocol Reference
+
+    <header class="header">
+      <p class="header-col header-col--primary">
+        <a class="header-link" href="../index.html">
+          WhiteDragon Docs
+        </a>
+         (100% documented)
       </p>
-    </div>
+    
+      <p class="header-col--secondary">
+        <form role="search" action="../search.json">
+          <input type="text" placeholder="Search documentation" data-typeahead>
+        </form>
+      </p>
+    
+        <p class="header-col header-col--secondary">
+          <a class="header-link" href="https://github.com/LittleGreenViper/white-dragon">
+            <img class="header-icon" src="../img/gh.png"/>
+            View on GitHub
+          </a>
+        </p>
+    
+    </header>
+
+    <p class="breadcrumbs">
+      <a class="breadcrumb" href="../index.html">WhiteDragon Reference</a>
+      <img class="carat" src="../img/carat.png" />
+      RVP_Cocoa_SDK_Delegate Protocol Reference
+    </p>
+
     <div class="content-wrapper">
-      <nav class="sidebar">
+      <nav class="navigation">
         <ul class="nav-groups">
           <li class="nav-group-name">
-            <a href="../Classes.html">Classes</a>
+            <a class="nav-group-name-link" href="../Classes.html">Classes</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="../Classes/A_RVP_Cocoa_SDK_Data_Object.html">A_RVP_Cocoa_SDK_Data_Object</a>
+                <a class="nav-group-task-link" href="../Classes/A_RVP_Cocoa_SDK_Data_Object.html">A_RVP_Cocoa_SDK_Data_Object</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Classes/A_RVP_Cocoa_SDK_Object.html">A_RVP_Cocoa_SDK_Object</a>
+                <a class="nav-group-task-link" href="../Classes/A_RVP_Cocoa_SDK_Object.html">A_RVP_Cocoa_SDK_Object</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Classes/A_RVP_Cocoa_SDK_Object.html#/s:11WhiteDragon22A_RVP_Cocoa_SDK_ObjectC0C14_Change_RecordV">– RVP_Change_Record</a>
+                <a class="nav-group-task-link" href="../Classes/A_RVP_Cocoa_SDK_Object.html#/s:11WhiteDragon22A_RVP_Cocoa_SDK_ObjectC0C14_Change_RecordV">– RVP_Change_Record</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Classes/A_RVP_Cocoa_SDK_Object/Iterator.html">– Iterator</a>
+                <a class="nav-group-task-link" href="../Classes/A_RVP_Cocoa_SDK_Object/Iterator.html">– Iterator</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Classes/A_RVP_Cocoa_SDK_Security_Object.html">A_RVP_Cocoa_SDK_Security_Object</a>
+                <a class="nav-group-task-link" href="../Classes/A_RVP_Cocoa_SDK_Security_Object.html">A_RVP_Cocoa_SDK_Security_Object</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Classes/RVP_Cocoa_SDK.html">RVP_Cocoa_SDK</a>
+                <a class="nav-group-task-link" href="../Classes/RVP_Cocoa_SDK.html">RVP_Cocoa_SDK</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Classes/RVP_Cocoa_SDK/LocationSpecification.html">– LocationSpecification</a>
+                <a class="nav-group-task-link" href="../Classes/RVP_Cocoa_SDK/LocationSpecification.html">– LocationSpecification</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Classes/RVP_Cocoa_SDK.html#/s:11WhiteDragon13RVP_Cocoa_SDKC9HTTPErrorV">– HTTPError</a>
+                <a class="nav-group-task-link" href="../Classes/RVP_Cocoa_SDK.html#/s:11WhiteDragon13RVP_Cocoa_SDKC9HTTPErrorV">– HTTPError</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Classes/RVP_Cocoa_SDK/DisconnectionReason.html">– DisconnectionReason</a>
+                <a class="nav-group-task-link" href="../Classes/RVP_Cocoa_SDK/DisconnectionReason.html">– DisconnectionReason</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Classes/RVP_Cocoa_SDK/SDK_Connection_Errors.html">– SDK_Connection_Errors</a>
+                <a class="nav-group-task-link" href="../Classes/RVP_Cocoa_SDK/SDK_Connection_Errors.html">– SDK_Connection_Errors</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Classes/RVP_Cocoa_SDK/SDK_Data_Errors.html">– SDK_Data_Errors</a>
+                <a class="nav-group-task-link" href="../Classes/RVP_Cocoa_SDK/SDK_Data_Errors.html">– SDK_Data_Errors</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Classes/RVP_Cocoa_SDK/SDK_Operation_Errors.html">– SDK_Operation_Errors</a>
+                <a class="nav-group-task-link" href="../Classes/RVP_Cocoa_SDK/SDK_Operation_Errors.html">– SDK_Operation_Errors</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Classes/RVP_Cocoa_SDK/SDK_Error.html">– SDK_Error</a>
+                <a class="nav-group-task-link" href="../Classes/RVP_Cocoa_SDK/SDK_Error.html">– SDK_Error</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Classes/RVP_Cocoa_SDK/Iterator.html">– Iterator</a>
+                <a class="nav-group-task-link" href="../Classes/RVP_Cocoa_SDK/Iterator.html">– Iterator</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Classes/RVP_Cocoa_SDK_Login.html">RVP_Cocoa_SDK_Login</a>
+                <a class="nav-group-task-link" href="../Classes/RVP_Cocoa_SDK_Login.html">RVP_Cocoa_SDK_Login</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Classes/RVP_Cocoa_SDK_Payload.html">RVP_Cocoa_SDK_Payload</a>
+                <a class="nav-group-task-link" href="../Classes/RVP_Cocoa_SDK_Payload.html">RVP_Cocoa_SDK_Payload</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Classes/RVP_Cocoa_SDK_Place.html">RVP_Cocoa_SDK_Place</a>
+                <a class="nav-group-task-link" href="../Classes/RVP_Cocoa_SDK_Place.html">RVP_Cocoa_SDK_Place</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Classes/RVP_Cocoa_SDK_Thing.html">RVP_Cocoa_SDK_Thing</a>
+                <a class="nav-group-task-link" href="../Classes/RVP_Cocoa_SDK_Thing.html">RVP_Cocoa_SDK_Thing</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Classes/RVP_Cocoa_SDK_User.html">RVP_Cocoa_SDK_User</a>
+                <a class="nav-group-task-link" href="../Classes/RVP_Cocoa_SDK_User.html">RVP_Cocoa_SDK_User</a>
               </li>
             </ul>
           </li>
           <li class="nav-group-name">
-            <a href="../Extensions.html">Extensions</a>
+            <a class="nav-group-name-link" href="../Extensions.html">Extensions</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="../Extensions/Sequence.html">Sequence</a>
+                <a class="nav-group-task-link" href="../Extensions/Sequence.html">Sequence</a>
               </li>
             </ul>
           </li>
           <li class="nav-group-name">
-            <a href="../Protocols.html">Protocols</a>
+            <a class="nav-group-name-link" href="../Protocols.html">Protocols</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="../Protocols/RVP_Cocoa_SDK_Delegate.html">RVP_Cocoa_SDK_Delegate</a>
+                <a class="nav-group-task-link" href="../Protocols/RVP_Cocoa_SDK_Delegate.html">RVP_Cocoa_SDK_Delegate</a>
               </li>
             </ul>
           </li>
         </ul>
       </nav>
       <article class="main-content">
-        <section>
-          <section class="section">
+
+        <section class="section">
+          <div class="section-content">
             <h1>RVP_Cocoa_SDK_Delegate</h1>
               <div class="declaration">
                 <div class="language">
@@ -124,10 +147,13 @@
 
 <p>These are likely to be called in non-main threads, so caveat emptor.</p>
 
-          </section>
-          <section class="section task-group-section">
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-content">
             <div class="task-group">
-              <ul>
+              <ul class="item-container">
                 <li class="item">
                   <div>
                     <code>
@@ -727,14 +753,15 @@ This is called BEFORE the results of that call come, so keep in mind that it is 
                 </li>
               </ul>
             </div>
-          </section>
+          </div>
         </section>
-        <section id="footer">
-          <p>&copy; 2019 <a class="link" href="https://littlegreenviper.com" target="_blank" rel="external">The Great Rift Valley Software Company</a>. All rights reserved. (Last updated: 2019-05-29)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
-        </section>
+
       </article>
     </div>
+    <section class="footer">
+      <p>&copy; 2019 <a class="link" href="https://littlegreenviper.com" target="_blank" rel="external">The Great Rift Valley Software Company</a>. All rights reserved. (Last updated: 2019-07-14)</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+    </section>
   </body>
 </div>
 </html>
