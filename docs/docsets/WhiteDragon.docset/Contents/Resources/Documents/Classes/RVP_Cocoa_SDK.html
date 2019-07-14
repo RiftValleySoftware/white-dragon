@@ -1,0 +1,1799 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>RVP_Cocoa_SDK Class Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Class/RVP_Cocoa_SDK" class="dashAnchor"></a>
+    <a title="RVP_Cocoa_SDK Class Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">WhiteDragon Docs</a> (99% documented)</p>
+        <p class="header-right"><a href="https://github.com/LittleGreenViper/white-dragon"><img src="../img/gh.png"/>View on GitHub</a></p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">WhiteDragon Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        RVP_Cocoa_SDK Class Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/A_RVP_Cocoa_SDK_Data_Object.html">A_RVP_Cocoa_SDK_Data_Object</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/A_RVP_Cocoa_SDK_Object.html">A_RVP_Cocoa_SDK_Object</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/A_RVP_Cocoa_SDK_Object.html#/s:11WhiteDragon22A_RVP_Cocoa_SDK_ObjectC0C14_Change_RecordV">– RVP_Change_Record</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/A_RVP_Cocoa_SDK_Object/Iterator.html">– Iterator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/A_RVP_Cocoa_SDK_Security_Object.html">A_RVP_Cocoa_SDK_Security_Object</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/RVP_Cocoa_SDK.html">RVP_Cocoa_SDK</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/RVP_Cocoa_SDK/LocationSpecification.html">– LocationSpecification</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/RVP_Cocoa_SDK.html#/s:11WhiteDragon13RVP_Cocoa_SDKC9HTTPErrorV">– HTTPError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/RVP_Cocoa_SDK/DisconnectionReason.html">– DisconnectionReason</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/RVP_Cocoa_SDK/SDK_Connection_Errors.html">– SDK_Connection_Errors</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/RVP_Cocoa_SDK/SDK_Data_Errors.html">– SDK_Data_Errors</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/RVP_Cocoa_SDK/SDK_Operation_Errors.html">– SDK_Operation_Errors</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/RVP_Cocoa_SDK/SDK_Error.html">– SDK_Error</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/RVP_Cocoa_SDK/Iterator.html">– Iterator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/RVP_Cocoa_SDK_Login.html">RVP_Cocoa_SDK_Login</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/RVP_Cocoa_SDK_Payload.html">RVP_Cocoa_SDK_Payload</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/RVP_Cocoa_SDK_Place.html">RVP_Cocoa_SDK_Place</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/RVP_Cocoa_SDK_Thing.html">RVP_Cocoa_SDK_Thing</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/RVP_Cocoa_SDK_User.html">RVP_Cocoa_SDK_User</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Extensions/Sequence.html">Sequence</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/RVP_Cocoa_SDK_Delegate.html">RVP_Cocoa_SDK_Delegate</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>RVP_Cocoa_SDK</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">RVP_Cocoa_SDK</span> <span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt">Sequence</span><span class="p">,</span> <span class="kt">URLSessionDelegate</span></code></pre>
+
+                </div>
+              </div>
+            <p>This class represents the public interface to the White Dragon Great Rift Valley Platform BAOBAB Server iOS SDK framework.</p>
+
+<p>The SDK is a Swift-only shared framework for use by Swift applications, targeting iOS 11 or above.</p>
+
+<p>This system works by caching retrieved objects in the main SDK instance, and referencing them. This is different from the PHP SDK, where each object is an
+independent instance and state. Swift likes objects to be referenced, as opposed to copied, so we honor that. Since the SDK is really an ORM, this makes sense.</p>
+
+<p>This class follows the Sequence protocol, so its cached instances can be iterated and subscripted. These instances are kept sorted by ID and database.</p>
+
+<p>The SDK opens a session to the server upon instantiation, and maintains that throughout its lifecycle. This happens whether or not a login is done.</p>
+
+<p>It can also have an open session passed in at instantiation, and it will use that session.</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Public%20Types%20and%20Structs"></a>
+                <a name="//apple_ref/swift/Section/Public Types and Structs" class="dashAnchor"></a>
+                <a href="#/Public%20Types%20and%20Structs">
+                  <h3 class="section-name">Public Types and Structs</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC7Elementa"></a>
+                    <a name="//apple_ref/swift/Alias/Element" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC7Elementa">Element</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>This is the element type for the Sequence protocol.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">Element</span> <span class="o">=</span> <span class="kt"><a href="../Classes/A_RVP_Cocoa_SDK_Object.html">A_RVP_Cocoa_SDK_Object</a></span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC21LocationSpecificationV"></a>
+                    <a name="//apple_ref/swift/Struct/LocationSpecification" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC21LocationSpecificationV">LocationSpecification</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>This is how we specify the location for searches.</p>
+
+<ul>
+<li>coords: A lat/long coordinate (in degrees) of the location</li>
+<li>radiusInKm: A distance within which the search will be performed.</li>
+<li>autoRadiusThreshold: An optional field with a minimum number of results.</li>
+</ul>
+
+                        <a href="../Classes/RVP_Cocoa_SDK/LocationSpecification.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">LocationSpecification</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC9HTTPErrorV"></a>
+                    <a name="//apple_ref/swift/Struct/HTTPError" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC9HTTPErrorV">HTTPError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>This is a quick resolver for the basic HTTP status.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">HTTPError</span> <span class="p">:</span> <span class="kt">Error</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Public%20Enums"></a>
+                <a name="//apple_ref/swift/Section/Public Enums" class="dashAnchor"></a>
+                <a href="#/Public%20Enums">
+                  <h3 class="section-name">Public Enums</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC19DisconnectionReasonO"></a>
+                    <a name="//apple_ref/swift/Enum/DisconnectionReason" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC19DisconnectionReasonO">DisconnectionReason</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>This enum lists the various reasons that the server connection may be disconnected.</p>
+
+<p>These are supplied in the delegate method.</p>
+
+                        <a href="../Classes/RVP_Cocoa_SDK/DisconnectionReason.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">DisconnectionReason</span> <span class="p">:</span> <span class="kt">Int</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC0E18_Connection_ErrorsO"></a>
+                    <a name="//apple_ref/swift/Enum/SDK_Connection_Errors" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC0E18_Connection_ErrorsO">SDK_Connection_Errors</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>These are the errors that may occur when we are trying to connect to the server.</p>
+
+                        <a href="../Classes/RVP_Cocoa_SDK/SDK_Connection_Errors.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">SDK_Connection_Errors</span> <span class="p">:</span> <span class="kt">Error</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC0E12_Data_ErrorsO"></a>
+                    <a name="//apple_ref/swift/Enum/SDK_Data_Errors" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC0E12_Data_ErrorsO">SDK_Data_Errors</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>These are the errors that may occur while we are trying to parse the data returned from the server.</p>
+
+                        <a href="../Classes/RVP_Cocoa_SDK/SDK_Data_Errors.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">SDK_Data_Errors</span> <span class="p">:</span> <span class="kt">Error</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC0E17_Operation_ErrorsO"></a>
+                    <a name="//apple_ref/swift/Enum/SDK_Operation_Errors" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC0E17_Operation_ErrorsO">SDK_Operation_Errors</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>These are errors in the SDK operation.</p>
+
+                        <a href="../Classes/RVP_Cocoa_SDK/SDK_Operation_Errors.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">SDK_Operation_Errors</span> <span class="p">:</span> <span class="kt">Error</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC0E6_ErrorO"></a>
+                    <a name="//apple_ref/swift/Enum/SDK_Error" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC0E6_ErrorO">SDK_Error</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>These are supplied in the delegate method.</p>
+
+                        <a href="../Classes/RVP_Cocoa_SDK/SDK_Error.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">SDK_Error</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Public%20Calculated%20Properties"></a>
+                <a name="//apple_ref/swift/Section/Public Calculated Properties" class="dashAnchor"></a>
+                <a href="#/Public%20Calculated%20Properties">
+                  <h3 class="section-name">Public Calculated Properties</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC10isLoggedInSbvp"></a>
+                    <a name="//apple_ref/swift/Property/isLoggedIn" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC10isLoggedInSbvp">isLoggedIn</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>This is a computed property that will return true if the login is valid.</p>
+
+<p>Logins only last so long, at which time a new API key should be fetched.</p>
+
+<p>Returns true, if we are logged in, and the time interval has not passed.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">isLoggedIn</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC9isManagerSbvp"></a>
+                    <a name="//apple_ref/swift/Property/isManager" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC9isManagerSbvp">isManager</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>This is a test to see if the currently logged-in user is a manager.</p>
+
+<p>Returns true, if we are logged in as at least a manager user.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">isManager</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC11isMainAdminSbvp"></a>
+                    <a name="//apple_ref/swift/Property/isMainAdmin" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC11isMainAdminSbvp">isMainAdmin</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>This is a test to see if the currently logged-in user is a manager.</p>
+
+<p>Returns true, if we are logged in as the main (<q>God</q>) user.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">isMainAdmin</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC7isValidSbvp"></a>
+                    <a name="//apple_ref/swift/Property/isValid" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC7isValidSbvp">isValid</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>This is a computed property that will return true if the server connection is valid (regardless of login status).</p>
+
+<p>NOTE: This will not be valid until after the preliminary communications have completed (the delegate has been called with sdkInstance(_:,loginValid:)).</p>
+
+<p>Returns true, if we have a list of plugins, which means that we were able to communicate with the server.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">isValid</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC14securityTokensSaySiGvp"></a>
+                    <a name="//apple_ref/swift/Property/securityTokens" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC14securityTokensSaySiGvp">securityTokens</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns an Array of Int, with the current tokens. If logged in, then this will be at least 1, and the current ID of the login. If not logged in, this will return an empty Array.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">securityTokens</span><span class="p">:</span> <span class="p">[</span><span class="kt">Int</span><span class="p">]</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC5countSivp"></a>
+                    <a name="//apple_ref/swift/Property/count" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC5countSivp">count</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns the number of data items in our cache.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">count</span><span class="p">:</span> <span class="kt">Int</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC7isEmptySbvp"></a>
+                    <a name="//apple_ref/swift/Property/isEmpty" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC7isEmptySbvp">isEmpty</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns true, if we have no items in our cache.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">isEmpty</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC7pluginsSaySSGvp"></a>
+                    <a name="//apple_ref/swift/Property/plugins" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC7pluginsSaySSGvp">plugins</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns the Array of plugins (if the SDK is connected to a valid server).</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">plugins</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC22autoRadiusStepSizeInKmSdvp"></a>
+                    <a name="//apple_ref/swift/Property/autoRadiusStepSizeInKm" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC22autoRadiusStepSizeInKmSdvp">autoRadiusStepSizeInKm</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns the step size, in kilometers, of the auto-radius search.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">autoRadiusStepSizeInKm</span><span class="p">:</span> <span class="kt">Double</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11WhiteDragon13RVP_Cocoa_SDKCyAA02A_c1_d1_E7_ObjectCSgSicip"></a>
+                    <a name="//apple_ref/swift/Method/subscript(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKCyAA02A_c1_d1_E7_ObjectCSgSicip">subscript(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>This allows the instance to be treated like a simple Array.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">subscript</span><span class="p">(</span><span class="nv">inIndex</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/RVP_Cocoa_SDK.html#/s:11WhiteDragon13RVP_Cocoa_SDKC7Elementa">Element</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>_</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The 0-based index we are addressing.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ST8IteratorQa"></a>
+                    <a name="//apple_ref/swift/Struct/Iterator" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ST8IteratorQa">Iterator</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>This is the Sequence Iterator Struct.</p>
+
+                        <a href="../Classes/RVP_Cocoa_SDK/Iterator.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Iterator</span> <span class="p">:</span> <span class="kt">IteratorProtocol</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC11myLoginInfoAA0c1_d1_e1_G0CSgvp"></a>
+                    <a name="//apple_ref/swift/Property/myLoginInfo" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC11myLoginInfoAA0c1_d1_e1_G0CSgvp">myLoginInfo</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>This is the login info for our current login. Returns nil, if not logged in.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">myLoginInfo</span><span class="p">:</span> <span class="kt"><a href="../Classes/RVP_Cocoa_SDK_Login.html">RVP_Cocoa_SDK_Login</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC10myUserInfoAA0c1_d1_e1_G0CSgvp"></a>
+                    <a name="//apple_ref/swift/Property/myUserInfo" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC10myUserInfoAA0c1_d1_e1_G0CSgvp">myUserInfo</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>This is the user info for our current login. Returns nil, if not logged in, or we don&rsquo;t have any user info associated with the login.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">myUserInfo</span><span class="p">:</span> <span class="kt"><a href="../Classes/RVP_Cocoa_SDK_User.html">RVP_Cocoa_SDK_User</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Public%20Stored%20Properties"></a>
+                <a name="//apple_ref/swift/Section/Public Stored Properties" class="dashAnchor"></a>
+                <a href="#/Public%20Stored%20Properties">
+                  <h3 class="section-name">Public Stored Properties</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC14searchLocationSo22CLLocationCoordinate2DVSgvp"></a>
+                    <a name="//apple_ref/swift/Property/searchLocation" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC14searchLocationSo22CLLocationCoordinate2DVSgvp">searchLocation</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>This is a special <q>settable</q> property with the center of a radius search.
+If the object already has a <q>distance</q> property returned from the server,
+this is ignored. Otherwise, if it is provided, and the object has a long/lat,
+the <q>distance</q> read-only property will return a Vincenty&rsquo;s Formulae distance
+in Kilometers from this center.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">searchLocation</span><span class="p">:</span> <span class="kt">CLLocationCoordinate2D</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Public%20Instance%20Methods"></a>
+                <a name="//apple_ref/swift/Section/Public Instance Methods" class="dashAnchor"></a>
+                <a href="#/Public%20Instance%20Methods">
+                  <h3 class="section-name">Public Instance Methods</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC9serverURI0F6Secret8delegate7loginID8password7timeout7sessionACSS_SSAA0c1_d1_E9_Delegate_pSSSgALSdSgSo12NSURLSessionCSgtcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(serverURI:serverSecret:delegate:loginID:password:timeout:session:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC9serverURI0F6Secret8delegate7loginID8password7timeout7sessionACSS_SSAA0c1_d1_E9_Delegate_pSSSgALSdSgSo12NSURLSessionCSgtcfc">init(serverURI:serverSecret:delegate:loginID:password:timeout:session:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>This is the required default initializer.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="n">serverURI</span> <span class="nv">inServerURI</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">serverSecret</span> <span class="nv">inServerSecret</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">delegate</span> <span class="nv">inDelegate</span><span class="p">:</span> <span class="kt"><a href="../Protocols/RVP_Cocoa_SDK_Delegate.html">RVP_Cocoa_SDK_Delegate</a></span><span class="p">,</span> <span class="n">loginID</span> <span class="nv">inLoginID</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="n">password</span> <span class="nv">inPassword</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="n">timeout</span> <span class="nv">inLoginTimeout</span><span class="p">:</span> <span class="kt">TimeInterval</span><span class="o">!</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="n">session</span> <span class="nv">inURLSession</span><span class="p">:</span> <span class="kt">URLSession</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>serverURI</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>(REQUIRED) A String, with the URI to a valid BAOBAB Server</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>serverSecret</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>(REQUIRED) A String, with the Server secret for the target server.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>delegate</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>(REQUIRED) A RVP_IOS_SDK_Delegate that will receive updates from the SDK instance.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>loginID</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>(OPTIONAL/REQUIRED) A String, with a login ID. If provided, then you must also provide inPassword and inLoginTimeout.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>password</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>(OPTIONAL/REQUIRED) A String, with a login password. If provided, then you must also provide inLoginId and inLoginTimeout.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>timeout</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>(OPTIONAL/REQUIRED) A Floating-point value, with the number of seconds the login has to be active. If provided, then you must also provide inLoginId and inPassword.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>session</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>(OPTIONAL) This allows the caller to have their own URLSession established (often, there is only one per app), so we can hitch a ride with that session. Otherwise, we create our own. The session must be ephemeral.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC13deleteObjectsyySayAA02A_c1_d1_E7_ObjectCGF"></a>
+                    <a name="//apple_ref/swift/Method/deleteObjects(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC13deleteObjectsyySayAA02A_c1_d1_E7_ObjectCGF">deleteObjects(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>This is called with a list of one or more objects to be deleted from the server.</p>
+
+<p>This will sort through the objects, and will only delete ones we currently have cached.
+It will figure out whether or not the object is a security object or a data object, and perform the required deletion for each type.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">deleteObjects</span><span class="p">(</span><span class="n">_</span> <span class="nv">inItemArray</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/A_RVP_Cocoa_SDK_Object.html">A_RVP_Cocoa_SDK_Object</a></span><span class="p">])</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>inItemArray</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An Array of concrete instances of subclasses of A_RVP_IOS_SDK_Object.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC7connect7loginID8password7timeoutySSSg_AHSdSgtF"></a>
+                    <a name="//apple_ref/swift/Method/connect(loginID:password:timeout:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC7connect7loginID8password7timeoutySSSg_AHSdSgtF">connect(loginID:password:timeout:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>This will connect to the server. If login credentials are provided, then it will also log in.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">connect</span><span class="p">(</span><span class="n">loginID</span> <span class="nv">inLoginId</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="n">password</span> <span class="nv">inPassword</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="n">timeout</span> <span class="nv">inLoginTimeout</span><span class="p">:</span> <span class="kt">TimeInterval</span><span class="o">!</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>loginId</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>(OPTIONAL) A String, with a login ID. If provided, then you must also provide inPassword and inLoginTimeout.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>password</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>(OPTIONAL) A String, with a login password. If provided, then you must also provide inLoginId and inLoginTimeout.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>timeout</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>(OPTIONAL) A Floating-point value, with the number of seconds the login has to be active. If provided, then you must also provide inLoginId and inPassword.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC5login0F2ID8password7timeoutySS_SSSdtF"></a>
+                    <a name="//apple_ref/swift/Method/login(loginID:password:timeout:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC5login0F2ID8password7timeoutySS_SSSdtF">login(loginID:password:timeout:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>This is the standard login method.</p>
+
+<p>When we log in, we go through the process of getting the API key (sending the login info), then getting our login information, our user information (if available), and the baseline plugins.</p>
+
+<p>After all that, the delegate will be called with the login valid/invalid response.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">login</span><span class="p">(</span><span class="n">loginID</span> <span class="nv">inLoginID</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">password</span> <span class="nv">inPassword</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">timeout</span> <span class="nv">inLoginTimeout</span><span class="p">:</span> <span class="kt">TimeInterval</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>loginID</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>(REQUIRED) A String, with a login ID.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>password</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>(REQUIRED) A String, with a login password.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>timeout</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>(REQUIRED) A Floating-point value, with the number of seconds the login has to be active.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC6logoutyyF"></a>
+                    <a name="//apple_ref/swift/Method/logout()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC6logoutyyF">logout()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>This is the logout method.</p>
+
+<p>You must already be logged in for this to do anything. If so, it simply asks the server to log us out.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">logout</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC10flushCacheyyF"></a>
+                    <a name="//apple_ref/swift/Method/flushCache()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC10flushCacheyyF">flushCache()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>This simply empties our cache, forcing the next load to go out to the server.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">flushCache</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC19createUserLoginPair11loginString4nameySS_SStF"></a>
+                    <a name="//apple_ref/swift/Method/createUserLoginPair(loginString:name:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC19createUserLoginPair11loginString4nameySS_SStF">createUserLoginPair(loginString:name:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The way that this works, is that the main app calls createUserLoginPair(loginString:,name:),
+and a semaphore is set. The SDK then attempts to create the login object.
+If that is successful, then it will continue, and create the user object to accompany
+the new login object, after informing the delegate of the new login object, but will not be called
+with the sdkInstance(_:,fetchedDataItems:) call.
+If the login object creation fails, the main app delegate will be called with an error.
+If it is successful, the delegate is then called with the new user object.
+This will create a completely <q>bald</q> set of objects, with only the login ID, name, and default
+security tokens.
+This can only be called if you are logged in as a manager.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">createUserLoginPair</span><span class="p">(</span><span class="n">loginString</span> <span class="nv">inLoginStringID</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">name</span> <span class="nv">inName</span><span class="p">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">""</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>loginString</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The Requested login ID string. It must be unique in the server, and the operation will fail, if it is already taken.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>name</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A requested name for the objects (will be applied to both). It is optional. If not supplied, the Login ID will be used for the name.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC19fetchDataItemsByIDs_9andPlugin19dontNukeTheLocationySaySiG_SSSgSbtF"></a>
+                    <a name="//apple_ref/swift/Method/fetchDataItemsByIDs(_:andPlugin:dontNukeTheLocation:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC19fetchDataItemsByIDs_9andPlugin19dontNukeTheLocationySaySiG_SSSgSbtF">fetchDataItemsByIDs(_:andPlugin:dontNukeTheLocation:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>This is a general method for fetching items from the data database, by their numerical IDs.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">fetchDataItemsByIDs</span><span class="p">(</span><span class="n">_</span> <span class="nv">inIntegerIDs</span><span class="p">:</span> <span class="p">[</span><span class="kt">Int</span><span class="p">],</span> <span class="n">andPlugin</span> <span class="nv">inPlugin</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="s">"baseline"</span><span class="p">,</span> <span class="n">dontNukeTheLocation</span> <span class="nv">inDontNuke</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>inIntegerIDs</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An Array of Int, with the data database IDs of the data database objects Requested.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>andPlugin</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An optional String, with the required plugin (<q>people</q>, <q>places</q> or <q>things</q>). If nil, then the baseline plugin is invoked, which will fetch any object, regardless of plugin.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC24fetchBaselineObjectsByIDyySaySiGF"></a>
+                    <a name="//apple_ref/swift/Method/fetchBaselineObjectsByID(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC24fetchBaselineObjectsByIDyySaySiGF">fetchBaselineObjectsByID(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>This method will initiate a fetch of all types of objects, based upon a list of IDs.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">fetchBaselineObjectsByID</span><span class="p">(</span><span class="n">_</span> <span class="nv">inIDArray</span><span class="p">:</span> <span class="p">[</span><span class="kt">Int</span><span class="p">])</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>inIDArray</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An Array of Int, with the data database IDs of the place objects Requested.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC11fetchPlacesyySaySiGF"></a>
+                    <a name="//apple_ref/swift/Method/fetchPlaces(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC11fetchPlacesyySaySiGF">fetchPlaces(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>This method will initiate a fetch of place objects, based upon a list of IDs.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">fetchPlaces</span><span class="p">(</span><span class="n">_</span> <span class="nv">inPlaceIDArray</span><span class="p">:</span> <span class="p">[</span><span class="kt">Int</span><span class="p">])</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>inPlaceIDArray</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An Array of Int, with the data database IDs of the place objects Requested.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC10fetchUsersyySaySiGF"></a>
+                    <a name="//apple_ref/swift/Method/fetchUsers(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC10fetchUsersyySaySiGF">fetchUsers(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>This method will initiate a fetch of user objects, based upon a list of IDs.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">fetchUsers</span><span class="p">(</span><span class="n">_</span> <span class="nv">inUserIntegerIDArray</span><span class="p">:</span> <span class="p">[</span><span class="kt">Int</span><span class="p">])</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>inUserIntegerIDArray</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An Array of Int, with the data database IDs of the user objects Requested.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC11fetchThingsyySaySiGF"></a>
+                    <a name="//apple_ref/swift/Method/fetchThings(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC11fetchThingsyySaySiGF">fetchThings(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>This fetches thing objects from the data database server.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">fetchThings</span><span class="p">(</span><span class="n">_</span> <span class="nv">inThingIntegerIDArray</span><span class="p">:</span> <span class="p">[</span><span class="kt">Int</span><span class="p">])</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>inThingIntegerIDArray</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An Array of Int, with the data database IDs of the thing objects Requested.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC11fetchThingsyySaySSGF"></a>
+                    <a name="//apple_ref/swift/Method/fetchThings(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC11fetchThingsyySaySSGF">fetchThings(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>This fetches thing objects from the data database server.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">fetchThings</span><span class="p">(</span><span class="n">_</span> <span class="nv">inKeys</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">])</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>inKeys</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An Array of String, with the thing keys.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC11fetchLoginsyySaySiGF"></a>
+                    <a name="//apple_ref/swift/Method/fetchLogins(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC11fetchLoginsyySaySiGF">fetchLogins(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>This method will initiate a fetch of login objects, based upon a list of IDs.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">fetchLogins</span><span class="p">(</span><span class="n">_</span> <span class="nv">inLoginIntegerIDArray</span><span class="p">:</span> <span class="p">[</span><span class="kt">Int</span><span class="p">])</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>inLoginIntegerIDArray</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An Array of Int, with the security database IDs of the login objects Requested.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC11fetchLoginsyySaySSGF"></a>
+                    <a name="//apple_ref/swift/Method/fetchLogins(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC11fetchLoginsyySaySSGF">fetchLogins(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>This method will initiate a fetch of login objects, based upon a list of IDs.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">fetchLogins</span><span class="p">(</span><span class="n">_</span> <span class="nv">inLoginStringIDArray</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">])</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>inLoginStringIDArray</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An Array of String, with the string login IDs of the login objects Requested.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC25fetchObjectsUsingCriteria_11andLocation10withPluginySDyS2SGSg_AC0K13SpecificationVSgSStF"></a>
+                    <a name="//apple_ref/swift/Method/fetchObjectsUsingCriteria(_:andLocation:withPlugin:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC25fetchObjectsUsingCriteria_11andLocation10withPluginySDyS2SGSg_AC0K13SpecificationVSgSStF">fetchObjectsUsingCriteria(_:andLocation:withPlugin:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>This method starts a <q>generic</q> search, based upon the input given.</p>
+
+<p>Possible inTagValues keys are:</p>
+
+<ul>
+<li><q>tag0</q>, <q>venue</q> (you cannot directly search for the login ID of a user with this method, but you can look for a baseline tag0 value, which is the user login as an Int. Same for thing keys, which are String.)</li>
+<li><q>tag1</q>, <q>streetAddress</q>, <q>surname</q>, <q>description</q></li>
+<li><q>tag2</q>, <q>extraInformation</q>, <q>middleName</q></li>
+<li><q>tag3</q>, <q>town</q>, <q>givenName</q></li>
+<li><q>tag4</q>, <q>county</q>, <q>nickname</q></li>
+<li><q>tag5</q>, <q>state</q>, <q>prefix</q></li>
+<li><q>tag6</q>, <q>postalCode</q>, <q>suffix</q></li>
+<li><q>tag7</q>, <q>nation</q></li>
+<li><q>tag8</q></li>
+<li><p><q>tag9</q></p></li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">fetchObjectsUsingCriteria</span><span class="p">(</span><span class="n">_</span> <span class="nv">inTagValues</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span> <span class="p">:</span> <span class="kt">String</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="n">andLocation</span> <span class="nv">inLocation</span><span class="p">:</span> <span class="kt"><a href="../Classes/RVP_Cocoa_SDK/LocationSpecification.html">LocationSpecification</a></span><span class="o">!</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="n">withPlugin</span> <span class="nv">inPlugin</span><span class="p">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">"baseline"</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>inTagValues</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>This is an optional String-key Dictionary, with the key being any one of these values (on the same line means it must be one of the values). The order is tag, places, people, things:
+                       The value must be a String, but, in some cases, it may be a string representation of an integer.
+                       The values can use SQL-style wildcards (%) and are case-insensitive.
+                       If the object has one of its tags with a matching string (and the user has permission), it may be added to the returned set.
+                       Despite the plugin-specific keys, the search will search the tag position of all records, so specifying a givenName of <q>Billings</q> will also return any Place object that has a <q>town</q> of <q>Billings</q>.
+                       If this is not specified, or is empty, then all results will be returned.
+                       In order to be considered in a location-based search (andLocation is set to a location), then the objects need to have a lat/long value assigned.
+                       if a value in inTagValues is an empty String (&ldquo;<q>), then the search will search explicitly for objects that do not have a value in that tag.
+                       if a value in inTagValues has only a wildcard (</q>%&rdquo;), then that means that only objects that have non-empty values of that tag will be returned; regardless of the content of the tag.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>andLocation</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>This is a tuple with the following structure:
+                           - <strong>coords</strong> This is a required CLLocationCoordinate2D struct, with a latitude and longitude.
+                           - <strong>radiusInKm</strong> This is a CLLocationDistance (Double) number, with a requested radius (in kilometers). If autoRadiusThreshold is set, and greater than zero, then this is a <q>maximum</q> radius. If the auto radius threshold is not specified, this is the full radius.
+                           - <strong>autoRadiusThreshold</strong> This is an optional Int, with a <q>threshold</q> number of results to be returned in an <q>auto-radius hunt.</q>
+                               This means that the SDK will search from the <q>coords</q> location, out, in progressively widening circles, until it either gets <em>at least</em> the number in this value, or reaches the maximum radius in <q>radiusInKm.</q>
+                               If this is specified, the <q>radiusInKm</q> specifies the maximum radius to search. At the end of that search, any resources found will be returned, even if they are fewer than requested.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>withPlugin</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>This is an optional String. It can specify that only a certain plugin will be searched. For the default plugins, this can only be <q>baseline</q>, <q>people</q>, <q>places</q>, and <q>things</q>.
+                       If not specified, then the <q>baseline</q> plugin will be searched (returns all types).</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Public%20Sequence%20Protocol%20Methods"></a>
+                <a name="//apple_ref/swift/Section/Public Sequence Protocol Methods" class="dashAnchor"></a>
+                <a href="#/Public%20Sequence%20Protocol%20Methods">
+                  <h3 class="section-name">Public Sequence Protocol Methods</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC12makeIteratorAC0G0VyF"></a>
+                    <a name="//apple_ref/swift/Method/makeIterator()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC12makeIteratorAC0G0VyF">makeIterator()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">makeIterator</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">RVP_Cocoa_SDK</span><span class="o">.</span><span class="kt"><a href="../Classes/RVP_Cocoa_SDK/Iterator.html">Iterator</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>a new iterator for the instance.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2019 <a class="link" href="https://littlegreenviper.com" target="_blank" rel="external">The Great Rift Valley Software Company</a>. All rights reserved. (Last updated: 2019-05-29)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

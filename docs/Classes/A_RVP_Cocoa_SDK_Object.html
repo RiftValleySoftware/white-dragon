@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>A_RVP_Cocoa_SDK_Object Class Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Class/A_RVP_Cocoa_SDK_Object" class="dashAnchor"></a>
+    <a title="A_RVP_Cocoa_SDK_Object Class Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">WhiteDragon Docs</a> (99% documented)</p>
+        <p class="header-right"><a href="https://github.com/LittleGreenViper/white-dragon"><img src="../img/gh.png"/>View on GitHub</a></p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">WhiteDragon Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        A_RVP_Cocoa_SDK_Object Class Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/A_RVP_Cocoa_SDK_Data_Object.html">A_RVP_Cocoa_SDK_Data_Object</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/A_RVP_Cocoa_SDK_Object.html">A_RVP_Cocoa_SDK_Object</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/A_RVP_Cocoa_SDK_Object.html#/s:11WhiteDragon22A_RVP_Cocoa_SDK_ObjectC0C14_Change_RecordV">– RVP_Change_Record</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/A_RVP_Cocoa_SDK_Object/Iterator.html">– Iterator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/A_RVP_Cocoa_SDK_Security_Object.html">A_RVP_Cocoa_SDK_Security_Object</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/RVP_Cocoa_SDK.html">RVP_Cocoa_SDK</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/RVP_Cocoa_SDK/LocationSpecification.html">– LocationSpecification</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/RVP_Cocoa_SDK.html#/s:11WhiteDragon13RVP_Cocoa_SDKC9HTTPErrorV">– HTTPError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/RVP_Cocoa_SDK/DisconnectionReason.html">– DisconnectionReason</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/RVP_Cocoa_SDK/SDK_Connection_Errors.html">– SDK_Connection_Errors</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/RVP_Cocoa_SDK/SDK_Data_Errors.html">– SDK_Data_Errors</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/RVP_Cocoa_SDK/SDK_Operation_Errors.html">– SDK_Operation_Errors</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/RVP_Cocoa_SDK/SDK_Error.html">– SDK_Error</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/RVP_Cocoa_SDK/Iterator.html">– Iterator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/RVP_Cocoa_SDK_Login.html">RVP_Cocoa_SDK_Login</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/RVP_Cocoa_SDK_Payload.html">RVP_Cocoa_SDK_Payload</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/RVP_Cocoa_SDK_Place.html">RVP_Cocoa_SDK_Place</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/RVP_Cocoa_SDK_Thing.html">RVP_Cocoa_SDK_Thing</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/RVP_Cocoa_SDK_User.html">RVP_Cocoa_SDK_User</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Extensions/Sequence.html">Sequence</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/RVP_Cocoa_SDK_Delegate.html">RVP_Cocoa_SDK_Delegate</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>A_RVP_Cocoa_SDK_Object</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">A_RVP_Cocoa_SDK_Object</span> <span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt">Sequence</span></code></pre>
+
+                </div>
+              </div>
+            <p>This is the fundamental base class for the various data item classes. It aggregates a bunch of generic functionality that can be applied across the board.</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Public%20Data%20Structures"></a>
+                <a name="//apple_ref/swift/Section/Public Data Structures" class="dashAnchor"></a>
+                <a href="#/Public%20Data%20Structures">
+                  <h3 class="section-name">Public Data Structures</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11WhiteDragon22A_RVP_Cocoa_SDK_ObjectC0C14_Change_RecordV"></a>
+                    <a name="//apple_ref/swift/Struct/RVP_Change_Record" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon22A_RVP_Cocoa_SDK_ObjectC0C14_Change_RecordV">RVP_Change_Record</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>This is a change record struct.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">RVP_Change_Record</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Public%20Properties%20and%20Calculated%20Properties"></a>
+                <a name="//apple_ref/swift/Section/Public Properties and Calculated Properties" class="dashAnchor"></a>
+                <a href="#/Public%20Properties%20and%20Calculated%20Properties">
+                  <h3 class="section-name">Public Properties and Calculated Properties</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11WhiteDragon22A_RVP_Cocoa_SDK_ObjectC12asDictionarySDySSypSgGvp"></a>
+                    <a name="//apple_ref/swift/Property/asDictionary" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon22A_RVP_Cocoa_SDK_ObjectC12asDictionarySDySSypSgGvp">asDictionary</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>This returns keys that are the same as calculated public properties, so you can use it
+to get the methods/calculated properties you need to make changes.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">asDictionary</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span> <span class="p">:</span> <span class="kt">Any</span><span class="p">?]</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>all of the values for this object, as a Dictionary. READ ONLY</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11WhiteDragon22A_RVP_Cocoa_SDK_ObjectC2idSivp"></a>
+                    <a name="//apple_ref/swift/Property/id" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon22A_RVP_Cocoa_SDK_ObjectC2idSivp">id</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">id</span><span class="p">:</span> <span class="kt">Int</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>the object ID, as an Int. READ ONLY</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11WhiteDragon22A_RVP_Cocoa_SDK_ObjectC4nameSSvp"></a>
+                    <a name="//apple_ref/swift/Property/name" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon22A_RVP_Cocoa_SDK_ObjectC4nameSSvp">name</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>the object name, as a String</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11WhiteDragon22A_RVP_Cocoa_SDK_ObjectC4langSSvp"></a>
+                    <a name="//apple_ref/swift/Property/lang" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon22A_RVP_Cocoa_SDK_ObjectC4langSSvp">lang</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">lang</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>the language</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11WhiteDragon22A_RVP_Cocoa_SDK_ObjectC11isWriteableSbvp"></a>
+                    <a name="//apple_ref/swift/Property/isWriteable" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon22A_RVP_Cocoa_SDK_ObjectC11isWriteableSbvp">isWriteable</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">isWriteable</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>true, if the current login can edit this record. READ ONLY</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11WhiteDragon22A_RVP_Cocoa_SDK_ObjectC7isDirtySbvp"></a>
+                    <a name="//apple_ref/swift/Property/isDirty" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon22A_RVP_Cocoa_SDK_ObjectC7isDirtySbvp">isDirty</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">isDirty</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>true, if the data in the object has been changed since it was first created. READ ONLY</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11WhiteDragon22A_RVP_Cocoa_SDK_ObjectC5isNewSbvp"></a>
+                    <a name="//apple_ref/swift/Property/isNew" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon22A_RVP_Cocoa_SDK_ObjectC5isNewSbvp">isNew</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">isNew</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>true, if the object is a new object that did not come from the server. READ ONLY</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11WhiteDragon22A_RVP_Cocoa_SDK_ObjectC9readTokenSivp"></a>
+                    <a name="//apple_ref/swift/Property/readToken" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon22A_RVP_Cocoa_SDK_ObjectC9readTokenSivp">readToken</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><strong>NOTE:</strong> Although this will let anyone with write permission set the token, it will not be accepted on the server, unless the admin also has the token.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">readToken</span><span class="p">:</span> <span class="kt">Int</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>the read token, as an Int.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11WhiteDragon22A_RVP_Cocoa_SDK_ObjectC10writeTokenSivp"></a>
+                    <a name="//apple_ref/swift/Property/writeToken" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon22A_RVP_Cocoa_SDK_ObjectC10writeTokenSivp">writeToken</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><strong>NOTE:</strong> Although this will let anyone with write permission set the token, it will not be accepted on the server, unless the admin also has the token.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">writeToken</span><span class="p">:</span> <span class="kt">Int</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>the write token, as an Int.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11WhiteDragon22A_RVP_Cocoa_SDK_ObjectC10lastAccess10Foundation4DateVSgvp"></a>
+                    <a name="//apple_ref/swift/Property/lastAccess" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon22A_RVP_Cocoa_SDK_ObjectC10lastAccess10Foundation4DateVSgvp">lastAccess</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">lastAccess</span><span class="p">:</span> <span class="kt">Date</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>the last time the object was accessed. Nil, if no date available. READ ONLY</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11WhiteDragon22A_RVP_Cocoa_SDK_ObjectC11sdkInstanceAA0c1_d1_E0CSgvp"></a>
+                    <a name="//apple_ref/swift/Property/sdkInstance" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon22A_RVP_Cocoa_SDK_ObjectC11sdkInstanceAA0c1_d1_E0CSgvp">sdkInstance</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">sdkInstance</span><span class="p">:</span> <span class="kt"><a href="../Classes/RVP_Cocoa_SDK.html">RVP_Cocoa_SDK</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>the SDK instance that <q>owns</q> this instance. READ ONLY</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Public%20Instance%20Methods"></a>
+                <a name="//apple_ref/swift/Section/Public Instance Methods" class="dashAnchor"></a>
+                <a href="#/Public%20Instance%20Methods">
+                  <h3 class="section-name">Public Instance Methods</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11WhiteDragon22A_RVP_Cocoa_SDK_ObjectC11sdkInstance14objectInfoDataAcA0c1_d1_E0CSg_SDySSypGtcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(sdkInstance:objectInfoData:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon22A_RVP_Cocoa_SDK_ObjectC11sdkInstance14objectInfoDataAcA0c1_d1_E0CSg_SDySSypGtcfc">init(sdkInstance:objectInfoData:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>This is the default initializer.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="n"><a href="../Classes/A_RVP_Cocoa_SDK_Object.html#/s:11WhiteDragon22A_RVP_Cocoa_SDK_ObjectC11sdkInstanceAA0c1_d1_E0CSgvp">sdkInstance</a></span> <span class="nv">inSDKInstance</span><span class="p">:</span> <span class="kt"><a href="../Classes/RVP_Cocoa_SDK.html">RVP_Cocoa_SDK</a></span><span class="p">?,</span> <span class="n">objectInfoData</span> <span class="nv">inData</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span> <span class="p">:</span> <span class="kt">Any</span><span class="p">])</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>sdkInstance</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>REQUIRED (Can be nil) This is the SDK instance that <q>owns</q> this object. It may be nil for history instances.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>objectInfoData</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>REQUIRED This is the parsed JSON data for this object, as a Dictionary. If it is empty, then this is considered a brand new object, and its ID will be zero, read and write will be set to 1, and it will be marked writeable. Additionally, nothing will be saved to the original data cache.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11WhiteDragon22A_RVP_Cocoa_SDK_ObjectC14myOriginalDataSDySSypGvp"></a>
+                    <a name="//apple_ref/swift/Property/myOriginalData" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon22A_RVP_Cocoa_SDK_ObjectC14myOriginalDataSDySSypGvp">myOriginalData</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>This accesses the raw original data. READ ONLY</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">myOriginalData</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span> <span class="p">:</span> <span class="kt">Any</span><span class="p">]</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11WhiteDragon22A_RVP_Cocoa_SDK_ObjectC6myDataSDySSypGvp"></a>
+                    <a name="//apple_ref/swift/Property/myData" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon22A_RVP_Cocoa_SDK_ObjectC6myDataSDySSypGvp">myData</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>This accesses the raw current data.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">myData</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span> <span class="p">:</span> <span class="kt">Any</span><span class="p">]</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11WhiteDragon22A_RVP_Cocoa_SDK_ObjectC6revertyyF"></a>
+                    <a name="//apple_ref/swift/Method/revert()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon22A_RVP_Cocoa_SDK_ObjectC6revertyyF">revert()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>This reverts the data to the state before any changes were made.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">revert</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11WhiteDragon22A_RVP_Cocoa_SDK_ObjectC12sendToServeryyF"></a>
+                    <a name="//apple_ref/swift/Method/sendToServer()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon22A_RVP_Cocoa_SDK_ObjectC12sendToServeryyF">sendToServer()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>This handles sending our data (if necessary) to the server.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">sendToServer</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Public%20Sequence%20Protocol%20Methods,%20Typedefs%20and%20Structs"></a>
+                <a name="//apple_ref/swift/Section/Public Sequence Protocol Methods, Typedefs and Structs" class="dashAnchor"></a>
+                <a href="#/Public%20Sequence%20Protocol%20Methods,%20Typedefs%20and%20Structs">
+                  <h3 class="section-name">Public Sequence Protocol Methods, Typedefs and Structs</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11WhiteDragon22A_RVP_Cocoa_SDK_ObjectC7Elementa"></a>
+                    <a name="//apple_ref/swift/Alias/Element" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon22A_RVP_Cocoa_SDK_ObjectC7Elementa">Element</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>This is the element type for the Sequence protocol.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">Element</span> <span class="o">=</span> <span class="kt">Any</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11WhiteDragon22A_RVP_Cocoa_SDK_ObjectCyypSgSgSScip"></a>
+                    <a name="//apple_ref/swift/Method/subscript(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon22A_RVP_Cocoa_SDK_ObjectCyypSgSgSScip">subscript(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>We have a subscript to return values, as if we were directly accessing the data. READ ONLY.
+This returns the <q>asDictionary</q> response, as opposed to direct <q>myData</q> access (use <q>myData</q> for that).</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">subscript</span><span class="p">(</span><span class="nv">inKey</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/A_RVP_Cocoa_SDK_Object.html#/s:11WhiteDragon22A_RVP_Cocoa_SDK_ObjectC7Elementa">Element</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11WhiteDragon22A_RVP_Cocoa_SDK_ObjectC8IteratorV"></a>
+                    <a name="//apple_ref/swift/Struct/Iterator" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon22A_RVP_Cocoa_SDK_ObjectC8IteratorV">Iterator</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>This is the Sequence Iterator Struct. This iterates the <q>asDictionary</q> response. READ ONLY.</p>
+
+                        <a href="../Classes/A_RVP_Cocoa_SDK_Object/Iterator.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Iterator</span> <span class="p">:</span> <span class="kt">IteratorProtocol</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11WhiteDragon22A_RVP_Cocoa_SDK_ObjectC12makeIteratorAC0H0VyF"></a>
+                    <a name="//apple_ref/swift/Method/makeIterator()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon22A_RVP_Cocoa_SDK_ObjectC12makeIteratorAC0H0VyF">makeIterator()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">makeIterator</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">A_RVP_Cocoa_SDK_Object</span><span class="o">.</span><span class="kt"><a href="../Classes/A_RVP_Cocoa_SDK_Object/Iterator.html">Iterator</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>a new iterator for the instance, which iterates the asDictionary response.It is read-only.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2019 <a class="link" href="https://littlegreenviper.com" target="_blank" rel="external">The Great Rift Valley Software Company</a>. All rights reserved. (Last updated: 2019-05-29)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>
