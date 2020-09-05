@@ -14,16 +14,7 @@
          location = "group:CHANGELOG.md">
       </FileRef>
       <FileRef
-         location = "group:LICENSE.txt">
-      </FileRef>
-      <FileRef
-         location = "group:Podfile">
-      </FileRef>
-      <FileRef
-         location = "group:WhiteDragon.podspec">
-      </FileRef>
-      <FileRef
-         location = "group:.swift-version">
+         location = "group:LICENSE">
       </FileRef>
       <FileRef
          location = "group:.swiftlint.yml">
@@ -43,8 +34,5 @@
    </FileRef>
    <FileRef
       location = "group:WhiteDragonTestHarness.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:Pods/Pods.xcodeproj">
    </FileRef>
 </Workspace>

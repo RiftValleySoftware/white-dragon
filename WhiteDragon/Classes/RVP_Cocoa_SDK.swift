@@ -1883,7 +1883,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      - parameter session: The session calling this.
      - parameter didBecomeInvalidWithError: The error (if any) that caused the invalidation.
      */
-    internal func urlSession(_ session: URLSession, didBecomeInvalidWithError error: Error?) {
+    public func urlSession(_ session: URLSession, didBecomeInvalidWithError error: Error?) {
         self._plugins = []  // This makes the session invalid.
         if let error = error {  // If there was an error, we report it first.
             self._handleError(error)
