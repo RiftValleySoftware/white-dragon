@@ -1,7 +1,7 @@
-**1.0.0.2000** *(TBD)*
+**1.0.0.0000** *September 5, 2020*
 
 - Beta.
 
-**1.0.0.1000** *(November 3, 2018)*
+**1.0.0.1000** *November 3, 2018*
 
 - Alpha. This is feature-complete, but is in dire need of unit tests.
