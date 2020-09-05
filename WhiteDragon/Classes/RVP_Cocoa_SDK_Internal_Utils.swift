@@ -55,7 +55,7 @@ extension Array {
  
  This helps us to determine the data type. It isn't particularly robust, but is better than nothing.
  */
-extension Data {
+public extension Data {
     /** MIME types, based on the first byte. */
     private static let _mimeTypeSignatures: [UInt8: String] = [
         0xFF: "image/jpeg",
@@ -100,7 +100,7 @@ public extension Sequence where Element: Equatable {
 /**
  This adds various functionality to the String class.
  */
-extension String {
+public extension String {
     /* ################################################################## */
     /**
      This was cribbed from here: https://stackoverflow.com/a/42912862/879365
