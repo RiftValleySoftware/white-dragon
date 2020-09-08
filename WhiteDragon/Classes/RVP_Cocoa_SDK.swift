@@ -1945,15 +1945,15 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      */
     public struct HTTPError: Error {
         /** This is the HTTP response code for this error. */
-        var code: Int
+        public var code: Int
         /** This is an optional description string that can be added when instantiated. If it is given, then it will be returned in the response. */
-        var description: String?
+        public var description: String?
         
         /* ############################################################## */
         /**
          - returns: A localized description for the instance HTTP code.
          */
-        var localizedDescription: String {
+        public var localizedDescription: String {
             if let desc = self.description {    // An explicitly-defined string has precedence.
                 return String(self.code) + ", " + desc
             } else {    // Otherwise, use the system-localized version.
