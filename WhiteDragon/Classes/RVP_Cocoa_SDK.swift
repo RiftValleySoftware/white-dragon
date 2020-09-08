@@ -40,7 +40,7 @@ public protocol RVP_Cocoa_SDK_Delegate: class {
      
      **NOTE:** This is not guaranteed to be called in the main thread!
      
-     - parameter sdkInstance: This is the SDK instance making the call.
+     - parameter: This is the SDK instance making the call.
      - parameter sessionConnectionIsValid: A Bool, true, if the SDK is currently in a valid session with a server.
      */
     func sdkInstance(_: RVP_Cocoa_SDK, sessionConnectionIsValid: Bool)
@@ -52,8 +52,8 @@ public protocol RVP_Cocoa_SDK_Delegate: class {
      
      **NOTE:** This is not guaranteed to be called in the main thread!
 
-     - parameter sdkInstance: This is the SDK instance making the call.
-     - parameter liginValid: A Bool, true, if the SDK is currently logged in.
+     - parameter: This is the SDK instance making the call.
+     - parameter loginValid: A Bool, true, if the SDK is currently logged in.
      */
     func sdkInstance(_: RVP_Cocoa_SDK, loginValid: Bool)
     
@@ -63,7 +63,7 @@ public protocol RVP_Cocoa_SDK_Delegate: class {
      
      **NOTE:** This is not guaranteed to be called in the main thread!
 
-     - parameter sdkInstance: This is the SDK instance making the call.
+     - parameter: This is the SDK instance making the call.
      - parameter sessionDisconnectedBecause: The reason for the disconnection.
      */
     func sdkInstance(_: RVP_Cocoa_SDK, sessionDisconnectedBecause: RVP_Cocoa_SDK.DisconnectionReason)
@@ -74,7 +74,7 @@ public protocol RVP_Cocoa_SDK_Delegate: class {
      
      **NOTE:** This is not guaranteed to be called in the main thread!
 
-     - parameter sdkInstance: This is the SDK instance making the call.
+     - parameter: This is the SDK instance making the call.
      - parameter sessionError: The error in question.
      */
     func sdkInstance(_: RVP_Cocoa_SDK, sessionError: Error)
@@ -86,7 +86,7 @@ public protocol RVP_Cocoa_SDK_Delegate: class {
      
      **NOTE:** This is not guaranteed to be called in the main thread!
      
-     - parameter sdkInstance: This is the SDK instance making the call.
+     - parameter: This is the SDK instance making the call.
      - parameter fetchedDataItems: An array of subclasses of A_RVP_IOS_SDK_Object.
      */
     func sdkInstance(_: RVP_Cocoa_SDK, fetchedDataItems: [A_RVP_Cocoa_SDK_Object])
@@ -98,7 +98,7 @@ public protocol RVP_Cocoa_SDK_Delegate: class {
      
      **NOTE:** This is not guaranteed to be called in the main thread!
      
-     - parameter sdkInstance: This is the SDK instance making the call.
+     - parameter: This is the SDK instance making the call.
      - parameter deletedDataItems: An array of subclasses of A_RVP_IOS_SDK_Object.
      */
     func sdkInstance(_: RVP_Cocoa_SDK, deletedDataItems: [A_RVP_Cocoa_SDK_Object])
@@ -111,20 +111,20 @@ public protocol RVP_Cocoa_SDK_Delegate: class {
      
      **NOTE:** This is not guaranteed to be called in the main thread!
      
-     - parameter sdkInstance: This is the SDK instance making the call.
+     - parameter: This is the SDK instance making the call.
      - parameter newObject: The newly-created object.
      */
     func sdkInstance(_: RVP_Cocoa_SDK, newObject: A_RVP_Cocoa_SDK_Object)
 
     /* ################################################################## */
     /**
-     This is called with zero or more IDs. Base;ine searches are a "two-step" process, where IDs are fetched first, then objects.
+     This is called with zero or more IDs. Baseline searches are a "two-step" process, where IDs are fetched first, then objects.
      This call is made between the two steps. In the case of auto-radius, the second step is not done until the end, so this is the only indication of progress.
      In an auto-radius search, this will be called repeatedly, but the actual objects will not be fetched until the final call.
      
      **NOTE:** This is not guaranteed to be called in the main thread!
      
-     - parameter sdkInstance: This is the SDK instance making the call.
+     - parameter: This is the SDK instance making the call.
      - parameter baselineAutoRadiusIDs: An array of Int. This contains the current IDs for the interim step of a baseline search.
      - parameter isFinal: This is true, if this was the last call for an auto-radius search. Remember that the call may be made before the threshold has been reached.
      */
@@ -137,7 +137,7 @@ public protocol RVP_Cocoa_SDK_Delegate: class {
      
      **NOTE:** This is not guaranteed to be called in the main thread!
      
-     - parameter sdkInstance: This is the SDK instance making the call.
+     - parameter: This is the SDK instance making the call.
      */
     func sdkInstanceFinalAutoRadiusCall(_: RVP_Cocoa_SDK)
 
@@ -147,7 +147,7 @@ public protocol RVP_Cocoa_SDK_Delegate: class {
      
      **NOTE:** This is not guaranteed to be called in the main thread!
      
-     - parameter sdkInstance: This is the SDK instance making the call.
+     - parameter: This is the SDK instance making the call.
      */
     func sdkInstanceOperationComplete(_: RVP_Cocoa_SDK)
 }
