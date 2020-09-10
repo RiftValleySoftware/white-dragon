@@ -266,7 +266,7 @@ class RVP_DisplayPayloadView: UIView, AVAudioPlayerDelegate {
                 self.applyConstraints(thisElement: displayItem, height: height)
                 if 0 < aspect {
                     self.addConstraints([
-                        NSLayoutConstraint(item: displayItem,
+                        NSLayoutConstraint(item: displayItem!,
                                            attribute: .height,
                                            relatedBy: .equal,
                                            toItem: displayItem,

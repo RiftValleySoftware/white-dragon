@@ -57,28 +57,28 @@ class RVP_DisplayResultsScrollView: UIScrollView {
             self.contentView.translatesAutoresizingMaskIntoConstraints = false
             
             self.addConstraints([
-                NSLayoutConstraint(item: self.contentView,
+                NSLayoutConstraint(item: self.contentView!,
                                    attribute: .centerX,
                                    relatedBy: .equal,
                                    toItem: self,
                                    attribute: .centerX,
                                    multiplier: 1.0,
                                    constant: 0.0),
-                NSLayoutConstraint(item: self.contentView,
+                NSLayoutConstraint(item: self.contentView!,
                                    attribute: .width,
                                    relatedBy: .equal,
                                    toItem: self,
                                    attribute: .width,
                                    multiplier: 1.0,
                                    constant: 0.0),
-                NSLayoutConstraint(item: self.contentView,
+                NSLayoutConstraint(item: self.contentView!,
                                    attribute: .top,
                                    relatedBy: .equal,
                                    toItem: self,
                                    attribute: .top,
                                    multiplier: 1.0,
                                    constant: 0.0),
-                NSLayoutConstraint(item: self.contentView,
+                NSLayoutConstraint(item: self.contentView!,
                                    attribute: .bottom,
                                    relatedBy: .equal,
                                    toItem: self,
@@ -139,7 +139,7 @@ class RVP_DisplayResultsScrollView: UIScrollView {
         
         if nil != previousViewElement {
             contentView.addConstraint(
-                NSLayoutConstraint(item: previousViewElement,
+                NSLayoutConstraint(item: previousViewElement!,
                                    attribute: .bottom,
                                    relatedBy: .equal,
                                    toItem: self.contentView,

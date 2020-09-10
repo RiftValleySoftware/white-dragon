@@ -760,7 +760,7 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
                 return String(tokenList[row])
             }
         } else if self.writeTokenPickerView == pickerView {
-            if var tokenList = self.editableObject.sdkInstance?.securityTokens {
+            if let tokenList = self.editableObject.sdkInstance?.securityTokens {
                 return String(tokenList[row])
             }
         }
@@ -778,7 +778,7 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
                 self.editableObject.readToken = tokenList[row]
             }
         } else if self.writeTokenPickerView == pickerView {
-            if var tokenList = self.editableObject.sdkInstance?.securityTokens {
+            if let tokenList = self.editableObject.sdkInstance?.securityTokens {
                 self.editableObject.writeToken = tokenList[row]
             }
         }

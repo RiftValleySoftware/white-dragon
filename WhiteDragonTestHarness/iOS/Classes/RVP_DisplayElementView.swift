@@ -532,9 +532,9 @@ class RVP_DisplayElementView: UIView, AVAudioPlayerDelegate {
                     } else if let intArrayVal = value as? [Int] {
                         self.addItemLabel(label: key, value: intArrayVal.map(String.init).joined(separator: ","))
                     } else if let floatArrayVal = value as? [Float] {
-                        self.addItemLabel(label: key, value: floatArrayVal.map(String.init).joined(separator: ","))
+                        self.addItemLabel(label: key, value: floatArrayVal.map { String($0) }.joined(separator: ","))
                     } else if let doubleArrayVal = value as? [Double] {
-                        self.addItemLabel(label: key, value: doubleArrayVal.map(String.init).joined(separator: ","))
+                        self.addItemLabel(label: key, value: doubleArrayVal.map { String($0) }.joined(separator: ","))
                     } else if let stringArrayVal = value as? [String] {
                         self.addItemLabel(label: key, value: "'" + stringArrayVal.joined(separator: "','") + "'")
                     } else {

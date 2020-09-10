@@ -460,12 +460,8 @@ class TestBaseViewController: UIViewController, RVP_Cocoa_SDK_Delegate, UIPicker
             } else {
                 var toBeAdded: [A_RVP_Cocoa_SDK_Object] = []
                 
-                for item in fetchedDataItems {
-                    if !objectList.contains { [item] element in
-                        return element.id == item.id && type(of: element) == type(of: item)
-                        } {
-                        toBeAdded.append(item)
-                    }
+                for item in fetchedDataItems where !objectList.contains(item) {
+                    toBeAdded.append(item)
                 }
                 
                 if !toBeAdded.isEmpty {

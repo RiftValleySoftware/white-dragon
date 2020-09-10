@@ -40,7 +40,7 @@ extension RVP_Cocoa_SDK_Payload {
         var ret: Any?
         
         if  let myData = self.payloadData,
-            let slash = self.payloadType.index(of: "/") {
+            let slash = self.payloadType.firstIndex(of: "/") {
             let start = self.payloadType.index(after: slash)
             let mediaType = String(self.payloadType.suffix(from: start))
             if self.payloadType.beginsWith("image/") {

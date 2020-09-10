@@ -61,9 +61,9 @@ class Test005BaselineStringSearches: TestBaseViewController {
             return (name: "MDAdmin", values: [mdAdminObject])
         }
         
-        let mdAdminLocation = RVP_Cocoa_SDK.LocationSpecification(  coords: CLLocationCoordinate2D(latitude: 39.310103, longitude: -76.598405),
-                                                                    radiusInKm: 20.0,
-                                                                    autoRadiusThreshold: 1)
+//        let mdAdminLocation = RVP_Cocoa_SDK.LocationSpecification(  coords: CLLocationCoordinate2D(latitude: 39.310103, longitude: -76.598405),
+//                                                                    radiusInKm: 20.0,
+//                                                                    autoRadiusThreshold: 1)
         var imagesObject: (name: String, values: [Any]) {
             let imagesObject = SearchStructure(    tags: ["tag1": "image"],
                                                    location: nil,
