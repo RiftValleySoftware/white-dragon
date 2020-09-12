@@ -2366,7 +2366,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
     public func login(loginID inLoginID: String, password inPassword: String, timeout inLoginTimeout: TimeInterval) {
         self._loginTimeout = inLoginTimeout // This is how long we'll have to be logged in, before the server kicks us out.
         self._loginTime = Date()    // Starting now.
-        
+        self._apiKey = nil          // We wipe out any stored API key.
         // The login is a simple GET task, so we can just use a straight-up task for this.
         if let login_id_object = inLoginID.urlEncodedString {
             if let password_object = inPassword.urlEncodedString {
