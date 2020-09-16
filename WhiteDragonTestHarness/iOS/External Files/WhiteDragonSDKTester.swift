@@ -136,7 +136,7 @@ class WhiteDragonSDKTester {
             
             if let loginID = self.loginID, let password = self.password {
                 let timeout = (self.adminLogin == self.loginID ? self.adminTimeout : self.normalTimeout)
-                _ = sdkInstance.login(loginID: loginID, password: password, timeout: timeout)
+                sdkInstance.login(loginID: loginID, password: password, timeout: timeout)
             }
         }
     }

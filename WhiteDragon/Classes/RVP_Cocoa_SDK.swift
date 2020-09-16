@@ -612,8 +612,13 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                         ret = [ret, self._makeInstancesFromArray(forcedValue, parent: forcedKey)].flatMap { $0 }
                     }
                 } else {
-                    let data: Data = NSKeyedArchiver.archivedData(withRootObject: inDictionary)
-                    self._handleError(SDK_Data_Errors.invalidData(data))
+                    do {
+                        let data: Data = try NSKeyedArchiver.archivedData(withRootObject: inDictionary, requiringSecureCoding: false)
+                        self._handleError(SDK_Data_Errors.invalidData(data))
+                    } catch {
+                        self._handleError(SDK_Data_Errors.invalidData(nil))
+                    }
+                    
                     break
                 }
             }
@@ -641,8 +646,12 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
             } else if let forced_value = value as? NSArray {
                 ret = [ret, self._makeInstancesFromArray(forced_value, parent: inParent)].flatMap { $0 }
             } else {
-                let data: Data = NSKeyedArchiver.archivedData(withRootObject: inArray)
-                self._handleError(SDK_Data_Errors.invalidData(data))
+                do {
+                    let data: Data = try NSKeyedArchiver.archivedData(withRootObject: inArray, requiringSecureCoding: false)
+                    self._handleError(SDK_Data_Errors.invalidData(data))
+                } catch {
+                    self._handleError(SDK_Data_Errors.invalidData(nil))
+                }
                 break
             }
         }
@@ -1842,8 +1851,12 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                 instance = RVP_Cocoa_SDK_Thing(sdkInstance: self, objectInfoData: inDictionary)
                 
             default:
-                let data: Data = NSKeyedArchiver.archivedData(withRootObject: inDictionary)
-                self._handleError(SDK_Data_Errors.invalidData(data))
+                do {
+                    let data: Data = try NSKeyedArchiver.archivedData(withRootObject: inDictionary, requiringSecureCoding: false)
+                    self._handleError(SDK_Data_Errors.invalidData(data))
+                } catch {
+                    self._handleError(SDK_Data_Errors.invalidData(nil))
+                }
             }
         }
         

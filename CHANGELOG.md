@@ -1,3 +1,7 @@
+**1.0.1.0000** *September 15, 2020*
+
+- Tweaked for the newest Xcode.
+
 **1.0.0.0000** *September 5, 2020*
 
 - Beta.
