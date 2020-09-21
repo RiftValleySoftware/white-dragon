@@ -1,4 +1,4 @@
-/***************************************************************************************************************************/
+/* ###################################################################################################################################### */
 /**
     © Copyright 2018, The Great Rift Valley Software Company.
     
@@ -146,65 +146,38 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
             && "id" != item.key
             && "payload" != item.key
             && "payload_type" != item.key {
-            if self.isNew {
-                if let current = item.value as? NSObject {
-                    // All values should be convertible to String.
-                    if let uriKey = item.key.urlEncodedString {
-                        if !uri.isEmpty {
-                            uri += "&"
-                        }
-                        
-                        // Conversion to string options for various data types.
-                        if let valueString = (current as? String)?.urlEncodedString {
-                            uri += "\(uriKey)=\(valueString)"
-                        } else if let valueInt = current as? Int {  // Swift can get a bit particular about the various types of numbers, so just to be safe, I check each one.
-                            uri += "\(uriKey)=\(String(valueInt))"
-                        } else if let valueFloat = current as? Float {
-                            uri += "\(uriKey)=\(String(valueFloat))"
-                        } else if let valueDouble = current as? Double {
-                            uri += "\(uriKey)=\(String(valueDouble))"
-                        } else if let valueBool = current as? Bool {    // Bool is expressed as a 1 or a 0
-                            uri += "\(uriKey)=\(valueBool ? "1" : "0")"
-                        }
+            if let current = item.value as? NSObject,
+                  var uriKey = item.key.urlEncodedString {
+                let original = oldDataList[item.key] as? NSObject
+                // All values should be convertible to String.
+                if current != original {
+                    if !uri.isEmpty {
+                        uri += "&"
                     }
-                } else {    // This should never happen.
-                    #if DEBUG
-                    print("There Is An Error in the Data! This should not have been encountered! The Data Object is not NSObject-Castable!")
-                    #endif
-                    break
-                }
-            } else if let original = oldDataList[item.key] as? NSObject {  // Payload is handled differently
-                if let current = item.value as? NSObject {
-                    // All values should be convertible to String.
-                    if current != original, var uriKey = item.key.urlEncodedString {
-                        if !uri.isEmpty {
-                            uri += "&"
-                        }
-                        
-                        // There's a special case for this.
-                        if "associated_login_id" == uriKey, self._sdkInstance?.isMainAdmin ?? false {
-                            uriKey = "login_id"
-                        }
-                        
-                        // Conversion to string options for various data types.
-                        if let valueString = (current as? String)?.urlEncodedString {
-                            uri += "\(uriKey)=\(valueString)"
-                        } else if let valueInt = current as? Int {  // Swift can get a bit particular about the various types of numbers, so just to be safe, I check each one.
-                            uri += "\(uriKey)=\(String(valueInt))"
-                        } else if let valueFloat = current as? Float {
-                            uri += "\(uriKey)=\(String(valueFloat))"
-                        } else if let valueDouble = current as? Double {
-                            uri += "\(uriKey)=\(String(valueDouble))"
-                        } else if let valueBool = current as? Bool {    // Bool is expressed as a 1 or a 0
-                            uri += "\(uriKey)=\(valueBool ? "1" : "0")"
-                        }
+                    
+                    // There's a special case for this.
+                    if "associated_login_id" == uriKey, self._sdkInstance?.isMainAdmin ?? false {
+                        uriKey = "login_id"
                     }
-                } else {    // This should never happen.
-                    #if DEBUG
-                    print("There Is An Error in the Data! This should not have been encountered! The Data Object is not NSObject-Castable!")
-                    #endif
-                    break
+                    
+                    // Conversion to string options for various data types.
+                    if let valueString = (current as? String)?.urlEncodedString {
+                        uri += "\(uriKey)=\(valueString)"
+                    } else if let valueInt = current as? Int {  // Swift can get a bit particular about the various types of numbers, so just to be safe, I check each one.
+                        uri += "\(uriKey)=\(String(valueInt))"
+                    } else if let valueFloat = current as? Float {
+                        uri += "\(uriKey)=\(String(valueFloat))"
+                    } else if let valueDouble = current as? Double {
+                        uri += "\(uriKey)=\(String(valueDouble))"
+                    } else if let valueBool = current as? Bool {    // Bool is expressed as a 1 or a 0
+                        uri += "\(uriKey)=\(valueBool ? "1" : "0")"
+                    }
                 }
+            } else {    // This should never happen.
+                #if DEBUG
+                    print("There Is An Error in the Data! This should not have been encountered! The Data Object is not NSObject-Castable!")
+                #endif
+                break
             }
         }
         

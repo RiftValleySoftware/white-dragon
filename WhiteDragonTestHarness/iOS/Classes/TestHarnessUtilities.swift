@@ -1,4 +1,4 @@
-/***************************************************************************************************************************/
+/* ###################################################################################################################################### */
 /**
  © Copyright 2018, The Great Rift Valley Software Company.
  
@@ -56,7 +56,7 @@ extension UIApplication {
     /* ################################################################## */
     /**
      */
-    class func getTopmostViewController(base: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {
+    class func getTopmostViewController(base: UIViewController? = UIApplication.shared.windows[0].rootViewController) -> UIViewController? {
         if let nav = base as? UINavigationController {
             return self.getTopmostViewController(base: nav.visibleViewController)
         }
