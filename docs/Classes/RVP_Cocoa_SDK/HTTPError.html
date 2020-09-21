@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>SDK_Error Enumeration Reference</title>
+    <title>HTTPError Structure Reference</title>
     <link rel="stylesheet" type="text/css" href="../../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../../css/highlight.css" />
     <meta charset="utf-8">
@@ -14,9 +14,9 @@
   </head>
   <body>
 
-    <a name="//apple_ref/swift/Enum/SDK_Error" class="dashAnchor"></a>
+    <a name="//apple_ref/swift/Struct/HTTPError" class="dashAnchor"></a>
 
-    <a title="SDK_Error Enumeration Reference"></a>
+    <a title="HTTPError Structure Reference"></a>
 
     <header class="header">
       <p class="header-col header-col--primary">
@@ -44,7 +44,7 @@
     <p class="breadcrumbs">
       <a class="breadcrumb" href="../../index.html">WhiteDragon Reference</a>
       <img class="carat" src="../../img/carat.png" />
-      SDK_Error Enumeration Reference
+      HTTPError Structure Reference
     </p>
 
     <div class="content-wrapper">
@@ -140,15 +140,15 @@
 
         <section class="section">
           <div class="section-content top-matter">
-            <h1>SDK_Error</h1>
+            <h1>HTTPError</h1>
               <div class="declaration">
                 <div class="language">
                   
-                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">SDK_Error</span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">HTTPError</span> <span class="p">:</span> <span class="kt">Error</span></code></pre>
 
                 </div>
               </div>
-            <p>These are supplied in the delegate method.</p>
+            <p>This is a quick resolver for the basic HTTP status.</p>
 
           </div>
         </section>
@@ -160,9 +160,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC0E6_ErrorO7unknownyAEs0F0_pSgcAEmF"></a>
-                    <a name="//apple_ref/swift/Element/unknown(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC0E6_ErrorO7unknownyAEs0F0_pSgcAEmF">unknown(_:<wbr>)</a>
+                    <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC9HTTPErrorV4codeSivp"></a>
+                    <a name="//apple_ref/swift/Property/code" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC9HTTPErrorV4codeSivp">code</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -170,14 +170,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Unkown error. The associated value is any Error that was supplied.</p>
+                        <p>This is the HTTP response code for this error.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">case</span> <span class="nf">unknown</span><span class="p">(</span><span class="kt">Error</span><span class="p">?)</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">code</span><span class="p">:</span> <span class="kt">Int</span></code></pre>
 
                         </div>
                       </div>
@@ -187,9 +187,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC0E6_ErrorO010connectionF0yAeC0E18_Connection_ErrorsOcAEmF"></a>
-                    <a name="//apple_ref/swift/Element/connectionError(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC0E6_ErrorO010connectionF0yAeC0E18_Connection_ErrorsOcAEmF">connectionError(_:<wbr>)</a>
+                    <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC9HTTPErrorV11descriptionSSSgvp"></a>
+                    <a name="//apple_ref/swift/Property/description" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC9HTTPErrorV11descriptionSSSgvp">description</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -197,14 +197,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>There was an error in the connection between the SDK and the server.</p>
+                        <p>This is an optional description string that can be added when instantiated. If it is given, then it will be returned in the response.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">case</span> <span class="nf">connectionError</span><span class="p">(</span><span class="kt"><a href="../../Classes/RVP_Cocoa_SDK/SDK_Connection_Errors.html">SDK_Connection_Errors</a></span><span class="p">)</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">description</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
@@ -214,9 +214,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC0E6_ErrorO04dataF0yAeC0E12_Data_ErrorsOcAEmF"></a>
-                    <a name="//apple_ref/swift/Element/dataError(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC0E6_ErrorO04dataF0yAeC0E12_Data_ErrorsOcAEmF">dataError(_:<wbr>)</a>
+                    <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC9HTTPErrorV20localizedDescriptionSSvp"></a>
+                    <a name="//apple_ref/swift/Property/localizedDescription" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC9HTTPErrorV20localizedDescriptionSSvp">localizedDescription</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -224,43 +224,19 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>There was a problem with the data that was transferred from the server to the SDK.</p>
-
+                        
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">case</span> <span class="nf">dataError</span><span class="p">(</span><span class="kt"><a href="../../Classes/RVP_Cocoa_SDK/SDK_Data_Errors.html">SDK_Data_Errors</a></span><span class="p">)</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">localizedDescription</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC0E6_ErrorO011operationalF0yAeC0E17_Operation_ErrorsOcAEmF"></a>
-                    <a name="//apple_ref/swift/Element/operationalError(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC0E6_ErrorO011operationalF0yAeC0E17_Operation_ErrorsOcAEmF">operationalError(_:<wbr>)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>There was a problem in the operation of the SDK.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">case</span> <span class="nf">operationalError</span><span class="p">(</span><span class="kt"><a href="../../Classes/RVP_Cocoa_SDK/SDK_Operation_Errors.html">SDK_Operation_Errors</a></span><span class="p">)</span></code></pre>
-
-                        </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A localized description for the instance HTTP code.</p>
                       </div>
                     </section>
                   </div>

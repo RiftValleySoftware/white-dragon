@@ -1,12 +1,6 @@
 {
   "warnings": [
-    {
-      "file": "/Volumes/Development/webroot/white-dragon/WhiteDragon/Classes/RVP_Cocoa_SDK_Internal_Utils.swift",
-      "line": 89,
-      "symbol": "Sequence.uniqueElements",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    }
+
   ],
   "source_directory": "/Volumes/Development/webroot/white-dragon"
 }

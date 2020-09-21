@@ -75,7 +75,7 @@
                 <a class="nav-group-task-link" href="../Classes/RVP_Cocoa_SDK/LocationSpecification.html">– LocationSpecification</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Classes/RVP_Cocoa_SDK.html#/s:11WhiteDragon13RVP_Cocoa_SDKC9HTTPErrorV">– HTTPError</a>
+                <a class="nav-group-task-link" href="../Classes/RVP_Cocoa_SDK/HTTPError.html">– HTTPError</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Classes/RVP_Cocoa_SDK/DisconnectionReason.html">– DisconnectionReason</a>
@@ -116,7 +116,13 @@
             <a class="nav-group-name-link" href="../Extensions.html">Extensions</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/Data.html">Data</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Extensions/Sequence.html">Sequence</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/String.html">String</a>
               </li>
             </ul>
           </li>
@@ -133,10 +139,11 @@
       <article class="main-content">
 
         <section class="section">
-          <div class="section-content">
+          <div class="section-content top-matter">
             <h1>RVP_Cocoa_SDK</h1>
               <div class="declaration">
                 <div class="language">
+                  
                   <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">RVP_Cocoa_SDK</span> <span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt">Sequence</span><span class="p">,</span> <span class="kt">URLSessionDelegate</span></code></pre>
 
                 </div>
@@ -161,11 +168,84 @@ independent instance and state. Swift likes objects to be referenced, as opposed
           <div class="section-content">
             <div class="task-group">
               <div class="task-name-container">
+                <a name="/Internal%20URLSessionDelegate%20Protocol%20Methods"></a>
+                <a name="//apple_ref/swift/Section/Internal URLSessionDelegate Protocol Methods" class="dashAnchor"></a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/Internal%20URLSessionDelegate%20Protocol%20Methods"></a>
+                  <h3 class="section-name"><p>Internal URLSessionDelegate Protocol Methods</p>
+</h3>
+                </div>
+              </div>
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@WhiteDragon@objc(cs)RVP_Cocoa_SDK(im)URLSession:didBecomeInvalidWithError:"></a>
+                    <a name="//apple_ref/swift/Method/urlSession(_:didBecomeInvalidWithError:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@WhiteDragon@objc(cs)RVP_Cocoa_SDK(im)URLSession:didBecomeInvalidWithError:">urlSession(_:<wbr>didBecomeInvalidWithError:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>This is called when the the session becomes invalid for any reason.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">urlSession</span><span class="p">(</span><span class="n">_</span> <span class="nv">session</span><span class="p">:</span> <span class="kt">URLSession</span><span class="p">,</span> <span class="n">didBecomeInvalidWithError</span> <span class="nv">error</span><span class="p">:</span> <span class="kt">Error</span><span class="p">?)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>session</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The session calling this.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>didBecomeInvalidWithError</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The error (if any) that caused the invalidation.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
                 <a name="/Public%20Types%20and%20Structs"></a>
                 <a name="//apple_ref/swift/Section/Public Types and Structs" class="dashAnchor"></a>
-                <a href="#/Public%20Types%20and%20Structs">
-                  <h3 class="section-name">Public Types and Structs</h3>
-                </a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/Public%20Types%20and%20Structs"></a>
+                  <h3 class="section-name"><p>Public Types and Structs</p>
+</h3>
+                </div>
               </div>
               <ul class="item-container">
                 <li class="item">
@@ -244,6 +324,7 @@ independent instance and state. Swift likes objects to be referenced, as opposed
                       <div class="abstract">
                         <p>This is a quick resolver for the basic HTTP status.</p>
 
+                        <a href="../Classes/RVP_Cocoa_SDK/HTTPError.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -262,9 +343,11 @@ independent instance and state. Swift likes objects to be referenced, as opposed
               <div class="task-name-container">
                 <a name="/Public%20Enums"></a>
                 <a name="//apple_ref/swift/Section/Public Enums" class="dashAnchor"></a>
-                <a href="#/Public%20Enums">
-                  <h3 class="section-name">Public Enums</h3>
-                </a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/Public%20Enums"></a>
+                  <h3 class="section-name"><p>Public Enums</p>
+</h3>
+                </div>
               </div>
               <ul class="item-container">
                 <li class="item">
@@ -415,9 +498,11 @@ independent instance and state. Swift likes objects to be referenced, as opposed
               <div class="task-name-container">
                 <a name="/Public%20Calculated%20Properties"></a>
                 <a name="//apple_ref/swift/Section/Public Calculated Properties" class="dashAnchor"></a>
-                <a href="#/Public%20Calculated%20Properties">
-                  <h3 class="section-name">Public Calculated Properties</h3>
-                </a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/Public%20Calculated%20Properties"></a>
+                  <h3 class="section-name"><p>Public Calculated Properties</p>
+</h3>
+                </div>
               </div>
               <ul class="item-container">
                 <li class="item">
@@ -495,7 +580,7 @@ independent instance and state. Swift likes objects to be referenced, as opposed
                       <div class="abstract">
                         <p>This is a test to see if the currently logged-in user is a manager.</p>
 
-<p>Returns true, if we are logged in as the main (<q>God</q>) user.</p>
+<p>Returns true, if we are logged in as the main (&ldquo;God&rdquo;) user.</p>
 
                       </div>
                       <div class="declaration">
@@ -680,7 +765,7 @@ independent instance and state. Swift likes objects to be referenced, as opposed
                     <code>
                     <a name="/s:11WhiteDragon13RVP_Cocoa_SDKCyAA02A_c1_d1_E7_ObjectCSgSicip"></a>
                     <a name="//apple_ref/swift/Method/subscript(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKCyAA02A_c1_d1_E7_ObjectCSgSicip">subscript(_:)</a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKCyAA02A_c1_d1_E7_ObjectCSgSicip">subscript(_:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -809,9 +894,11 @@ independent instance and state. Swift likes objects to be referenced, as opposed
               <div class="task-name-container">
                 <a name="/Public%20Stored%20Properties"></a>
                 <a name="//apple_ref/swift/Section/Public Stored Properties" class="dashAnchor"></a>
-                <a href="#/Public%20Stored%20Properties">
-                  <h3 class="section-name">Public Stored Properties</h3>
-                </a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/Public%20Stored%20Properties"></a>
+                  <h3 class="section-name"><p>Public Stored Properties</p>
+</h3>
+                </div>
               </div>
               <ul class="item-container">
                 <li class="item">
@@ -827,10 +914,10 @@ independent instance and state. Swift likes objects to be referenced, as opposed
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>This is a special <q>settable</q> property with the center of a radius search.
-If the object already has a <q>distance</q> property returned from the server,
+                        <p>This is a special &ldquo;settable&rdquo; property with the center of a radius search.
+If the object already has a &ldquo;distance&rdquo; property returned from the server,
 this is ignored. Otherwise, if it is provided, and the object has a long/lat,
-the <q>distance</q> read-only property will return a Vincenty&rsquo;s Formulae distance
+the &ldquo;distance&rdquo; read-only property will return a Vincenty&rsquo;s Formulae distance
 in Kilometers from this center.</p>
 
                       </div>
@@ -851,9 +938,11 @@ in Kilometers from this center.</p>
               <div class="task-name-container">
                 <a name="/Public%20Instance%20Methods"></a>
                 <a name="//apple_ref/swift/Section/Public Instance Methods" class="dashAnchor"></a>
-                <a href="#/Public%20Instance%20Methods">
-                  <h3 class="section-name">Public Instance Methods</h3>
-                </a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/Public%20Instance%20Methods"></a>
+                  <h3 class="section-name"><p>Public Instance Methods</p>
+</h3>
+                </div>
               </div>
               <ul class="item-container">
                 <li class="item">
@@ -861,7 +950,7 @@ in Kilometers from this center.</p>
                     <code>
                     <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC9serverURI0F6Secret8delegate7loginID8password7timeout7sessionACSS_SSAA0c1_d1_E9_Delegate_pSSSgALSdSgSo12NSURLSessionCSgtcfc"></a>
                     <a name="//apple_ref/swift/Method/init(serverURI:serverSecret:delegate:loginID:password:timeout:session:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC9serverURI0F6Secret8delegate7loginID8password7timeout7sessionACSS_SSAA0c1_d1_E9_Delegate_pSSSgALSdSgSo12NSURLSessionCSgtcfc">init(serverURI:serverSecret:delegate:loginID:password:timeout:session:)</a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC9serverURI0F6Secret8delegate7loginID8password7timeout7sessionACSS_SSAA0c1_d1_E9_Delegate_pSSSgALSdSgSo12NSURLSessionCSgtcfc">init(serverURI:<wbr>serverSecret:<wbr>delegate:<wbr>loginID:<wbr>password:<wbr>timeout:<wbr>session:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -979,7 +1068,7 @@ in Kilometers from this center.</p>
                     <code>
                     <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC13deleteObjectsyySayAA02A_c1_d1_E7_ObjectCGF"></a>
                     <a name="//apple_ref/swift/Method/deleteObjects(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC13deleteObjectsyySayAA02A_c1_d1_E7_ObjectCGF">deleteObjects(_:)</a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC13deleteObjectsyySayAA02A_c1_d1_E7_ObjectCGF">deleteObjects(_:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1028,7 +1117,7 @@ It will figure out whether or not the object is a security object or a data obje
                     <code>
                     <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC7connect7loginID8password7timeoutySSSg_AHSdSgtF"></a>
                     <a name="//apple_ref/swift/Method/connect(loginID:password:timeout:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC7connect7loginID8password7timeoutySSSg_AHSdSgtF">connect(loginID:password:timeout:)</a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC7connect7loginID8password7timeoutySSSg_AHSdSgtF">connect(loginID:<wbr>password:<wbr>timeout:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1098,7 +1187,7 @@ It will figure out whether or not the object is a security object or a data obje
                     <code>
                     <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC5login0F2ID8password7timeoutySS_SSSdtF"></a>
                     <a name="//apple_ref/swift/Method/login(loginID:password:timeout:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC5login0F2ID8password7timeoutySS_SSSdtF">login(loginID:password:timeout:)</a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC5login0F2ID8password7timeoutySS_SSSdtF">login(loginID:<wbr>password:<wbr>timeout:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1228,7 +1317,7 @@ It will figure out whether or not the object is a security object or a data obje
                     <code>
                     <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC19createUserLoginPair11loginString4nameySS_SStF"></a>
                     <a name="//apple_ref/swift/Method/createUserLoginPair(loginString:name:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC19createUserLoginPair11loginString4nameySS_SStF">createUserLoginPair(loginString:name:)</a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC19createUserLoginPair11loginString4nameySS_SStF">createUserLoginPair(loginString:<wbr>name:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1243,7 +1332,7 @@ the new login object, after informing the delegate of the new login object, but 
 with the sdkInstance(_:,fetchedDataItems:) call.
 If the login object creation fails, the main app delegate will be called with an error.
 If it is successful, the delegate is then called with the new user object.
-This will create a completely <q>bald</q> set of objects, with only the login ID, name, and default
+This will create a completely &ldquo;bald&rdquo; set of objects, with only the login ID, name, and default
 security tokens.
 This can only be called if you are logged in as a manager.</p>
 
@@ -1295,7 +1384,7 @@ This can only be called if you are logged in as a manager.</p>
                     <code>
                     <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC19fetchDataItemsByIDs_9andPlugin19dontNukeTheLocationySaySiG_SSSgSbtF"></a>
                     <a name="//apple_ref/swift/Method/fetchDataItemsByIDs(_:andPlugin:dontNukeTheLocation:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC19fetchDataItemsByIDs_9andPlugin19dontNukeTheLocationySaySiG_SSSgSbtF">fetchDataItemsByIDs(_:andPlugin:dontNukeTheLocation:)</a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC19fetchDataItemsByIDs_9andPlugin19dontNukeTheLocationySaySiG_SSSgSbtF">fetchDataItemsByIDs(_:<wbr>andPlugin:<wbr>dontNukeTheLocation:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1338,7 +1427,19 @@ This can only be called if you are logged in as a manager.</p>
                               </td>
                               <td>
                                 <div>
-                                  <p>An optional String, with the required plugin (<q>people</q>, <q>places</q> or <q>things</q>). If nil, then the baseline plugin is invoked, which will fetch any object, regardless of plugin.</p>
+                                  <p>An optional String, with the required plugin (&ldquo;people&rdquo;, &ldquo;places&rdquo; or &ldquo;things&rdquo;). If nil, then the baseline plugin is invoked, which will fetch any object, regardless of plugin.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>dontNukeTheLocation</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Optional. If true, then we keep the search location cached (like in an auto-radius call). Otherwise (default), the search location is reset after this call.</p>
                                 </div>
                               </td>
                             </tr>
@@ -1353,7 +1454,7 @@ This can only be called if you are logged in as a manager.</p>
                     <code>
                     <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC24fetchBaselineObjectsByIDyySaySiGF"></a>
                     <a name="//apple_ref/swift/Method/fetchBaselineObjectsByID(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC24fetchBaselineObjectsByIDyySaySiGF">fetchBaselineObjectsByID(_:)</a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC24fetchBaselineObjectsByIDyySaySiGF">fetchBaselineObjectsByID(_:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1399,7 +1500,7 @@ This can only be called if you are logged in as a manager.</p>
                     <code>
                     <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC11fetchPlacesyySaySiGF"></a>
                     <a name="//apple_ref/swift/Method/fetchPlaces(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC11fetchPlacesyySaySiGF">fetchPlaces(_:)</a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC11fetchPlacesyySaySiGF">fetchPlaces(_:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1445,7 +1546,7 @@ This can only be called if you are logged in as a manager.</p>
                     <code>
                     <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC10fetchUsersyySaySiGF"></a>
                     <a name="//apple_ref/swift/Method/fetchUsers(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC10fetchUsersyySaySiGF">fetchUsers(_:)</a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC10fetchUsersyySaySiGF">fetchUsers(_:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1491,7 +1592,7 @@ This can only be called if you are logged in as a manager.</p>
                     <code>
                     <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC11fetchThingsyySaySiGF"></a>
                     <a name="//apple_ref/swift/Method/fetchThings(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC11fetchThingsyySaySiGF">fetchThings(_:)</a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC11fetchThingsyySaySiGF">fetchThings(_:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1537,7 +1638,7 @@ This can only be called if you are logged in as a manager.</p>
                     <code>
                     <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC11fetchThingsyySaySSGF"></a>
                     <a name="//apple_ref/swift/Method/fetchThings(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC11fetchThingsyySaySSGF">fetchThings(_:)</a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC11fetchThingsyySaySSGF">fetchThings(_:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1583,7 +1684,7 @@ This can only be called if you are logged in as a manager.</p>
                     <code>
                     <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC11fetchLoginsyySaySiGF"></a>
                     <a name="//apple_ref/swift/Method/fetchLogins(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC11fetchLoginsyySaySiGF">fetchLogins(_:)</a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC11fetchLoginsyySaySiGF">fetchLogins(_:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1629,7 +1730,7 @@ This can only be called if you are logged in as a manager.</p>
                     <code>
                     <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC11fetchLoginsyySaySSGF"></a>
                     <a name="//apple_ref/swift/Method/fetchLogins(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC11fetchLoginsyySaySSGF">fetchLogins(_:)</a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC11fetchLoginsyySaySSGF">fetchLogins(_:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1675,7 +1776,7 @@ This can only be called if you are logged in as a manager.</p>
                     <code>
                     <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC25fetchObjectsUsingCriteria_11andLocation10withPluginySDyS2SGSg_AC0K13SpecificationVSgSStF"></a>
                     <a name="//apple_ref/swift/Method/fetchObjectsUsingCriteria(_:andLocation:withPlugin:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC25fetchObjectsUsingCriteria_11andLocation10withPluginySDyS2SGSg_AC0K13SpecificationVSgSStF">fetchObjectsUsingCriteria(_:andLocation:withPlugin:)</a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC25fetchObjectsUsingCriteria_11andLocation10withPluginySDyS2SGSg_AC0K13SpecificationVSgSStF">fetchObjectsUsingCriteria(_:<wbr>andLocation:<wbr>withPlugin:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1683,21 +1784,21 @@ This can only be called if you are logged in as a manager.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>This method starts a <q>generic</q> search, based upon the input given.</p>
+                        <p>This method starts a &ldquo;generic&rdquo; search, based upon the input given.</p>
 
 <p>Possible inTagValues keys are:</p>
 
 <ul>
-<li><q>tag0</q>, <q>venue</q> (you cannot directly search for the login ID of a user with this method, but you can look for a baseline tag0 value, which is the user login as an Int. Same for thing keys, which are String.)</li>
-<li><q>tag1</q>, <q>streetAddress</q>, <q>surname</q>, <q>description</q></li>
-<li><q>tag2</q>, <q>extraInformation</q>, <q>middleName</q></li>
-<li><q>tag3</q>, <q>town</q>, <q>givenName</q></li>
-<li><q>tag4</q>, <q>county</q>, <q>nickname</q></li>
-<li><q>tag5</q>, <q>state</q>, <q>prefix</q></li>
-<li><q>tag6</q>, <q>postalCode</q>, <q>suffix</q></li>
-<li><q>tag7</q>, <q>nation</q></li>
-<li><q>tag8</q></li>
-<li><p><q>tag9</q></p></li>
+<li>&ldquo;tag0&rdquo;, &ldquo;venue&rdquo; (you cannot directly search for the login ID of a user with this method, but you can look for a baseline tag0 value, which is the user login as an Int. Same for thing keys, which are String.)</li>
+<li>&ldquo;tag1&rdquo;, &ldquo;streetAddress&rdquo;, &ldquo;surname&rdquo;, &ldquo;description&rdquo;</li>
+<li>&ldquo;tag2&rdquo;, &ldquo;extraInformation&rdquo;, &ldquo;middleName&rdquo;</li>
+<li>&ldquo;tag3&rdquo;, &ldquo;town&rdquo;, &ldquo;givenName&rdquo;</li>
+<li>&ldquo;tag4&rdquo;, &ldquo;county&rdquo;, &ldquo;nickname&rdquo;</li>
+<li>&ldquo;tag5&rdquo;, &ldquo;state&rdquo;, &ldquo;prefix&rdquo;</li>
+<li>&ldquo;tag6&rdquo;, &ldquo;postalCode&rdquo;, &ldquo;suffix&rdquo;</li>
+<li>&ldquo;tag7&rdquo;, &ldquo;nation&rdquo;</li>
+<li>&ldquo;tag8&rdquo;</li>
+<li><p>&ldquo;tag9&rdquo;</p></li>
 </ul>
 
                       </div>
@@ -1725,11 +1826,11 @@ This can only be called if you are logged in as a manager.</p>
                        The value must be a String, but, in some cases, it may be a string representation of an integer.
                        The values can use SQL-style wildcards (%) and are case-insensitive.
                        If the object has one of its tags with a matching string (and the user has permission), it may be added to the returned set.
-                       Despite the plugin-specific keys, the search will search the tag position of all records, so specifying a givenName of <q>Billings</q> will also return any Place object that has a <q>town</q> of <q>Billings</q>.
+                       Despite the plugin-specific keys, the search will search the tag position of all records, so specifying a givenName of &ldquo;Billings&rdquo; will also return any Place object that has a &ldquo;town&rdquo; of &ldquo;Billings&rdquo;.
                        If this is not specified, or is empty, then all results will be returned.
                        In order to be considered in a location-based search (andLocation is set to a location), then the objects need to have a lat/long value assigned.
-                       if a value in inTagValues is an empty String (&ldquo;<q>), then the search will search explicitly for objects that do not have a value in that tag.
-                       if a value in inTagValues has only a wildcard (</q>%&rdquo;), then that means that only objects that have non-empty values of that tag will be returned; regardless of the content of the tag.</p>
+                       if a value in inTagValues is an empty String (&ldquo;&rdquo;), then the search will search explicitly for objects that do not have a value in that tag.
+                       if a value in inTagValues has only a wildcard (&ldquo;%&rdquo;), then that means that only objects that have non-empty values of that tag will be returned; regardless of the content of the tag.</p>
                                 </div>
                               </td>
                             </tr>
@@ -1743,10 +1844,10 @@ This can only be called if you are logged in as a manager.</p>
                                 <div>
                                   <p>This is a tuple with the following structure:
                            - <strong>coords</strong> This is a required CLLocationCoordinate2D struct, with a latitude and longitude.
-                           - <strong>radiusInKm</strong> This is a CLLocationDistance (Double) number, with a requested radius (in kilometers). If autoRadiusThreshold is set, and greater than zero, then this is a <q>maximum</q> radius. If the auto radius threshold is not specified, this is the full radius.
-                           - <strong>autoRadiusThreshold</strong> This is an optional Int, with a <q>threshold</q> number of results to be returned in an <q>auto-radius hunt.</q>
-                               This means that the SDK will search from the <q>coords</q> location, out, in progressively widening circles, until it either gets <em>at least</em> the number in this value, or reaches the maximum radius in <q>radiusInKm.</q>
-                               If this is specified, the <q>radiusInKm</q> specifies the maximum radius to search. At the end of that search, any resources found will be returned, even if they are fewer than requested.</p>
+                           - <strong>radiusInKm</strong> This is a CLLocationDistance (Double) number, with a requested radius (in kilometers). If autoRadiusThreshold is set, and greater than zero, then this is a &ldquo;maximum&rdquo; radius. If the auto radius threshold is not specified, this is the full radius.
+                           - <strong>autoRadiusThreshold</strong> This is an optional Int, with a &ldquo;threshold&rdquo; number of results to be returned in an &ldquo;auto-radius hunt.&rdquo;
+                               This means that the SDK will search from the &ldquo;coords&rdquo; location, out, in progressively widening circles, until it either gets <em>at least</em> the number in this value, or reaches the maximum radius in &ldquo;radiusInKm.&rdquo;
+                               If this is specified, the &ldquo;radiusInKm&rdquo; specifies the maximum radius to search. At the end of that search, any resources found will be returned, even if they are fewer than requested.</p>
                                 </div>
                               </td>
                             </tr>
@@ -1758,8 +1859,8 @@ This can only be called if you are logged in as a manager.</p>
                               </td>
                               <td>
                                 <div>
-                                  <p>This is an optional String. It can specify that only a certain plugin will be searched. For the default plugins, this can only be <q>baseline</q>, <q>people</q>, <q>places</q>, and <q>things</q>.
-                       If not specified, then the <q>baseline</q> plugin will be searched (returns all types).</p>
+                                  <p>This is an optional String. It can specify that only a certain plugin will be searched. For the default plugins, this can only be &ldquo;baseline&rdquo;, &ldquo;people&rdquo;, &ldquo;places&rdquo;, and &ldquo;things&rdquo;.
+                       If not specified, then the &ldquo;baseline&rdquo; plugin will be searched (returns all types).</p>
                                 </div>
                               </td>
                             </tr>
@@ -1775,9 +1876,11 @@ This can only be called if you are logged in as a manager.</p>
               <div class="task-name-container">
                 <a name="/Public%20Sequence%20Protocol%20Methods"></a>
                 <a name="//apple_ref/swift/Section/Public Sequence Protocol Methods" class="dashAnchor"></a>
-                <a href="#/Public%20Sequence%20Protocol%20Methods">
-                  <h3 class="section-name">Public Sequence Protocol Methods</h3>
-                </a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/Public%20Sequence%20Protocol%20Methods"></a>
+                  <h3 class="section-name"><p>Public Sequence Protocol Methods</p>
+</h3>
+                </div>
               </div>
               <ul class="item-container">
                 <li class="item">
@@ -1818,8 +1921,8 @@ This can only be called if you are logged in as a manager.</p>
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2019 <a class="link" href="https://littlegreenviper.com" target="_blank" rel="external">The Great Rift Valley Software Company</a>. All rights reserved. (Last updated: 2019-07-14)</p>
-      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+      <p>&copy; 2020 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2020-09-21)</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
 </div>

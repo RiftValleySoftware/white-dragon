@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>RVP_Cocoa_SDK_Login Class Reference</title>
+    <title>String Extension Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset="utf-8">
@@ -14,9 +14,9 @@
   </head>
   <body>
 
-    <a name="//apple_ref/swift/Class/RVP_Cocoa_SDK_Login" class="dashAnchor"></a>
+    <a name="//apple_ref/swift/Extension/String" class="dashAnchor"></a>
 
-    <a title="RVP_Cocoa_SDK_Login Class Reference"></a>
+    <a title="String Extension Reference"></a>
 
     <header class="header">
       <p class="header-col header-col--primary">
@@ -44,7 +44,7 @@
     <p class="breadcrumbs">
       <a class="breadcrumb" href="../index.html">WhiteDragon Reference</a>
       <img class="carat" src="../img/carat.png" />
-      RVP_Cocoa_SDK_Login Class Reference
+      String Extension Reference
     </p>
 
     <div class="content-wrapper">
@@ -140,37 +140,29 @@
 
         <section class="section">
           <div class="section-content top-matter">
-            <h1>RVP_Cocoa_SDK_Login</h1>
+            <h1>String</h1>
               <div class="declaration">
                 <div class="language">
                   
-                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">RVP_Cocoa_SDK_Login</span> <span class="p">:</span> <span class="kt"><a href="../Classes/A_RVP_Cocoa_SDK_Security_Object.html">A_RVP_Cocoa_SDK_Security_Object</a></span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">extension</span> <span class="kt">String</span></code></pre>
 
                 </div>
               </div>
-            
+            <p>This adds various functionality to the String class.</p>
+
           </div>
         </section>
 
         <section class="section">
           <div class="section-content">
             <div class="task-group">
-              <div class="task-name-container">
-                <a name="/Public%20Properties%20and%20Calculated%20Properties"></a>
-                <a name="//apple_ref/swift/Section/Public Properties and Calculated Properties" class="dashAnchor"></a>
-                <div class="section-name-container">
-                  <a class="section-name-link" href="#/Public%20Properties%20and%20Calculated%20Properties"></a>
-                  <h3 class="section-name"><p>Public Properties and Calculated Properties</p>
-</h3>
-                </div>
-              </div>
               <ul class="item-container">
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:11WhiteDragon19RVP_Cocoa_SDK_LoginC12asDictionarySDySSypSgGvp"></a>
-                    <a name="//apple_ref/swift/Property/asDictionary" class="dashAnchor"></a>
-                    <a class="token" href="#/s:11WhiteDragon19RVP_Cocoa_SDK_LoginC12asDictionarySDySSypSgGvp">asDictionary</a>
+                    <a name="/s:SS11WhiteDragonE11isAnIntegerSbvp"></a>
+                    <a name="//apple_ref/swift/Property/isAnInteger" class="dashAnchor"></a>
+                    <a class="token" href="#/s:SS11WhiteDragonE11isAnIntegerSbvp">isAnInteger</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -178,19 +170,20 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        
+                        <p>This was cribbed from here: <a href="https://stackoverflow.com/a/42912862/879365">https://stackoverflow.com/a/42912862/879365</a></p>
+
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">override</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">asDictionary</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span> <span class="p">:</span> <span class="kt">Any</span><span class="p">?]</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">isAnInteger</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>all of the values for this object, as a Dictionary. READ ONLY</p>
+                        <p>true, if the string is all digits (an integer).</p>
                       </div>
                     </section>
                   </div>
@@ -198,9 +191,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:11WhiteDragon19RVP_Cocoa_SDK_LoginC12userObjectIDSiSgvp"></a>
-                    <a name="//apple_ref/swift/Property/userObjectID" class="dashAnchor"></a>
-                    <a class="token" href="#/s:11WhiteDragon19RVP_Cocoa_SDK_LoginC12userObjectIDSiSgvp">userObjectID</a>
+                    <a name="/s:SS11WhiteDragonE10beginsWithySbSSF"></a>
+                    <a name="//apple_ref/swift/Method/beginsWith(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:SS11WhiteDragonE10beginsWithySbSSF">beginsWith(_:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -208,148 +201,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p><strong>NOTE:</strong> Although this will let anyone with write permission set the ID, it will not be accepted on the server, unless the admin also has at least read permissions for the user object.</p>
+                        <p>This tests a string to see if a given substring is present at the start.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">userObjectID</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Return Value</h4>
-                        <p>the ID (Int) of any User Object associated with this login. nil, if there is none.</p>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:11WhiteDragon19RVP_Cocoa_SDK_LoginC10isLoggedInSbvp"></a>
-                    <a name="//apple_ref/swift/Property/isLoggedIn" class="dashAnchor"></a>
-                    <a class="token" href="#/s:11WhiteDragon19RVP_Cocoa_SDK_LoginC10isLoggedInSbvp">isLoggedIn</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">isLoggedIn</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Return Value</h4>
-                        <p>true, if this login is currently logged in. READ ONLY</p>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:11WhiteDragon19RVP_Cocoa_SDK_LoginC9isManagerSbvp"></a>
-                    <a name="//apple_ref/swift/Property/isManager" class="dashAnchor"></a>
-                    <a class="token" href="#/s:11WhiteDragon19RVP_Cocoa_SDK_LoginC9isManagerSbvp">isManager</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">isManager</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Return Value</h4>
-                        <p>true, if this login is a Manager login. READ ONLY</p>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:11WhiteDragon19RVP_Cocoa_SDK_LoginC11isMainAdminSbvp"></a>
-                    <a name="//apple_ref/swift/Property/isMainAdmin" class="dashAnchor"></a>
-                    <a class="token" href="#/s:11WhiteDragon19RVP_Cocoa_SDK_LoginC11isMainAdminSbvp">isMainAdmin</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">isMainAdmin</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Return Value</h4>
-                        <p>true, if this login is a &ldquo;God&rdquo; (Main admin) login. READ ONLY</p>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <div class="task-name-container">
-                <a name="/Public%20Instance%20Methods"></a>
-                <a name="//apple_ref/swift/Section/Public Instance Methods" class="dashAnchor"></a>
-                <div class="section-name-container">
-                  <a class="section-name-link" href="#/Public%20Instance%20Methods"></a>
-                  <h3 class="section-name"><p>Public Instance Methods</p>
-</h3>
-                </div>
-              </div>
-              <ul class="item-container">
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:11WhiteDragon19RVP_Cocoa_SDK_LoginC11sdkInstance14objectInfoDataAcA0c1_d1_E0CSg_SDySSypGtcfc"></a>
-                    <a name="//apple_ref/swift/Method/init(sdkInstance:objectInfoData:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:11WhiteDragon19RVP_Cocoa_SDK_LoginC11sdkInstance14objectInfoDataAcA0c1_d1_E0CSg_SDySSypGtcfc">init(sdkInstance:<wbr>objectInfoData:<wbr>)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>This is the default initializer.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">override</span> <span class="nf">init</span><span class="p">(</span><span class="n">sdkInstance</span> <span class="nv">inSDKInstance</span><span class="p">:</span> <span class="kt"><a href="../Classes/RVP_Cocoa_SDK.html">RVP_Cocoa_SDK</a></span><span class="p">?,</span> <span class="n">objectInfoData</span> <span class="nv">inData</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span> <span class="p">:</span> <span class="kt">Any</span><span class="p">])</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">beginsWith</span><span class="p">(</span><span class="n">_</span> <span class="nv">inSubstring</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
 
                         </div>
                       </div>
@@ -360,29 +219,222 @@
                             <tr>
                               <td>
                                 <code>
-                                <em>sdkInstance</em>
+                                <em>inSubstring</em>
                                 </code>
                               </td>
                               <td>
                                 <div>
-                                  <p>REQUIRED (Can be nil) This is the SDK instance that &ldquo;owns&rdquo; this object. It may be nil for history instances.</p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>objectInfoData</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>REQUIRED This is the parsed JSON data for this object, as a Dictionary.</p>
+                                  <p>The substring to test.</p>
                                 </div>
                               </td>
                             </tr>
                           </tbody>
                         </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>true, if the string begins with the given substring.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:SS11WhiteDragonE16urlEncodedStringSSSgvp"></a>
+                    <a name="//apple_ref/swift/Property/urlEncodedString" class="dashAnchor"></a>
+                    <a class="token" href="#/s:SS11WhiteDragonE16urlEncodedStringSSSgvp">urlEncodedString</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The following calculated property comes from this: <a href="http://stackoverflow.com/a/27736118/879365">http://stackoverflow.com/a/27736118/879365</a></p>
+
+<p>This extension function cleans up a URI string.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">urlEncodedString</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>a string, cleaned for URI.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:SS11WhiteDragonE7asClassyXlXpSgvp"></a>
+                    <a name="//apple_ref/swift/Property/asClass" class="dashAnchor"></a>
+                    <a class="token" href="#/s:SS11WhiteDragonE7asClassyXlXpSgvp">asClass</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>This was cribbed from here: <a href="https://stackoverflow.com/a/48867619/879365">https://stackoverflow.com/a/48867619/879365</a></p>
+
+<p>This is a quick &ldquo;classmaker&rdquo; from a String. You assume the String is the name of
+a class that you want to instantiate, so you use this to return a metatype that
+can be used to create a class.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">asClass</span><span class="p">:</span> <span class="kt">AnyClass</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>a metatype for a class, or nil, if the class cannot be instantiated.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:SS11WhiteDragonE25queryStringFromParametersySSSgSDyS2SGFZ"></a>
+                    <a name="//apple_ref/swift/Method/queryStringFromParameters(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:SS11WhiteDragonE25queryStringFromParametersySSSgSDyS2SGFZ">queryStringFromParameters(_:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The following function comes from this: <a href="http://stackoverflow.com/a/27736118/879365">http://stackoverflow.com/a/27736118/879365</a></p>
+
+<p>This extension function creates a URI query string from given parameters.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">static</span> <span class="kd">func</span> <span class="nf">queryStringFromParameters</span><span class="p">(</span><span class="n">_</span> <span class="nv">parameters</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span> <span class="p">:</span> <span class="kt">String</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>parameters</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>a dictionary containing query parameters and their values.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>a String, with the parameter list.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:SS11WhiteDragonE8cleanURISSSgyF"></a>
+                    <a name="//apple_ref/swift/Method/cleanURI()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:SS11WhiteDragonE8cleanURISSSgyF">cleanURI()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>&ldquo;Cleans&rdquo; a URI</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">cleanURI</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">String</span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>an implicitly unwrapped optional String. This is the given URI, &ldquo;cleaned up&rdquo; (&ldquo;http[s]://&rdquo; may be prefixed).</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:SS11WhiteDragonE8cleanURI11sslRequiredSSSgSb_tF"></a>
+                    <a name="//apple_ref/swift/Method/cleanURI(sslRequired:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:SS11WhiteDragonE8cleanURI11sslRequiredSSSgSb_tF">cleanURI(sslRequired:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>&ldquo;Cleans&rdquo; a URI, allowing SSL requirement to be specified.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">cleanURI</span><span class="p">(</span><span class="nv">sslRequired</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">String</span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>sslRequired</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>If true, then we insist on SSL.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>an implicitly unwrapped optional String. This is the given URI, &ldquo;cleaned up&rdquo; (&ldquo;http[s]://&rdquo; may be prefixed)</p>
                       </div>
                     </section>
                   </div>

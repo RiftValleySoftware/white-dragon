@@ -75,7 +75,7 @@
                 <a class="nav-group-task-link" href="../Classes/RVP_Cocoa_SDK/LocationSpecification.html">– LocationSpecification</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Classes/RVP_Cocoa_SDK.html#/s:11WhiteDragon13RVP_Cocoa_SDKC9HTTPErrorV">– HTTPError</a>
+                <a class="nav-group-task-link" href="../Classes/RVP_Cocoa_SDK/HTTPError.html">– HTTPError</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Classes/RVP_Cocoa_SDK/DisconnectionReason.html">– DisconnectionReason</a>
@@ -116,7 +116,13 @@
             <a class="nav-group-name-link" href="../Extensions.html">Extensions</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/Data.html">Data</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Extensions/Sequence.html">Sequence</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/String.html">String</a>
               </li>
             </ul>
           </li>
@@ -133,15 +139,16 @@
       <article class="main-content">
 
         <section class="section">
-          <div class="section-content">
+          <div class="section-content top-matter">
             <h1>A_RVP_Cocoa_SDK_Data_Object</h1>
               <div class="declaration">
                 <div class="language">
+                  
                   <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">A_RVP_Cocoa_SDK_Data_Object</span> <span class="p">:</span> <span class="kt"><a href="../Classes/A_RVP_Cocoa_SDK_Object.html">A_RVP_Cocoa_SDK_Object</a></span></code></pre>
 
                 </div>
               </div>
-            <p>This is a generic <q>data database</q> class, encapsulating the generic methods and data items that go with the data database.</p>
+            <p>This is a generic &ldquo;data database&rdquo; class, encapsulating the generic methods and data items that go with the data database.</p>
 
           </div>
         </section>
@@ -152,9 +159,11 @@
               <div class="task-name-container">
                 <a name="/Public%20Properties%20and%20Calculated%20Properties"></a>
                 <a name="//apple_ref/swift/Section/Public Properties and Calculated Properties" class="dashAnchor"></a>
-                <a href="#/Public%20Properties%20and%20Calculated%20Properties">
-                  <h3 class="section-name">Public Properties and Calculated Properties</h3>
-                </a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/Public%20Properties%20and%20Calculated%20Properties"></a>
+                  <h3 class="section-name"><p>Public Properties and Calculated Properties</p>
+</h3>
+                </div>
               </div>
               <ul class="item-container">
                 <li class="item">
@@ -302,8 +311,8 @@
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>a Dictionary of Arrays of Int, with the IDs (not objects) of <q>children</q> records.
-The possible Dictionary keys are <q>people</q>, <q>places</q> and <q>things</q>.
+                        <p>a Dictionary of Arrays of Int, with the IDs (not objects) of &ldquo;children&rdquo; records.
+The possible Dictionary keys are &ldquo;people&rdquo;, &ldquo;places&rdquo; and &ldquo;things&rdquo;.
 Each of the values will be an Array of Int, with the Children IDs. READ ONLY</p>
                       </div>
                     </section>
@@ -334,7 +343,7 @@ Each of the values will be an Array of Int, with the Children IDs. READ ONLY</p>
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>any distance sent by the server, or one calculated <q>on the spot,</q>
+                        <p>any distance sent by the server, or one calculated &ldquo;on the spot,&rdquo;
 if there was no server distance, the object has a location, and the searchLocation
 instance property was set. Otherwise, it returns nil. READ ONLY</p>
                       </div>
@@ -396,9 +405,9 @@ instance property was set. Otherwise, it returns nil. READ ONLY</p>
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>a <q>fuzz factor,</q> which is the number of Kilometers of <q>slop</q> that location obfuscation uses.
+                        <p>a &ldquo;fuzz factor,&rdquo; which is the number of Kilometers of &ldquo;slop&rdquo; that location obfuscation uses.
 Be aware that it may not be available, in which case, this will be nil.
-If you set (or clear) the fuzz factor, the <q>isFuzzy</q> value may be changed.</p>
+If you set (or clear) the fuzz factor, the &ldquo;isFuzzy&rdquo; value may be changed.</p>
                       </div>
                     </section>
                   </div>
@@ -428,7 +437,7 @@ If you set (or clear) the fuzz factor, the <q>isFuzzy</q> value may be changed.<
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>an Int, which is the token assigned as an <q>extra</q> token that <q>can see through the fuzz,</q> meaning that holders of that token can see the <q>raw</q> location.</p>
+                        <p>an Int, which is the token assigned as an &ldquo;extra&rdquo; token that &ldquo;can see through the fuzz,&rdquo; meaning that holders of that token can see the &ldquo;raw&rdquo; location.</p>
                       </div>
                     </section>
                   </div>
@@ -490,9 +499,9 @@ If you set (or clear) the fuzz factor, the <q>isFuzzy</q> value may be changed.<
                         <h4>Return Value</h4>
                         <p>the search location as a coordinate pair.
 This is a special property with the center of a radius search.
-If the object already has a <q>distance</q> property returned from the server,
+If the object already has a &ldquo;distance&rdquo; property returned from the server,
 this is ignored. Otherwise, if it is provided, and the object has a long/lat,
-the <q>distance</q> read-only property will return a CoreLocation-calculated distance
+the &ldquo;distance&rdquo; read-only property will return a CoreLocation-calculated distance
 in Kilometers from this center. READ ONLY</p>
                       </div>
                     </section>
@@ -523,7 +532,7 @@ in Kilometers from this center. READ ONLY</p>
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>the <q>raw</q> longitude and latitude as a coordinate. Be aware that they may not be available, in which case, it will be nil. READ ONLY</p>
+                        <p>the &ldquo;raw&rdquo; longitude and latitude as a coordinate. Be aware that they may not be available, in which case, it will be nil. READ ONLY</p>
                       </div>
                     </section>
                   </div>
@@ -534,9 +543,11 @@ in Kilometers from this center. READ ONLY</p>
               <div class="task-name-container">
                 <a name="/Public%20Instance%20Methods"></a>
                 <a name="//apple_ref/swift/Section/Public Instance Methods" class="dashAnchor"></a>
-                <a href="#/Public%20Instance%20Methods">
-                  <h3 class="section-name">Public Instance Methods</h3>
-                </a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/Public%20Instance%20Methods"></a>
+                  <h3 class="section-name"><p>Public Instance Methods</p>
+</h3>
+                </div>
               </div>
               <ul class="item-container">
                 <li class="item">
@@ -544,7 +555,7 @@ in Kilometers from this center. READ ONLY</p>
                     <code>
                     <a name="/s:11WhiteDragon27A_RVP_Cocoa_SDK_Data_ObjectC11sdkInstance010objectInfoF0AcA0c1_d1_E0CSg_SDySSypGtcfc"></a>
                     <a name="//apple_ref/swift/Method/init(sdkInstance:objectInfoData:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:11WhiteDragon27A_RVP_Cocoa_SDK_Data_ObjectC11sdkInstance010objectInfoF0AcA0c1_d1_E0CSg_SDySSypGtcfc">init(sdkInstance:objectInfoData:)</a>
+                    <a class="token" href="#/s:11WhiteDragon27A_RVP_Cocoa_SDK_Data_ObjectC11sdkInstance010objectInfoF0AcA0c1_d1_E0CSg_SDySSypGtcfc">init(sdkInstance:<wbr>objectInfoData:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -575,7 +586,7 @@ in Kilometers from this center. READ ONLY</p>
                               </td>
                               <td>
                                 <div>
-                                  <p>REQUIRED (Can be nil) This is the SDK instance that <q>owns</q> this object. It may be nil for history instances.</p>
+                                  <p>REQUIRED (Can be nil) This is the SDK instance that &ldquo;owns&rdquo; this object. It may be nil for history instances.</p>
                                 </div>
                               </td>
                             </tr>
@@ -610,7 +621,7 @@ in Kilometers from this center. READ ONLY</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>This asks the server to return all of the <q>children</q> objects. It could result in a fairly large response.</p>
+                        <p>This asks the server to return all of the &ldquo;children&rdquo; objects. It could result in a fairly large response.</p>
 
                       </div>
                       <div class="declaration">
@@ -632,8 +643,8 @@ in Kilometers from this center. READ ONLY</p>
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2019 <a class="link" href="https://littlegreenviper.com" target="_blank" rel="external">The Great Rift Valley Software Company</a>. All rights reserved. (Last updated: 2019-07-14)</p>
-      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+      <p>&copy; 2020 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2020-09-21)</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
 </div>

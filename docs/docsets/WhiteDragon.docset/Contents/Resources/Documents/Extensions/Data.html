@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>RVP_Cocoa_SDK_Payload Class Reference</title>
+    <title>Data Extension Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset="utf-8">
@@ -14,9 +14,9 @@
   </head>
   <body>
 
-    <a name="//apple_ref/swift/Class/RVP_Cocoa_SDK_Payload" class="dashAnchor"></a>
+    <a name="//apple_ref/swift/Extension/Data" class="dashAnchor"></a>
 
-    <a title="RVP_Cocoa_SDK_Payload Class Reference"></a>
+    <a title="Data Extension Reference"></a>
 
     <header class="header">
       <p class="header-col header-col--primary">
@@ -44,7 +44,7 @@
     <p class="breadcrumbs">
       <a class="breadcrumb" href="../index.html">WhiteDragon Reference</a>
       <img class="carat" src="../img/carat.png" />
-      RVP_Cocoa_SDK_Payload Class Reference
+      Data Extension Reference
     </p>
 
     <div class="content-wrapper">
@@ -140,17 +140,17 @@
 
         <section class="section">
           <div class="section-content top-matter">
-            <h1>RVP_Cocoa_SDK_Payload</h1>
+            <h1>Data</h1>
               <div class="declaration">
                 <div class="language">
                   
-                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">RVP_Cocoa_SDK_Payload</span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">extension</span> <span class="kt">Data</span></code></pre>
 
                 </div>
               </div>
-            <p>This is a special class for representing the payload as an atomic object. It encapsulates the type and the payload, as a Data object.</p>
+            <p>From here: <a href="https://stackoverflow.com/a/45305316/879365">https://stackoverflow.com/a/45305316/879365</a></p>
 
-<p>Expressing it as a class gives us a couple of things: 1) It allows us to keep it as a reference, as opposed to a copy, and 2) It allows us to easily extend the class with data interpretation.</p>
+<p>This helps us to determine the data type. It isn&rsquo;t particularly robust, but is better than nothing.</p>
 
           </div>
         </section>
@@ -158,22 +158,13 @@
         <section class="section">
           <div class="section-content">
             <div class="task-group">
-              <div class="task-name-container">
-                <a name="/PUBLIC%20PROPERTIES"></a>
-                <a name="//apple_ref/swift/Section/PUBLIC PROPERTIES" class="dashAnchor"></a>
-                <div class="section-name-container">
-                  <a class="section-name-link" href="#/PUBLIC%20PROPERTIES"></a>
-                  <h3 class="section-name"><p>PUBLIC PROPERTIES</p>
-</h3>
-                </div>
-              </div>
               <ul class="item-container">
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:11WhiteDragon21RVP_Cocoa_SDK_PayloadC11payloadData10Foundation0H0VSgvp"></a>
-                    <a name="//apple_ref/swift/Property/payloadData" class="dashAnchor"></a>
-                    <a class="token" href="#/s:11WhiteDragon21RVP_Cocoa_SDK_PayloadC11payloadData10Foundation0H0VSgvp">payloadData</a>
+                    <a name="/s:10Foundation4DataV11WhiteDragonE8mimeTypeSSvp"></a>
+                    <a name="//apple_ref/swift/Property/mimeType" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10Foundation4DataV11WhiteDragonE8mimeTypeSSvp">mimeType</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -181,114 +172,19 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The payload, as a Data object.</p>
-
+                        
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">payloadData</span><span class="p">:</span> <span class="kt">Data</span><span class="p">?</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:11WhiteDragon21RVP_Cocoa_SDK_PayloadC11payloadTypeSSvp"></a>
-                    <a name="//apple_ref/swift/Property/payloadType" class="dashAnchor"></a>
-                    <a class="token" href="#/s:11WhiteDragon21RVP_Cocoa_SDK_PayloadC11payloadTypeSSvp">payloadType</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>The payload MIME type, as a String.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">payloadType</span><span class="p">:</span> <span class="kt">String</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <div class="task-name-container">
-                <a name="/PUBLIC%20METHODS"></a>
-                <a name="//apple_ref/swift/Section/PUBLIC METHODS" class="dashAnchor"></a>
-                <div class="section-name-container">
-                  <a class="section-name-link" href="#/PUBLIC%20METHODS"></a>
-                  <h3 class="section-name"><p>PUBLIC METHODS</p>
-</h3>
-                </div>
-              </div>
-              <ul class="item-container">
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:11WhiteDragon21RVP_Cocoa_SDK_PayloadC11payloadData0G4TypeAC10Foundation0H0V_SStcfc"></a>
-                    <a name="//apple_ref/swift/Method/init(payloadData:payloadType:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:11WhiteDragon21RVP_Cocoa_SDK_PayloadC11payloadData0G4TypeAC10Foundation0H0V_SStcfc">init(payloadData:<wbr>payloadType:<wbr>)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Default Initializer.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="n"><a href="../Classes/RVP_Cocoa_SDK_Payload.html#/s:11WhiteDragon21RVP_Cocoa_SDK_PayloadC11payloadData10Foundation0H0VSgvp">payloadData</a></span> <span class="nv">inData</span><span class="p">:</span> <span class="kt">Data</span><span class="p">,</span> <span class="n"><a href="../Classes/RVP_Cocoa_SDK_Payload.html#/s:11WhiteDragon21RVP_Cocoa_SDK_PayloadC11payloadTypeSSvp">payloadType</a></span> <span class="nv">inType</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">mimeType</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
                       <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>payloadData</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The payload, as a Data object.</p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>payloadType</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The payload&rsquo;s MIME type.</p>
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
+                        <h4>Return Value</h4>
+                        <p>the best guess at the data type.</p>
                       </div>
                     </section>
                   </div>

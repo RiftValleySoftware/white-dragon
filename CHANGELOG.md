@@ -1,3 +1,7 @@
+**1.0.2.0000** *TBD*
+
+- Fixed a documentation issue.
+
 **1.0.1.0000** *September 15, 2020*
 
 - Tweaked for the newest Xcode.

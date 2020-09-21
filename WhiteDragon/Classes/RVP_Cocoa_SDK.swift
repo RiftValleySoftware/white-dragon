@@ -2509,6 +2509,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      
      - parameter inIntegerIDs: An Array of Int, with the data database IDs of the data database objects Requested.
      - parameter andPlugin: An optional String, with the required plugin ("people", "places" or "things"). If nil, then the baseline plugin is invoked, which will fetch any object, regardless of plugin.
+     - parameter dontNukeTheLocation: Optional. If true, then we keep the search location cached (like in an auto-radius call). Otherwise (default), the search location is reset after this call.
      */
     public func fetchDataItemsByIDs(_ inIntegerIDs: [Int], andPlugin inPlugin: String? = "baseline", dontNukeTheLocation inDontNuke: Bool = false) {
         if !inDontNuke {

@@ -75,7 +75,7 @@
                 <a class="nav-group-task-link" href="../Classes/RVP_Cocoa_SDK/LocationSpecification.html">– LocationSpecification</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Classes/RVP_Cocoa_SDK.html#/s:11WhiteDragon13RVP_Cocoa_SDKC9HTTPErrorV">– HTTPError</a>
+                <a class="nav-group-task-link" href="../Classes/RVP_Cocoa_SDK/HTTPError.html">– HTTPError</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Classes/RVP_Cocoa_SDK/DisconnectionReason.html">– DisconnectionReason</a>
@@ -116,7 +116,13 @@
             <a class="nav-group-name-link" href="../Extensions.html">Extensions</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/Data.html">Data</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Extensions/Sequence.html">Sequence</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/String.html">String</a>
               </li>
             </ul>
           </li>
@@ -133,10 +139,11 @@
       <article class="main-content">
 
         <section class="section">
-          <div class="section-content">
+          <div class="section-content top-matter">
             <h1>A_RVP_Cocoa_SDK_Object</h1>
               <div class="declaration">
                 <div class="language">
+                  
                   <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">A_RVP_Cocoa_SDK_Object</span> <span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt">Sequence</span></code></pre>
 
                 </div>
@@ -152,9 +159,11 @@
               <div class="task-name-container">
                 <a name="/Public%20Data%20Structures"></a>
                 <a name="//apple_ref/swift/Section/Public Data Structures" class="dashAnchor"></a>
-                <a href="#/Public%20Data%20Structures">
-                  <h3 class="section-name">Public Data Structures</h3>
-                </a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/Public%20Data%20Structures"></a>
+                  <h3 class="section-name"><p>Public Data Structures</p>
+</h3>
+                </div>
               </div>
               <ul class="item-container">
                 <li class="item">
@@ -190,9 +199,11 @@
               <div class="task-name-container">
                 <a name="/Public%20Properties%20and%20Calculated%20Properties"></a>
                 <a name="//apple_ref/swift/Section/Public Properties and Calculated Properties" class="dashAnchor"></a>
-                <a href="#/Public%20Properties%20and%20Calculated%20Properties">
-                  <h3 class="section-name">Public Properties and Calculated Properties</h3>
-                </a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/Public%20Properties%20and%20Calculated%20Properties"></a>
+                  <h3 class="section-name"><p>Public Properties and Calculated Properties</p>
+</h3>
+                </div>
               </div>
               <ul class="item-container">
                 <li class="item">
@@ -524,7 +535,7 @@ to get the methods/calculated properties you need to make changes.</p>
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>the SDK instance that <q>owns</q> this instance. READ ONLY</p>
+                        <p>the SDK instance that &ldquo;owns&rdquo; this instance. READ ONLY</p>
                       </div>
                     </section>
                   </div>
@@ -535,9 +546,11 @@ to get the methods/calculated properties you need to make changes.</p>
               <div class="task-name-container">
                 <a name="/Public%20Instance%20Methods"></a>
                 <a name="//apple_ref/swift/Section/Public Instance Methods" class="dashAnchor"></a>
-                <a href="#/Public%20Instance%20Methods">
-                  <h3 class="section-name">Public Instance Methods</h3>
-                </a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/Public%20Instance%20Methods"></a>
+                  <h3 class="section-name"><p>Public Instance Methods</p>
+</h3>
+                </div>
               </div>
               <ul class="item-container">
                 <li class="item">
@@ -545,7 +558,7 @@ to get the methods/calculated properties you need to make changes.</p>
                     <code>
                     <a name="/s:11WhiteDragon22A_RVP_Cocoa_SDK_ObjectC11sdkInstance14objectInfoDataAcA0c1_d1_E0CSg_SDySSypGtcfc"></a>
                     <a name="//apple_ref/swift/Method/init(sdkInstance:objectInfoData:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:11WhiteDragon22A_RVP_Cocoa_SDK_ObjectC11sdkInstance14objectInfoDataAcA0c1_d1_E0CSg_SDySSypGtcfc">init(sdkInstance:objectInfoData:)</a>
+                    <a class="token" href="#/s:11WhiteDragon22A_RVP_Cocoa_SDK_ObjectC11sdkInstance14objectInfoDataAcA0c1_d1_E0CSg_SDySSypGtcfc">init(sdkInstance:<wbr>objectInfoData:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -576,7 +589,7 @@ to get the methods/calculated properties you need to make changes.</p>
                               </td>
                               <td>
                                 <div>
-                                  <p>REQUIRED (Can be nil) This is the SDK instance that <q>owns</q> this object. It may be nil for history instances.</p>
+                                  <p>REQUIRED (Can be nil) This is the SDK instance that &ldquo;owns&rdquo; this object. It may be nil for history instances.</p>
                                 </div>
                               </td>
                             </tr>
@@ -710,11 +723,13 @@ to get the methods/calculated properties you need to make changes.</p>
             </div>
             <div class="task-group">
               <div class="task-name-container">
-                <a name="/Public%20Sequence%20Protocol%20Methods,%20Typedefs%20and%20Structs"></a>
+                <a name="/Public%20Sequence%20Protocol%20Methods%2C%20Typedefs%20and%20Structs"></a>
                 <a name="//apple_ref/swift/Section/Public Sequence Protocol Methods, Typedefs and Structs" class="dashAnchor"></a>
-                <a href="#/Public%20Sequence%20Protocol%20Methods,%20Typedefs%20and%20Structs">
-                  <h3 class="section-name">Public Sequence Protocol Methods, Typedefs and Structs</h3>
-                </a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/Public%20Sequence%20Protocol%20Methods%2C%20Typedefs%20and%20Structs"></a>
+                  <h3 class="section-name"><p>Public Sequence Protocol Methods, Typedefs and Structs</p>
+</h3>
+                </div>
               </div>
               <ul class="item-container">
                 <li class="item">
@@ -749,7 +764,7 @@ to get the methods/calculated properties you need to make changes.</p>
                     <code>
                     <a name="/s:11WhiteDragon22A_RVP_Cocoa_SDK_ObjectCyypSgSgSScip"></a>
                     <a name="//apple_ref/swift/Method/subscript(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:11WhiteDragon22A_RVP_Cocoa_SDK_ObjectCyypSgSgSScip">subscript(_:)</a>
+                    <a class="token" href="#/s:11WhiteDragon22A_RVP_Cocoa_SDK_ObjectCyypSgSgSScip">subscript(_:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -758,7 +773,7 @@ to get the methods/calculated properties you need to make changes.</p>
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>We have a subscript to return values, as if we were directly accessing the data. READ ONLY.
-This returns the <q>asDictionary</q> response, as opposed to direct <q>myData</q> access (use <q>myData</q> for that).</p>
+This returns the &ldquo;asDictionary&rdquo; response, as opposed to direct &ldquo;myData&rdquo; access (use &ldquo;myData&rdquo; for that).</p>
 
                       </div>
                       <div class="declaration">
@@ -785,7 +800,7 @@ This returns the <q>asDictionary</q> response, as opposed to direct <q>myData</q
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>This is the Sequence Iterator Struct. This iterates the <q>asDictionary</q> response. READ ONLY.</p>
+                        <p>This is the Sequence Iterator Struct. This iterates the &ldquo;asDictionary&rdquo; response. READ ONLY.</p>
 
                         <a href="../Classes/A_RVP_Cocoa_SDK_Object/Iterator.html" class="slightly-smaller">See more</a>
                       </div>
@@ -838,8 +853,8 @@ This returns the <q>asDictionary</q> response, as opposed to direct <q>myData</q
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2019 <a class="link" href="https://littlegreenviper.com" target="_blank" rel="external">The Great Rift Valley Software Company</a>. All rights reserved. (Last updated: 2019-07-14)</p>
-      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+      <p>&copy; 2020 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2020-09-21)</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
 </div>

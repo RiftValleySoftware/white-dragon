@@ -75,7 +75,7 @@
                 <a class="nav-group-task-link" href="../Classes/RVP_Cocoa_SDK/LocationSpecification.html">– LocationSpecification</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Classes/RVP_Cocoa_SDK.html#/s:11WhiteDragon13RVP_Cocoa_SDKC9HTTPErrorV">– HTTPError</a>
+                <a class="nav-group-task-link" href="../Classes/RVP_Cocoa_SDK/HTTPError.html">– HTTPError</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Classes/RVP_Cocoa_SDK/DisconnectionReason.html">– DisconnectionReason</a>
@@ -116,7 +116,13 @@
             <a class="nav-group-name-link" href="../Extensions.html">Extensions</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/Data.html">Data</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Extensions/Sequence.html">Sequence</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/String.html">String</a>
               </li>
             </ul>
           </li>
@@ -133,10 +139,11 @@
       <article class="main-content">
 
         <section class="section">
-          <div class="section-content">
+          <div class="section-content top-matter">
             <h1>RVP_Cocoa_SDK_Delegate</h1>
               <div class="declaration">
                 <div class="language">
+                  
                   <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">RVP_Cocoa_SDK_Delegate</span> <span class="p">:</span> <span class="kt">AnyObject</span></code></pre>
 
                 </div>
@@ -159,7 +166,7 @@
                     <code>
                     <a name="/s:11WhiteDragon22RVP_Cocoa_SDK_DelegateP11sdkInstance_24sessionConnectionIsValidyAA0c1_d1_E0C_SbtF"></a>
                     <a name="//apple_ref/swift/Method/sdkInstance(_:sessionConnectionIsValid:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:11WhiteDragon22RVP_Cocoa_SDK_DelegateP11sdkInstance_24sessionConnectionIsValidyAA0c1_d1_E0C_SbtF">sdkInstance(_:sessionConnectionIsValid:)</a>
+                    <a class="token" href="#/s:11WhiteDragon22RVP_Cocoa_SDK_DelegateP11sdkInstance_24sessionConnectionIsValidyAA0c1_d1_E0C_SbtF">sdkInstance(_:<wbr>sessionConnectionIsValid:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -188,18 +195,6 @@ If the connection was invalidated, then sessionDisconnectedBecause will also be 
                             <tr>
                               <td>
                                 <code>
-                                <em>sdkInstance</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>This is the SDK instance making the call.</p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
                                 <em>sessionConnectionIsValid</em>
                                 </code>
                               </td>
@@ -220,7 +215,7 @@ If the connection was invalidated, then sessionDisconnectedBecause will also be 
                     <code>
                     <a name="/s:11WhiteDragon22RVP_Cocoa_SDK_DelegateP11sdkInstance_10loginValidyAA0c1_d1_E0C_SbtF"></a>
                     <a name="//apple_ref/swift/Method/sdkInstance(_:loginValid:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:11WhiteDragon22RVP_Cocoa_SDK_DelegateP11sdkInstance_10loginValidyAA0c1_d1_E0C_SbtF">sdkInstance(_:loginValid:)</a>
+                    <a class="token" href="#/s:11WhiteDragon22RVP_Cocoa_SDK_DelegateP11sdkInstance_10loginValidyAA0c1_d1_E0C_SbtF">sdkInstance(_:<wbr>loginValid:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -229,7 +224,7 @@ If the connection was invalidated, then sessionDisconnectedBecause will also be 
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>This is called when the server has completed its login sequence, and all is considered OK.
-The server should not be considered <q>usable</q> until after this method has been called with true.</p>
+The server should not be considered &ldquo;usable&rdquo; until after this method has been called with true.</p>
 
 <p><strong>NOTE:</strong> This is not guaranteed to be called in the main thread!</p>
 
@@ -249,19 +244,7 @@ The server should not be considered <q>usable</q> until after this method has be
                             <tr>
                               <td>
                                 <code>
-                                <em>sdkInstance</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>This is the SDK instance making the call.</p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>liginValid</em>
+                                <em>loginValid</em>
                                 </code>
                               </td>
                               <td>
@@ -281,7 +264,7 @@ The server should not be considered <q>usable</q> until after this method has be
                     <code>
                     <a name="/s:11WhiteDragon22RVP_Cocoa_SDK_DelegateP11sdkInstance_26sessionDisconnectedBecauseyAA0c1_d1_E0C_AG19DisconnectionReasonOtF"></a>
                     <a name="//apple_ref/swift/Method/sdkInstance(_:sessionDisconnectedBecause:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:11WhiteDragon22RVP_Cocoa_SDK_DelegateP11sdkInstance_26sessionDisconnectedBecauseyAA0c1_d1_E0C_AG19DisconnectionReasonOtF">sdkInstance(_:sessionDisconnectedBecause:)</a>
+                    <a class="token" href="#/s:11WhiteDragon22RVP_Cocoa_SDK_DelegateP11sdkInstance_26sessionDisconnectedBecauseyAA0c1_d1_E0C_AG19DisconnectionReasonOtF">sdkInstance(_:<wbr>sessionDisconnectedBecause:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -309,18 +292,6 @@ The server should not be considered <q>usable</q> until after this method has be
                             <tr>
                               <td>
                                 <code>
-                                <em>sdkInstance</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>This is the SDK instance making the call.</p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
                                 <em>sessionDisconnectedBecause</em>
                                 </code>
                               </td>
@@ -341,7 +312,7 @@ The server should not be considered <q>usable</q> until after this method has be
                     <code>
                     <a name="/s:11WhiteDragon22RVP_Cocoa_SDK_DelegateP11sdkInstance_12sessionErroryAA0c1_d1_E0C_s0J0_ptF"></a>
                     <a name="//apple_ref/swift/Method/sdkInstance(_:sessionError:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:11WhiteDragon22RVP_Cocoa_SDK_DelegateP11sdkInstance_12sessionErroryAA0c1_d1_E0C_s0J0_ptF">sdkInstance(_:sessionError:)</a>
+                    <a class="token" href="#/s:11WhiteDragon22RVP_Cocoa_SDK_DelegateP11sdkInstance_12sessionErroryAA0c1_d1_E0C_s0J0_ptF">sdkInstance(_:<wbr>sessionError:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -369,18 +340,6 @@ The server should not be considered <q>usable</q> until after this method has be
                             <tr>
                               <td>
                                 <code>
-                                <em>sdkInstance</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>This is the SDK instance making the call.</p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
                                 <em>sessionError</em>
                                 </code>
                               </td>
@@ -401,7 +360,7 @@ The server should not be considered <q>usable</q> until after this method has be
                     <code>
                     <a name="/s:11WhiteDragon22RVP_Cocoa_SDK_DelegateP11sdkInstance_16fetchedDataItemsyAA0c1_d1_E0C_SayAA02A_c1_d1_E7_ObjectCGtF"></a>
                     <a name="//apple_ref/swift/Method/sdkInstance(_:fetchedDataItems:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:11WhiteDragon22RVP_Cocoa_SDK_DelegateP11sdkInstance_16fetchedDataItemsyAA0c1_d1_E0C_SayAA02A_c1_d1_E7_ObjectCGtF">sdkInstance(_:fetchedDataItems:)</a>
+                    <a class="token" href="#/s:11WhiteDragon22RVP_Cocoa_SDK_DelegateP11sdkInstance_16fetchedDataItemsyAA0c1_d1_E0C_SayAA02A_c1_d1_E7_ObjectCGtF">sdkInstance(_:<wbr>fetchedDataItems:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -430,18 +389,6 @@ In an auto-radius search, this may be called repeatedly.</p>
                             <tr>
                               <td>
                                 <code>
-                                <em>sdkInstance</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>This is the SDK instance making the call.</p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
                                 <em>fetchedDataItems</em>
                                 </code>
                               </td>
@@ -462,7 +409,7 @@ In an auto-radius search, this may be called repeatedly.</p>
                     <code>
                     <a name="/s:11WhiteDragon22RVP_Cocoa_SDK_DelegateP11sdkInstance_16deletedDataItemsyAA0c1_d1_E0C_SayAA02A_c1_d1_E7_ObjectCGtF"></a>
                     <a name="//apple_ref/swift/Method/sdkInstance(_:deletedDataItems:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:11WhiteDragon22RVP_Cocoa_SDK_DelegateP11sdkInstance_16deletedDataItemsyAA0c1_d1_E0C_SayAA02A_c1_d1_E7_ObjectCGtF">sdkInstance(_:deletedDataItems:)</a>
+                    <a class="token" href="#/s:11WhiteDragon22RVP_Cocoa_SDK_DelegateP11sdkInstance_16deletedDataItemsyAA0c1_d1_E0C_SayAA02A_c1_d1_E7_ObjectCGtF">sdkInstance(_:<wbr>deletedDataItems:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -491,18 +438,6 @@ This returns the items that were deleted (they no longer exist) in the database.
                             <tr>
                               <td>
                                 <code>
-                                <em>sdkInstance</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>This is the SDK instance making the call.</p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
                                 <em>deletedDataItems</em>
                                 </code>
                               </td>
@@ -523,7 +458,7 @@ This returns the items that were deleted (they no longer exist) in the database.
                     <code>
                     <a name="/s:11WhiteDragon22RVP_Cocoa_SDK_DelegateP11sdkInstance_9newObjectyAA0c1_d1_E0C_AA02A_c1_d1_e1_J0CtF"></a>
                     <a name="//apple_ref/swift/Method/sdkInstance(_:newObject:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:11WhiteDragon22RVP_Cocoa_SDK_DelegateP11sdkInstance_9newObjectyAA0c1_d1_E0C_AA02A_c1_d1_e1_J0CtF">sdkInstance(_:newObject:)</a>
+                    <a class="token" href="#/s:11WhiteDragon22RVP_Cocoa_SDK_DelegateP11sdkInstance_9newObjectyAA0c1_d1_E0C_AA02A_c1_d1_e1_J0CtF">sdkInstance(_:<wbr>newObject:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -553,18 +488,6 @@ which will be called with the same object, in an Array of one element.</p>
                             <tr>
                               <td>
                                 <code>
-                                <em>sdkInstance</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>This is the SDK instance making the call.</p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
                                 <em>newObject</em>
                                 </code>
                               </td>
@@ -585,7 +508,7 @@ which will be called with the same object, in an Array of one element.</p>
                     <code>
                     <a name="/s:11WhiteDragon22RVP_Cocoa_SDK_DelegateP11sdkInstance_21baselineAutoRadiusIDs7isFinalyAA0c1_d1_E0C_SaySiGSbtF"></a>
                     <a name="//apple_ref/swift/Method/sdkInstance(_:baselineAutoRadiusIDs:isFinal:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:11WhiteDragon22RVP_Cocoa_SDK_DelegateP11sdkInstance_21baselineAutoRadiusIDs7isFinalyAA0c1_d1_E0C_SaySiGSbtF">sdkInstance(_:baselineAutoRadiusIDs:isFinal:)</a>
+                    <a class="token" href="#/s:11WhiteDragon22RVP_Cocoa_SDK_DelegateP11sdkInstance_21baselineAutoRadiusIDs7isFinalyAA0c1_d1_E0C_SaySiGSbtF">sdkInstance(_:<wbr>baselineAutoRadiusIDs:<wbr>isFinal:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -593,7 +516,7 @@ which will be called with the same object, in an Array of one element.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>This is called with zero or more IDs. Base;ine searches are a <q>two-step</q> process, where IDs are fetched first, then objects.
+                        <p>This is called with zero or more IDs. Baseline searches are a &ldquo;two-step&rdquo; process, where IDs are fetched first, then objects.
 This call is made between the two steps. In the case of auto-radius, the second step is not done until the end, so this is the only indication of progress.
 In an auto-radius search, this will be called repeatedly, but the actual objects will not be fetched until the final call.</p>
 
@@ -612,18 +535,6 @@ In an auto-radius search, this will be called repeatedly, but the actual objects
                         <h4>Parameters</h4>
                         <table class="graybox">
                           <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>sdkInstance</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>This is the SDK instance making the call.</p>
-                                </div>
-                              </td>
-                            </tr>
                             <tr>
                               <td>
                                 <code>
@@ -659,7 +570,7 @@ In an auto-radius search, this will be called repeatedly, but the actual objects
                     <code>
                     <a name="/s:11WhiteDragon22RVP_Cocoa_SDK_DelegateP30sdkInstanceFinalAutoRadiusCallyyAA0c1_d1_E0CF"></a>
                     <a name="//apple_ref/swift/Method/sdkInstanceFinalAutoRadiusCall(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:11WhiteDragon22RVP_Cocoa_SDK_DelegateP30sdkInstanceFinalAutoRadiusCallyyAA0c1_d1_E0CF">sdkInstanceFinalAutoRadiusCall(_:)</a>
+                    <a class="token" href="#/s:11WhiteDragon22RVP_Cocoa_SDK_DelegateP30sdkInstanceFinalAutoRadiusCallyyAA0c1_d1_E0CF">sdkInstanceFinalAutoRadiusCall(_:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -681,25 +592,6 @@ This is called BEFORE the results of that call come, so keep in mind that it is 
 
                         </div>
                       </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>sdkInstance</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>This is the SDK instance making the call.</p>
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
                     </section>
                   </div>
                 </li>
@@ -708,7 +600,7 @@ This is called BEFORE the results of that call come, so keep in mind that it is 
                     <code>
                     <a name="/s:11WhiteDragon22RVP_Cocoa_SDK_DelegateP28sdkInstanceOperationCompleteyyAA0c1_d1_E0CF"></a>
                     <a name="//apple_ref/swift/Method/sdkInstanceOperationComplete(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:11WhiteDragon22RVP_Cocoa_SDK_DelegateP28sdkInstanceOperationCompleteyyAA0c1_d1_E0CF">sdkInstanceOperationComplete(_:)</a>
+                    <a class="token" href="#/s:11WhiteDragon22RVP_Cocoa_SDK_DelegateP28sdkInstanceOperationCompleteyyAA0c1_d1_E0CF">sdkInstanceOperationComplete(_:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -729,25 +621,6 @@ This is called BEFORE the results of that call come, so keep in mind that it is 
 
                         </div>
                       </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>sdkInstance</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>This is the SDK instance making the call.</p>
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
                     </section>
                   </div>
                 </li>
@@ -759,8 +632,8 @@ This is called BEFORE the results of that call come, so keep in mind that it is 
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2019 <a class="link" href="https://littlegreenviper.com" target="_blank" rel="external">The Great Rift Valley Software Company</a>. All rights reserved. (Last updated: 2019-07-14)</p>
-      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+      <p>&copy; 2020 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2020-09-21)</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
 </div>
