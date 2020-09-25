@@ -70,8 +70,8 @@ public class RVP_Cocoa_SDK_User: A_RVP_Cocoa_SDK_Data_Object {
             ret["givenName"] = givenName
         }
         
-        if let nickame = self.nickame {
-            ret["nickame"] = nickame
+        if let nickname = self.nickname {
+            ret["nickname"] = nickname
         }
         
         if let prefix = self.prefix {
