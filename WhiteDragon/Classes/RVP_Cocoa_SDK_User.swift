@@ -165,13 +165,13 @@ public class RVP_Cocoa_SDK_User: A_RVP_Cocoa_SDK_Data_Object {
     
     /* ################################################################## */
     /**
-     - returns: the user nickame, as an optional String
+     - returns: the user nickname, as an optional String
      */
-    public var nickame: String? {
+    public var nickname: String? {
         get {
             var ret: String?
             
-            if let name = self._myData["nickame"] as? String {
+            if let name = self._myData["nickname"] as? String {
                 ret = name
             }
             

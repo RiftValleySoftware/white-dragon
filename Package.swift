@@ -38,7 +38,6 @@ let package = Package(
     targets: [
         .target(
             name: "WhiteDragon",
-            dependencies: [],
             path: "WhiteDragon/Classes"
         )
     ]
