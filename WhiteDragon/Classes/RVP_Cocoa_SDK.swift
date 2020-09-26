@@ -1726,7 +1726,6 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      */
     deinit {
         if nil != self._connectionSession {
-            self.logout()
             if self._newSession {   // We only nuke the session if we created it.
                 self._connectionSession.finishTasksAndInvalidate()   // Take off and nuke the site from orbit. It's the only way to be sure.
             }

@@ -141,4 +141,17 @@ public class RVP_Cocoa_SDK_Login: A_RVP_Cocoa_SDK_Security_Object {
     public override init(sdkInstance inSDKInstance: RVP_Cocoa_SDK?, objectInfoData inData: [String: Any]) {
         super.init(sdkInstance: inSDKInstance, objectInfoData: inData)
     }
+    
+    /* ################################################################## */
+    /**
+     Password changes are write-only. We can't see existing passwords, only send a new one.
+     
+     - parameter: The new password, as a String
+     */
+    public func changePasswordTo(_ inPassword: String) {
+        if self.isWriteable,
+           !inPassword.isEmpty {
+            self._myData["password"] = inPassword
+        }
+    }
 }
