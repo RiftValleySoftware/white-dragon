@@ -517,9 +517,9 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
             testTextItem.text = fieldText
             testTextItem.font = self.nameTextField.font
             testTextItem.textColor = self.nameTextField.textColor
-            testTextItem.addTarget(self, action: #selector(type(of: self).determineSaveStatus(_:)), for: .editingDidEnd)
-            testTextItem.addTarget(self, action: #selector(type(of: self).determineSaveStatus(_:)), for: .editingChanged)
-            testTextItem.addTarget(self, action: #selector(type(of: self).determineSaveStatus(_:)), for: .editingDidEndOnExit)
+            testTextItem.addTarget(self, action: #selector(Self.determineSaveStatus(_:)), for: .editingDidEnd)
+            testTextItem.addTarget(self, action: #selector(Self.determineSaveStatus(_:)), for: .editingChanged)
+            testTextItem.addTarget(self, action: #selector(Self.determineSaveStatus(_:)), for: .editingDidEndOnExit)
             self.generatedValuesAndLabels[indexPath.row].textItem = testTextItem
             ret.addSubview(testTextItem)
             testTextItem.translatesAutoresizingMaskIntoConstraints = false
@@ -604,7 +604,7 @@ class RVP_EditElementViewController: UITableViewController, UIPickerViewDelegate
             
             let buttonObject = UIButton()
             buttonObject.setTitle("CHANGE PAYLOAD", for: .normal)
-            buttonObject.addTarget(self, action: #selector(type(of: self).changePayloadButtonHit(_:)), for: .touchUpInside)
+            buttonObject.addTarget(self, action: #selector(Self.changePayloadButtonHit(_:)), for: .touchUpInside)
             ret.addSubview(buttonObject)
             buttonObject.titleLabel?.font = self.nameTextField.font
             buttonObject.setTitleColor(self.nameTextField.textColor, for: .normal)

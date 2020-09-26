@@ -238,7 +238,7 @@ class RVP_DisplayPayloadView: UIView, AVAudioPlayerDelegate {
                 if let track = videoTracks.first {
                     self.myVideoPlayer = AVPlayer(playerItem: playerItem)
                     self._observer = true
-                    NotificationCenter.default.addObserver(self, selector: #selector(type(of: self).finished), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
+                    NotificationCenter.default.addObserver(self, selector: #selector(Self.finished), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
                     let size = track.naturalSize.applying(track.preferredTransform)
                     aspect = size.height / size.width
                     let myPlayerView = RVP_VideoPlayerView()
@@ -279,7 +279,7 @@ class RVP_DisplayPayloadView: UIView, AVAudioPlayerDelegate {
             if nil != self.myVideoPlayer || nil != self.myAudioPlayer {
                 self.myPlayPauseButton = UIButton(type: .roundedRect)
                 if let playPauseButton = self.myPlayPauseButton {
-                    playPauseButton.addTarget(self, action: #selector(type(of: self).playPauseButtonHit), for: .touchUpInside)
+                    playPauseButton.addTarget(self, action: #selector(Self.playPauseButtonHit), for: .touchUpInside)
                     self.applyConstraints(thisElement: playPauseButton, height: 30)
                     height += 30
                     self.setPlayButtonText()

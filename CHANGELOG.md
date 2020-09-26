@@ -1,3 +1,7 @@
+**1.0.3.0000** *September 26, 2020*
+- Changed all the old-fashioned type(of: self) to Self.
+- Made one of the captured contexts use a weak (as opposed to unowned) self
+
 **1.0.2.0000** *September 25, 2020*
 
 - Fixed a documentation issue.
