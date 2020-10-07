@@ -1470,11 +1470,11 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                             self._delegate?.sdkInstanceFinalAutoRadiusCall(self)  // If we are at the end of our rope, we let the delegate know.
                             self._sendIDsToDelegate(ids, isFinal: true)
                             self._fetchBaselineObjectsByID(ids)
+                        } else if nil != inLocation {
+                            self._sendIDsToDelegate(ids)
+                            self._fetchObjectsByString(inTagValues, andLocation: inLocation, withPlugin: inPlugin, maxRadiusInKm: inMaxRadiusInKm)
                         } else {
-                            if nil != inLocation {
-                                self._sendIDsToDelegate(ids)
-                                self._fetchObjectsByString(inTagValues, andLocation: inLocation, withPlugin: inPlugin, maxRadiusInKm: inMaxRadiusInKm)
-                            }
+                            self._fetchBaselineObjectsByID(ids)
                         }
                     } else {
                         if let objectArray = self._makeInstance(data: myData) {

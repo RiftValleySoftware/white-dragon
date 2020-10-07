@@ -1,3 +1,6 @@
+**1.0.4.0000** *October 7, 2020*
+- Fixed an issue, where thing responses were not being sent back to the app from White Dragon.
+
 **1.0.3.0000** *September 26, 2020*
 - Changed all the old-fashioned type(of: self) to Self.
 - Made one of the captured contexts use a weak (as opposed to unowned) self
