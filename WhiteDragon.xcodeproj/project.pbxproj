@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D480E8B02533A77E003E2A58 /* RVP_Cocoa_SDK_SecurityToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = D480E8AF2533A77E003E2A58 /* RVP_Cocoa_SDK_SecurityToken.swift */; };
+		D480E8B12533A77E003E2A58 /* RVP_Cocoa_SDK_SecurityToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = D480E8AF2533A77E003E2A58 /* RVP_Cocoa_SDK_SecurityToken.swift */; };
 		D48ED6BB218DF59B00380FCA /* WhiteDragon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D48ED6B1218DF59B00380FCA /* WhiteDragon.framework */; };
 		D48ED6C0218DF59B00380FCA /* WhiteDragonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48ED6BF218DF59B00380FCA /* WhiteDragonTests.swift */; };
 		D4E6E797218DF710008CA31F /* RVP_Cocoa_SDK_Internal_Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E6E78E218DF710008CA31F /* RVP_Cocoa_SDK_Internal_Utils.swift */; };
@@ -50,6 +52,7 @@
 
 /* Begin PBXFileReference section */
 		D44F72C6250404BF00C4465C /* Warnings.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Warnings.xcconfig; path = "Project-Meta/Warnings.xcconfig"; sourceTree = "<group>"; };
+		D480E8AF2533A77E003E2A58 /* RVP_Cocoa_SDK_SecurityToken.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RVP_Cocoa_SDK_SecurityToken.swift; sourceTree = "<group>"; };
 		D48ED6B1218DF59B00380FCA /* WhiteDragon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = WhiteDragon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D48ED6BA218DF59B00380FCA /* WhiteDragon(iOS)Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "WhiteDragon(iOS)Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D48ED6BF218DF59B00380FCA /* WhiteDragonTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteDragonTests.swift; sourceTree = "<group>"; };
@@ -90,6 +93,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D480E8C92533AB8F003E2A58 /* Abstract */ = {
+			isa = PBXGroup;
+			children = (
+				D4E6E794218DF710008CA31F /* A_RVP_Cocoa_SDK_Object.swift */,
+				D4E6E78F218DF710008CA31F /* A_RVP_Cocoa_SDK_Security_Object.swift */,
+				D4E6E791218DF710008CA31F /* A_RVP_Cocoa_SDK_Data_Object.swift */,
+			);
+			path = Abstract;
+			sourceTree = "<group>";
+		};
 		D48ED6A7218DF59B00380FCA = {
 			isa = PBXGroup;
 			children = (
@@ -141,11 +154,10 @@
 		D4E6E78D218DF710008CA31F /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				D480E8C92533AB8F003E2A58 /* Abstract */,
 				D4E6E795218DF710008CA31F /* RVP_Cocoa_SDK.swift */,
-				D4E6E794218DF710008CA31F /* A_RVP_Cocoa_SDK_Object.swift */,
-				D4E6E78F218DF710008CA31F /* A_RVP_Cocoa_SDK_Security_Object.swift */,
 				D4E6E796218DF710008CA31F /* RVP_Cocoa_SDK_Login.swift */,
-				D4E6E791218DF710008CA31F /* A_RVP_Cocoa_SDK_Data_Object.swift */,
+				D480E8AF2533A77E003E2A58 /* RVP_Cocoa_SDK_SecurityToken.swift */,
 				D4E6E793218DF710008CA31F /* RVP_Cocoa_SDK_User.swift */,
 				D4E6E792218DF710008CA31F /* RVP_Cocoa_SDK_Place.swift */,
 				D4E6E790218DF710008CA31F /* RVP_Cocoa_SDK_Thing.swift */,
@@ -370,6 +382,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D4E6E79B218DF710008CA31F /* RVP_Cocoa_SDK_Place.swift in Sources */,
+				D480E8B02533A77E003E2A58 /* RVP_Cocoa_SDK_SecurityToken.swift in Sources */,
 				D4E6E79A218DF710008CA31F /* A_RVP_Cocoa_SDK_Data_Object.swift in Sources */,
 				D4E6E79D218DF710008CA31F /* A_RVP_Cocoa_SDK_Object.swift in Sources */,
 				D4E6E79E218DF710008CA31F /* RVP_Cocoa_SDK.swift in Sources */,
@@ -394,6 +407,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D4E6E7C4218DFB16008CA31F /* RVP_Cocoa_SDK_Place.swift in Sources */,
+				D480E8B12533A77E003E2A58 /* RVP_Cocoa_SDK_SecurityToken.swift in Sources */,
 				D4E6E7C3218DFB16008CA31F /* A_RVP_Cocoa_SDK_Data_Object.swift in Sources */,
 				D4E6E7C6218DFB16008CA31F /* A_RVP_Cocoa_SDK_Object.swift in Sources */,
 				D4E6E7C7218DFB16008CA31F /* RVP_Cocoa_SDK.swift in Sources */,
@@ -575,7 +589,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.4;
+				MARKETING_VERSION = 1.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.littlegreenviper.WhiteDragon;
 				PRODUCT_MODULE_NAME = "${PROJECT_NAME}";
 				PRODUCT_NAME = "${PROJECT_NAME}";
@@ -603,7 +617,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.4;
+				MARKETING_VERSION = 1.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.littlegreenviper.WhiteDragon;
 				PRODUCT_MODULE_NAME = "${PROJECT_NAME}";
 				PRODUCT_NAME = "${PROJECT_NAME}";
@@ -672,7 +686,7 @@
 					"@loader_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				MARKETING_VERSION = 1.0.4;
+				MARKETING_VERSION = 1.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.littlegreenviper.WhiteDragon-OSX-";
 				PRODUCT_MODULE_NAME = "${PROJECT_NAME}";
 				PRODUCT_NAME = "${PROJECT_NAME}";
@@ -703,7 +717,7 @@
 					"@loader_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				MARKETING_VERSION = 1.0.4;
+				MARKETING_VERSION = 1.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.littlegreenviper.WhiteDragon-OSX-";
 				PRODUCT_MODULE_NAME = "${PROJECT_NAME}";
 				PRODUCT_NAME = "${PROJECT_NAME}";

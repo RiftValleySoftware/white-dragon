@@ -1566,10 +1566,10 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      This sends a POST command to the server.
      
      - parameter inURI: The URI to send to the server.
-     - parameter payloadData: This is a String, containing Base64-encoded data to be sent as a payload.
+     - parameter payloadData: This is a String, containing Base64-encoded data to be sent as a payload. It is optional (empty, if ommitted)
      - parameter objectInstance: The instance of the data object that called this.
      */
-    private func _sendPOSTData(_ inURI: String, payloadData inPayloadString: String, objectInstance inObjectInstance: A_RVP_Cocoa_SDK_Object) {
+    private func _sendPOSTData(_ inURI: String, payloadData inPayloadString: String = "", objectInstance inObjectInstance: A_RVP_Cocoa_SDK_Object) {
         if let url_object = URL(string: inURI) {
             var urlRequest = URLRequest(url: url_object)
             urlRequest.httpMethod = "POST"
@@ -1786,6 +1786,31 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                 } else {
                     self._sendPUTData(uri, payloadData: payloadString, objectInstance: inObjectToPut)
                 }
+            }
+        }
+    }
+
+    /* ################################################################## */
+    /**
+     This executes a POST query to the server, sending the data as necessary.
+     
+     - parameter inPOSTObject: The object to send to the server.
+     */
+    internal func _postObject(_ inPOSTObject: A_RVP_Cocoa_SDK_Object) {
+        var uri = ""
+        
+        if inPOSTObject.isDirty {
+            uri = inPOSTObject._saveChangesURI // First, get the changes URI.
+        }
+        
+        if !uri.isEmpty {
+            // This handles any login parameters.
+            let loginParams = self._loginParameters
+            
+            if !loginParams.isEmpty {
+                uri = self._server_uri + "/json" + inPOSTObject._pluginPath + "?" + loginParams + "&" + uri
+                
+                self._sendPOSTData(uri, objectInstance: inPOSTObject)
             }
         }
     }
