@@ -898,14 +898,14 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                     Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
                         self._openOperations += 1
                     }
-                    let fetchTask = self._connectionSession.dataTask(with: url_object) { [unowned self] data, response, error in
+                    let fetchTask = self._connectionSession.dataTask(with: url_object) { [weak self] data, response, error in
                         if let error = error {
-                            self._handleError(error)
+                            self?._handleError(error)
                             return
                         }
                         guard let httpResponse = response as? HTTPURLResponse,
                             (200...299).contains(httpResponse.statusCode) else {
-                                self._handleHTTPError(response as? HTTPURLResponse ?? nil)
+                                self?._handleHTTPError(response as? HTTPURLResponse ?? nil)
                                 return
                         }
                         
@@ -916,20 +916,20 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                                 // We get a set of integer IDs returned, separated by plugin. We will sort through these, and return objects fetched for each.
                                 if let resultDictionary = temp as? [String: [String: [Int]]] {
                                     if let handlers = resultDictionary["baseline"] {
-                                        self._handleReturnedIDs(handlers)
+                                        self?._handleReturnedIDs(handlers)
                                     }
                                 } else {
-                                    self._handleError(SDK_Data_Errors.invalidData(myData))
+                                    self?._handleError(SDK_Data_Errors.invalidData(myData))
                                 }
                             } catch {   // We end up here if the response is not a proper JSON object.
-                                self._handleError(SDK_Data_Errors.invalidData(myData))
+                                self?._handleError(SDK_Data_Errors.invalidData(myData))
                             }
                         } else {
-                            self._handleError(SDK_Data_Errors.invalidData(data))
+                            self?._handleError(SDK_Data_Errors.invalidData(data))
                         }
                         
                         Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
-                            self._openOperations -= 1
+                            self?._openOperations -= 1
                         }
                     }
                     
@@ -1604,7 +1604,8 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                     }
 
                     if let data = data {    // Assuming we got a response, we send that to the instance that called us.
-                        inObjectInstance._handleChangeResponse(data)
+                        let callback = inObjectInstance._handleChangeResponse
+                        callback(data)
                     }
 
                     Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.

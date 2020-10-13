@@ -45,12 +45,4 @@ public class RVP_Cocoa_SDK_SecurityToken: A_RVP_Cocoa_SDK_Security_Object {
     override internal var _pluginType: String {
         return "baseline"
     }
-    
-    /* ################################################################## */
-    /**
-     This handles creating a new token.
-     */
-    public func createNewToken() {
-        self._sdkInstance?._postObject(self)
-    }
 }
