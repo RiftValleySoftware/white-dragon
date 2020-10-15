@@ -1108,6 +1108,56 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
 
     /* ################################################################## */
     /**
+     This fetches all users with logins, that the current user can edit.
+     This method does the actual server query.
+     */
+    private func _fetchAllEditableUsersFromServer() {
+        var loginParams = self._loginParameters
+        
+        if !loginParams.isEmpty {
+            loginParams = "&" + loginParams
+        }
+        
+        let url = self._server_uri + "/json/people/people/?show_details&writeable&login_user" + loginParams   // We will be asking for the "full Monty".
+        // The request is a simple GET task, so we can just use a straight-up task for this.
+        if let url_object = URL(string: url) {
+            Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
+                self._openOperations += 1
+            }
+            let fetchTask = self._connectionSession.dataTask(with: url_object) { [unowned self] data, response, error in
+                if let error = error {
+                    self._handleError(error)
+                    return
+                }
+                guard let httpResponse = response as? HTTPURLResponse,
+                    (200...299).contains(httpResponse.statusCode) else {
+                        self._handleHTTPError(response as? HTTPURLResponse ?? nil)
+                        return
+                }
+                
+                if let mimeType = httpResponse.mimeType, "application/json" == mimeType, let myData = data {
+                    if let objectArray = self._makeInstance(data: myData) {
+                        self._dataItems.append(contentsOf: objectArray)
+                        self._sortDataItems()
+                        self._sendItemsToDelegate(objectArray)
+                    }
+                } else {
+                    self._handleError(SDK_Data_Errors.invalidData(data))
+                }
+                
+                Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
+                    self._openOperations -= 1
+                }
+            }
+            
+            fetchTask.resume()
+        } else {
+            self._handleError(SDK_Connection_Errors.invalidServerURI(url))
+        }
+    }
+
+    /* ################################################################## */
+    /**
      This fetches objects from the security database server.
      
      - parameter inIntegerIDs: An Array of Int, with the security database item IDs.
@@ -2544,6 +2594,16 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
             self._fetchDataItems(inIntegerIDs, plugin: plugin)
         } else {
             self._fetchBaselineObjectsByID(inIntegerIDs)    // If we fetch baseline objects, it's a 2-step process.
+        }
+    }
+
+    /* ################################################################## */
+    /**
+     This method fetches every user (with a login) that can be edited by the current manager instance.
+     */
+    public func fetchAllEditableUsersFromServer() {
+        if self.isManager {
+            self._fetchAllEditableUsersFromServer()
         }
     }
 
