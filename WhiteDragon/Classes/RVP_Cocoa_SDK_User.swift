@@ -28,6 +28,14 @@ import Foundation
  */
 public class RVP_Cocoa_SDK_User: A_RVP_Cocoa_SDK_Data_Object {
     /* ################################################################## */
+    // MARK: - Public Stored Properties
+    /* ################################################################## */
+    /**
+     This will have any associated login instance.
+     */
+    public var sdkLogin: RVP_Cocoa_SDK_Login?
+    
+    /* ################################################################## */
     // MARK: - Internal Calculated Properties
     /* ################################################################## */
     /**
@@ -239,7 +247,9 @@ public class RVP_Cocoa_SDK_User: A_RVP_Cocoa_SDK_Data_Object {
         get {
             var ret: Int = 0
             
-            if let id = self._myData["associated_login_id"] as? Int {
+            if let sdkLogin = sdkLogin {
+                ret = sdkLogin.id
+            } else if let id = self._myData["associated_login_id"] as? Int {
                 ret = id
             } else if let id = self._myData["associated_login_id"] as? String, let intVal = Int(id) { // Since it's entirely possible to set this from a string, let's make sure it's an Int.
                 ret = intVal
@@ -332,6 +342,9 @@ public class RVP_Cocoa_SDK_User: A_RVP_Cocoa_SDK_Data_Object {
      */
     public override init(sdkInstance inSDKInstance: RVP_Cocoa_SDK?, objectInfoData inData: [String: Any]) {
         super.init(sdkInstance: inSDKInstance, objectInfoData: inData)
+        if let myLoginInstance = self._myData["associated_login"] as? [String: Any] {
+            sdkLogin = RVP_Cocoa_SDK_Login(sdkInstance: inSDKInstance, objectInfoData: myLoginInstance)
+        }
     }
     
     /* ################################################################## */
