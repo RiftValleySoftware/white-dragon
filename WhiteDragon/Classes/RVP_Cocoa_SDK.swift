@@ -1926,12 +1926,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                 instance = RVP_Cocoa_SDK_Thing(sdkInstance: self, objectInfoData: inDictionary)
                 
             default:
-                do {
-                    let data: Data = try NSKeyedArchiver.archivedData(withRootObject: inDictionary, requiringSecureCoding: false)
-                    self._handleError(SDK_Data_Errors.invalidData(data))
-                } catch {
-                    self._handleError(SDK_Data_Errors.invalidData(nil))
-                }
+                instance = nil
             }
         }
         
