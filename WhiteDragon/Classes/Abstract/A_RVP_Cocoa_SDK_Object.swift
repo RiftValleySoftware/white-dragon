@@ -428,7 +428,8 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
     public var isWriteable: Bool {
         var ret = false
         
-        if let writeable = self._myData["writeable"] as? Bool {
+        // God can write everything.
+        if let writeable = self._myData["writeable"] as? Bool ?? sdkInstance?.myLoginInfo?.isMainAdmin ?? false {
             ret = writeable
         }
         
