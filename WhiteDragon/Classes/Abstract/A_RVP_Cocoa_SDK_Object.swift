@@ -150,7 +150,7 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
                   var uriKey = item.key.urlEncodedString {
                 let original = oldDataList[item.key] as? NSObject
                 // All values should be convertible to String.
-                if current != original {
+                if (current != original) || isNew {
                     if !uri.isEmpty {
                         uri += "&"
                     }
