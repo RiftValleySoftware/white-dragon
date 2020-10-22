@@ -41,14 +41,12 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
             self._sdkInstance?._callDelegateNewItem(ret)
             if self._sdkInstance?._creatingUserLoginPair ?? false {  // If this was a standalone, we send to the delegate. Otherwise, we create a new user, and wait.
                 if let newLogin = ret as? RVP_Cocoa_SDK_Login { // Make sure we have an actual login. If so, we create a new user.
-                    self._sdkInstance?._newLoginInstance = ret
                     self._sdkInstance?._newUserInstance = RVP_Cocoa_SDK_User(sdkInstance: self._sdkInstance, objectInfoData: ["associated_login_id": newLogin.id, "name": newLogin.name])
                     self._sdkInstance?._newUserInstance.sendToServer()
                 } else {
                     self._sdkInstance?._handleError(RVP_Cocoa_SDK.SDK_Data_Errors.invalidData(Data()))
                 }
             } else {
-                self._sdkInstance?._newLoginInstance = nil
                 self._sdkInstance?._newUserInstance = nil
                 self._sdkInstance?._creatingUserLoginPair = false
                 self._sdkInstance?._sendItemsToDelegate([ret])
@@ -58,19 +56,14 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
     
     /* ################################################################## */
     /**
-     This parses a new user object. It may work in conjunction with a previously created login.
+     This parses a new user object.
      
      - parameter valueDictionary: This is a Dictionary of values to be applied to the new login.
      */
     private func _handleNewUser(valueDictionary inValue: [String: Any]) {
         if let ret = self._sdkInstance?._makeNewInstanceFromDictionary(inValue, parent: self._pluginType) {
             self._sdkInstance?._callDelegateNewItem(ret)
-            if let newLogin = self._sdkInstance?._newLoginInstance {
-                self._sdkInstance?._sendItemsToDelegate([newLogin, ret])
-            } else {
-                self._sdkInstance?._sendItemsToDelegate([ret])
-            }
-            self._sdkInstance?._newLoginInstance = nil  // These get nilled out, no matter what.
+            self._sdkInstance?._sendItemsToDelegate([ret])
             self._sdkInstance?._newUserInstance = nil
             self._sdkInstance?._creatingUserLoginPair = false
         }
@@ -137,8 +130,7 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
 
         // We go through, ignoring some of the temporary and calculated fields, and the payload.
         for item in dataList where
-            "is_manager" != item.key
-            && "is_main_admin" != item.key
+            "is_main_admin" != item.key
             && "fuzzy" != item.key
             && "distance" != item.key
             && "writeable" != item.key
@@ -182,8 +174,7 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
         
         // We go through the original data as well, in case we deleted something.
         for item in oldDataList where
-            "is_manager" != item.key
-            && "is_main_admin" != item.key
+            "is_main_admin" != item.key
             && "fuzzy" != item.key
             && "distance" != item.key
             && "writeable" != item.key

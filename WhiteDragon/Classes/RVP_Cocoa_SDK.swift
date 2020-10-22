@@ -2548,15 +2548,21 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      
      - parameter loginString: The Requested login ID string. It must be unique in the server, and the operation will fail, if it is already taken.
      - parameter name: A requested name for the objects (will be applied to both). It is optional. If not supplied, the Login ID will be used for the name.
+     - parameter isManager: If true, then the new instance will be a maneger (default is false, and can be omitted).
      */
-    public func createUserLoginPair(loginString inLoginStringID: String, name inName: String = "") {
+    public func createUserLoginPair(loginString inLoginStringID: String, name inName: String = "", isManager inIsManager: Bool = false) {
         self._creatingUserLoginPair = true
         self._newUserInstance = nil
         var useName = inName
         if useName.isEmpty {
             useName = inLoginStringID
         }
-        self._newUserInstance = RVP_Cocoa_SDK_User(sdkInstance: self, objectInfoData: ["name": useName, "login_id": inLoginStringID])
+        var initialData = ["name": useName, "login_id": inLoginStringID]
+        if inIsManager {
+            initialData["is_manager"] = "1"
+        }
+        self._newUserInstance = RVP_Cocoa_SDK_User(sdkInstance: self, objectInfoData: initialData)
+        self._newUserInstance.sendToServer()
     }
     
     /* ################################################################## */
