@@ -62,7 +62,11 @@ public class RVP_Cocoa_SDK_User: A_RVP_Cocoa_SDK_Data_Object {
     override public var asDictionary: [String: Any?] {
         var ret = super.asDictionary
         
-        if 0 < self.loginID {
+        if 0 < self.associatedLoginID {
+            ret["associatedLoginID"] = self.associatedLoginID
+        }
+        
+        if !self.loginID.isEmpty {
             ret["loginID"] = self.loginID
         }
         
@@ -241,9 +245,25 @@ public class RVP_Cocoa_SDK_User: A_RVP_Cocoa_SDK_Data_Object {
     /**
      **NOTE:** Although this will let anyone with write permission set the ID, it will not be accepted on the server, unless the admin also has at least read permissions for the login object.
      
+     - returns: the associated login ID (if any). "", if no associated login.
+     */
+    public var loginID: String {
+        get { sdkLogin?.loginID ?? ""}
+        
+        set {
+            if self.isWriteable {
+                self._myData["login_id"] = newValue
+            }
+        }
+    }
+    
+    /* ################################################################## */
+    /**
+     **NOTE:** Although this will let anyone with write permission set the ID, it will not be accepted on the server, unless the admin also has at least read permissions for the login object.
+     
      - returns: the associated login ID (if any). 0, if no associated login.
      */
-    public var loginID: Int {
+    public var associatedLoginID: Int {
         get {
             var ret: Int = 0
             
@@ -358,8 +378,8 @@ public class RVP_Cocoa_SDK_User: A_RVP_Cocoa_SDK_Data_Object {
     public func fetchLoginInstance() -> Bool {
         var ret = false
         
-        if 0 < self.loginID {
-            self._sdkInstance?.fetchLogins([self.loginID])
+        if 0 < self.associatedLoginID {
+            self._sdkInstance?.fetchLogins([self.associatedLoginID])
             ret = true
         }
         

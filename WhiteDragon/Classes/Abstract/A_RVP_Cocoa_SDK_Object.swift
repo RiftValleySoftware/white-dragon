@@ -140,7 +140,6 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
             "is_manager" != item.key
             && "is_main_admin" != item.key
             && "fuzzy" != item.key
-            && "createLogin" != item.key
             && "distance" != item.key
             && "writeable" != item.key
             && "id" != item.key
@@ -157,7 +156,7 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
                     
                     // There's a special case for this.
                     if "associated_login_id" == uriKey, self._sdkInstance?.isMainAdmin ?? false {
-                        uriKey = "login_id"
+                        uriKey = "tag0"
                     }
                     
                     // Conversion to string options for various data types.
@@ -181,21 +180,11 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
             }
         }
         
-        // There's a special circumstance, where we can create a login ID to go with the user.
-        if self.isNew, self is RVP_Cocoa_SDK_User, self.sdkInstance?.isManager ?? false, let create = self._myData["create_login"] as? Bool, create {
-            if !uri.isEmpty {
-                uri += "&"
-            }
-            
-            uri += "login_user"
-        }
-        
         // We go through the original data as well, in case we deleted something.
         for item in oldDataList where
             "is_manager" != item.key
             && "is_main_admin" != item.key
             && "fuzzy" != item.key
-            && "createLogin" != item.key
             && "distance" != item.key
             && "writeable" != item.key
             && "id" != item.key

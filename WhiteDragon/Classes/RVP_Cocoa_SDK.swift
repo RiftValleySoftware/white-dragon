@@ -1763,9 +1763,6 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      */
     internal var _creatingUserLoginPair: Bool = false
 
-    /** This will contain the temporary new login during a login/user creation. */
-    internal var _newLoginInstance: A_RVP_Cocoa_SDK_Object!
-
     /** This will contain the temporary new user during a login/user creation. */
     internal var _newUserInstance: A_RVP_Cocoa_SDK_Object!
 
@@ -1873,7 +1870,6 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      - parameter inError: The error being handled.
      */
     internal func _handleError(_ inError: Error) {
-        self._newLoginInstance = nil    // Make sure these are switched off.
         self._newUserInstance = nil
         self._creatingUserLoginPair = false
         self._delegate?.sdkInstance(self, sessionError: inError)
@@ -2547,15 +2543,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
 
     /* ################################################################## */
     /**
-     The way that this works, is that the main app calls createUserLoginPair(loginString:,name:),
-     and a semaphore is set. The SDK then attempts to create the login object.
-     If that is successful, then it will continue, and create the user object to accompany
-     the new login object, after informing the delegate of the new login object, but will not be called
-     with the sdkInstance(_:,fetchedDataItems:) call.
-     If the login object creation fails, the main app delegate will be called with an error.
-     If it is successful, the delegate is then called with the new user object.
-     This will create a completely "bald" set of objects, with only the login ID, name, and default
-     security tokens.
+     Asks the server to create a user/login pair, with a blank password.
      This can only be called if you are logged in as a manager.
      
      - parameter loginString: The Requested login ID string. It must be unique in the server, and the operation will fail, if it is already taken.
@@ -2563,14 +2551,12 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      */
     public func createUserLoginPair(loginString inLoginStringID: String, name inName: String = "") {
         self._creatingUserLoginPair = true
-        self._newLoginInstance = nil
         self._newUserInstance = nil
         var useName = inName
         if useName.isEmpty {
             useName = inLoginStringID
         }
-        self._newLoginInstance = RVP_Cocoa_SDK_Login(sdkInstance: self, objectInfoData: ["name": useName, "login_string": inLoginStringID])
-        self._newLoginInstance.sendToServer()
+        self._newUserInstance = RVP_Cocoa_SDK_User(sdkInstance: self, objectInfoData: ["name": useName, "login_id": inLoginStringID])
     }
     
     /* ################################################################## */
