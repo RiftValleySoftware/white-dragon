@@ -1,3 +1,13 @@
+**1.0.8.0000** *TBD*
+- A number of various fixes:
+    - The "original vs. changed" data is now set when it is SENT to the server, as opposed to after receiving confirmation (It is reset after receiving the response anyway).
+    - There's some basic refactoring, to arrange things better.
+    - The API for the user creation allows a separate login, but defaults to both at once.
+    - The God Admin now automatically has all privileges.
+    - New items are now automatically "dirty."
+    - Added a parameter to the user creation API that allows specification that it is a manager.
+    - We can now request all editable users.
+    
 **1.0.4.0000** *October 7, 2020*
 - Fixed an issue, where thing responses were not being sent back to the app from White Dragon.
 

@@ -600,6 +600,7 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
      */
     public func sendToServer() {
         self._sdkInstance?._putObject(self)
+        self._myOriginalData = self._myData // OK. The old is now the new. We no longer need to feel "dirty."
     }
     
     /* ################################################################## */
