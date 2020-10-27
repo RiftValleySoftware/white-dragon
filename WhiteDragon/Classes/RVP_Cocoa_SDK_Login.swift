@@ -154,4 +154,20 @@ public class RVP_Cocoa_SDK_Login: A_RVP_Cocoa_SDK_Security_Object {
             self._myData["password"] = inPassword
         }
     }
+    
+    /* ################################################################## */
+    /**
+     This is called to convert this login to a manager.
+     */
+    public func convertLoginToManager() {
+        sdkInstance?._convertLogin(self, toManager: true)
+    }
+    
+    /* ################################################################## */
+    /**
+     This is called to convert this login to a standard user.
+     */
+    public func convertLoginToUser() {
+        sdkInstance?._convertLogin(self, toManager: false)
+    }
 }

@@ -1790,6 +1790,27 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
     internal func _sendItemsToDelegate(_ inItemArray: [A_RVP_Cocoa_SDK_Object]) {
         self._delegate?.sdkInstance(self, fetchedDataItems: inItemArray)
     }
+    
+    /* ################################################################## */
+    /**
+     This is called to issue a PUT command to convert the login instance to a manager or a standard user. Nothing will happen, if it is already the destination type.
+     The God Admin login cannot be changed.
+     
+     - parameter: The login object to convert.
+     - parameter toManager: If true, then the login will be converted to a manager.
+     */
+    internal func _convertLogin(_ inLogin: RVP_Cocoa_SDK_Login, toManager inToManager: Bool) {
+        if !inLogin.isMainAdmin,                        // God can't be changed.
+           inLogin.isWriteable,                         // We have to have write permission.
+           !(inLogin.isManager && inToManager),         // There has to be an actual change.
+           !(!inLogin.isManager && !inToManager) {
+            #if DEBUG
+                print("Converting \"\(inLogin.loginID)\" to a \(inToManager ? "manager" : "user").")
+            #endif
+            let uri = self._server_uri + "/json" + inLogin._pluginPath + "?convert_to_" + (inToManager ? "manager" : "login") + "&" + self._loginParameters
+            self._sendPUTData(uri, payloadData: "", objectInstance: inLogin)
+        }
+    }
 
     /* ################################################################## */
     /**

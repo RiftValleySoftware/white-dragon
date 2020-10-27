@@ -97,7 +97,7 @@ public class A_RVP_Cocoa_SDK_Security_Object: A_RVP_Cocoa_SDK_Object {
         if !originalData.isEmpty {  // We do this, so we have an original snapshot that is sorted.
             if let securityTokens = originalData["security_tokens"] as? [Int] {
                 var newTokens = securityTokens.sorted()
-                if 1 != newTokens[0] {    // If 1 was not already there, we add it here.
+                if newTokens.isEmpty || 1 != newTokens[0] {    // If 1 was not already there, we add it here.
                     newTokens.insert(1, at: 0)
                 }
                 originalData["security_tokens"] = newTokens
