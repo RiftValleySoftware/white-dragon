@@ -406,14 +406,17 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
      - returns: true, if the current login can edit this record. READ ONLY
      */
     public var isWriteable: Bool {
-        var ret = false
-        
+        var writeable = false
+
         // God can write everything.
-        if let writeable = self._myData["writeable"] as? Bool ?? sdkInstance?.myLoginInfo?.isMainAdmin ?? false {
-            ret = writeable
+        if sdkInstance?.myLoginInfo?.isMainAdmin ?? false {
+            writeable = true
+        } else if let writeableTemp = self._myData["writeable"] as? Bool,
+                  writeableTemp {
+            writeable = true
         }
         
-        return ret
+        return writeable
     }
 
     /* ################################################################## */
