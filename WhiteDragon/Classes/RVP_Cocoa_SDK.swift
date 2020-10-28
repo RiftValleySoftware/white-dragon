@@ -1113,7 +1113,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      */
     private func _fetchAllEditableUsersFromServer() {
         var loginParams = self._loginParameters
-        
+        self._dataItems = []
         if !loginParams.isEmpty {
             loginParams = "&" + loginParams
         }
