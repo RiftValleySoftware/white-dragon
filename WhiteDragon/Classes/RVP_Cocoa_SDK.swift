@@ -98,10 +98,9 @@ public protocol RVP_Cocoa_SDK_Delegate: class {
      **NOTE:** This is not guaranteed to be called in the main thread!
      
      - parameter: This is the SDK instance making the call.
-     - parameter thisManyLogins: A count of how many logins have access to the token.
-     - parameter haveAccessToThisToken: The token that was tested.
+     - parameter tokenAccessTest: A dictionary, with the keys being a token, and the values being how many logins have access to that token.
      */
-    func sdkInstance(_: RVP_Cocoa_SDK, thisManyLogins: Int, haveAccessToThisToken: Int)
+    func sdkInstance(_: RVP_Cocoa_SDK, tokenAccessTest: [Int: Int])
 
     /* ################################################################## */
     /**
@@ -1256,15 +1255,17 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
     /**
      This will ask the server to inform us as to who has access to the given security token.
      
-     - parameter inToken: The token (an integer).
+     - parameter inTokens: An array of integers, representing the tokens we're testing.
      */
-    private func _countWhoHasAccessToThisSecurityToken(_ inToken: Int) {
+    private func _countWhoHasAccessToTheseSecurityTokens(_ inTokens: [Int]) {
         var loginParams = self._loginParameters
         
         if !loginParams.isEmpty {
             loginParams = "&" + loginParams
         }
-        let url = self._server_uri + "/json/baseline/tokens/" + "?count_access_to=\(inToken)" + loginParams   // We ask who has access to the given token.
+        
+        let tokenString = inTokens.compactMap { String($0) }.joined(separator: ",")
+        let url = self._server_uri + "/json/baseline/tokens/\(tokenString)?count_access_to" + loginParams   // We ask who has access to the given tokens.
         // The request is a simple GET task, so we can just use a straight-up task for this.
         Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
             self._openOperations += 1
@@ -1287,10 +1288,15 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                         
                         if let main_object = temp as? NSDictionary,
                            let baseline = main_object.object(forKey: "baseline") as? NSDictionary,
-                           let count_access_to = baseline.object(forKey: "count_access_to") as? NSDictionary,
-                           let access = count_access_to.object(forKey: "access") as? NSNumber,
-                           let token = count_access_to.object(forKey: "token") as? NSNumber {
-                            self._delegate?.sdkInstance(self, thisManyLogins: access.intValue, haveAccessToThisToken: token.intValue)
+                           let count_access_to = baseline.object(forKey: "count_access_to") as? Array<Dictionary<String, Int>> {
+                            var accessDictionary: [Int: Int] = [:]
+                            for elem in count_access_to {
+                                if let token = elem["token"], let access = elem["access"] {
+                                    accessDictionary[token] = access
+                                    print(elem)
+                                }
+                            }
+                            self._delegate?.sdkInstance(self, tokenAccessTest: accessDictionary)
                         }
                     } catch {
                         self._handleError(SDK_Data_Errors.invalidData(myData))
@@ -2773,10 +2779,10 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
     /**
      This will ask the server to inform us as to who has access to the given security token.
      
-     - parameter inToken: The token (an integer).
+     - parameter inTokens: An integer array, with the tokens we're testing.
      */
-    public func countWhoHasAccessToThisSecurityToken(_ inToken: Int) {
-        self._countWhoHasAccessToThisSecurityToken(inToken)
+    public func countWhoHasAccessToTheseSecurityTokens(_ inTokens: [Int]) {
+        self._countWhoHasAccessToTheseSecurityTokens(inTokens)
     }
 
     /* ################################################################## */
