@@ -8,8 +8,8 @@
     - New items are now automatically "dirty."
     - Added a parameter to the user creation API that allows specification that it is a manager.
     - We can now request all editable users.
-    - We can now convert logins between standard users, and managers.
-    - It is now possible to test a token, and get a simple, opaque count of how many logins have access to it (this includes logins we can't see).
+    - We can now convert logins between standard users, and managers. This has a risk: If a user has tokens that we (as a manager) can't see, then those tokens will be deleted by the transition.
+    - It is now possible to test a set of tokens, and get a simple, opaque count of how many logins have access to each (this includes logins we can't see).
     
 **1.0.4.0000** *October 7, 2020*
 - Fixed an issue, where thing responses were not being sent back to the app from White Dragon.

@@ -1281,14 +1281,14 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                         self._handleHTTPError(response as? HTTPURLResponse ?? nil)
                         return
                 }
-                
+                // We have a specific structure, which we'll unwind, and turn into a simple Int:Int Dictionary.
                 if let mimeType = httpResponse.mimeType, "application/json" == mimeType, let myData = data {
                     do {
                         let temp = try JSONSerialization.jsonObject(with: myData, options: [])
                         
                         if let main_object = temp as? NSDictionary,
                            let baseline = main_object.object(forKey: "baseline") as? NSDictionary,
-                           let count_access_to = baseline.object(forKey: "count_access_to") as? Array<Dictionary<String, Int>> {
+                           let count_access_to = baseline.object(forKey: "count_access_to") as? [[String: Int]] {
                             var accessDictionary: [Int: Int] = [:]
                             for elem in count_access_to {
                                 if let token = elem["token"], let access = elem["access"] {
