@@ -93,6 +93,18 @@ public protocol RVP_Cocoa_SDK_Delegate: class {
     
     /* ################################################################## */
     /**
+     This is a response to the count how many logins have access to a token test.
+     
+     **NOTE:** This is not guaranteed to be called in the main thread!
+     
+     - parameter: This is the SDK instance making the call.
+     - parameter thisManyLogins: A count of how many logins have access to the token.
+     - parameter haveAccessToThisToken: The token that was tested.
+     */
+    func sdkInstance(_: RVP_Cocoa_SDK, thisManyLogins: Int, haveAccessToThisToken: Int)
+
+    /* ################################################################## */
+    /**
      This is called with one or more data items. Each item is a single object.
      This returns the items that were deleted (they no longer exist) in the database.
      
@@ -576,7 +588,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
         
         return ret
     }
-    
+
     /* ################################################################## */
     /**
      This is a second-level "factory" method for creating subclasses of data
@@ -1240,6 +1252,64 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
         }
     }
     
+    /* ################################################################## */
+    /**
+     This will ask the server to inform us as to who has access to the given security token.
+     
+     - parameter inToken: The token (an integer).
+     */
+    private func _countWhoHasAccessToThisSecurityToken(_ inToken: Int) {
+        var loginParams = self._loginParameters
+        
+        if !loginParams.isEmpty {
+            loginParams = "&" + loginParams
+        }
+        let url = self._server_uri + "/json/baseline/tokens/" + "?count_access_to=\(inToken)" + loginParams   // We ask who has access to the given token.
+        // The request is a simple GET task, so we can just use a straight-up task for this.
+        Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
+            self._openOperations += 1
+        }
+        if let url_object = URL(string: url) {
+            let fetchTask = self._connectionSession.dataTask(with: url_object) { [unowned self] data, response, error in
+                if let error = error {
+                    self._handleError(error)
+                    return
+                }
+                guard let httpResponse = response as? HTTPURLResponse,
+                    (200...299).contains(httpResponse.statusCode) else {
+                        self._handleHTTPError(response as? HTTPURLResponse ?? nil)
+                        return
+                }
+                
+                if let mimeType = httpResponse.mimeType, "application/json" == mimeType, let myData = data {
+                    do {
+                        let temp = try JSONSerialization.jsonObject(with: myData, options: [])
+                        
+                        if let main_object = temp as? NSDictionary,
+                           let baseline = main_object.object(forKey: "baseline") as? NSDictionary,
+                           let count_access_to = baseline.object(forKey: "count_access_to") as? NSDictionary,
+                           let access = count_access_to.object(forKey: "access") as? NSNumber,
+                           let token = count_access_to.object(forKey: "token") as? NSNumber {
+                            self._delegate?.sdkInstance(self, thisManyLogins: access.intValue, haveAccessToThisToken: token.intValue)
+                        }
+                    } catch {
+                        self._handleError(SDK_Data_Errors.invalidData(myData))
+                    }
+                } else {
+                    self._handleError(SDK_Data_Errors.invalidData(data))
+                }
+                
+                Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
+                    self._openOperations -= 1
+                }
+            }
+            
+            fetchTask.resume()
+        } else {
+            self._handleError(SDK_Connection_Errors.invalidServerURI(url))
+        }
+    }
+
     /* ################################################################## */
     /**
      This fetches thing objects from the data database server.
@@ -2688,6 +2758,27 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
         self._fetchLoginItems(inLoginStringIDArray)
     }
     
+    /* ################################################################## */
+    /**
+     We ask the server to send us our login object information.
+     
+     When we get the information, we parse it, create a new instance of the handler class
+     and cache that instance.
+     */
+    public func fetchMyLoginInfo() {
+        self._fetchMyLoginInfo()
+    }
+    
+    /* ################################################################## */
+    /**
+     This will ask the server to inform us as to who has access to the given security token.
+     
+     - parameter inToken: The token (an integer).
+     */
+    public func countWhoHasAccessToThisSecurityToken(_ inToken: Int) {
+        self._countWhoHasAccessToThisSecurityToken(inToken)
+    }
+
     /* ################################################################## */
     /**
      This method starts a "generic" search, based upon the input given.
