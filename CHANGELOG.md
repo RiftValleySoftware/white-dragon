@@ -1,4 +1,5 @@
 **1.0.8.0000** *TBD*
+- This requires BAOBAB 1.0.3 or greater.
 - A number of various fixes:
     - The "original vs. changed" data is now set when it is SENT to the server, as opposed to after receiving confirmation (It is reset after receiving the response anyway).
     - There's some basic refactoring, to arrange things better.
@@ -7,6 +8,8 @@
     - New items are now automatically "dirty."
     - Added a parameter to the user creation API that allows specification that it is a manager.
     - We can now request all editable users.
+    - We can now convert logins between standard users, and managers.
+    - It is now possible to test a token, and get a simple, opaque count of how many logins have access to it (this includes logins we can't see).
     
 **1.0.4.0000** *October 7, 2020*
 - Fixed an issue, where thing responses were not being sent back to the app from White Dragon.
