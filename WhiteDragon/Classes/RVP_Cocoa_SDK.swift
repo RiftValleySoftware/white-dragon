@@ -1070,7 +1070,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      This fetches objects from the security database server (low-level fetch).
      This method does the actual server query.
      
-     - parameter inIDString: An Array of Int, with the security database item IDs.
+     - parameter inIDString: A String, with a list of integers or login IDs, representing logins, separated by commas.
      */
     private func _fetchLoginItemsFromServer(_ inIDString: String) {
         var loginParams = self._loginParameters
