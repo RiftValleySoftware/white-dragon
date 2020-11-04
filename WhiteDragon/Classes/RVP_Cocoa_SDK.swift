@@ -101,6 +101,19 @@ public protocol RVP_Cocoa_SDK_Delegate: class {
      - parameter tokenAccessTest: A dictionary, with the keys being a token, and the values being how many logins have access to that token.
      */
     func sdkInstance(_: RVP_Cocoa_SDK, tokenAccessTest: [Int: Int])
+    
+    /* ################################################################## */
+    /**
+     This is a response to the count how many logins have access to a token test.
+     
+     This version of the call is security-restricted, so the IDs will only be for users that the current login can see.
+     
+     **NOTE:** This is not guaranteed to be called in the main thread!
+     
+     - parameter: This is the SDK instance making the call.
+     - parameter tokenAccessTest: A tuple, containing the tested token ("token"), and the IDs of the logins (not users) that have the token ("logins").
+     */
+    func sdkInstance(_: RVP_Cocoa_SDK, tokenAccessTest: (token: Int, logins: [Int]))
 
     /* ################################################################## */
     /**
@@ -1316,6 +1329,65 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
         }
     }
 
+    /* ################################################################## */
+    /**
+     This asks the server to fetch the users that have access to this token.
+     
+     - parameter inToken: An Integer, with the token ID.
+     */
+    private func _fetchIDsOfLoginsThatHaveThisToken(_ inToken: Int) {
+        var loginParams = self._loginParameters
+        
+        if !loginParams.isEmpty {
+            loginParams = "?" + loginParams
+        }
+        
+        let url = self._server_uri + "/json/baseline/visibility/token/\(inToken)" + loginParams   // We ask who has access to the given tokens.
+        // The request is a simple GET task, so we can just use a straight-up task for this.
+        Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
+            self._openOperations += 1
+        }
+        if let url_object = URL(string: url) {
+            let fetchTask = self._connectionSession.dataTask(with: url_object) { [unowned self] data, response, error in
+                if let error = error {
+                    self._handleError(error)
+                    return
+                }
+                guard let httpResponse = response as? HTTPURLResponse,
+                    (200...299).contains(httpResponse.statusCode) else {
+                        self._handleHTTPError(response as? HTTPURLResponse ?? nil)
+                        return
+                }
+                // We have a specific structure, which we'll unwind, and turn into a simple Int:Int Dictionary.
+                if let mimeType = httpResponse.mimeType, "application/json" == mimeType, let myData = data {
+                    do {
+                        let temp = try JSONSerialization.jsonObject(with: myData, options: [])
+                        
+                        if let main_object = temp as? NSDictionary,
+                           let baseline = main_object.object(forKey: "baseline") as? NSDictionary,
+                           let testResult = baseline.object(forKey: "token") as? NSDictionary,
+                           let token = testResult.object(forKey: "token") as? Int,
+                           let login_ids = testResult.object(forKey: "login_ids") as? [Int] {
+                            self._delegate?.sdkInstance(self, tokenAccessTest: (token: token, logins: login_ids))
+                        }
+                    } catch {
+                        self._handleError(SDK_Data_Errors.invalidData(myData))
+                    }
+                } else {
+                    self._handleError(SDK_Data_Errors.invalidData(data))
+                }
+                
+                Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
+                    self._openOperations -= 1
+                }
+            }
+            
+            fetchTask.resume()
+        } else {
+            self._handleError(SDK_Connection_Errors.invalidServerURI(url))
+        }
+    }
+    
     /* ################################################################## */
     /**
      This fetches thing objects from the data database server.
@@ -2784,23 +2856,23 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
     public func countWhoHasAccessToTheseSecurityTokens(_ inTokens: [Int]) {
         self._countWhoHasAccessToTheseSecurityTokens(inTokens)
     }
+    
+    /* ################################################################## */
+    /**
+     This will ask the server to get all the users that have access to provided security token.
+     
+     This is security-vetted, so only users that the current login can see, will be returned.
+     
+     - parameter inToken: An Integer, with the token we are testing.
+     */
+    public func fetchIDsOfLoginsThatHaveThisToken(_ inToken: Int) {
+        _fetchIDsOfLoginsThatHaveThisToken(inToken)
+    }
 
     /* ################################################################## */
     /**
      This method starts a "generic" search, based upon the input given.
      
-     Possible inTagValues keys are:
-     - "tag0", "venue" (you cannot directly search for the login ID of a user with this method, but you can look for a baseline tag0 value, which is the user login as an Int. Same for thing keys, which are String.)
-     - "tag1", "streetAddress", "surname", "description"
-     - "tag2", "extraInformation", "middleName"
-     - "tag3", "town", "givenName"
-     - "tag4", "county", "nickname"
-     - "tag5", "state", "prefix"
-     - "tag6", "postalCode", "suffix"
-     - "tag7", "nation"
-     - "tag8"
-     - "tag9"
-
      - parameter inTagValues:   This is an optional String-key Dictionary, with the key being any one of these values (on the same line means it must be one of the values). The order is tag, places, people, things:
                                 The value must be a String, but, in some cases, it may be a string representation of an integer.
                                 The values can use SQL-style wildcards (%) and are case-insensitive.
@@ -2810,6 +2882,18 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                                 In order to be considered in a location-based search (andLocation is set to a location), then the objects need to have a lat/long value assigned.
                                 if a value in inTagValues is an empty String (""), then the search will search explicitly for objects that do not have a value in that tag.
                                 if a value in inTagValues has only a wildcard ("%"), then that means that only objects that have non-empty values of that tag will be returned; regardless of the content of the tag.
+
+                                Possible inTagValues keys are:
+                                - "tag0", "venue" (you cannot directly search for the login ID of a user with this method, but you can look for a baseline tag0 value, which is the user login as an Int. Same for thing keys, which are String.)
+                                - "tag1", "streetAddress", "surname", "description"
+                                - "tag2", "extraInformation", "middleName"
+                                - "tag3", "town", "givenName"
+                                - "tag4", "county", "nickname"
+                                - "tag5", "state", "prefix"
+                                - "tag6", "postalCode", "suffix"
+                                - "tag7", "nation"
+                                - "tag8"
+                                - "tag9"
 
      - parameter andLocation:   This is a tuple with the following structure:
                                     - **coords** This is a required CLLocationCoordinate2D struct, with a latitude and longitude.
