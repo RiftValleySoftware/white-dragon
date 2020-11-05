@@ -42,8 +42,9 @@ public protocol RVP_Cocoa_SDK_Delegate: class {
      
      - parameter: This is the SDK instance making the call.
      - parameter sessionConnectionIsValid: A Bool, true, if the SDK is currently in a valid session with a server.
+     - parameter refCon: This is an optional Any parameter that is simply returning attached data to the delegate. The data is sent during the initial call. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    func sdkInstance(_: RVP_Cocoa_SDK, sessionConnectionIsValid: Bool)
+    func sdkInstance(_: RVP_Cocoa_SDK, sessionConnectionIsValid: Bool, refCon: Any?)
     
     /* ################################################################## */
     /**
@@ -54,8 +55,9 @@ public protocol RVP_Cocoa_SDK_Delegate: class {
 
      - parameter: This is the SDK instance making the call.
      - parameter loginValid: A Bool, true, if the SDK is currently logged in.
+     - parameter refCon: This is an optional Any parameter that is simply returning attached data to the delegate. The data is sent during the initial call. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    func sdkInstance(_: RVP_Cocoa_SDK, loginValid: Bool)
+    func sdkInstance(_: RVP_Cocoa_SDK, loginValid: Bool, refCon: Any?)
     
     /* ################################################################## */
     /**
@@ -65,8 +67,9 @@ public protocol RVP_Cocoa_SDK_Delegate: class {
 
      - parameter: This is the SDK instance making the call.
      - parameter sessionDisconnectedBecause: The reason for the disconnection.
-     */
-    func sdkInstance(_: RVP_Cocoa_SDK, sessionDisconnectedBecause: RVP_Cocoa_SDK.DisconnectionReason)
+     - parameter refCon: This is an optional Any parameter that is simply returning attached data to the delegate. The data is sent during the initial call. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
+    */
+    func sdkInstance(_: RVP_Cocoa_SDK, sessionDisconnectedBecause: RVP_Cocoa_SDK.DisconnectionReason, refCon: Any?)
     
     /* ################################################################## */
     /**
@@ -76,8 +79,9 @@ public protocol RVP_Cocoa_SDK_Delegate: class {
 
      - parameter: This is the SDK instance making the call.
      - parameter sessionError: The error in question.
+     - parameter refCon: This is an optional Any parameter that is simply returning attached data to the delegate. The data is sent during the initial call. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    func sdkInstance(_: RVP_Cocoa_SDK, sessionError: Error)
+    func sdkInstance(_: RVP_Cocoa_SDK, sessionError: Error, refCon: Any?)
     
     /* ################################################################## */
     /**
@@ -88,8 +92,9 @@ public protocol RVP_Cocoa_SDK_Delegate: class {
      
      - parameter: This is the SDK instance making the call.
      - parameter fetchedDataItems: An array of subclasses of A_RVP_IOS_SDK_Object.
+     - parameter refCon: This is an optional Any parameter that is simply returning attached data to the delegate. The data is sent during the initial call. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    func sdkInstance(_: RVP_Cocoa_SDK, fetchedDataItems: [A_RVP_Cocoa_SDK_Object])
+    func sdkInstance(_: RVP_Cocoa_SDK, fetchedDataItems: [A_RVP_Cocoa_SDK_Object], refCon: Any?)
     
     /* ################################################################## */
     /**
@@ -99,8 +104,9 @@ public protocol RVP_Cocoa_SDK_Delegate: class {
      
      - parameter: This is the SDK instance making the call.
      - parameter tokenAccessTest: A dictionary, with the keys being a token, and the values being how many logins have access to that token.
+     - parameter refCon: This is an optional Any parameter that is simply returning attached data to the delegate. The data is sent during the initial call. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    func sdkInstance(_: RVP_Cocoa_SDK, tokenAccessTest: [Int: Int])
+    func sdkInstance(_: RVP_Cocoa_SDK, tokenAccessTest: [Int: Int], refCon: Any?)
     
     /* ################################################################## */
     /**
@@ -112,8 +118,9 @@ public protocol RVP_Cocoa_SDK_Delegate: class {
      
      - parameter: This is the SDK instance making the call.
      - parameter tokenAccessTest: A tuple, containing the tested token ("token"), and the IDs of the logins (not users) that have the token ("logins").
+     - parameter refCon: This is an optional Any parameter that is simply returning attached data to the delegate. The data is sent during the initial call. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    func sdkInstance(_: RVP_Cocoa_SDK, tokenAccessTest: (token: Int, logins: [Int]))
+    func sdkInstance(_: RVP_Cocoa_SDK, tokenAccessTest: (token: Int, logins: [Int]), refCon: Any?)
     
     /* ################################################################## */
     /**
@@ -125,8 +132,9 @@ public protocol RVP_Cocoa_SDK_Delegate: class {
      
      - parameter: This is the SDK instance making the call.
      - parameter tokenAccessTest: A tuple, containing the tested token ("token"), and the IDs of the users (not logins) that have the token ("users").
+     - parameter refCon: This is an optional Any parameter that is simply returning attached data to the delegate. The data is sent during the initial call. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    func sdkInstance(_: RVP_Cocoa_SDK, tokenAccessTest: (token: Int, users: [Int]))
+    func sdkInstance(_: RVP_Cocoa_SDK, tokenAccessTest: (token: Int, users: [Int]), refCon: Any?)
 
     /* ################################################################## */
     /**
@@ -137,8 +145,9 @@ public protocol RVP_Cocoa_SDK_Delegate: class {
      
      - parameter: This is the SDK instance making the call.
      - parameter deletedDataItems: An array of subclasses of A_RVP_IOS_SDK_Object.
+     - parameter refCon: This is an optional Any parameter that is simply returning attached data to the delegate. The data is sent during the initial call. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    func sdkInstance(_: RVP_Cocoa_SDK, deletedDataItems: [A_RVP_Cocoa_SDK_Object])
+    func sdkInstance(_: RVP_Cocoa_SDK, deletedDataItems: [A_RVP_Cocoa_SDK_Object], refCon: Any?)
 
     /* ################################################################## */
     /**
@@ -150,8 +159,9 @@ public protocol RVP_Cocoa_SDK_Delegate: class {
      
      - parameter: This is the SDK instance making the call.
      - parameter newObject: The newly-created object.
+     - parameter refCon: This is an optional Any parameter that is simply returning attached data to the delegate. The data is sent during the initial call. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    func sdkInstance(_: RVP_Cocoa_SDK, newObject: A_RVP_Cocoa_SDK_Object)
+    func sdkInstance(_: RVP_Cocoa_SDK, newObject: A_RVP_Cocoa_SDK_Object, refCon: Any?)
 
     /* ################################################################## */
     /**
@@ -164,8 +174,9 @@ public protocol RVP_Cocoa_SDK_Delegate: class {
      - parameter: This is the SDK instance making the call.
      - parameter baselineAutoRadiusIDs: An array of Int. This contains the current IDs for the interim step of a baseline search.
      - parameter isFinal: This is true, if this was the last call for an auto-radius search. Remember that the call may be made before the threshold has been reached.
+     - parameter refCon: This is an optional Any parameter that is simply returning attached data to the delegate. The data is sent during the initial call. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    func sdkInstance(_: RVP_Cocoa_SDK, baselineAutoRadiusIDs: [Int], isFinal: Bool)
+    func sdkInstance(_: RVP_Cocoa_SDK, baselineAutoRadiusIDs: [Int], isFinal: Bool, refCon: Any?)
 
     /* ################################################################## */
     /**
@@ -175,8 +186,9 @@ public protocol RVP_Cocoa_SDK_Delegate: class {
      **NOTE:** This is not guaranteed to be called in the main thread!
      
      - parameter: This is the SDK instance making the call.
+     - parameter refCon: This is an optional Any parameter that is simply returning attached data to the delegate. The data is sent during the initial call. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    func sdkInstanceFinalAutoRadiusCall(_: RVP_Cocoa_SDK)
+    func sdkInstanceFinalAutoRadiusCall(_: RVP_Cocoa_SDK, refCon: Any?)
 
     /* ################################################################## */
     /**
@@ -185,8 +197,9 @@ public protocol RVP_Cocoa_SDK_Delegate: class {
      **NOTE:** This is not guaranteed to be called in the main thread!
      
      - parameter: This is the SDK instance making the call.
+     - parameter refCon: This is an optional Any parameter that is simply returning attached data to the delegate. The data is sent during the initial call. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    func sdkInstanceOperationComplete(_: RVP_Cocoa_SDK)
+    func sdkInstanceOperationComplete(_: RVP_Cocoa_SDK, refCon: Any?)
 }
 
 /* ###################################################################################################################################### */
@@ -264,7 +277,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
             if 0 >= self._openOperations {  // If zero, we need to tell the delegate.
                 self._openOperations = 0    // We can never be less than zero.
                 if 0 < oldValue {   // If this is the last one, we call the delegate. We don't call repeatedly for zero.
-                    self._delegate?.sdkInstanceOperationComplete(self)
+                    self._delegate?.sdkInstanceOperationComplete(self, refCon: nil)
                 }
             }
         }
@@ -528,10 +541,11 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      The baseline plugin can produce a variety of objects, so it needs to be handled differently. These will not be cached.
      
      - parameter data: A Data object, with the JSON data (which will be parsed) returned from the server.
-     
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
+
      - returns: A Dictionary ([String: Any]), with the resulting data.
      */
-    private func _parseBaselineResponse(data inData: Data) -> [String: Any] {
+    private func _parseBaselineResponse(data inData: Data, refCon inRefCon: Any?) -> [String: Any] {
         var ret: [String: Any] = [:]
         
         do {    // Extract a usable object from the given JSON data.
@@ -563,17 +577,17 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                             }
                             
                         default:
-                            self._handleError(SDK_Data_Errors.invalidData(inData))
+                            self._handleError(SDK_Data_Errors.invalidData(inData), refCon: inRefCon)
                         }
                     }
                 } else if let baseline_response = main_object["version"] as? String {
                     self._server_version = baseline_response
                 }   // No data is not an error. It's just...no data.
             } else {
-                self._handleError(SDK_Data_Errors.invalidData(inData))
+                self._handleError(SDK_Data_Errors.invalidData(inData), refCon: inRefCon)
             }
         } catch {   // We end up here if the response is not a proper JSON object.
-            self._handleError(SDK_Data_Errors.invalidData(inData))
+            self._handleError(SDK_Data_Errors.invalidData(inData), refCon: inRefCon)
         }
         
         return ret
@@ -593,22 +607,23 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      difficult to properly debug heavily-nested delegated parsers.
      
      - parameter data: The Data item returned from the server.
-     
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
+
      - returns: An optional array of new instances of concrete subclasses of A_RVP_IOS_SDK_Object.
      */
-    internal func _makeInstance(data inData: Data) -> [A_RVP_Cocoa_SDK_Object]? {
+    internal func _makeInstance(data inData: Data, refCon inRefCon: Any?) -> [A_RVP_Cocoa_SDK_Object]? {
         var ret: [A_RVP_Cocoa_SDK_Object] = []
         
         do {    // Extract a usable object from the given JSON data.
             let temp = try JSONSerialization.jsonObject(with: inData, options: [])
             
             if let main_object = temp as? NSDictionary {
-                ret = self._makeInstancesFromDictionary(main_object)
+                ret = self._makeInstancesFromDictionary(main_object, refCon: inRefCon)
             } else if let main_object = temp as? NSArray {
-                ret = self._makeInstancesFromArray(main_object)
+                ret = self._makeInstancesFromArray(main_object, refCon: inRefCon)
             }
         } catch {   // We end up here if the response is not a proper JSON object.
-            self._handleError(SDK_Data_Errors.invalidData(inData))
+            self._handleError(SDK_Data_Errors.invalidData(inData), refCon: inRefCon)
         }
         
         return ret
@@ -626,10 +641,11 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      
      - parameter inDictionary: The Dictionary object with the item data.
      - parameter parent: A String, with the key for the "parent" container.
-     
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
+
      - returns: An Array of new subclass instances of A_RVP_IOS_SDK_Object.
      */
-    private func _makeInstancesFromDictionary(_ inDictionary: NSDictionary, parent inParent: String? = nil) -> [A_RVP_Cocoa_SDK_Object] {
+    private func _makeInstancesFromDictionary(_ inDictionary: NSDictionary, parent inParent: String? = nil, refCon inRefCon: Any?) -> [A_RVP_Cocoa_SDK_Object] {
         var ret: [A_RVP_Cocoa_SDK_Object] = []
         // First, see if we have a data item. If so, we simply go right to the factory.
         if let parent = inParent, nil != inDictionary.object(forKey: "id"), nil != inDictionary.object(forKey: "name"), nil != inDictionary.object(forKey: "lang"), let object_data = inDictionary as? [String: Any] {
@@ -644,16 +660,16 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                     }
                     let passKey = forcedKey
                     if let forcedValue = value as? NSDictionary {  // See whether we go Dictionary or Array.
-                        ret = [ret, self._makeInstancesFromDictionary(forcedValue, parent: passKey)].flatMap { $0 }   // The flatmap() method ensures that we merge the arrays "flat."
+                        ret = [ret, self._makeInstancesFromDictionary(forcedValue, parent: passKey, refCon: inRefCon)].flatMap { $0 }   // The flatmap() method ensures that we merge the arrays "flat."
                     } else if let forcedValue = value as? NSArray {
-                        ret = [ret, self._makeInstancesFromArray(forcedValue, parent: forcedKey)].flatMap { $0 }
+                        ret = [ret, self._makeInstancesFromArray(forcedValue, parent: forcedKey, refCon: inRefCon)].flatMap { $0 }
                     }
                 } else {
                     do {
                         let data: Data = try NSKeyedArchiver.archivedData(withRootObject: inDictionary, requiringSecureCoding: false)
-                        self._handleError(SDK_Data_Errors.invalidData(data))
+                        self._handleError(SDK_Data_Errors.invalidData(data), refCon: inRefCon)
                     } catch {
-                        self._handleError(SDK_Data_Errors.invalidData(nil))
+                        self._handleError(SDK_Data_Errors.invalidData(nil), refCon: inRefCon)
                     }
                     
                     break
@@ -671,23 +687,24 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      
      - parameter inArray: The Array object with the items' data.
      - parameter parent: A String, with the key for the "parent" container.
-     
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
+
      - returns: An Array of new subclass instances of A_RVP_IOS_SDK_Object.
      */
-    private func _makeInstancesFromArray(_ inArray: NSArray, parent inParent: String! = nil) -> [A_RVP_Cocoa_SDK_Object] {
+    private func _makeInstancesFromArray(_ inArray: NSArray, parent inParent: String! = nil, refCon inRefCon: Any?) -> [A_RVP_Cocoa_SDK_Object] {
         var ret: [A_RVP_Cocoa_SDK_Object] = []
         // With Arrays, we don't have parent keys, so we use the one that was originally passed in.
         for value in inArray {
             if let forced_value = value as? NSDictionary {
-                ret = [ret, self._makeInstancesFromDictionary(forced_value, parent: inParent)].flatMap { $0 }
+                ret = [ret, self._makeInstancesFromDictionary(forced_value, parent: inParent, refCon: inRefCon)].flatMap { $0 }
             } else if let forced_value = value as? NSArray {
-                ret = [ret, self._makeInstancesFromArray(forced_value, parent: inParent)].flatMap { $0 }
+                ret = [ret, self._makeInstancesFromArray(forced_value, parent: inParent, refCon: inRefCon)].flatMap { $0 }
             } else {
                 do {
                     let data: Data = try NSKeyedArchiver.archivedData(withRootObject: inArray, requiringSecureCoding: false)
-                    self._handleError(SDK_Data_Errors.invalidData(data))
+                    self._handleError(SDK_Data_Errors.invalidData(data), refCon: inRefCon)
                 } catch {
-                    self._handleError(SDK_Data_Errors.invalidData(nil))
+                    self._handleError(SDK_Data_Errors.invalidData(nil), refCon: inRefCon)
                 }
                 break
             }
@@ -701,9 +718,10 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      This is called to state the status of our session.
      
      If the delegate is valid, we call it with a notice that the session disconnected because of an invalid server connection.
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    private func _reportSessionValidity() {
-        self._delegate?.sdkInstance(self, sessionConnectionIsValid: self.isValid)
+    private func _reportSessionValidity(refCon inRefCon: Any?) {
+        self._delegate?.sdkInstance(self, sessionConnectionIsValid: self.isValid, refCon: inRefCon)
     }
 
     /* ################################################################## */
@@ -712,9 +730,10 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      
      - parameter inIDArray: An Array of Int, containing zero or more IDs found so far.
      - parameter isFinal: This is true (default is false), if this was the last call in an auto-radius search. Remember that the call may be made before the threshold has been reached.
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    private func _sendIDsToDelegate(_ inIDArray: [Int], isFinal inIsFinal: Bool = false) {
-        self._delegate?.sdkInstance(self, baselineAutoRadiusIDs: inIDArray, isFinal: inIsFinal)
+    private func _sendIDsToDelegate(_ inIDArray: [Int], isFinal inIsFinal: Bool = false, refCon inRefCon: Any?) {
+        self._delegate?.sdkInstance(self, baselineAutoRadiusIDs: inIDArray, isFinal: inIsFinal, refCon: inRefCon)
     }
     
     /* ################################################################## */
@@ -722,9 +741,10 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      This is called if we determine the server connection to be invalid.
      
      If the delegate is valid, we call it with a notice that the session disconnected because of an invalid server connection.
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    private func _handleInvalidServer() {
-        self._delegate?.sdkInstance(self, sessionDisconnectedBecause: RVP_Cocoa_SDK.DisconnectionReason.serverConnectionInvalid)
+    private func _handleInvalidServer(refCon inRefCon: Any?) {
+        self._delegate?.sdkInstance(self, sessionDisconnectedBecause: RVP_Cocoa_SDK.DisconnectionReason.serverConnectionInvalid, refCon: inRefCon)
     }
 
     /* ################################################################## */
@@ -734,9 +754,10 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      If the delegate is valid, we call it with a report of the current SDK instance login status.
      
      - parameter isLoggedIn: This is true, if the instance is currently logged into the server.
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    private func _callDelegateLoginValid(_ inIsLoggedIn: Bool) {
-        self._delegate?.sdkInstance(self, loginValid: inIsLoggedIn)
+    private func _callDelegateLoginValid(_ inIsLoggedIn: Bool, refCon inRefCon: Any?) {
+        self._delegate?.sdkInstance(self, loginValid: inIsLoggedIn, refCon: inRefCon)
     }
 
     /* ################################################################## */
@@ -744,25 +765,26 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      This fetches objects from the data database server.
      
      - parameter inResultDictionary: A Dictionary of the returned IDs.
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    private func _handleReturnedIDs(_ inResultDictionary: [String: [Int]]) {
+    private func _handleReturnedIDs(_ inResultDictionary: [String: [Int]], refCon inRefCon: Any?) {
         var handled = false // If we get any IDs, then we have something...
         
         if let peopleIDs = inResultDictionary["people"], !peopleIDs.isEmpty {
-            self.fetchDataItemsByIDs(peopleIDs, andPlugin: "people", dontNukeTheLocation: true)
+            self.fetchDataItemsByIDs(peopleIDs, andPlugin: "people", dontNukeTheLocation: true, refCon: inRefCon)
             handled = true
         }
         
         if let placeIDs = inResultDictionary["places"], !placeIDs.isEmpty {
-            self.fetchDataItemsByIDs(placeIDs, andPlugin: "places", dontNukeTheLocation: true)
+            self.fetchDataItemsByIDs(placeIDs, andPlugin: "places", dontNukeTheLocation: true, refCon: inRefCon)
         }
         
         if let thingIDs = inResultDictionary["things"], !thingIDs.isEmpty {
-            self.fetchDataItemsByIDs(thingIDs, andPlugin: "things", dontNukeTheLocation: true)
+            self.fetchDataItemsByIDs(thingIDs, andPlugin: "things", dontNukeTheLocation: true, refCon: inRefCon)
         }
         
         if !handled {
-            self._sendItemsToDelegate([])   // We got nuthin'
+            self._sendItemsToDelegate([], refCon: inRefCon)   // We got nuthin'
         }
     }
 
@@ -774,8 +796,9 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      
      When we get the information, we parse it, create a new instance of the handler class
      and cache that instance.
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    private func _fetchMyLoginInfo() {
+    private func _fetchMyLoginInfo(refCon inRefCon: Any?) {
         if self.isLoggedIn {
             // The my info request is a simple GET task, so we can just use a straight-up task for this.
             let url = self._server_uri + "/json/people/logins/my_info?" + self._loginParameters
@@ -786,26 +809,26 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                 }
                 let loginInfoTask = self._connectionSession.dataTask(with: url_object) { [unowned self] data, response, error in
                     if let error = error {
-                        self._handleError(error)
+                        self._handleError(error, refCon: inRefCon)
                         return
                     }
                     guard let httpResponse = response as? HTTPURLResponse,
                         (200...299).contains(httpResponse.statusCode) else {
-                            self._handleHTTPError(response as? HTTPURLResponse ?? nil)
+                            self._handleHTTPError(response as? HTTPURLResponse ?? nil, refCon: inRefCon)
                             return
                     }
                     if let mimeType = httpResponse.mimeType, "application/json" == mimeType, let data = data {
-                        if let object = self._makeInstance(data: data) as? [RVP_Cocoa_SDK_Login] {
+                        if let object = self._makeInstance(data: data, refCon: inRefCon) as? [RVP_Cocoa_SDK_Login] {
                             if 1 == object.count {
                                 self._loginInfo = object[0]
                                 // Assuming all went well, we ask for any user information.
-                                self._fetchMyUserInfo()
+                                self._fetchMyUserInfo(refCon: inRefCon)
                             } else {
-                                self._handleError(SDK_Data_Errors.invalidData(data))
+                                self._handleError(SDK_Data_Errors.invalidData(data), refCon: inRefCon)
                             }
                         }
                     } else {
-                        self._handleError(SDK_Data_Errors.invalidData(data))
+                        self._handleError(SDK_Data_Errors.invalidData(data), refCon: inRefCon)
                     }
                     
                     Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
@@ -815,7 +838,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                 
                 loginInfoTask.resume()
             } else {
-                self._handleError(SDK_Connection_Errors.invalidServerURI(url))
+                self._handleError(SDK_Connection_Errors.invalidServerURI(url), refCon: inRefCon)
             }
         }
     }
@@ -827,8 +850,9 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      We ask the server to send us our user (data database) object information.
      
      When we get the information, we parse it, create a new instance of the handler class, and cache that instance.
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    private func _fetchMyUserInfo() {
+    private func _fetchMyUserInfo(refCon inRefCon: Any?) {
         if self.isLoggedIn {
             let url = self._server_uri + "/json/people/people/my_info?" + self._loginParameters
             // The my info request is a simple GET task, so we can just use a straight-up task for this.
@@ -838,42 +862,42 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                 }
                 let userInfoTask = self._connectionSession.dataTask(with: url_object) { [unowned self] data, response, error in
                     if let error = error {
-                        self._handleError(error)
+                        self._handleError(error, refCon: inRefCon)
                         return
                     }
                     guard let httpResponse = response as? HTTPURLResponse,
                         (200...299).contains(httpResponse.statusCode) || (400 == httpResponse.statusCode) else {
-                            self._handleHTTPError(response as? HTTPURLResponse ?? nil)
+                            self._handleHTTPError(response as? HTTPURLResponse ?? nil, refCon: inRefCon)
                             return
                     }
                     if 400 == httpResponse.statusCode { // If we get nothing but a 400, we assume there is no user info, and go straight to completion.
                         if self._plugins.isEmpty {
-                            self._validateServer()
+                            self._validateServer(refCon: inRefCon)
                         } else {
-                            self._reportSessionValidity()   // We report whether or not this session is valid.
-                            self._callDelegateLoginValid(self.isLoggedIn)   // OK. We're done. Tell the delegate whether or not we are logged in.
+                            self._reportSessionValidity(refCon: inRefCon)   // We report whether or not this session is valid.
+                            self._callDelegateLoginValid(self.isLoggedIn, refCon: inRefCon)   // OK. We're done. Tell the delegate whether or not we are logged in.
                         }
                     } else if let mimeType = httpResponse.mimeType, "application/json" == mimeType, let data = data {
-                        if let object = self._makeInstance(data: data) as? [RVP_Cocoa_SDK_User] {
+                        if let object = self._makeInstance(data: data, refCon: inRefCon) as? [RVP_Cocoa_SDK_User] {
                             if 1 == object.count {
                                 self._userInfo = object[0]
                                 if self._plugins.isEmpty {
-                                    self._validateServer()
+                                    self._validateServer(refCon: inRefCon)
                                 } else {
-                                    self._reportSessionValidity()   // We report whether or not this session is valid.
-                                    self._callDelegateLoginValid(self.isLoggedIn)   // OK. We're done. Tell the delegate whether or not we are logged in.
+                                    self._reportSessionValidity(refCon: inRefCon)   // We report whether or not this session is valid.
+                                    self._callDelegateLoginValid(self.isLoggedIn, refCon: inRefCon)   // OK. We're done. Tell the delegate whether or not we are logged in.
                                 }
                             } else {
                                 if self._plugins.isEmpty {
-                                    self._validateServer()
+                                    self._validateServer(refCon: inRefCon)
                                 } else {
-                                    self._reportSessionValidity()   // We report whether or not this session is valid.
-                                    self._callDelegateLoginValid(self.isLoggedIn)   // OK. We're done. Tell the delegate whether or not we are logged in.
+                                    self._reportSessionValidity(refCon: inRefCon)   // We report whether or not this session is valid.
+                                    self._callDelegateLoginValid(self.isLoggedIn, refCon: inRefCon)   // OK. We're done. Tell the delegate whether or not we are logged in.
                                 }
                             }
                         }
                     } else {
-                        self._handleError(SDK_Data_Errors.invalidData(data))
+                        self._handleError(SDK_Data_Errors.invalidData(data), refCon: inRefCon)
                     }
                     
                     Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
@@ -883,7 +907,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                 
                 userInfoTask.resume()
             } else {
-                self._handleError(SDK_Connection_Errors.invalidServerURI(url))
+                self._handleError(SDK_Connection_Errors.invalidServerURI(url), refCon: inRefCon)
             }
         }
     }
@@ -893,8 +917,9 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      This fetches arbitrary type objects from the data database server.
      
      - parameter inIntegerIDs: An Array of Int, with the data database item IDs.
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    private func _fetchBaselineObjectsByID(_ inIntegerIDs: [Int]) {
+    private func _fetchBaselineObjectsByID(_ inIntegerIDs: [Int], refCon inRefCon: Any?) {
         var fetchIDs: [Int] = []
         var cachedObjects: [A_RVP_Cocoa_SDK_Data_Object] = []
         
@@ -914,7 +939,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
         }
         
         if !cachedObjects.isEmpty {
-            self._sendItemsToDelegate(cachedObjects)   // We just send our cached items to the delegate right away.
+            self._sendItemsToDelegate(cachedObjects, refCon: inRefCon)   // We just send our cached items to the delegate right away.
         }
         
         if !fetchIDs.isEmpty {  // If we didn't find everything we were looking for in the junk drawer, we will be asking the server for the remainder.
@@ -937,12 +962,12 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                     }
                     let fetchTask = self._connectionSession.dataTask(with: url_object) { [weak self] data, response, error in
                         if let error = error {
-                            self?._handleError(error)
+                            self?._handleError(error, refCon: inRefCon)
                             return
                         }
                         guard let httpResponse = response as? HTTPURLResponse,
                             (200...299).contains(httpResponse.statusCode) else {
-                                self?._handleHTTPError(response as? HTTPURLResponse ?? nil)
+                                self?._handleHTTPError(response as? HTTPURLResponse ?? nil, refCon: inRefCon)
                                 return
                         }
                         
@@ -953,16 +978,16 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                                 // We get a set of integer IDs returned, separated by plugin. We will sort through these, and return objects fetched for each.
                                 if let resultDictionary = temp as? [String: [String: [Int]]] {
                                     if let handlers = resultDictionary["baseline"] {
-                                        self?._handleReturnedIDs(handlers)
+                                        self?._handleReturnedIDs(handlers, refCon: inRefCon)
                                     }
                                 } else {
-                                    self?._handleError(SDK_Data_Errors.invalidData(myData))
+                                    self?._handleError(SDK_Data_Errors.invalidData(myData), refCon: inRefCon)
                                 }
                             } catch {   // We end up here if the response is not a proper JSON object.
-                                self?._handleError(SDK_Data_Errors.invalidData(myData))
+                                self?._handleError(SDK_Data_Errors.invalidData(myData), refCon: inRefCon)
                             }
                         } else {
-                            self?._handleError(SDK_Data_Errors.invalidData(data))
+                            self?._handleError(SDK_Data_Errors.invalidData(data), refCon: inRefCon)
                         }
                         
                         Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
@@ -972,7 +997,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                     
                     fetchTask.resume()
                 } else {
-                    self._handleError(SDK_Connection_Errors.invalidServerURI(url))
+                    self._handleError(SDK_Connection_Errors.invalidServerURI(url), refCon: inRefCon)
                 }
             }
         } else {
@@ -1006,8 +1031,9 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      This fetches objects from the data database server.
      
      - parameter inIntegerIDs: An Array of Int, with the data database item IDs.
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    private func _fetchDataItems(_ inIntegerIDs: [Int], plugin inPlugin: String) {
+    private func _fetchDataItems(_ inIntegerIDs: [Int], plugin inPlugin: String, refCon inRefCon: Any?) {
         var fetchIDs: [Int] = []
         var cachedObjects: [A_RVP_Cocoa_SDK_Data_Object] = []
         var plugin = inPlugin
@@ -1032,7 +1058,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
         }
         
         if !cachedObjects.isEmpty {
-            self._sendItemsToDelegate(cachedObjects)   // We just send our cached items to the delegate right away.
+            self._sendItemsToDelegate(cachedObjects, refCon: inRefCon)   // We just send our cached items to the delegate right away.
         }
         
         if !fetchIDs.isEmpty {  // If we didn't find everything we were looking for in the junk drawer, we will be asking the server for the remainder.
@@ -1054,23 +1080,23 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                     }
                     let fetchTask = self._connectionSession.dataTask(with: url_object) { [unowned self] data, response, error in
                         if let error = error {
-                            self._handleError(error)
+                            self._handleError(error, refCon: inRefCon)
                             return
                         }
                         guard let httpResponse = response as? HTTPURLResponse,
                             (200...299).contains(httpResponse.statusCode) else {
-                                self._handleHTTPError(response as? HTTPURLResponse ?? nil)
+                                self._handleHTTPError(response as? HTTPURLResponse ?? nil, refCon: inRefCon)
                                 return
                         }
                         
                         if let mimeType = httpResponse.mimeType, "application/json" == mimeType, let myData = data {
-                            if let objectArray = self._makeInstance(data: myData) {
+                            if let objectArray = self._makeInstance(data: myData, refCon: inRefCon) {
                                 self._dataItems.append(contentsOf: objectArray)
                                 self._sortDataItems()
-                                self._sendItemsToDelegate(objectArray)
+                                self._sendItemsToDelegate(objectArray, refCon: inRefCon)
                             }
                         } else {
-                            self._handleError(SDK_Data_Errors.invalidData(data))
+                            self._handleError(SDK_Data_Errors.invalidData(data), refCon: inRefCon)
                         }
                         
                         Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
@@ -1080,7 +1106,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                     
                     fetchTask.resume()
                 } else {
-                    self._handleError(SDK_Connection_Errors.invalidServerURI(url))
+                    self._handleError(SDK_Connection_Errors.invalidServerURI(url), refCon: inRefCon)
                 }
             }
         } else {
@@ -1097,8 +1123,9 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      This method does the actual server query.
      
      - parameter inIDString: A String, with a list of integers or login IDs, representing logins, separated by commas.
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    private func _fetchLoginItemsFromServer(_ inIDString: String) {
+    private func _fetchLoginItemsFromServer(_ inIDString: String, refCon inRefCon: Any?) {
         var loginParams = self._loginParameters
         
         if !loginParams.isEmpty {
@@ -1113,23 +1140,23 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
             }
             let fetchTask = self._connectionSession.dataTask(with: url_object) { [unowned self] data, response, error in
                 if let error = error {
-                    self._handleError(error)
+                    self._handleError(error, refCon: inRefCon)
                     return
                 }
                 guard let httpResponse = response as? HTTPURLResponse,
                     (200...299).contains(httpResponse.statusCode) else {
-                        self._handleHTTPError(response as? HTTPURLResponse ?? nil)
+                        self._handleHTTPError(response as? HTTPURLResponse ?? nil, refCon: inRefCon)
                         return
                 }
                 
                 if let mimeType = httpResponse.mimeType, "application/json" == mimeType, let myData = data {
-                    if let objectArray = self._makeInstance(data: myData) {
+                    if let objectArray = self._makeInstance(data: myData, refCon: inRefCon) {
                         self._dataItems.append(contentsOf: objectArray)
                         self._sortDataItems()
-                        self._sendItemsToDelegate(objectArray)
+                        self._sendItemsToDelegate(objectArray, refCon: inRefCon)
                     }
                 } else {
-                    self._handleError(SDK_Data_Errors.invalidData(data))
+                    self._handleError(SDK_Data_Errors.invalidData(data), refCon: inRefCon)
                 }
                 
                 Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
@@ -1139,7 +1166,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
             
             fetchTask.resume()
         } else {
-            self._handleError(SDK_Connection_Errors.invalidServerURI(url))
+            self._handleError(SDK_Connection_Errors.invalidServerURI(url), refCon: inRefCon)
         }
     }
 
@@ -1147,8 +1174,9 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
     /**
      This fetches all users with logins, that the current user can edit.
      This method does the actual server query.
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    private func _fetchAllEditableUsersFromServer() {
+    private func _fetchAllEditableUsersFromServer(refCon inRefCon: Any?) {
         var loginParams = self._loginParameters
         self._dataItems = []
         if !loginParams.isEmpty {
@@ -1163,23 +1191,23 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
             }
             let fetchTask = self._connectionSession.dataTask(with: url_object) { [unowned self] data, response, error in
                 if let error = error {
-                    self._handleError(error)
+                    self._handleError(error, refCon: inRefCon)
                     return
                 }
                 guard let httpResponse = response as? HTTPURLResponse,
                     (200...299).contains(httpResponse.statusCode) else {
-                        self._handleHTTPError(response as? HTTPURLResponse ?? nil)
+                        self._handleHTTPError(response as? HTTPURLResponse ?? nil, refCon: inRefCon)
                         return
                 }
                 
                 if let mimeType = httpResponse.mimeType, "application/json" == mimeType, let myData = data {
-                    if let objectArray = self._makeInstance(data: myData) {
+                    if let objectArray = self._makeInstance(data: myData, refCon: inRefCon) {
                         self._dataItems.append(contentsOf: objectArray)
                         self._sortDataItems()
-                        self._sendItemsToDelegate(objectArray)
+                        self._sendItemsToDelegate(objectArray, refCon: inRefCon)
                     }
                 } else {
-                    self._handleError(SDK_Data_Errors.invalidData(data))
+                    self._handleError(SDK_Data_Errors.invalidData(data), refCon: inRefCon)
                 }
                 
                 Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
@@ -1189,7 +1217,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
             
             fetchTask.resume()
         } else {
-            self._handleError(SDK_Connection_Errors.invalidServerURI(url))
+            self._handleError(SDK_Connection_Errors.invalidServerURI(url), refCon: inRefCon)
         }
     }
 
@@ -1198,8 +1226,9 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      This fetches objects from the security database server.
      
      - parameter inIntegerIDs: An Array of Int, with the security database item IDs.
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    private func _fetchLoginItems(_ inIntegerIDs: [Int]) {
+    private func _fetchLoginItems(_ inIntegerIDs: [Int], refCon inRefCon: Any?) {
         var fetchIDs: [Int] = []
         var cachedObjects: [A_RVP_Cocoa_SDK_Object] = []
         
@@ -1216,7 +1245,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
         }
         
         if !cachedObjects.isEmpty {
-            self._sendItemsToDelegate(cachedObjects)   // We just send our cached items to the delegate right away.
+            self._sendItemsToDelegate(cachedObjects, refCon: inRefCon)   // We just send our cached items to the delegate right away.
         }
         
         if !fetchIDs.isEmpty {  // If we didn't find everything we were looking for in the junk drawer, we will be asking the server for the remainder.
@@ -1224,7 +1253,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
             
             // This uses our extension to break the array up. This is to reduce the size of the GET URI.
             for idArray in fetchIDs.chunk(10) {
-                self._fetchLoginItemsFromServer((idArray.map(String.init)).joined(separator: ","))
+                self._fetchLoginItemsFromServer((idArray.map(String.init)).joined(separator: ","), refCon: inRefCon)
             }
         } else {
             Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
@@ -1239,8 +1268,9 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      This fetches objects from the security database server.
      
      - parameter inLoginIDs: An Array of String, with the login string IDs.
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    private func _fetchLoginItems(_ inLoginIDs: [String]) {
+    private func _fetchLoginItems(_ inLoginIDs: [String], refCon inRefCon: Any?) {
         var fetchIDs: [String] = []
         var cachedObjects: [A_RVP_Cocoa_SDK_Object] = []
         
@@ -1259,7 +1289,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
         }
         
         if !cachedObjects.isEmpty {
-            self._sendItemsToDelegate(cachedObjects)   // We just send our cached items to the delegate right away.
+            self._sendItemsToDelegate(cachedObjects, refCon: inRefCon)   // We just send our cached items to the delegate right away.
         }
         
         if !fetchIDs.isEmpty {  // If we didn't find everything we were looking for in the junk drawer, we will be asking the server for the remainder.
@@ -1267,7 +1297,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
             
             // This uses our extension to break the array up. This is to reduce the size of the GET URI.
             for idArray in fetchIDs.chunk(10) {
-                self._fetchLoginItemsFromServer(idArray.joined(separator: ","))
+                self._fetchLoginItemsFromServer(idArray.joined(separator: ","), refCon: inRefCon)
             }
         } else {
             Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
@@ -1282,8 +1312,9 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      This will ask the server to inform us as to who has access to the given security token.
      
      - parameter inTokens: An array of integers, representing the tokens we're testing.
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    private func _countWhoHasAccessToTheseSecurityTokens(_ inTokens: [Int]) {
+    private func _countWhoHasAccessToTheseSecurityTokens(_ inTokens: [Int], refCon inRefCon: Any?) {
         var loginParams = self._loginParameters
         
         if !loginParams.isEmpty {
@@ -1299,12 +1330,12 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
         if let url_object = URL(string: url) {
             let fetchTask = self._connectionSession.dataTask(with: url_object) { [unowned self] data, response, error in
                 if let error = error {
-                    self._handleError(error)
+                    self._handleError(error, refCon: inRefCon)
                     return
                 }
                 guard let httpResponse = response as? HTTPURLResponse,
                     (200...299).contains(httpResponse.statusCode) else {
-                        self._handleHTTPError(response as? HTTPURLResponse ?? nil)
+                        self._handleHTTPError(response as? HTTPURLResponse ?? nil, refCon: inRefCon)
                         return
                 }
                 // We have a specific structure, which we'll unwind, and turn into a simple Int:Int Dictionary.
@@ -1322,13 +1353,13 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                                     print(elem)
                                 }
                             }
-                            self._delegate?.sdkInstance(self, tokenAccessTest: accessDictionary)
+                            self._delegate?.sdkInstance(self, tokenAccessTest: accessDictionary, refCon: inRefCon)
                         }
                     } catch {
-                        self._handleError(SDK_Data_Errors.invalidData(myData))
+                        self._handleError(SDK_Data_Errors.invalidData(myData), refCon: inRefCon)
                     }
                 } else {
-                    self._handleError(SDK_Data_Errors.invalidData(data))
+                    self._handleError(SDK_Data_Errors.invalidData(data), refCon: inRefCon)
                 }
                 
                 Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
@@ -1338,7 +1369,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
             
             fetchTask.resume()
         } else {
-            self._handleError(SDK_Connection_Errors.invalidServerURI(url))
+            self._handleError(SDK_Connection_Errors.invalidServerURI(url), refCon: inRefCon)
         }
     }
 
@@ -1347,8 +1378,9 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      This asks the server to fetch the logins that have access to this token.
      
      - parameter inToken: An Integer, with the token ID.
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    private func _fetchIDsOfLoginsThatHaveThisToken(_ inToken: Int) {
+    private func _fetchIDsOfLoginsThatHaveThisToken(_ inToken: Int, refCon inRefCon: Any?) {
         var loginParams = self._loginParameters
         
         if !loginParams.isEmpty {
@@ -1363,12 +1395,12 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
         if let url_object = URL(string: url) {
             let fetchTask = self._connectionSession.dataTask(with: url_object) { [unowned self] data, response, error in
                 if let error = error {
-                    self._handleError(error)
+                    self._handleError(error, refCon: inRefCon)
                     return
                 }
                 guard let httpResponse = response as? HTTPURLResponse,
                     (200...299).contains(httpResponse.statusCode) else {
-                        self._handleHTTPError(response as? HTTPURLResponse ?? nil)
+                        self._handleHTTPError(response as? HTTPURLResponse ?? nil, refCon: inRefCon)
                         return
                 }
                 // We have a specific structure, which we'll unwind, and turn into a simple Int:Int Dictionary.
@@ -1381,13 +1413,13 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                            let testResult = baseline.object(forKey: "token") as? NSDictionary,
                            let token = testResult.object(forKey: "token") as? Int,
                            let login_ids = testResult.object(forKey: "login_ids") as? [Int] {
-                            self._delegate?.sdkInstance(self, tokenAccessTest: (token: token, logins: login_ids))
+                            self._delegate?.sdkInstance(self, tokenAccessTest: (token: token, logins: login_ids), refCon: inRefCon)
                         }
                     } catch {
-                        self._handleError(SDK_Data_Errors.invalidData(myData))
+                        self._handleError(SDK_Data_Errors.invalidData(myData), refCon: inRefCon)
                     }
                 } else {
-                    self._handleError(SDK_Data_Errors.invalidData(data))
+                    self._handleError(SDK_Data_Errors.invalidData(data), refCon: inRefCon)
                 }
                 
                 Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
@@ -1397,7 +1429,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
             
             fetchTask.resume()
         } else {
-            self._handleError(SDK_Connection_Errors.invalidServerURI(url))
+            self._handleError(SDK_Connection_Errors.invalidServerURI(url), refCon: inRefCon)
         }
     }
  
@@ -1406,8 +1438,9 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      This asks the server to fetch the users that have access to this token.
      
      - parameter inToken: An Integer, with the token ID.
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    private func _fetchIDsOfUsersThatHaveThisToken(_ inToken: Int) {
+    private func _fetchIDsOfUsersThatHaveThisToken(_ inToken: Int, refCon inRefCon: Any?) {
         var loginParams = self._loginParameters
         
         if !loginParams.isEmpty {
@@ -1422,12 +1455,12 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
         if let url_object = URL(string: url) {
             let fetchTask = self._connectionSession.dataTask(with: url_object) { [unowned self] data, response, error in
                 if let error = error {
-                    self._handleError(error)
+                    self._handleError(error, refCon: inRefCon)
                     return
                 }
                 guard let httpResponse = response as? HTTPURLResponse,
                     (200...299).contains(httpResponse.statusCode) else {
-                        self._handleHTTPError(response as? HTTPURLResponse ?? nil)
+                        self._handleHTTPError(response as? HTTPURLResponse ?? nil, refCon: inRefCon)
                         return
                 }
                 // We have a specific structure, which we'll unwind, and turn into a simple Int:Int Dictionary.
@@ -1440,16 +1473,16 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                            let testResult = baseline.object(forKey: "token") as? NSDictionary,
                            let token = testResult.object(forKey: "token") as? Int {
                            if let login_ids = testResult.object(forKey: "login_ids") as? [Int] {
-                                self._delegate?.sdkInstance(self, tokenAccessTest: (token: token, logins: login_ids))
+                                self._delegate?.sdkInstance(self, tokenAccessTest: (token: token, logins: login_ids), refCon: inRefCon)
                            } else if let user_ids = testResult.object(forKey: "user_ids") as? [Int] {
-                                self._delegate?.sdkInstance(self, tokenAccessTest: (token: token, users: user_ids))
+                                self._delegate?.sdkInstance(self, tokenAccessTest: (token: token, users: user_ids), refCon: inRefCon)
                            }
                         }
                     } catch {
-                        self._handleError(SDK_Data_Errors.invalidData(myData))
+                        self._handleError(SDK_Data_Errors.invalidData(myData), refCon: inRefCon)
                     }
                 } else {
-                    self._handleError(SDK_Data_Errors.invalidData(data))
+                    self._handleError(SDK_Data_Errors.invalidData(data), refCon: inRefCon)
                 }
                 
                 Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
@@ -1459,7 +1492,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
             
             fetchTask.resume()
         } else {
-            self._handleError(SDK_Connection_Errors.invalidServerURI(url))
+            self._handleError(SDK_Connection_Errors.invalidServerURI(url), refCon: inRefCon)
         }
     }
 
@@ -1468,8 +1501,9 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      This fetches thing objects from the data database server.
      
      - parameter inKeys: An Array of String, with the thing keys.
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    private func _fetchThings(_ inKeys: [String]) {
+    private func _fetchThings(_ inKeys: [String], refCon inRefCon: Any?) {
         var fetchKeys: [String] = []
         var cachedObjects: [A_RVP_Cocoa_SDK_Object] = []
 
@@ -1488,7 +1522,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
         }
         
         if !cachedObjects.isEmpty {
-            self._sendItemsToDelegate(cachedObjects)   // We just send our cached items to the delegate right away.
+            self._sendItemsToDelegate(cachedObjects, refCon: inRefCon)   // We just send our cached items to the delegate right away.
         }
         
         if !fetchKeys.isEmpty {  // If we didn't find everything we were looking for in the junk drawer, we will be asking the server for the remainder.
@@ -1507,23 +1541,23 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                 if let url_object = URL(string: url) {
                     let fetchTask = self._connectionSession.dataTask(with: url_object) { [unowned self] data, response, error in
                         if let error = error {
-                            self._handleError(error)
+                            self._handleError(error, refCon: inRefCon)
                             return
                         }
                         guard let httpResponse = response as? HTTPURLResponse,
                             (200...299).contains(httpResponse.statusCode) else {
-                                self._handleHTTPError(response as? HTTPURLResponse ?? nil)
+                                self._handleHTTPError(response as? HTTPURLResponse ?? nil, refCon: inRefCon)
                                 return
                         }
                         
                         if let mimeType = httpResponse.mimeType, "application/json" == mimeType, let myData = data {
-                            if let objectArray = self._makeInstance(data: myData) {
+                            if let objectArray = self._makeInstance(data: myData, refCon: inRefCon) {
                                 self._dataItems.append(contentsOf: objectArray)
                                 self._sortDataItems()
-                                self._sendItemsToDelegate(objectArray)
+                                self._sendItemsToDelegate(objectArray, refCon: inRefCon)
                             }
                         } else {
-                            self._handleError(SDK_Data_Errors.invalidData(data))
+                            self._handleError(SDK_Data_Errors.invalidData(data), refCon: inRefCon)
                         }
                         
                         Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
@@ -1533,7 +1567,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                     
                     fetchTask.resume()
                 } else {
-                    self._handleError(SDK_Connection_Errors.invalidServerURI(url))
+                    self._handleError(SDK_Connection_Errors.invalidServerURI(url), refCon: inRefCon)
                 }
             }
         } else {
@@ -1550,8 +1584,9 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      A valid server will always return this list, and you don't need to be logged in.
      
      - parameter inGetVersion: If this is true (default), then we get the version first, then the plugins.
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    private func _validateServer(_ inGetVersion: Bool = true) {
+    private func _validateServer(_ inGetVersion: Bool = true, refCon inRefCon: Any?) {
         let url = self._server_uri + "/json/baseline" + (inGetVersion ? "/version" : "")
         // The plugin list is a simple GET task, so we can just use a straight-up task for this.
         if let url_object = URL(string: url) {
@@ -1560,27 +1595,27 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
             }
             let baselineTask = self._connectionSession.dataTask(with: url_object) { data, response, error in
                 if let error = error {
-                    self._handleError(error)
+                    self._handleError(error, refCon: inRefCon)
                     return
                 }
                 guard let httpResponse = response as? HTTPURLResponse,
                     (200...299).contains(httpResponse.statusCode) else {
-                        self._handleHTTPError(response as? HTTPURLResponse ?? nil)
+                        self._handleHTTPError(response as? HTTPURLResponse ?? nil, refCon: inRefCon)
                         return
                 }
                 if let mimeType = httpResponse.mimeType, "application/json" == mimeType, let data = data {
                     if inGetVersion {
-                        _ = self._parseBaselineResponse(data: data)
-                        self._validateServer(false)
-                    } else if let plugins = self._parseBaselineResponse(data: data) as? [String: [String]] {
+                        _ = self._parseBaselineResponse(data: data, refCon: inRefCon)
+                        self._validateServer(false, refCon: inRefCon)
+                    } else if let plugins = self._parseBaselineResponse(data: data, refCon: inRefCon) as? [String: [String]] {
                         if let plugin_array = plugins["plugins"] {
                             self._plugins = plugin_array
-                            self._reportSessionValidity()   // We report whether or not this session is valid.
-                            self._callDelegateLoginValid(self.isLoggedIn)   // OK. We're done. Tell the delegate whether or not we are logged in.
+                            self._reportSessionValidity(refCon: inRefCon)   // We report whether or not this session is valid.
+                            self._callDelegateLoginValid(self.isLoggedIn, refCon: inRefCon)   // OK. We're done. Tell the delegate whether or not we are logged in.
                         }
                     }
                 } else {
-                    self._handleError(SDK_Data_Errors.invalidData(data))
+                    self._handleError(SDK_Data_Errors.invalidData(data), refCon: inRefCon)
                 }
                 
                 Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
@@ -1590,7 +1625,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
             
             baselineTask.resume()
         } else {
-            self._handleError(SDK_Connection_Errors.invalidServerURI(url))
+            self._handleError(SDK_Connection_Errors.invalidServerURI(url), refCon: inRefCon)
         }
     }
 
@@ -1611,8 +1646,9 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      - parameter maxRadiusInKm: This is a "maximum radius." If left at 0, then only one radius search will be done.
                                 If more than zero, and more than the radius in the location, then the radius will be increaed by the auto-radius step size, and another call will be made,
                                 if the threshold has not been satisfied. If no location is given, this is ignored.
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    private func _fetchObjectsByString(_ inTagValues: [String: String], andLocation inLocation: LocationSpecification? = nil, withPlugin inPlugin: String, maxRadiusInKm inMaxRadiusInKm: Double = 0) {
+    private func _fetchObjectsByString(_ inTagValues: [String: String], andLocation inLocation: LocationSpecification? = nil, withPlugin inPlugin: String, maxRadiusInKm inMaxRadiusInKm: Double = 0, refCon inRefCon: Any?) {
         var plugin = inPlugin
         var tagValues = inTagValues
         
@@ -1691,7 +1727,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
             return ""
         }) as Array).joined(separator: "&")
         
-        self._fetchObjectsByStringPartDeux(url, tags: inTagValues, andLocation: currentLocation, withPlugin: inPlugin, maxRadiusInKm: maxRadius, threshold: threshold)
+        self._fetchObjectsByStringPartDeux(url, tags: inTagValues, andLocation: currentLocation, withPlugin: inPlugin, maxRadiusInKm: maxRadius, threshold: threshold, refCon: inRefCon)
     }
     
     /* ################################################################## */
@@ -1709,8 +1745,9 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      - parameter withPlugin: This is the plugin to search. It can be: "baseline", "people", "places", "things"
      - parameter maxRadiusInKm: This is a "maximum radius." If left at 0, then only one radius search will be done. If more than zero, and more than the radius in the location, then the radius will be increaed by the auto-radius step size, and another call will be made, if the threshold has not been satisfied. If no location is given, this is ignored.
      - parameter threshold: This is an Int with a minimum count threshold. Default is 0.
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    private func _fetchObjectsByStringPartDeux(_ inUrl: String, tags inTagValues: [String: String], andLocation inLocation: LocationSpecification! = nil, withPlugin inPlugin: String, maxRadiusInKm inMaxRadiusInKm: Double = 0, threshold inThreshold: Int = 0) {
+    private func _fetchObjectsByStringPartDeux(_ inUrl: String, tags inTagValues: [String: String], andLocation inLocation: LocationSpecification! = nil, withPlugin inPlugin: String, maxRadiusInKm inMaxRadiusInKm: Double = 0, threshold inThreshold: Int = 0, refCon inRefCon: Any?) {
         // The request is a simple GET task, so we can just use a straight-up task for this.
         if let url_object = URL(string: inUrl) {
             Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
@@ -1718,18 +1755,18 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
             }
             let fetchTask = self._connectionSession.dataTask(with: url_object) { [unowned self] data, response, error in
                 if let error = error {
-                    self._handleError(error)
+                    self._handleError(error, refCon: inRefCon)
                     return
                 }
                 guard let httpResponse = response as? HTTPURLResponse,
                     (200...299).contains(httpResponse.statusCode) else {
-                        self._handleHTTPError(response as? HTTPURLResponse ?? nil)
+                        self._handleHTTPError(response as? HTTPURLResponse ?? nil, refCon: inRefCon)
                         return
                 }
                 
                 if let mimeType = httpResponse.mimeType, "application/json" == mimeType, let myData = data {
                     if "baseline" == inPlugin {
-                        let plugins = self._parseBaselineResponse(data: myData)
+                        let plugins = self._parseBaselineResponse(data: myData, refCon: inRefCon)
                         var ids: [Int] = []
                         
                         for pluginTup in plugins {
@@ -1740,33 +1777,33 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                         
                         // If we are at the maximum for an auto-radius search, or we are not doing an auto-radius search, we simply fetch all the results as objects.
                         if let location = inLocation, ids.count >= inThreshold || location.radiusInKm >= inMaxRadiusInKm {
-                            self._delegate?.sdkInstanceFinalAutoRadiusCall(self)  // If we are at the end of our rope, we let the delegate know.
-                            self._sendIDsToDelegate(ids, isFinal: true)
-                            self._fetchBaselineObjectsByID(ids)
+                            self._delegate?.sdkInstanceFinalAutoRadiusCall(self, refCon: inRefCon)  // If we are at the end of our rope, we let the delegate know.
+                            self._sendIDsToDelegate(ids, isFinal: true, refCon: inRefCon)
+                            self._fetchBaselineObjectsByID(ids, refCon: inRefCon)
                         } else if nil != inLocation {
-                            self._sendIDsToDelegate(ids)
-                            self._fetchObjectsByString(inTagValues, andLocation: inLocation, withPlugin: inPlugin, maxRadiusInKm: inMaxRadiusInKm)
+                            self._sendIDsToDelegate(ids, refCon: inRefCon)
+                            self._fetchObjectsByString(inTagValues, andLocation: inLocation, withPlugin: inPlugin, maxRadiusInKm: inMaxRadiusInKm, refCon: inRefCon)
                         } else {
-                            self._fetchBaselineObjectsByID(ids)
+                            self._fetchBaselineObjectsByID(ids, refCon: inRefCon)
                         }
                     } else {
-                        if let objectArray = self._makeInstance(data: myData) {
+                        if let objectArray = self._makeInstance(data: myData, refCon: inRefCon) {
                             self._dataItems.append(contentsOf: objectArray)
                             self._sortDataItems()
-                            self._sendItemsToDelegate(objectArray)
+                            self._sendItemsToDelegate(objectArray, refCon: inRefCon)
                             if let location = inLocation, objectArray.count >= inThreshold || location.radiusInKm >= inMaxRadiusInKm {  // If we are at the end of our rope, we let the delegate know.
-                                self._delegate?.sdkInstanceFinalAutoRadiusCall(self)
+                                self._delegate?.sdkInstanceFinalAutoRadiusCall(self, refCon: inRefCon)
                             }
                         } else if let location = inLocation, location.radiusInKm >= inMaxRadiusInKm {
                         }
                         
                         // If we are doing an auto-radius search, and aren't done yet, we go again.
                         if let location = inLocation, 0 < inMaxRadiusInKm, self._dataItems.count < inThreshold, location.radiusInKm < inMaxRadiusInKm {
-                            self._fetchObjectsByString(inTagValues, andLocation: inLocation, withPlugin: inPlugin, maxRadiusInKm: inMaxRadiusInKm)
+                            self._fetchObjectsByString(inTagValues, andLocation: inLocation, withPlugin: inPlugin, maxRadiusInKm: inMaxRadiusInKm, refCon: inRefCon)
                         }
                     }
                 } else {
-                    self._handleError(SDK_Data_Errors.invalidData(data))
+                    self._handleError(SDK_Data_Errors.invalidData(data), refCon: inRefCon)
                 }
                 
                 Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
@@ -1776,7 +1813,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
             
             fetchTask.resume()
         } else {
-            self._handleError(SDK_Connection_Errors.invalidServerURI(inUrl))
+            self._handleError(SDK_Connection_Errors.invalidServerURI(inUrl), refCon: inRefCon)
         }
     }
     
@@ -1800,8 +1837,9 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      - parameter inURI: The URI to send to the server.
      - parameter payloadData: This is a String, containing Base64-encoded data to be sent as a payload.
      - parameter objectInstance: The instance of the data object that called this.
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    private func _sendPUTData(_ inURI: String, payloadData inPayloadString: String, objectInstance inObjectInstance: A_RVP_Cocoa_SDK_Object) {
+    private func _sendPUTData(_ inURI: String, payloadData inPayloadString: String, objectInstance inObjectInstance: A_RVP_Cocoa_SDK_Object, refCon inRefCon: Any?) {
         if let url_object = URL(string: inURI) {
             let urlRequest = NSMutableURLRequest(url: url_object)
             urlRequest.httpMethod = "PUT"
@@ -1813,13 +1851,13 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
             
             self._connectionSession.uploadTask(with: urlRequest as URLRequest, from: payloadData) { [unowned self, unowned inObjectInstance] data, response, error in
                 if let error = error {
-                    self._handleError(error)
+                    self._handleError(error, refCon: inRefCon)
                     return
                 }
                 
                 guard let httpResponse = response as? HTTPURLResponse,
                     (200...299).contains(httpResponse.statusCode) else {
-                        self._handleHTTPError(response as? HTTPURLResponse ?? nil)
+                        self._handleHTTPError(response as? HTTPURLResponse ?? nil, refCon: inRefCon)
                         return
                 }
                 
@@ -1841,8 +1879,9 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      - parameter inURI: The URI to send to the server.
      - parameter payloadData: This is a String, containing Base64-encoded data to be sent as a payload. It is optional (empty, if ommitted)
      - parameter objectInstance: The instance of the data object that called this.
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    private func _sendPOSTData(_ inURI: String, payloadData inPayloadString: String = "", objectInstance inObjectInstance: A_RVP_Cocoa_SDK_Object) {
+    private func _sendPOSTData(_ inURI: String, payloadData inPayloadString: String = "", objectInstance inObjectInstance: A_RVP_Cocoa_SDK_Object, refCon inRefCon: Any?) {
         if let url_object = URL(string: inURI) {
             var urlRequest = URLRequest(url: url_object)
             urlRequest.httpMethod = "POST"
@@ -1866,13 +1905,13 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
             if let session = self._connectionSession {
                 session.dataTask(with: urlRequest) { [unowned self, unowned inObjectInstance] data, response, error in
                     if let error = error {
-                        self._handleError(error)
+                        self._handleError(error, refCon: inRefCon)
                         return
                     }
                     
                     guard let httpResponse = response as? HTTPURLResponse,
                         (200...299).contains(httpResponse.statusCode) else {
-                            self._handleHTTPError(response as? HTTPURLResponse ?? nil)
+                            self._handleHTTPError(response as? HTTPURLResponse ?? nil, refCon: inRefCon)
                             return
                     }
 
@@ -1894,8 +1933,9 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      This sends a DELETE command to the server.
      
      - parameter inURI: The URI to send to the server.
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    private func _sendDelete(_ inURI: String) {
+    private func _sendDelete(_ inURI: String, refCon inRefCon: Any?) {
         if let url_object = URL(string: inURI) {
             var urlRequest = URLRequest(url: url_object)
             urlRequest.httpMethod = "DELETE"
@@ -1906,13 +1946,13 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
             
             self._connectionSession?.uploadTask(with: urlRequest, from: Data()) { [unowned self] data, response, error in
                 if let error = error {
-                    self._handleError(error)
+                    self._handleError(error, refCon: inRefCon)
                     return
                 }
                 
                 guard let httpResponse = response as? HTTPURLResponse,
                     (200...299).contains(httpResponse.statusCode) else {
-                        self._handleHTTPError(response as? HTTPURLResponse ?? nil)
+                        self._handleHTTPError(response as? HTTPURLResponse ?? nil, refCon: inRefCon)
                         return
                 }
                 
@@ -1957,10 +1997,10 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                         // If we got any objects, we simply flush our cache, and send the items to the delegate.
                         if !resultList.isEmpty {
                             self.flushCache()
-                            self._delegate?.sdkInstance(self, deletedDataItems: resultList)
+                            self._delegate?.sdkInstance(self, deletedDataItems: resultList, refCon: inRefCon)
                         }
                     } catch {   // We end up here if the response is not a proper JSON object.
-                        self._handleError(RVP_Cocoa_SDK.SDK_Data_Errors.invalidData(data))
+                        self._handleError(RVP_Cocoa_SDK.SDK_Data_Errors.invalidData(data), refCon: inRefCon)
                     }
                 }
                 
@@ -2009,9 +2049,10 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      This is called with a list of one or more data items to be sent to the delegate.
      
      - parameter inItemArray: An Array of concrete instances of subclasses of A_RVP_IOS_SDK_Object.
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    internal func _sendItemsToDelegate(_ inItemArray: [A_RVP_Cocoa_SDK_Object]) {
-        self._delegate?.sdkInstance(self, fetchedDataItems: inItemArray)
+    internal func _sendItemsToDelegate(_ inItemArray: [A_RVP_Cocoa_SDK_Object], refCon inRefCon: Any?) {
+        self._delegate?.sdkInstance(self, fetchedDataItems: inItemArray, refCon: inRefCon)
     }
     
     /* ################################################################## */
@@ -2021,8 +2062,9 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      
      - parameter: The login object to convert.
      - parameter toManager: If true, then the login will be converted to a manager.
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    internal func _convertLogin(_ inLogin: RVP_Cocoa_SDK_Login, toManager inToManager: Bool) {
+    internal func _convertLogin(_ inLogin: RVP_Cocoa_SDK_Login, toManager inToManager: Bool, refCon inRefCon: Any?) {
         if !inLogin.isMainAdmin,                        // God can't be changed.
            inLogin.isWriteable,                         // We have to have write permission.
            !(inLogin.isManager && inToManager),         // There has to be an actual change.
@@ -2031,7 +2073,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                 print("Converting \"\(inLogin.loginID)\" to a \(inToManager ? "manager" : "user").")
             #endif
             let uri = self._server_uri + "/json" + inLogin._pluginPath + "?convert_to_" + (inToManager ? "manager" : "login") + "&" + self._loginParameters
-            self._sendPUTData(uri, payloadData: "", objectInstance: inLogin)
+            self._sendPUTData(uri, payloadData: "", objectInstance: inLogin, refCon: inRefCon)
         }
     }
 
@@ -2040,8 +2082,9 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      This executes a PUT query to the server, sending the data as necessary.
      
      - parameter inPutObject: The object to send to the server.
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    internal func _putObject(_ inObjectToPut: A_RVP_Cocoa_SDK_Object) {
+    internal func _putObject(_ inObjectToPut: A_RVP_Cocoa_SDK_Object, refCon inRefCon: Any?) {
         var uri = ""
         var payloadString = ""
         
@@ -2074,9 +2117,9 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                 uri = self._server_uri + "/json" + inObjectToPut._pluginPath + "?" + loginParams + "&" + uri
                 
                 if inObjectToPut.isNew {
-                    self._sendPOSTData(uri, payloadData: payloadString, objectInstance: inObjectToPut)
+                    self._sendPOSTData(uri, payloadData: payloadString, objectInstance: inObjectToPut, refCon: inRefCon)
                 } else {
-                    self._sendPUTData(uri, payloadData: payloadString, objectInstance: inObjectToPut)
+                    self._sendPUTData(uri, payloadData: payloadString, objectInstance: inObjectToPut, refCon: inRefCon)
                 }
             }
         }
@@ -2087,8 +2130,9 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      This executes a POST query to the server, sending the data as necessary.
      
      - parameter inPOSTObject: The object to send to the server.
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    internal func _postObject(_ inPOSTObject: A_RVP_Cocoa_SDK_Object) {
+    internal func _postObject(_ inPOSTObject: A_RVP_Cocoa_SDK_Object, refCon inRefCon: Any?) {
         var uri = ""
         
         if inPOSTObject.isDirty {
@@ -2102,7 +2146,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
             if !loginParams.isEmpty {
                 uri = self._server_uri + "/json" + inPOSTObject._pluginPath + "?" + loginParams + "&" + uri
                 
-                self._sendPOSTData(uri, objectInstance: inPOSTObject)
+                self._sendPOSTData(uri, objectInstance: inPOSTObject, refCon: inRefCon)
             }
         }
     }
@@ -2112,11 +2156,12 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      This is called to send any errors back to the delegate.
      
      - parameter inError: The error being handled.
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    internal func _handleError(_ inError: Error) {
+    internal func _handleError(_ inError: Error, refCon inRefCon: Any?) {
         self._newUserInstance = nil
         self._creatingUserLoginPair = false
-        self._delegate?.sdkInstance(self, sessionError: inError)
+        self._delegate?.sdkInstance(self, sessionError: inError, refCon: inRefCon)
     }
     
     /* ################################################################## */
@@ -2124,11 +2169,12 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      This is called to handle an HTTP Status error. It will call the _handleError() method.
      
      - parameter inResponse: The HTTP Response object being handled.
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    internal func _handleHTTPError(_ inResponse: HTTPURLResponse?) {
+    internal func _handleHTTPError(_ inResponse: HTTPURLResponse?, refCon inRefCon: Any?) {
         if let response = inResponse {
             let error = HTTPError(code: response.statusCode, description: "")
-            self._handleError(error)
+            self._handleError(error, refCon: inRefCon)
         }
     }
 
@@ -2192,9 +2238,10 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      This is called when we want to send a newly-minted object from the server to the delegate.
      
      - parameter inNewObject: The object to be sent to the delegate.
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    internal func _callDelegateNewItem(_ inNewObject: A_RVP_Cocoa_SDK_Object) {
-        self._delegate?.sdkInstance(self, newObject: inNewObject)
+    internal func _callDelegateNewItem(_ inNewObject: A_RVP_Cocoa_SDK_Object, refCon inRefCon: Any?) {
+        self._delegate?.sdkInstance(self, newObject: inNewObject, refCon: inRefCon)
     }
     
     /* ################################################################## */
@@ -2205,13 +2252,14 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      
      - parameter session: The session calling this.
      - parameter didBecomeInvalidWithError: The error (if any) that caused the invalidation.
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    public func urlSession(_ session: URLSession, didBecomeInvalidWithError error: Error?) {
+    public func urlSession(_ session: URLSession, didBecomeInvalidWithError error: Error?, refCon inRefCon: Any?) {
         self._plugins = []  // This makes the session invalid.
         if let error = error {  // If there was an error, we report it first.
-            self._handleError(error)
+            self._handleError(error, refCon: inRefCon)
         }
-        self._reportSessionValidity()   // Report the invalid session.
+        self._reportSessionValidity(refCon: inRefCon)   // Report the invalid session.
     }
 
     /* ################################################################## */
@@ -2565,8 +2613,9 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      - parameter password: (OPTIONAL/REQUIRED) A String, with a login password. If provided, then you must also provide inLoginId and inLoginTimeout.
      - parameter timeout: (OPTIONAL/REQUIRED) A Floating-point value, with the number of seconds the login has to be active. If provided, then you must also provide inLoginId and inPassword.
      - parameter session: (OPTIONAL) This allows the caller to have their own URLSession established (often, there is only one per app), so we can hitch a ride with that session. Otherwise, we create our own. The session must be ephemeral.
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    public init(serverURI inServerURI: String, serverSecret inServerSecret: String, delegate inDelegate: RVP_Cocoa_SDK_Delegate, loginID inLoginID: String! = nil, password inPassword: String! = nil, timeout inLoginTimeout: TimeInterval! = nil, session inURLSession: URLSession? = nil) {
+    public init(serverURI inServerURI: String, serverSecret inServerSecret: String, delegate inDelegate: RVP_Cocoa_SDK_Delegate, loginID inLoginID: String! = nil, password inPassword: String! = nil, timeout inLoginTimeout: TimeInterval! = nil, session inURLSession: URLSession? = nil, refCon inRefCon: Any?) {
         super.init()
         
         self._delegate = inDelegate
@@ -2583,7 +2632,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
             self._newSession = true
             self._connectionSession = URLSession(configuration: .ephemeral, delegate: self, delegateQueue: nil)
         }
-        self.connect(loginID: inLoginID, password: inPassword, timeout: inLoginTimeout)
+        self.connect(loginID: inLoginID, password: inPassword, timeout: inLoginTimeout, refCon: inRefCon)
     }
     
     /* ################################################################## */
@@ -2594,8 +2643,9 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      It will figure out whether or not the object is a security object or a data object, and perform the required deletion for each type.
      
      - parameter inItemArray: An Array of concrete instances of subclasses of A_RVP_IOS_SDK_Object.
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    public func deleteObjects(_ inItemArray: [A_RVP_Cocoa_SDK_Object]) {
+    public func deleteObjects(_ inItemArray: [A_RVP_Cocoa_SDK_Object], refCon inRefCon: Any?) {
         // The first thing we do, is sort by plugin path, which we'll use for the next step.
         let sortedList = inItemArray.sorted(by: { (a, b) -> Bool in
             if a._pluginPathNoID < b._pluginPathNoID {
@@ -2641,7 +2691,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
             if !loginParams.isEmpty {
                 uri = self._server_uri + "/json" + uri + "?" + self._loginParameters
                 
-                self._sendDelete(uri)
+                self._sendDelete(uri, refCon: inRefCon)
             }
         }
     }
@@ -2653,23 +2703,24 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      - parameter loginId: (OPTIONAL) A String, with a login ID. If provided, then you must also provide inPassword and inLoginTimeout.
      - parameter password: (OPTIONAL) A String, with a login password. If provided, then you must also provide inLoginId and inLoginTimeout.
      - parameter timeout: (OPTIONAL) A Floating-point value, with the number of seconds the login has to be active. If provided, then you must also provide inLoginId and inPassword.
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    public func connect(loginID inLoginId: String! = nil, password inPassword: String! = nil, timeout inLoginTimeout: TimeInterval! = nil) {
+    public func connect(loginID inLoginId: String! = nil, password inPassword: String! = nil, timeout inLoginTimeout: TimeInterval! = nil, refCon inRefCon: Any?) {
         // If any one of the optionals is provided, then they must ALL be provided.
         if nil != inLoginId || nil != inPassword || nil != inLoginTimeout {
             if nil == inLoginId || nil == inPassword || nil == inLoginTimeout {
-                self._handleError(SDK_Operation_Errors.invalidParameters)
+                self._handleError(SDK_Operation_Errors.invalidParameters, refCon: inRefCon)
                 return
             }
             
             // If a login was provided, we attempt a login.
-            self.login(loginID: inLoginId, password: inPassword, timeout: inLoginTimeout)
+            self.login(loginID: inLoginId, password: inPassword, timeout: inLoginTimeout, refCon: inRefCon)
         } else {    // Otherwise, simply fetch the baseline plugins, which will result in the delegate being called.
             if self._plugins.isEmpty {
                 self._validateServer()
             } else {
-                self._reportSessionValidity()   // We report whether or not this session is valid.
-                self._callDelegateLoginValid(self.isLoggedIn)   // OK. We're done. Tell the delegate whether or not we are logged in.
+                self._reportSessionValidity(refCon: inRefCon)   // We report whether or not this session is valid.
+                self._callDelegateLoginValid(self.isLoggedIn, refCon: inRefCon)   // OK. We're done. Tell the delegate whether or not we are logged in.
             }
         }
     }
@@ -2685,8 +2736,9 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      - parameter loginID: (REQUIRED) A String, with a login ID.
      - parameter password: (REQUIRED) A String, with a login password.
      - parameter timeout: (REQUIRED) A Floating-point value, with the number of seconds the login has to be active.
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    public func login(loginID inLoginID: String, password inPassword: String, timeout inLoginTimeout: TimeInterval) {
+    public func login(loginID inLoginID: String, password inPassword: String, timeout inLoginTimeout: TimeInterval, refCon inRefCon: Any?) {
         self._loginTimeout = inLoginTimeout // This is how long we'll have to be logged in, before the server kicks us out.
         self._loginTime = Date()    // Starting now.
         self._apiKey = nil          // We wipe out any stored API key.
@@ -2700,19 +2752,19 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                     }
                     let loginTask = self._connectionSession.dataTask(with: url_object) { data, response, error in
                         if let error = error {
-                            self._handleError(error)
+                            self._handleError(error, refCon: inRefCon)
                             return
                         }
                         guard let httpResponse = response as? HTTPURLResponse,
                             (200...299).contains(httpResponse.statusCode) else {
-                                self._handleHTTPError(response as? HTTPURLResponse ?? nil)
+                                self._handleHTTPError(response as? HTTPURLResponse ?? nil, refCon: inRefCon)
                                 return
                         }
                         if let mimeType = httpResponse.mimeType, mimeType == "text/html", let data = data, let apiKey = String(data: data, encoding: .utf8) {
                             self._apiKey = apiKey
-                            self._fetchMyLoginInfo()
+                            self._fetchMyLoginInfo(refCon: inRefCon)
                         } else {
-                            self._handleError(SDK_Data_Errors.invalidData(data))
+                            self._handleError(SDK_Data_Errors.invalidData(data), refCon: inRefCon)
                         }
                         
                         Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
@@ -2723,13 +2775,13 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                     self.flushCache()    // We nuke the cache when we log in.
                     loginTask.resume()
                 } else {
-                    self._handleError(SDK_Connection_Errors.invalidServerURI(url))
+                    self._handleError(SDK_Connection_Errors.invalidServerURI(url), refCon: inRefCon)
                 }
             } else {
-                self._handleError(SDK_Operation_Errors.invalidParameters)
+                self._handleError(SDK_Operation_Errors.invalidParameters, refCon: inRefCon)
             }
         } else {
-            self._handleError(SDK_Operation_Errors.invalidParameters)
+            self._handleError(SDK_Operation_Errors.invalidParameters, refCon: inRefCon)
         }
     }
 
@@ -2738,8 +2790,9 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      This is the logout method.
      
      You must already be logged in for this to do anything. If so, it simply asks the server to log us out.
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    public func logout() {
+    public func logout(refCon inRefCon: Any?) {
         if self.isLoggedIn {
             // The logout is a simple GET task, so we can just use a straight-up task for this.
             let url = self._server_uri + "/logout?" + self._loginParameters
@@ -2749,13 +2802,13 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                 }
                 let logoutTask = self._connectionSession.dataTask(with: url_object) { [weak self] _, response, error in
                     if let error = error {
-                        self?._handleError(error)
+                        self?._handleError(error, refCon: inRefCon)
                         return
                     }
                     
                     guard let httpResponse = response as? HTTPURLResponse, 205 == httpResponse.statusCode
                         else {
-                            self?._handleHTTPError(response as? HTTPURLResponse ?? nil)
+                            self?._handleHTTPError(response as? HTTPURLResponse ?? nil, refCon: inRefCon)
                             return
                     }
                     
@@ -2763,7 +2816,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                     self?._loginTime = nil
                     self?._loginInfo = nil
                     self?._userInfo = nil
-                    self?._callDelegateLoginValid(false) // At this time, we are logged out, but the session is still valid.
+                    self?._callDelegateLoginValid(false, refCon: inRefCon) // At this time, we are logged out, but the session is still valid.
                     Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
                         self?._openOperations -= 1
                     }
@@ -2772,7 +2825,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                 self.flushCache()    // We nuke the cache when we log out.
                 logoutTask.resume()
             } else {
-                self._handleError(SDK_Connection_Errors.invalidServerURI(url))
+                self._handleError(SDK_Connection_Errors.invalidServerURI(url), refCon: inRefCon)
             }
         }
     }
@@ -2793,8 +2846,9 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      - parameter loginString: The Requested login ID string. It must be unique in the server, and the operation will fail, if it is already taken.
      - parameter name: A requested name for the objects (will be applied to both). It is optional. If not supplied, the Login ID will be used for the name.
      - parameter isManager: If true, then the new instance will be a maneger (default is false, and can be omitted).
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    public func createUserLoginPair(loginString inLoginStringID: String, name inName: String = "", isManager inIsManager: Bool = false) {
+    public func createUserLoginPair(loginString inLoginStringID: String, name inName: String = "", isManager inIsManager: Bool = false, refCon inRefCon: Any?) {
         self._creatingUserLoginPair = true
         self._newUserInstance = nil
         var useName = inName
@@ -2816,25 +2870,27 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      - parameter inIntegerIDs: An Array of Int, with the data database IDs of the data database objects Requested.
      - parameter andPlugin: An optional String, with the required plugin ("people", "places" or "things"). If nil, then the baseline plugin is invoked, which will fetch any object, regardless of plugin.
      - parameter dontNukeTheLocation: Optional. If true, then we keep the search location cached (like in an auto-radius call). Otherwise (default), the search location is reset after this call.
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    public func fetchDataItemsByIDs(_ inIntegerIDs: [Int], andPlugin inPlugin: String? = "baseline", dontNukeTheLocation inDontNuke: Bool = false) {
+    public func fetchDataItemsByIDs(_ inIntegerIDs: [Int], andPlugin inPlugin: String? = "baseline", dontNukeTheLocation inDontNuke: Bool = false, refCon inRefCon: Any?) {
         if !inDontNuke {
             self.searchLocation = nil   // We have the option of not nuking if we are fetching as part of a location/radius search.
         }
         if let plugin = inPlugin, "baseline" != plugin {    // nil is "baseline".
-            self._fetchDataItems(inIntegerIDs, plugin: plugin)
+            self._fetchDataItems(inIntegerIDs, plugin: plugin, refCon: inRefCon)
         } else {
-            self._fetchBaselineObjectsByID(inIntegerIDs)    // If we fetch baseline objects, it's a 2-step process.
+            self._fetchBaselineObjectsByID(inIntegerIDs, refCon: inRefCon)    // If we fetch baseline objects, it's a 2-step process.
         }
     }
 
     /* ################################################################## */
     /**
      This method fetches every user (with a login) that can be edited by the current manager instance.
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    public func fetchAllEditableUsersFromServer() {
+    public func fetchAllEditableUsersFromServer(refCon inRefCon: Any?) {
         if self.isManager {
-            self._fetchAllEditableUsersFromServer()
+            self._fetchAllEditableUsersFromServer(refCon: inRefCon)
         }
     }
 
@@ -2843,9 +2899,10 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      This method will initiate a fetch of all types of objects, based upon a list of IDs.
      
      - parameter inIDArray: An Array of Int, with the data database IDs of the place objects Requested.
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    public func fetchBaselineObjectsByID(_ inIDArray: [Int]) {
-        self.fetchDataItemsByIDs(inIDArray)
+    public func fetchBaselineObjectsByID(_ inIDArray: [Int], refCon inRefCon: Any?) {
+        self.fetchDataItemsByIDs(inIDArray, refCon: inRefCon)
     }
 
     /* ################################################################## */
@@ -2853,9 +2910,10 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      This method will initiate a fetch of place objects, based upon a list of IDs.
      
      - parameter inPlaceIDArray: An Array of Int, with the data database IDs of the place objects Requested.
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    public func fetchPlaces(_ inPlaceIDArray: [Int]) {
-        self.fetchDataItemsByIDs(inPlaceIDArray, andPlugin: "places")
+    public func fetchPlaces(_ inPlaceIDArray: [Int], refCon inRefCon: Any?) {
+        self.fetchDataItemsByIDs(inPlaceIDArray, andPlugin: "places", refCon: inRefCon)
     }
 
     /* ################################################################## */
@@ -2863,9 +2921,10 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      This method will initiate a fetch of user objects, based upon a list of IDs.
      
      - parameter inUserIntegerIDArray: An Array of Int, with the data database IDs of the user objects Requested.
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    public func fetchUsers(_ inUserIntegerIDArray: [Int]) {
-        self.fetchDataItemsByIDs(inUserIntegerIDArray, andPlugin: "people")
+    public func fetchUsers(_ inUserIntegerIDArray: [Int], refCon inRefCon: Any?) {
+        self.fetchDataItemsByIDs(inUserIntegerIDArray, andPlugin: "people", refCon: inRefCon)
     }
     
     /* ################################################################## */
@@ -2873,9 +2932,10 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      This fetches thing objects from the data database server.
      
      - parameter inThingIntegerIDArray: An Array of Int, with the data database IDs of the thing objects Requested.
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    public func fetchThings(_ inThingIntegerIDArray: [Int]) {
-        self.fetchDataItemsByIDs(inThingIntegerIDArray, andPlugin: "things")
+    public func fetchThings(_ inThingIntegerIDArray: [Int], refCon inRefCon: Any?) {
+        self.fetchDataItemsByIDs(inThingIntegerIDArray, andPlugin: "things", refCon: inRefCon)
     }
     
     /* ################################################################## */
@@ -2883,10 +2943,11 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      This fetches thing objects from the data database server.
      
      - parameter inKeys: An Array of String, with the thing keys.
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    public func fetchThings(_ inKeys: [String]) {
+    public func fetchThings(_ inKeys: [String], refCon inRefCon: Any?) {
         self.searchLocation = nil
-        self._fetchThings(inKeys)
+        self._fetchThings(inKeys, refCon: inRefCon)
     }
     
     /* ################################################################## */
@@ -2894,10 +2955,12 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      This method will initiate a fetch of login objects, based upon a list of IDs.
      
      - parameter inLoginIntegerIDArray: An Array of Int, with the security database IDs of the login objects Requested.
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    public func fetchLogins(_ inLoginIntegerIDArray: [Int]) {
+    public func fetchLogins(_ inLoginIntegerIDArray: [Int], refCon inRefCon: Any?) {
         self.searchLocation = nil   // This will always nil out if we are fetching logins.
-        self._fetchLoginItems(inLoginIntegerIDArray)
+        self._fetchLoginItems(inLoginIntegerIDArray, refCon: inRefCon)
     }
 
     /* ################################################################## */
@@ -2905,21 +2968,23 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      This method will initiate a fetch of login objects, based upon a list of IDs.
      
      - parameter inLoginStringIDArray: An Array of String, with the string login IDs of the login objects Requested.
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    public func fetchLogins(_ inLoginStringIDArray: [String]) {
+    public func fetchLogins(_ inLoginStringIDArray: [String], refCon inRefCon: Any?) {
         self.searchLocation = nil   // This will always nil out if we are fetching logins.
-        self._fetchLoginItems(inLoginStringIDArray)
+        self._fetchLoginItems(inLoginStringIDArray, refCon: inRefCon)
     }
     
     /* ################################################################## */
     /**
      We ask the server to send us our login object information.
      
-     When we get the information, we parse it, create a new instance of the handler class
-     and cache that instance.
+     When we get the information, we parse it, create a new instance of the handler class and cache that instance.
+     
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    public func fetchMyLoginInfo() {
-        self._fetchMyLoginInfo()
+    public func fetchMyLoginInfo(refCon inRefCon: Any?) {
+        self._fetchMyLoginInfo(refCon: inRefCon)
     }
     
     /* ################################################################## */
@@ -2927,9 +2992,10 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      This will ask the server to inform us as to who has access to the given security token.
      
      - parameter inTokens: An integer array, with the tokens we're testing.
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    public func countWhoHasAccessToTheseSecurityTokens(_ inTokens: [Int]) {
-        self._countWhoHasAccessToTheseSecurityTokens(inTokens)
+    public func countWhoHasAccessToTheseSecurityTokens(_ inTokens: [Int], refCon inRefCon: Any?) {
+        self._countWhoHasAccessToTheseSecurityTokens(inTokens, refCon: inRefCon)
     }
     
     /* ################################################################## */
@@ -2939,9 +3005,10 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      This is security-vetted, so only logins that the current login can see, will be returned.
      
      - parameter inToken: An Integer, with the token we are testing.
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    public func fetchIDsOfLoginsThatHaveThisToken(_ inToken: Int) {
-        _fetchIDsOfLoginsThatHaveThisToken(inToken)
+    public func fetchIDsOfLoginsThatHaveThisToken(_ inToken: Int, refCon inRefCon: Any?) {
+        _fetchIDsOfLoginsThatHaveThisToken(inToken, refCon: inRefCon)
     }
     
     /* ################################################################## */
@@ -2951,9 +3018,10 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      This is security-vetted, so only users that the current login can see, will be returned.
      
      - parameter inToken: An Integer, with the token we are testing.
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    public func fetchIDsOfUsersThatHaveThisToken(_ inToken: Int) {
-        _fetchIDsOfUsersThatHaveThisToken(inToken)
+    public func fetchIDsOfUsersThatHaveThisToken(_ inToken: Int, refCon inRefCon: Any?) {
+        _fetchIDsOfUsersThatHaveThisToken(inToken, refCon: inRefCon)
     }
 
     /* ################################################################## */
@@ -2991,10 +3059,11 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      
      - parameter withPlugin:    This is an optional String. It can specify that only a certain plugin will be searched. For the default plugins, this can only be "baseline", "people", "places", and "things".
                                 If not specified, then the "baseline" plugin will be searched (returns all types).
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    public func fetchObjectsUsingCriteria(_ inTagValues: [String: String]? = nil, andLocation inLocation: LocationSpecification! = nil, withPlugin inPlugin: String = "baseline") {
+    public func fetchObjectsUsingCriteria(_ inTagValues: [String: String]? = nil, andLocation inLocation: LocationSpecification! = nil, withPlugin inPlugin: String = "baseline", refCon inRefCon: Any?) {
         self.searchLocation = inLocation?.coords
-        self._fetchObjectsByString(Self._sortOutStrings(inTagValues, forPlugin: inPlugin), andLocation: inLocation, withPlugin: inPlugin, maxRadiusInKm: inLocation?.radiusInKm ?? 0)
+        self._fetchObjectsByString(Self._sortOutStrings(inTagValues, forPlugin: inPlugin), andLocation: inLocation, withPlugin: inPlugin, maxRadiusInKm: inLocation?.radiusInKm ?? 0, refCon: inRefCon)
     }
     
     /* ################################################################## */
