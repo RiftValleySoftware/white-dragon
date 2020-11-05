@@ -106,7 +106,7 @@ public protocol RVP_Cocoa_SDK_Delegate: class {
     /**
      This is a response to the count how many logins have access to a token test.
      
-     This version of the call is security-restricted, so the IDs will only be for users that the current login can see.
+     This version of the call is security-restricted, so the IDs will only be for logins that the current login can see.
      
      **NOTE:** This is not guaranteed to be called in the main thread!
      
@@ -114,6 +114,19 @@ public protocol RVP_Cocoa_SDK_Delegate: class {
      - parameter tokenAccessTest: A tuple, containing the tested token ("token"), and the IDs of the logins (not users) that have the token ("logins").
      */
     func sdkInstance(_: RVP_Cocoa_SDK, tokenAccessTest: (token: Int, logins: [Int]))
+    
+    /* ################################################################## */
+    /**
+     This is a response to the count how many users have access to a token test.
+     
+     This version of the call is security-restricted, so the IDs will only be for users that the current login can see.
+     
+     **NOTE:** This is not guaranteed to be called in the main thread!
+     
+     - parameter: This is the SDK instance making the call.
+     - parameter tokenAccessTest: A tuple, containing the tested token ("token"), and the IDs of the users (not logins) that have the token ("users").
+     */
+    func sdkInstance(_: RVP_Cocoa_SDK, tokenAccessTest: (token: Int, users: [Int]))
 
     /* ################################################################## */
     /**
@@ -1425,9 +1438,12 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                         if let main_object = temp as? NSDictionary,
                            let baseline = main_object.object(forKey: "baseline") as? NSDictionary,
                            let testResult = baseline.object(forKey: "token") as? NSDictionary,
-                           let token = testResult.object(forKey: "token") as? Int,
-                           let login_ids = testResult.object(forKey: "login_ids") as? [Int] {
-                            self._delegate?.sdkInstance(self, tokenAccessTest: (token: token, logins: login_ids))
+                           let token = testResult.object(forKey: "token") as? Int {
+                           if let login_ids = testResult.object(forKey: "login_ids") as? [Int] {
+                                self._delegate?.sdkInstance(self, tokenAccessTest: (token: token, logins: login_ids))
+                           } else if let user_ids = testResult.object(forKey: "user_ids") as? [Int] {
+                                self._delegate?.sdkInstance(self, tokenAccessTest: (token: token, users: user_ids))
+                           }
                         }
                     } catch {
                         self._handleError(SDK_Data_Errors.invalidData(myData))
