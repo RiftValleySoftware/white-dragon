@@ -1331,7 +1331,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
 
     /* ################################################################## */
     /**
-     This asks the server to fetch the users that have access to this token.
+     This asks the server to fetch the logins that have access to this token.
      
      - parameter inToken: An Integer, with the token ID.
      */
@@ -1387,7 +1387,66 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
             self._handleError(SDK_Connection_Errors.invalidServerURI(url))
         }
     }
-    
+ 
+    /* ################################################################## */
+    /**
+     This asks the server to fetch the users that have access to this token.
+     
+     - parameter inToken: An Integer, with the token ID.
+     */
+    private func _fetchIDsOfUsersThatHaveThisToken(_ inToken: Int) {
+        var loginParams = self._loginParameters
+        
+        if !loginParams.isEmpty {
+            loginParams = "&" + loginParams
+        }
+        
+        let url = self._server_uri + "/json/baseline/visibility/token/\(inToken)?users" + loginParams   // We ask who has access to the given tokens.
+        // The request is a simple GET task, so we can just use a straight-up task for this.
+        Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
+            self._openOperations += 1
+        }
+        if let url_object = URL(string: url) {
+            let fetchTask = self._connectionSession.dataTask(with: url_object) { [unowned self] data, response, error in
+                if let error = error {
+                    self._handleError(error)
+                    return
+                }
+                guard let httpResponse = response as? HTTPURLResponse,
+                    (200...299).contains(httpResponse.statusCode) else {
+                        self._handleHTTPError(response as? HTTPURLResponse ?? nil)
+                        return
+                }
+                // We have a specific structure, which we'll unwind, and turn into a simple Int:Int Dictionary.
+                if let mimeType = httpResponse.mimeType, "application/json" == mimeType, let myData = data {
+                    do {
+                        let temp = try JSONSerialization.jsonObject(with: myData, options: [])
+                        
+                        if let main_object = temp as? NSDictionary,
+                           let baseline = main_object.object(forKey: "baseline") as? NSDictionary,
+                           let testResult = baseline.object(forKey: "token") as? NSDictionary,
+                           let token = testResult.object(forKey: "token") as? Int,
+                           let login_ids = testResult.object(forKey: "login_ids") as? [Int] {
+                            self._delegate?.sdkInstance(self, tokenAccessTest: (token: token, logins: login_ids))
+                        }
+                    } catch {
+                        self._handleError(SDK_Data_Errors.invalidData(myData))
+                    }
+                } else {
+                    self._handleError(SDK_Data_Errors.invalidData(data))
+                }
+                
+                Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
+                    self._openOperations -= 1
+                }
+            }
+            
+            fetchTask.resume()
+        } else {
+            self._handleError(SDK_Connection_Errors.invalidServerURI(url))
+        }
+    }
+
     /* ################################################################## */
     /**
      This fetches thing objects from the data database server.
@@ -2859,14 +2918,26 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
     
     /* ################################################################## */
     /**
+     This will ask the server to get all the logins that have access to provided security token.
+     
+     This is security-vetted, so only logins that the current login can see, will be returned.
+     
+     - parameter inToken: An Integer, with the token we are testing.
+     */
+    public func fetchIDsOfLoginsThatHaveThisToken(_ inToken: Int) {
+        _fetchIDsOfLoginsThatHaveThisToken(inToken)
+    }
+    
+    /* ################################################################## */
+    /**
      This will ask the server to get all the users that have access to provided security token.
      
      This is security-vetted, so only users that the current login can see, will be returned.
      
      - parameter inToken: An Integer, with the token we are testing.
      */
-    public func fetchIDsOfLoginsThatHaveThisToken(_ inToken: Int) {
-        _fetchIDsOfLoginsThatHaveThisToken(inToken)
+    public func fetchIDsOfUsersThatHaveThisToken(_ inToken: Int) {
+        _fetchIDsOfUsersThatHaveThisToken(inToken)
     }
 
     /* ################################################################## */
