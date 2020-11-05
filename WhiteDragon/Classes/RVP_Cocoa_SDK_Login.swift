@@ -158,16 +158,18 @@ public class RVP_Cocoa_SDK_Login: A_RVP_Cocoa_SDK_Security_Object {
     /* ################################################################## */
     /**
      This is called to convert this login to a manager.
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    public func convertLoginToManager() {
-        sdkInstance?._convertLogin(self, toManager: true)
+    public func convertLoginToManager(refCon inRefCon: Any?) {
+        sdkInstance?._convertLogin(self, toManager: true, refCon: inRefCon)
     }
     
     /* ################################################################## */
     /**
      This is called to convert this login to a standard user.
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    public func convertLoginToUser() {
-        sdkInstance?._convertLogin(self, toManager: false)
+    public func convertLoginToUser(refCon inRefCon: Any?) {
+        sdkInstance?._convertLogin(self, toManager: false, refCon: inRefCon)
     }
 }

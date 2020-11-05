@@ -353,14 +353,15 @@ public class A_RVP_Cocoa_SDK_Data_Object: A_RVP_Cocoa_SDK_Object {
     /* ################################################################## */
     /**
      This asks the server to return all of the "children" objects. It could result in a fairly large response.
+     - parameter refCon: This is an optional Any parameter that is simply returning attached data to the delegate. The data is sent during the initial call. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    public func fetchChildrenObjects() {
+    public func fetchChildrenObjects(refCon inRefCon: Any?) {
         let childObjects = self.childrenIDs
         
         // We go through each of the plugin types, and ask for all the children for each plugin.
         for tup in childObjects {
             if let sdkInstance = self._sdkInstance {
-                sdkInstance.fetchDataItemsByIDs(tup.value, andPlugin: tup.key)
+                sdkInstance.fetchDataItemsByIDs(tup.value, andPlugin: tup.key, refCon: inRefCon)
             }
         }
     }

@@ -35,21 +35,22 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
      This parses a new login object, and may also begin a user creation (depending on whether or not we are creating a pair).
      
      - parameter valueDictionary: This is a Dictionary of values to be applied to the new login.
+     - parameter refCon: This is an optional Any parameter that is simply returning attached data to the delegate. The data is sent during the initial call. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    private func _handleNewLogin(valueDictionary inValue: [String: Any]) {
+    private func _handleNewLogin(valueDictionary inValue: [String: Any], refCon inRefCon: Any?) {
         if let ret = self._sdkInstance?._makeNewInstanceFromDictionary(inValue, parent: self._pluginType) {
-            self._sdkInstance?._callDelegateNewItem(ret)
+            self._sdkInstance?._callDelegateNewItem(ret, refCon: inRefCon)
             if self._sdkInstance?._creatingUserLoginPair ?? false {  // If this was a standalone, we send to the delegate. Otherwise, we create a new user, and wait.
                 if let newLogin = ret as? RVP_Cocoa_SDK_Login { // Make sure we have an actual login. If so, we create a new user.
                     self._sdkInstance?._newUserInstance = RVP_Cocoa_SDK_User(sdkInstance: self._sdkInstance, objectInfoData: ["associated_login_id": newLogin.id, "name": newLogin.name])
-                    self._sdkInstance?._newUserInstance.sendToServer()
+                    self._sdkInstance?._newUserInstance.sendToServer(refCon: inRefCon)
                 } else {
-                    self._sdkInstance?._handleError(RVP_Cocoa_SDK.SDK_Data_Errors.invalidData(Data()))
+                    self._sdkInstance?._handleError(RVP_Cocoa_SDK.SDK_Data_Errors.invalidData(Data()), refCon: inRefCon)
                 }
             } else {
                 self._sdkInstance?._newUserInstance = nil
                 self._sdkInstance?._creatingUserLoginPair = false
-                self._sdkInstance?._sendItemsToDelegate([ret])
+                self._sdkInstance?._sendItemsToDelegate([ret], refCon: inRefCon)
             }
         }
     }
@@ -59,11 +60,12 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
      This parses a new user object.
      
      - parameter valueDictionary: This is a Dictionary of values to be applied to the new login.
+     - parameter refCon: This is an optional Any parameter that is simply returning attached data to the delegate. The data is sent during the initial call. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    private func _handleNewUser(valueDictionary inValue: [String: Any]) {
+    private func _handleNewUser(valueDictionary inValue: [String: Any], refCon inRefCon: Any?) {
         if let ret = self._sdkInstance?._makeNewInstanceFromDictionary(inValue, parent: self._pluginType) {
-            self._sdkInstance?._callDelegateNewItem(ret)
-            self._sdkInstance?._sendItemsToDelegate([ret])
+            self._sdkInstance?._callDelegateNewItem(ret, refCon: inRefCon)
+            self._sdkInstance?._sendItemsToDelegate([ret], refCon: inRefCon)
             self._sdkInstance?._newUserInstance = nil
             self._sdkInstance?._creatingUserLoginPair = false
         }
@@ -223,20 +225,21 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
      This handles making change records from the response from a PUT command.
      
      - parameter inChangeData: The response, as Data. It is JSON, and will be parsed as such.
+     - parameter refCon: This is an optional Any parameter that is simply returning attached data to the delegate. The data is sent during the initial call. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    internal func _handleChangeResponse(_ inChangeData: Data) {
+    internal func _handleChangeResponse(_ inChangeData: Data, refCon inRefCon: Any?) {
         do {    // Extract a usable object from the given JSON data.
             let temp = try JSONSerialization.jsonObject(with: inChangeData, options: [])
             
             // We will have different Dictionaries, dependent on which response we got, but we can parse them generically.
             if let dict = temp as? [String: Any] {
-                self._parseChangeJSON(dict) // Build our change history.
+                self._parseChangeJSON(dict, refCon: inRefCon) // Build our change history.
                 self._myOriginalData = self._myData // OK. The old is now the new. We no longer need to feel "dirty."
             } else {
-                self._sdkInstance?._handleError(RVP_Cocoa_SDK.SDK_Data_Errors.invalidData(inChangeData))
+                self._sdkInstance?._handleError(RVP_Cocoa_SDK.SDK_Data_Errors.invalidData(inChangeData), refCon: inRefCon)
             }
         } catch {   // We end up here if the response is not a proper JSON object.
-            self._sdkInstance?._handleError(RVP_Cocoa_SDK.SDK_Data_Errors.invalidData(inChangeData))
+            self._sdkInstance?._handleError(RVP_Cocoa_SDK.SDK_Data_Errors.invalidData(inChangeData), refCon: inRefCon)
         }
     }
     
@@ -253,26 +256,27 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
      This handles making change records from the response from a PUT command.
      
      - parameter inChangeJSON: The response, as an unserialized JSON object (Dictionary).
+     - parameter refCon: This is an optional Any parameter that is simply returning attached data to the delegate. The data is sent during the initial call. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    internal func _parseChangeJSON(_ inChangeJSON: [String: Any]) {
+    internal func _parseChangeJSON(_ inChangeJSON: [String: Any], refCon inRefCon: Any?) {
         // What we do, is recursively dive into the response, ignoring keys until we hit an Array with Dictionaries containing "before" and "after" keys.
         // We then parse those into instances, which populate the change history for this instance.
         for innerTuple in inChangeJSON {
             if let innerCast = innerTuple.value as? [String: Any] {
                 if let newValue = innerCast["new_login"] as? [String: Any] {
-                    self._handleNewLogin(valueDictionary: newValue)
+                    self._handleNewLogin(valueDictionary: newValue, refCon: inRefCon)
                 } else if let newValue = innerCast["new_user"] as? [String: Any] {
-                    self._handleNewUser(valueDictionary: newValue)
+                    self._handleNewUser(valueDictionary: newValue, refCon: inRefCon)
                 } else if let newValue = innerCast["new_place"] as? [String: Any] {
                     if let ret = self._sdkInstance?._makeNewInstanceFromDictionary(newValue, parent: self._pluginType) {
-                        self._sdkInstance?._callDelegateNewItem(ret)
-                        self._sdkInstance?._sendItemsToDelegate([ret])
+                        self._sdkInstance?._callDelegateNewItem(ret, refCon: inRefCon)
+                        self._sdkInstance?._sendItemsToDelegate([ret], refCon: inRefCon)
                         break
                     }
                 } else if let newValue = innerCast["new_thing"] as? [String: Any] {
                     if let ret = self._sdkInstance?._makeNewInstanceFromDictionary(newValue, parent: self._pluginType) {
-                        self._sdkInstance?._callDelegateNewItem(ret)
-                        self._sdkInstance?._sendItemsToDelegate([ret])
+                        self._sdkInstance?._callDelegateNewItem(ret, refCon: inRefCon)
+                        self._sdkInstance?._sendItemsToDelegate([ret], refCon: inRefCon)
                         break
                     }
                 } else if let bfArray = innerTuple.value as? [[String: [String: Any]]] {
@@ -294,11 +298,11 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
                             self._changeHistory.append(temp!)
                             break
                         } else {
-                            self._parseChangeJSON(innerInner)
+                            self._parseChangeJSON(innerInner, refCon: inRefCon)
                         }
                     }
                 } else {
-                    self._parseChangeJSON(innerCast)
+                    self._parseChangeJSON(innerCast, refCon: inRefCon)
                 }
             }
         }
@@ -600,9 +604,10 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
     /* ################################################################## */
     /**
      This handles sending our data (if necessary) to the server.
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    public func sendToServer() {
-        self._sdkInstance?._putObject(self)
+    public func sendToServer(refCon inRefCon: Any?) {
+        self._sdkInstance?._putObject(self, refCon: inRefCon)
         self._myOriginalData = self._myData // OK. The old is now the new. We no longer need to feel "dirty."
     }
     

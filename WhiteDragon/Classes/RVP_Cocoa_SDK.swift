@@ -1862,7 +1862,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                 }
                 
                 if let data = data {    // Assuming we got a response, we send that to the instance that called us.
-                    inObjectInstance._handleChangeResponse(data)
+                    inObjectInstance._handleChangeResponse(data, refCon: inRefCon)
                 }
                 
                 Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
@@ -1917,7 +1917,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
 
                     if let data = data {    // Assuming we got a response, we send that to the instance that called us.
                         let callback = inObjectInstance._handleChangeResponse
-                        callback(data)
+                        callback(data, inRefCon)
                     }
 
                     Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
@@ -2717,7 +2717,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
             self.login(loginID: inLoginId, password: inPassword, timeout: inLoginTimeout, refCon: inRefCon)
         } else {    // Otherwise, simply fetch the baseline plugins, which will result in the delegate being called.
             if self._plugins.isEmpty {
-                self._validateServer()
+                self._validateServer(refCon: inRefCon)
             } else {
                 self._reportSessionValidity(refCon: inRefCon)   // We report whether or not this session is valid.
                 self._callDelegateLoginValid(self.isLoggedIn, refCon: inRefCon)   // OK. We're done. Tell the delegate whether or not we are logged in.
@@ -2860,7 +2860,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
             initialData["is_manager"] = "1"
         }
         self._newUserInstance = RVP_Cocoa_SDK_User(sdkInstance: self, objectInfoData: initialData)
-        self._newUserInstance.sendToServer()
+        self._newUserInstance.sendToServer(refCon: inRefCon)
     }
     
     /* ################################################################## */

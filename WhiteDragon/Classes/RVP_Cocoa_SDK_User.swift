@@ -374,12 +374,13 @@ public class RVP_Cocoa_SDK_User: A_RVP_Cocoa_SDK_Data_Object {
      Nothing happens, if this user does not have an associated login.
      
      - returns: true, if we have an instance, and have requested it be fetched. False, if we have no instance.
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    public func fetchLoginInstance() -> Bool {
+    public func fetchLoginInstance(refCon inRefCon: Any?) -> Bool {
         var ret = false
         
         if 0 < self.associatedLoginID {
-            self._sdkInstance?.fetchLogins([self.associatedLoginID])
+            self._sdkInstance?.fetchLogins([self.associatedLoginID], refCon: inRefCon)
             ret = true
         }
         
