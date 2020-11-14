@@ -2516,7 +2516,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
     /**
      This is the Sequence Iterator Struct.
      */
-    //: This is the iterator we'll use.
+    // This is the iterator we'll use.
     public struct Iterator: IteratorProtocol {
         /** This is the captured list that we're iterating. */
         private let _iteratorList: [Element]
