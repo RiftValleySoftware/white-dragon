@@ -1,4 +1,4 @@
-**1.0.8.0000** *TBD*
+**1.0.8.0000** *November 18, 2020*
 - This requires BAOBAB 1.0.3 or greater.
 - A number of various fixes:
     - The "original vs. changed" data is now set when it is SENT to the server, as opposed to after receiving confirmation (It is reset after receiving the response anyway).
