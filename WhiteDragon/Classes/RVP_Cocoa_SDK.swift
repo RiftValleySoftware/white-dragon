@@ -98,6 +98,18 @@ public protocol RVP_Cocoa_SDK_Delegate: class {
     
     /* ################################################################## */
     /**
+     This is a response to a new token creation request.
+     
+     **NOTE:** This is not guaranteed to be called in the main thread!
+     
+     - parameter: This is the SDK instance making the call.
+     - parameter newSecurityTokens: An Array of new security token IDs.
+     - parameter refCon: This is an optional Any parameter that is simply returning attached data to the delegate. The data is sent during the initial call. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
+     */
+    func sdkInstance(_: RVP_Cocoa_SDK, newSecurityTokens: [Int], refCon: Any?)
+
+    /* ################################################################## */
+    /**
      This is a response to the count how many logins have access to a token test.
      
      **NOTE:** This is not guaranteed to be called in the main thread!
@@ -571,11 +583,16 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                                 ret[key] = plugin_response
                             }
 
-                        case "serverinfo", "search_location", "tokens", "bulk_upload", "token", "id":
+                        case "serverinfo", "search_location", "bulk_upload", "token", "id":
                             if let plugin_response = value as? [String: Any] {
                                 ret[key] = plugin_response
                             }
-                            
+
+                        case "tokens":
+                            if let plugin_response = value as? [Int] {
+                                ret[key] = plugin_response
+                            }
+
                         default:
                             self._handleError(SDK_Data_Errors.invalidData(inData), refCon: inRefCon)
                         }
@@ -785,6 +802,60 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
         
         if !handled {
             self._sendItemsToDelegate([], refCon: inRefCon)   // We got nuthin'
+        }
+    }
+
+    /* ################################################################## */
+    /**
+     Asks the server to create a security token (no login).
+     This can only be called if you are logged in as a manager.
+     
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
+     */
+    private func _createSecurityToken(refCon inRefCon: Any?) {
+        if self.isLoggedIn {
+            // The my info request is a simple GET task, so we can just use a straight-up task for this.
+            let url = self._server_uri + "/json/baseline/tokens?" + self._loginParameters
+            if let url_object = URL(string: url) {
+                var urlRequest = URLRequest(url: url_object)
+                urlRequest.httpMethod = "POST"
+                Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
+                    self._openOperations += 1
+                }
+                
+                if let session = self._connectionSession {
+                    session.dataTask(with: urlRequest) { [unowned self] data, response, error in
+                        if let error = error {
+                            self._handleError(error, refCon: inRefCon)
+                            return
+                        }
+                        
+                        guard let httpResponse = response as? HTTPURLResponse,
+                            (200...299).contains(httpResponse.statusCode) else {
+                                self._handleHTTPError(response as? HTTPURLResponse ?? nil, refCon: inRefCon)
+                                return
+                        }
+
+                        if let mimeType = httpResponse.mimeType, "application/json" == mimeType, let data = data {
+                            if let response = self._parseBaselineResponse(data: data, refCon: inRefCon) as? [String: [Int]] {
+                                if let token_array = response["tokens"] {
+                                    self.myLoginInfo?.securityTokens += token_array
+                                    self.myLoginInfo?.securityTokens = self.myLoginInfo?.securityTokens.sorted() ?? []
+                                    self._delegate?.sdkInstance(self, newSecurityTokens: token_array, refCon: inRefCon)
+                                }
+                            }
+                        } else {
+                            self._handleError(SDK_Data_Errors.invalidData(data), refCon: inRefCon)
+                        }
+                        
+                        Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
+                            self._openOperations -= 1
+                        }
+                    }.resume()
+                }
+            } else {
+                self._handleError(SDK_Connection_Errors.invalidServerURI(url), refCon: inRefCon)
+            }
         }
     }
 
@@ -2189,7 +2260,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                 
             case "things":
                 instance = RVP_Cocoa_SDK_Thing(sdkInstance: self, objectInfoData: inDictionary)
-                
+            
             default:
                 instance = nil
             }
@@ -2841,7 +2912,18 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
         self._newUserInstance = RVP_Cocoa_SDK_User(sdkInstance: self, objectInfoData: initialData)
         self._newUserInstance.sendToServer(refCon: inRefCon)
     }
-    
+
+    /* ################################################################## */
+    /**
+     Asks the server to create a security token (no login).
+     This can only be called if you are logged in as a manager.
+     
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
+     */
+    public func createSecurityToken(refCon inRefCon: Any?) {
+        self._createSecurityToken(refCon: inRefCon)
+    }
+
     /* ################################################################## */
     /**
      This is a general method for fetching items from the data database, by their numerical IDs.

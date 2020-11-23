@@ -77,7 +77,8 @@ public class A_RVP_Cocoa_SDK_Security_Object: A_RVP_Cocoa_SDK_Object {
         }
         
         set {
-            if (self._sdkInstance?.isManager)! && self._sdkInstance?.myLoginInfo != self && self.isWriteable {
+            // Special exemption for God.
+            if self._sdkInstance?.isManager ?? false && (self._sdkInstance?.myLoginInfo != self || self._sdkInstance?.isMainAdmin ?? false) && self.isWriteable {
                 self._myData["security_tokens"] = newValue
             }
         }
