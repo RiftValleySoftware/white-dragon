@@ -153,6 +153,11 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
                         uriKey = "tag0"
                     }
                     
+                    // Security tokens have a special case.
+                    if "security_tokens" == uriKey, let value = current as? [Int], self._sdkInstance?.isManager ?? false {
+                        uri += "\("tokens")=\(value.map {String($0)}.joined(separator: ","))"
+                    }
+                    
                     // Conversion to string options for various data types.
                     if let valueString = (current as? String)?.urlEncodedString {
                         uri += "\(uriKey)=\(valueString)"
@@ -234,7 +239,11 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
             // We will have different Dictionaries, dependent on which response we got, but we can parse them generically.
             if let dict = temp as? [String: Any] {
                 self._parseChangeJSON(dict, refCon: inRefCon) // Build our change history.
-                self._myOriginalData = self._myData // OK. The old is now the new. We no longer need to feel "dirty."
+                var data = self._myData
+                if let selfish = self as? RVP_Cocoa_SDK_Login {    // We need to add the security tokens.
+                    data["security_tokens"] = selfish.securityTokens
+                }
+                self._myOriginalData = data // OK. The old is now the new. We no longer need to feel "dirty."
             } else {
                 self._sdkInstance?._handleError(RVP_Cocoa_SDK.SDK_Data_Errors.invalidData(inChangeData), refCon: inRefCon)
             }
@@ -566,8 +575,14 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
             }
             self._myData = inMutableData   // This will change as we edit the object.
         } else {
-            self._myData = inData   // This will change as we edit the object.
-            self._myOriginalData = inData   // This is a "snapshot of the "before" state of the object.
+            var data = inData
+            
+            self._myData = data   // This will change as we edit the object.
+            
+            if let selfish = self as? RVP_Cocoa_SDK_Login {    // We need to add the security tokens.
+                data["security_tokens"] = selfish.securityTokens
+            }
+            self._myOriginalData = data   // This is a "snapshot of the "before" state of the object.
         }
     }
     
@@ -608,7 +623,13 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
      */
     public func sendToServer(refCon inRefCon: Any?) {
         self._sdkInstance?._putObject(self, refCon: inRefCon)
-        self._myOriginalData = self._myData // OK. The old is now the new. We no longer need to feel "dirty."
+        var data = self._myData
+        
+        if let selfish = self as? RVP_Cocoa_SDK_Login {    // We need to add the security tokens.
+            data["security_tokens"] = selfish.securityTokens
+        }
+        
+        self._myOriginalData = data   // This is a "snapshot of the "before" state of the object.
     }
     
     /* ################################################################## */

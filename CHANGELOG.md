@@ -1,3 +1,6 @@
+**1.0.9.0000** *November 24, 2020*
+- Fixes an issue, where the tokens were not being saved properly for login edits.
+
 **1.0.8.0000** *November 18, 2020*
 - This requires BAOBAB 1.0.3 or greater.
 - A number of various fixes:
