@@ -122,7 +122,7 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
         
         if nil != dataList["associated_login_id"] || nil != oldDataList["associated_login_id"] {
             if self._sdkInstance?.isMainAdmin ?? false {    // Only the main admin can change associated logins
-                dataList["login_id"] =  dataList["associated_login_id"]  // We morhp into the version the server understands.
+                dataList["login_id"] =  dataList["associated_login_id"]  // We morph into the version the server understands.
                 oldDataList["login_id"] =  dataList["associated_login_id"]
             }
             
@@ -156,19 +156,19 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
                     // Security tokens have a special case.
                     if "security_tokens" == uriKey, let value = current as? [Int], self._sdkInstance?.isManager ?? false {
                         uri += "\("tokens")=\(value.map {String($0)}.joined(separator: ","))"
-                    }
-                    
-                    // Conversion to string options for various data types.
-                    if let valueString = (current as? String)?.urlEncodedString {
-                        uri += "\(uriKey)=\(valueString)"
-                    } else if let valueInt = current as? Int {  // Swift can get a bit particular about the various types of numbers, so just to be safe, I check each one.
-                        uri += "\(uriKey)=\(String(valueInt))"
-                    } else if let valueFloat = current as? Float {
-                        uri += "\(uriKey)=\(String(valueFloat))"
-                    } else if let valueDouble = current as? Double {
-                        uri += "\(uriKey)=\(String(valueDouble))"
-                    } else if let valueBool = current as? Bool {    // Bool is expressed as a 1 or a 0
-                        uri += "\(uriKey)=\(valueBool ? "1" : "0")"
+                    } else {
+                        // Conversion to string options for various data types.
+                        if let valueString = (current as? String)?.urlEncodedString {
+                            uri += "\(uriKey)=\(valueString)"
+                        } else if let valueInt = current as? Int {  // Swift can get a bit particular about the various types of numbers, so just to be safe, I check each one.
+                            uri += "\(uriKey)=\(String(valueInt))"
+                        } else if let valueFloat = current as? Float {
+                            uri += "\(uriKey)=\(String(valueFloat))"
+                        } else if let valueDouble = current as? Double {
+                            uri += "\(uriKey)=\(String(valueDouble))"
+                        } else if let valueBool = current as? Bool {    // Bool is expressed as a 1 or a 0
+                            uri += "\(uriKey)=\(valueBool ? "1" : "0")"
+                        }
                     }
                 }
             } else {    // This should never happen.
