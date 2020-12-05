@@ -152,6 +152,7 @@ public class RVP_Cocoa_SDK_Login: A_RVP_Cocoa_SDK_Security_Object {
         if self.isWriteable,
            !inPassword.isEmpty {
             self._myData["password"] = inPassword
+            self._forceDirty = true
         }
     }
     

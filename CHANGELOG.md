@@ -1,3 +1,6 @@
+**1.0.10.2000** *December 5, 2020*
+- Adds a "force dirty" for password changes.
+
 **1.0.9.0000** *November 24, 2020*
 - Fixes an issue, where the tokens were not being saved properly for login edits.
 

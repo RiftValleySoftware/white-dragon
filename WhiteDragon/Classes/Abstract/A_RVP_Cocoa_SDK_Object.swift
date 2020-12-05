@@ -100,6 +100,12 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
     internal var _myOriginalData: [String: Any] = [:]
 
     /* ################################################################## */
+    /**
+     This is set to true, if we want to "force" the instance to be "dirty."
+     */
+    internal var _forceDirty: Bool = false
+    
+    /* ################################################################## */
     // MARK: - Internal Calculated Properties
     /* ################################################################## */
     /**
@@ -437,7 +443,7 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
      - returns: true, if the data in the object has been changed since it was first created. READ ONLY
      */
     public var isDirty: Bool {
-        var ret: Bool = self.isNew    // New is automatically dirty.
+        var ret: Bool = self.isNew || self._forceDirty    // New is automatically dirty. Can also be "forced" dirty.
         
         for item in self._myData where !ret {
             // Everything can be cast to an NSObject, and we can compare them.
@@ -623,10 +629,15 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
      */
     public func sendToServer(refCon inRefCon: Any?) {
         self._sdkInstance?._putObject(self, refCon: inRefCon)
+        self._forceDirty = false
         var data = self._myData
         
         if let selfish = self as? RVP_Cocoa_SDK_Login {    // We need to add the security tokens.
             data["security_tokens"] = selfish.securityTokens
+            if !(data["password"] as? String ?? "").isEmpty,
+               selfish.isLoggedIn { // Force a logout, if we changed our own password.
+                self._sdkInstance?.logout(refCon: inRefCon)
+            }
         }
         
         self._myOriginalData = data   // This is a "snapshot of the "before" state of the object.
