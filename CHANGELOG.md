@@ -1,3 +1,6 @@
+**1.0.11.2000** *December 9, 2020*
+- Adds support for a fast check of visible users by name and ID.
+
 **1.0.10.2000** *December 5, 2020*
 - Adds a "force dirty" for password changes.
 

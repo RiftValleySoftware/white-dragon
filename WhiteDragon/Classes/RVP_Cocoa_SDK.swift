@@ -147,6 +147,21 @@ public protocol RVP_Cocoa_SDK_Delegate: class {
      - parameter refCon: This is an optional Any parameter that is simply returning attached data to the delegate. The data is sent during the initial call. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
     func sdkInstance(_: RVP_Cocoa_SDK, tokenAccessTest: (token: Int, users: [Int]), refCon: Any?)
+    
+    /* ################################################################## */
+    /**
+     This is a response to the get a fast list of available users and IDs.
+     We will use this for things like auto-populating search boxes.
+     
+     This version of the call is security-restricted, so the IDs will only be for users that the current login can see.
+     
+     **NOTE:** This is not guaranteed to be called in the main thread!
+     
+     - parameter: This is the SDK instance making the call.
+     - parameter fastUserList: Dictionary, indexed by the integer user (not login) ID, and a string value, containing the display name for that user.
+     - parameter refCon: This is an optional Any parameter that is simply returning attached data to the delegate. The data is sent during the initial call. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
+     */
+    func sdkInstance(_: RVP_Cocoa_SDK, fastUserList: [Int: String], refCon: Any?)
 
     /* ################################################################## */
     /**
@@ -1105,64 +1120,70 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
     private func _fetchDataItems(_ inIntegerIDs: [Int], plugin inPlugin: String, refCon inRefCon: Any?) {
-        var plugin = inPlugin
-
-        if "people" == inPlugin {
-            plugin += "/" + plugin
-        }
-        
-        if !inIntegerIDs.isEmpty {
-            let fetchIDs = inIntegerIDs.sorted()    // Just because we're anal...
-            
-            // This uses our extension to break the array up. This is to reduce the size of the GET URI.
-            for idArray in fetchIDs.chunk(10) {
-                var loginParams = self._loginParameters
-            
-                if !loginParams.isEmpty {
-                    loginParams = "&" + loginParams
+    }
+    
+    /* ################################################################## */
+    /**
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
+     */
+    private func _fetchVisibleUserIDAndNames(refCon inRefCon: Any?) {
+        let loginParams = self._loginParameters
+    
+        if !loginParams.isEmpty {
+            let url = "\(self._server_uri)/json/people/people?get_all_visible_users&\(loginParams)"   // We will be asking for all the users.
+            // The request is a simple GET task, so we can just use a straight-up task for this.
+            if let url_object = URL(string: url) {
+                Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
+                    self._openOperations += 1
                 }
-                
-                let url = self._server_uri + "/json/" + plugin + "/" + (idArray.map(String.init)).joined(separator: ",") + "?show_details" + loginParams   // We will be asking for the "full Monty".
-                // The request is a simple GET task, so we can just use a straight-up task for this.
-                if let url_object = URL(string: url) {
-                    Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
-                        self._openOperations += 1
+                    
+                let fetchTask = self._connectionSession.dataTask(with: url_object) { [unowned self] data, response, error in
+                    if let error = error {
+                        self._handleError(error, refCon: inRefCon)
+                        return
                     }
-                    let fetchTask = self._connectionSession.dataTask(with: url_object) { [unowned self] data, response, error in
-                        if let error = error {
-                            self._handleError(error, refCon: inRefCon)
+                    guard let httpResponse = response as? HTTPURLResponse,
+                        (200...299).contains(httpResponse.statusCode) else {
+                            self._handleHTTPError(response as? HTTPURLResponse ?? nil, refCon: inRefCon)
                             return
-                        }
-                        guard let httpResponse = response as? HTTPURLResponse,
-                            (200...299).contains(httpResponse.statusCode) else {
-                                self._handleHTTPError(response as? HTTPURLResponse ?? nil, refCon: inRefCon)
-                                return
-                        }
-                        
-                        if let mimeType = httpResponse.mimeType, "application/json" == mimeType, let myData = data {
-                            if let objectArray = self._makeInstance(data: myData, refCon: inRefCon) {
-                                self._dataItems.append(contentsOf: objectArray)
-                                self._sortDataItems()
-                                self._sendItemsToDelegate(objectArray, refCon: inRefCon)
-                            }
-                        } else {
-                            self._handleError(SDK_Data_Errors.invalidData(data), refCon: inRefCon)
-                        }
-                        
-                        Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
-                            self._openOperations -= 1
-                        }
                     }
                     
-                    fetchTask.resume()
-                } else {
-                    self._handleError(SDK_Connection_Errors.invalidServerURI(url), refCon: inRefCon)
+                    if let mimeType = httpResponse.mimeType, "application/json" == mimeType, let myData = data {
+                        do {    // Extract a usable object from the given JSON data.
+                            let temp = try JSONSerialization.jsonObject(with: myData, options: [])
+                            
+                            if let main_object = temp as? NSDictionary,
+                               let wrapper_1 = main_object.object(forKey: "people") as? NSDictionary,
+                               let wrapper_2 = wrapper_1.object(forKey: "people") as? NSDictionary,
+                               let wrapper_3 = wrapper_2.object(forKey: "get_all_visible_users") as? [String: String] {
+                                let keys = wrapper_3.keys.compactMap { Int($0) }
+                                var ret: [Int: String] = [:]
+                                
+                                // Cnvert the String-based response to an Int-based Dictionary.
+                                keys.forEach {
+                                    if let value = wrapper_3[String($0)] {
+                                        ret[$0] = value
+                                    }
+                                }
+                                
+                                // Send the user list to the delegate.
+                                self._delegate?.sdkInstance(self, fastUserList: ret, refCon: inRefCon)
+                            } else {
+                                self._handleError(SDK_Data_Errors.invalidData(myData), refCon: inRefCon)
+                            }
+                        } catch {   // We end up here if the response is not a proper JSON object.
+                            self._handleError(SDK_Data_Errors.invalidData(myData), refCon: inRefCon)
+                        }
+                    } else {
+                        self._handleError(SDK_Data_Errors.invalidData(data), refCon: inRefCon)
+                    }
+                    
+                    Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
+                        self._openOperations -= 1
+                    }
                 }
-            }
-        } else {
-            Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
-                self._openOperations += 1   // This triggers a call to the delegate, saying we're done.
-                self._openOperations -= 1
+                
+                fetchTask.resume()
             }
         }
     }
@@ -2987,7 +3008,18 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
     public func fetchUsers(_ inUserIntegerIDArray: [Int], refCon inRefCon: Any?) {
         self.fetchDataItemsByIDs(inUserIntegerIDArray, andPlugin: "people", refCon: inRefCon)
     }
-    
+
+    /* ################################################################## */
+    /**
+     This method will initiate a fetch of user objects, based upon a list of IDs.
+     
+     - parameter inUserIntegerIDArray: An Array of Int, with the data database IDs of the user objects Requested.
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
+     */
+    public func fetchVisibleUserIDAndNames(refCon inRefCon: Any?) {
+        self._fetchVisibleUserIDAndNames(refCon: inRefCon)
+    }
+
     /* ################################################################## */
     /**
      This fetches thing objects from the data database server.
