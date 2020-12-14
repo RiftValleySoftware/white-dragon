@@ -1120,6 +1120,84 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
     private func _fetchDataItems(_ inIntegerIDs: [Int], plugin inPlugin: String, refCon inRefCon: Any?) {
+        var fetchIDs: [Int] = []
+        var cachedObjects: [A_RVP_Cocoa_SDK_Data_Object] = []
+        
+        // First, we look for cached instances. If we have them, we send them to the delegate.
+        for var id in inIntegerIDs {
+            for dataItem in self._dataItems {   // See if we already have this item. If so, we immediately fetch it.
+                if let dataItem = dataItem as? A_RVP_Cocoa_SDK_Data_Object, dataItem.id == id {
+                    cachedObjects.append(dataItem)
+                    id = 0
+                    break
+                }
+            }
+            
+            if 0 < id { // We'll need to fetch this one.
+                fetchIDs.append(id)
+            }
+        }
+        
+        if !cachedObjects.isEmpty {
+            self._sendItemsToDelegate(cachedObjects, refCon: inRefCon)   // We just send our cached items to the delegate right away.
+        }
+        
+        if !fetchIDs.isEmpty {  // If we didn't find everything we were looking for in the junk drawer, we will be asking the server for the remainder.
+            fetchIDs = fetchIDs.sorted()    // Just because we're anal...
+            
+            // This uses our extension to break the array up. This is to reduce the size of the GET URI.
+            for idArray in fetchIDs.chunk(10) {
+                var loginParams = self._loginParameters
+                
+                if !loginParams.isEmpty {
+                    loginParams = "?" + loginParams
+                }
+                
+                let url = self._server_uri + "/json/baseline/handlers/" + (idArray.map(String.init)).joined(separator: ",") + loginParams   // We are asking the plugin to return the handlers for the IDs we are sending in.
+                
+                // We will use the handlers returned to fetch the actual object data.
+                if let url_object = URL(string: url) {
+                    Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
+                        self._openOperations += 1
+                    }
+                    
+                    let fetchTask = self._connectionSession.dataTask(with: url_object) { [weak self] data, response, error in
+                        if let error = error {
+                            self?._handleError(error, refCon: inRefCon)
+                            return
+                        }
+                        guard let httpResponse = response as? HTTPURLResponse,
+                            (200...299).contains(httpResponse.statusCode) else {
+                                self?._handleHTTPError(response as? HTTPURLResponse ?? nil, refCon: inRefCon)
+                                return
+                        }
+                        
+                        if let mimeType = httpResponse.mimeType, "application/json" == mimeType, let myData = data {
+                            if let objectArray = self?._makeInstance(data: myData, refCon: inRefCon) {
+                                self?._dataItems.append(contentsOf: objectArray)
+                                self?._sortDataItems()
+                                self?._sendItemsToDelegate(objectArray, refCon: inRefCon)
+                            }
+                        } else {
+                            self?._handleError(SDK_Data_Errors.invalidData(data), refCon: inRefCon)
+                        }
+                        
+                        Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
+                            self?._openOperations -= 1
+                        }
+                    }
+                    
+                    fetchTask.resume()
+                } else {
+                    self._handleError(SDK_Connection_Errors.invalidServerURI(url), refCon: inRefCon)
+                }
+            }
+        } else {
+            Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
+                self._openOperations += 1   // This triggers a call to the delegate, saying we're done.
+                self._openOperations -= 1
+            }
+        }
     }
     
     /* ################################################################## */

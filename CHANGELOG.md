@@ -1,3 +1,6 @@
+**1.0.12.2000** *December 14, 2020*
+- Fixed a bug, when fetching "things."
+
 **1.0.11.2000** *December 9, 2020*
 - Adds support for a fast check of visible users by name and ID.
 
