@@ -675,7 +675,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      - parameter parent: A String, with the key for the "parent" container.
      - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
 
-     - returns: An Array of new subclass instances of A_RVP_IOS_SDK_Object.
+     - returns: An Array of new subclass instances of A_RVP_Cocoa_SDK_Object.
      */
     private func _makeInstancesFromDictionary(_ inDictionary: NSDictionary, parent inParent: String? = nil, refCon inRefCon: Any?) -> [A_RVP_Cocoa_SDK_Object] {
         var ret: [A_RVP_Cocoa_SDK_Object] = []
@@ -721,7 +721,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      - parameter parent: A String, with the key for the "parent" container.
      - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
 
-     - returns: An Array of new subclass instances of A_RVP_IOS_SDK_Object.
+     - returns: An Array of new subclass instances of A_RVP_Cocoa_SDK_Object.
      */
     private func _makeInstancesFromArray(_ inArray: NSArray, parent inParent: String! = nil, refCon inRefCon: Any?) -> [A_RVP_Cocoa_SDK_Object] {
         var ret: [A_RVP_Cocoa_SDK_Object] = []
@@ -1117,6 +1117,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      This fetches objects from the data database server.
      
      - parameter inIntegerIDs: An Array of Int, with the data database item IDs.
+     - parameter plugin: The plugin for these objects.
      - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
     private func _fetchDataItems(_ inIntegerIDs: [Int], plugin inPlugin: String, refCon inRefCon: Any?) {
@@ -1153,7 +1154,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                     loginParams = "?" + loginParams
                 }
                 
-                let url = self._server_uri + "/json/baseline/handlers/" + (idArray.map(String.init)).joined(separator: ",") + loginParams   // We are asking the plugin to return the handlers for the IDs we are sending in.
+                let url = self._server_uri + "/json/\(inPlugin)/" + (idArray.map(String.init)).joined(separator: ",") + loginParams   // We are asking the plugin to return the handlers for the IDs we are sending in.
                 
                 // We will use the handlers returned to fetch the actual object data.
                 if let url_object = URL(string: url) {
@@ -3084,7 +3085,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
     public func fetchUsers(_ inUserIntegerIDArray: [Int], refCon inRefCon: Any?) {
-        self.fetchDataItemsByIDs(inUserIntegerIDArray, andPlugin: "people", refCon: inRefCon)
+        self.fetchDataItemsByIDs(inUserIntegerIDArray, andPlugin: "people/people", refCon: inRefCon)
     }
 
     /* ################################################################## */

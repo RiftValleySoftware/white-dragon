@@ -1,3 +1,6 @@
+**1.0.14.2000** *December 29, 2020*
+- Fixed a bug, when fetching users by login ID.
+
 **1.0.12.2000** *December 14, 2020*
 - Fixed a bug, when fetching "things."
 
