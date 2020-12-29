@@ -1154,6 +1154,10 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                     loginParams = "?" + loginParams
                 }
                 
+                if "people/people" == inPlugin {
+                    loginParams += (!loginParams.isEmpty ? "&" : "?") + "show_details&login_user"
+                }
+                
                 let url = self._server_uri + "/json/\(inPlugin)/" + (idArray.map(String.init)).joined(separator: ",") + loginParams   // We are asking the plugin to return the handlers for the IDs we are sending in.
                 
                 // We will use the handlers returned to fetch the actual object data.
