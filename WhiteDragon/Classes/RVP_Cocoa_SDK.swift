@@ -1118,9 +1118,10 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      
      - parameter inIntegerIDs: An Array of Int, with the data database item IDs.
      - parameter plugin: The plugin for these objects.
+     - parameter withLogins: If true, then this call will ask for the logins associated with users, and only users that have logins. This is ignored, if the user is not a manager.
      - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    private func _fetchDataItems(_ inIntegerIDs: [Int], plugin inPlugin: String, refCon inRefCon: Any?) {
+    private func _fetchDataItems(_ inIntegerIDs: [Int], plugin inPlugin: String, withLogins inWithLogins: Bool, refCon inRefCon: Any?) {
         var fetchIDs: [Int] = []
         var cachedObjects: [A_RVP_Cocoa_SDK_Data_Object] = []
         
@@ -1155,7 +1156,11 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                 }
                 
                 if "people/people" == inPlugin {
-                    loginParams += (!loginParams.isEmpty ? "&" : "?") + "show_details&login_user"
+                    loginParams += (!loginParams.isEmpty ? "&" : "?") + "show_details"
+                    if isManager,
+                       inWithLogins {
+                        loginParams += "&login_user"
+                    }
                 }
                 
                 let url = self._server_uri + "/json/\(inPlugin)/" + (idArray.map(String.init)).joined(separator: ",") + loginParams   // We are asking the plugin to return the handlers for the IDs we are sending in.
@@ -3034,15 +3039,16 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      
      - parameter inIntegerIDs: An Array of Int, with the data database IDs of the data database objects Requested.
      - parameter andPlugin: An optional String, with the required plugin ("people", "places" or "things"). If nil, then the baseline plugin is invoked, which will fetch any object, regardless of plugin.
+     - parameter withLogins: If true (default is false), then this call will ask for the logins associated with users, and only users that have logins. This is ignored, if the user is not a manager.
      - parameter dontNukeTheLocation: Optional. If true, then we keep the search location cached (like in an auto-radius call). Otherwise (default), the search location is reset after this call.
      - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
-     */
-    public func fetchDataItemsByIDs(_ inIntegerIDs: [Int], andPlugin inPlugin: String? = "baseline", dontNukeTheLocation inDontNuke: Bool = false, refCon inRefCon: Any?) {
+    */
+    public func fetchDataItemsByIDs(_ inIntegerIDs: [Int], andPlugin inPlugin: String? = "baseline", withLogins inWithLogins: Bool = false, dontNukeTheLocation inDontNuke: Bool = false, refCon inRefCon: Any?) {
         if !inDontNuke {
             self.searchLocation = nil   // We have the option of not nuking if we are fetching as part of a location/radius search.
         }
         if let plugin = inPlugin, "baseline" != plugin {    // nil is "baseline".
-            self._fetchDataItems(inIntegerIDs, plugin: plugin, refCon: inRefCon)
+            self._fetchDataItems(inIntegerIDs, plugin: plugin, withLogins: inWithLogins, refCon: inRefCon)
         } else {
             self._fetchBaselineObjectsByID(inIntegerIDs, refCon: inRefCon)    // If we fetch baseline objects, it's a 2-step process.
         }
@@ -3086,9 +3092,10 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      This method will initiate a fetch of user objects, based upon a list of IDs.
      
      - parameter inUserIntegerIDArray: An Array of Int, with the data database IDs of the user objects Requested.
+     - parameter withLogins: If true (default is false), then this call will ask for the logins associated with users, and only users that have logins. This is ignored, if the user is not a manager.
      - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    public func fetchUsers(_ inUserIntegerIDArray: [Int], refCon inRefCon: Any?) {
+    public func fetchUsers(_ inUserIntegerIDArray: [Int], withLogins inWithLogins: Bool = false, refCon inRefCon: Any?) {
         self.fetchDataItemsByIDs(inUserIntegerIDArray, andPlugin: "people/people", refCon: inRefCon)
     }
 
