@@ -1998,7 +1998,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      - parameter objectInstance: The instance of the data object that called this.
      - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    private func _sendPUTData(_ inURI: String, payloadData inPayloadString: String, objectInstance inObjectInstance: A_RVP_Cocoa_SDK_Object, refCon inRefCon: Any?) {
+    private func _sendPUTData(_ inURI: String, payloadData inPayloadString: String, objectInstance inObjectInstance: A_RVP_Cocoa_SDK_Object?, refCon inRefCon: Any?) {
         if let url_object = URL(string: inURI) {
             let urlRequest = NSMutableURLRequest(url: url_object)
             urlRequest.httpMethod = "PUT"
@@ -2008,7 +2008,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                 self._openOperations += 1
             }
             
-            self._connectionSession.uploadTask(with: urlRequest as URLRequest, from: payloadData) { [unowned self, unowned inObjectInstance] data, response, error in
+            self._connectionSession.uploadTask(with: urlRequest as URLRequest, from: payloadData) { [unowned self, weak inObjectInstance] data, response, error in
                 if let error = error {
                     self._handleError(error, refCon: inRefCon)
                     return
@@ -2021,7 +2021,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                 }
                 
                 if let data = data {    // Assuming we got a response, we send that to the instance that called us.
-                    inObjectInstance._handleChangeResponse(data, refCon: inRefCon)
+                    inObjectInstance?._handleChangeResponse(data, refCon: inRefCon)
                 }
                 
                 Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
@@ -2040,7 +2040,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      - parameter objectInstance: The instance of the data object that called this.
      - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    private func _sendPOSTData(_ inURI: String, payloadData inPayloadString: String = "", objectInstance inObjectInstance: A_RVP_Cocoa_SDK_Object, refCon inRefCon: Any?) {
+    private func _sendPOSTData(_ inURI: String, payloadData inPayloadString: String = "", objectInstance inObjectInstance: A_RVP_Cocoa_SDK_Object?, refCon inRefCon: Any?) {
         if let url_object = URL(string: inURI) {
             var urlRequest = URLRequest(url: url_object)
             urlRequest.httpMethod = "POST"
@@ -2062,7 +2062,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
             }
             
             if let session = self._connectionSession {
-                session.dataTask(with: urlRequest) { [unowned self, unowned inObjectInstance] data, response, error in
+                session.dataTask(with: urlRequest) { [unowned self, weak inObjectInstance] data, response, error in
                     if let error = error {
                         self._handleError(error, refCon: inRefCon)
                         return
@@ -2074,8 +2074,8 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                             return
                     }
 
-                    if let data = data {    // Assuming we got a response, we send that to the instance that called us.
-                        let callback = inObjectInstance._handleChangeResponse
+                    if let data = data,    // Assuming we got a response, we send that to the instance that called us.
+                       let callback = inObjectInstance?._handleChangeResponse {
                         callback(data, inRefCon)
                     }
 
@@ -2223,15 +2223,16 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      - parameter toManager: If true, then the login will be converted to a manager.
      - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    internal func _convertLogin(_ inLogin: RVP_Cocoa_SDK_Login, toManager inToManager: Bool, refCon inRefCon: Any?) {
-        if !inLogin.isMainAdmin,                        // God can't be changed.
-           inLogin.isWriteable,                         // We have to have write permission.
-           !(inLogin.isManager && inToManager),         // There has to be an actual change.
-           !(!inLogin.isManager && !inToManager) {
+    internal func _convertLogin(_ inLogin: RVP_Cocoa_SDK_Login?, toManager inToManager: Bool, refCon inRefCon: Any?) {
+        if !(inLogin?.isMainAdmin ?? false),                        // God can't be changed.
+           inLogin?.isWriteable ?? false,                         // We have to have write permission.
+           !(inLogin?.isManager ?? false && inToManager),         // There has to be an actual change.
+           !(inLogin?.isManager ?? false) && !inToManager {
             #if DEBUG
-                print("Converting \"\(inLogin.loginID)\" to a \(inToManager ? "manager" : "user").")
+                print("Converting \"\(inLogin?.loginID ?? "ERROR")\" to a \(inToManager ? "manager" : "user").")
             #endif
-            let uri = self._server_uri + "/json" + inLogin._pluginPath + "?convert_to_" + (inToManager ? "manager" : "login") + "&" + self._loginParameters
+            var uri = self._server_uri + "/json"
+            uri += (inLogin?._pluginPath ?? "") + "?convert_to_" + (inToManager ? "manager" : "login") + "&" + self._loginParameters
             self._sendPUTData(uri, payloadData: "", objectInstance: inLogin, refCon: inRefCon)
         }
     }
@@ -2243,12 +2244,12 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      - parameter inPutObject: The object to send to the server.
      - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    internal func _putObject(_ inObjectToPut: A_RVP_Cocoa_SDK_Object, refCon inRefCon: Any?) {
+    internal func _putObject(_ inObjectToPut: A_RVP_Cocoa_SDK_Object?, refCon inRefCon: Any?) {
         var uri = ""
         var payloadString = ""
         
-        if inObjectToPut.isDirty {
-            uri = inObjectToPut._saveChangesURI // First, get the changes URI.
+        if inObjectToPut?.isDirty ?? false {
+            uri = inObjectToPut?._saveChangesURI ?? "" // First, get the changes URI.
         }
         
         // If we have a dirty payload, then we take care of that here.
@@ -2273,9 +2274,10 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
             let loginParams = self._loginParameters
             
             if !loginParams.isEmpty {
-                uri = self._server_uri + "/json" + inObjectToPut._pluginPath + "?" + loginParams + "&" + uri
+                uri = self._server_uri + "/json"
+                uri += (inObjectToPut?._pluginPath ?? "") + "?" + loginParams + "&" + uri
                 
-                if inObjectToPut.isNew {
+                if inObjectToPut?.isNew ?? false {
                     self._sendPOSTData(uri, payloadData: payloadString, objectInstance: inObjectToPut, refCon: inRefCon)
                 } else {
                     self._sendPUTData(uri, payloadData: payloadString, objectInstance: inObjectToPut, refCon: inRefCon)

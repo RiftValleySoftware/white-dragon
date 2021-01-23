@@ -160,7 +160,7 @@ public class A_RVP_Cocoa_SDK_Data_Object: A_RVP_Cocoa_SDK_Object {
         
         if  let rawPayload = self.rawBase64Payload {
             // We need to remove the Base64 encoding for the data, then we convert it to a basic Data object.
-            if let decodedData = NSData(base64Encoded: rawPayload, options: NSData.Base64DecodingOptions(rawValue: 0)) as Data? {
+            if let decodedData = NSData(base64Encoded: rawPayload, options: .ignoreUnknownCharacters) as Data? {
                 var payLoadType = self._myData["payload_type"] as? String ?? ""
                 if payLoadType.isEmpty {
                     payLoadType = decodedData.mimeType

@@ -1,3 +1,6 @@
+**1.0.15.2000** *January 23, 2021*
+- Fixed a possible crash, triggered by deallocation in the calling context.
+
 **1.0.14.2000** *December 30, 2020*
 - Fixed a bug, when fetching users by login ID.
 
