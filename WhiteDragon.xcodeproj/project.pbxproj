@@ -165,7 +165,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1000;
-				LastUpgradeCheck = 1230;
+				LastUpgradeCheck = 1240;
 				ORGANIZATIONNAME = "The Great Rift Valley Software Company";
 				TargetAttributes = {
 					D48ED6B0218DF59B00380FCA = {
@@ -417,7 +417,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.15;
+				MARKETING_VERSION = 1.0.16;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.littlegreenviper.WhiteDragon-iOS";
 				PRODUCT_MODULE_NAME = "${PROJECT_NAME}";
 				PRODUCT_NAME = "${PROJECT_NAME}";
@@ -445,7 +445,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.15;
+				MARKETING_VERSION = 1.0.16;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.littlegreenviper.WhiteDragon-iOS";
 				PRODUCT_MODULE_NAME = "${PROJECT_NAME}";
 				PRODUCT_NAME = "${PROJECT_NAME}";
@@ -476,7 +476,7 @@
 					"@loader_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				MARKETING_VERSION = 1.0.15;
+				MARKETING_VERSION = 1.0.16;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.littlegreenviper.WhiteDragon-OSX";
 				PRODUCT_MODULE_NAME = "${PROJECT_NAME}";
 				PRODUCT_NAME = "${PROJECT_NAME}";
@@ -507,7 +507,7 @@
 					"@loader_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				MARKETING_VERSION = 1.0.15;
+				MARKETING_VERSION = 1.0.16;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.littlegreenviper.WhiteDragon-OSX";
 				PRODUCT_MODULE_NAME = "${PROJECT_NAME}";
 				PRODUCT_NAME = "${PROJECT_NAME}";

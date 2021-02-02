@@ -1,3 +1,6 @@
+**1.0.16.2000** *February 2, 2021*
+- Fixed an issue, where update URLs were not being properly formed.
+
 **1.0.15.2000** *January 23, 2021*
 - Fixed a possible crash, triggered by deallocation in the calling context.
 

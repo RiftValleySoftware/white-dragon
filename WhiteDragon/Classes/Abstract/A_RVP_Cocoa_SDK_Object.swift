@@ -116,7 +116,6 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
         
         var dataList = self._myData
         var oldDataList = self._myOriginalData
-        
         // We have a special place in our heart for passwords.
         if self is RVP_Cocoa_SDK_Login && nil == dataList["password"] {
             dataList["password"] = ""
