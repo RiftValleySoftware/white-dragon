@@ -2971,7 +2971,8 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                         else {
                         // The reason for this, is that it is possible to sometimes get a "not authorized" error response.
                         // Since we are logging out, this is actually OK.
-                        if 403 != httpResponse.statusCode {
+                        if let httpResponse = response as? HTTPURLResponse,
+                           403 != httpResponse.statusCode {
                             self?._handleHTTPError(response as? HTTPURLResponse ?? nil, refCon: inRefCon)
                         }
                         return
