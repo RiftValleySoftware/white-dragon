@@ -1,3 +1,6 @@
+**1.0.17.2000** *February 2, 2021*
+- Addressed an issue, where, under some conditions, it might be possible to get crashes after returning from an NSURLSession.
+
 **1.0.16.2000** *February 2, 2021*
 - Fixed an issue, where update URLs were not being properly formed.
 

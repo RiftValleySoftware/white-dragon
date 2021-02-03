@@ -2911,25 +2911,27 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                     Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
                         self._openOperations += 1
                     }
-                    let loginTask = self._connectionSession.dataTask(with: url_object) { data, response, error in
+                    let loginTask = self._connectionSession.dataTask(with: url_object) { [weak self] data, response, error in
                         if let error = error {
-                            self._handleError(error, refCon: inRefCon)
+                            self?._handleError(error, refCon: inRefCon)
                             return
                         }
                         guard let httpResponse = response as? HTTPURLResponse,
                             (200...299).contains(httpResponse.statusCode) else {
-                                self._handleHTTPError(response as? HTTPURLResponse ?? nil, refCon: inRefCon)
+                                self?._handleHTTPError(response as? HTTPURLResponse ?? nil, refCon: inRefCon)
                                 return
                         }
-                        if let mimeType = httpResponse.mimeType, mimeType == "text/html", let data = data, let apiKey = String(data: data, encoding: .utf8) {
-                            self._apiKey = apiKey
-                            self._fetchMyLoginInfo(refCon: inRefCon)
+                        if let mimeType = httpResponse.mimeType, mimeType == "text/html",
+                           let data = data,
+                           let apiKey = String(data: data, encoding: .utf8) {
+                            self?._apiKey = apiKey
+                            self?._fetchMyLoginInfo(refCon: inRefCon)
                         } else {
-                            self._handleError(SDK_Data_Errors.invalidData(data), refCon: inRefCon)
+                            self?._handleError(SDK_Data_Errors.invalidData(data), refCon: inRefCon)
                         }
                         
                         Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
-                            self._openOperations -= 1
+                            self?._openOperations -= 1
                         }
                     }
                     
@@ -2967,7 +2969,8 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                         return
                     }
                     
-                    guard let httpResponse = response as? HTTPURLResponse, 205 == httpResponse.statusCode
+                    guard let httpResponse = response as? HTTPURLResponse,
+                          205 == httpResponse.statusCode
                         else {
                         // The reason for this, is that it is possible to sometimes get a "not authorized" error response.
                         // Since we are logging out, this is actually OK.
