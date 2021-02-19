@@ -119,7 +119,19 @@ public protocol RVP_Cocoa_SDK_Delegate: class {
      - parameter refCon: This is an optional Any parameter that is simply returning attached data to the delegate. The data is sent during the initial call. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
     func sdkInstance(_: RVP_Cocoa_SDK, tokenAccessTest: [Int: Int], refCon: Any?)
-    
+
+    /* ################################################################## */
+    /**
+     This is a response to the token catalog request (fetchAllTokensFromServer).
+     
+     **NOTE:** This is not guaranteed to be called in the main thread!
+     
+     - parameter: This is the SDK instance making the call.
+     - parameter tokenList: An Array of Token Type Enum values. Some may have associated data.
+     - parameter refCon: This is an optional Any parameter that is simply returning attached data to the delegate. The data is sent during the initial call. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
+     */
+    func sdkInstance(_: RVP_Cocoa_SDK, tokenList: [RVP_Cocoa_SDK.TokenType], refCon: Any?)
+
     /* ################################################################## */
     /**
      This is a response to the count how many logins have access to a token test.
@@ -1382,6 +1394,103 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
 
     /* ################################################################## */
     /**
+     This fetches all the available tokens from the server.
+     This method does the actual server query.
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
+     */
+    private func _fetchAllTokensFromServer(refCon inRefCon: Any?) {
+        var loginParams = self._loginParameters
+        self._dataItems = []
+        if !loginParams.isEmpty {
+            loginParams = "&" + loginParams
+        }
+        
+        let url = self._server_uri + "/json/baseline/tokens?types" + loginParams   // We will be asking for the "full Monty".
+        // The request is a simple GET task, so we can just use a straight-up task for this.
+        if let url_object = URL(string: url) {
+            Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
+                self._openOperations += 1
+            }
+            let fetchTask = self._connectionSession.dataTask(with: url_object) { [unowned self] data, response, error in
+                if let error = error {
+                    self._handleError(error, refCon: inRefCon)
+                    return
+                }
+                guard let httpResponse = response as? HTTPURLResponse,
+                    (200...299).contains(httpResponse.statusCode) else {
+                        self._handleHTTPError(response as? HTTPURLResponse ?? nil, refCon: inRefCon)
+                        return
+                }
+                
+                if let mimeType = httpResponse.mimeType, "application/json" == mimeType, let myData = data {
+                    do {    // Extract a usable object from the given JSON data.
+                        let temp = try JSONSerialization.jsonObject(with: myData, options: [])
+                        
+                        if let main_object = temp as? NSDictionary,
+                           let baseline = main_object.object(forKey: "baseline") as? NSDictionary,
+                           let tokens = baseline.object(forKey: "tokens") as? NSArray,
+                           0 < tokens.count {
+                            var tokenTypes: [TokenType] = []
+                            let myLoginID = self.myLoginInfo?.id ?? 0
+
+                            tokens.forEach {
+                                if let token = $0 as? [String: Any],
+                                   let id = token["id"] as? Int,
+                                   1 < id,  // We start with non-"system" IDs.
+                                   let type = token["type"] as? String {
+                                    var tokenType: TokenType = .none
+                                    
+                                    switch type {
+                                        case "login":
+                                            tokenType = .loginID(id: id)
+                                            
+                                        case "token":
+                                            if myLoginID == id {    // If we are a non-God admin, then our own login will be reported as a standard token. We report it as a login ID.
+                                                tokenType = .loginID(id: id)
+                                            } else {
+                                                tokenType = .token(id: id)
+                                            }
+
+                                        case "personal":    // Personal tokens are associated with a login. In the case of non-God admins, the only login reported, is our own.
+                                            tokenType = .personal(id: id, loginID: token["login_id"] as? Int ?? myLoginID)
+
+                                        case "assigned":    // This is what is reported to non-God admins, when we have a token that was assigned from somewhere else.
+                                            tokenType = .assigned(id: id)
+
+                                        default:
+                                            break
+                                    }
+                                    
+                                    if .none != tokenType {
+                                        tokenTypes.append(tokenType)
+                                    }
+                                }
+                            }
+                            self._delegate?.sdkInstance(self, tokenList: tokenTypes.sorted(), refCon: inRefCon)
+
+                        } else {
+                            self._handleError(SDK_Data_Errors.invalidData(myData), refCon: inRefCon)
+                        }
+                    } catch {   // We end up here if the response is not a proper JSON object.
+                        self._handleError(SDK_Data_Errors.invalidData(myData), refCon: inRefCon)
+                    }
+                } else {
+                    self._handleError(SDK_Data_Errors.invalidData(data), refCon: inRefCon)
+                }
+                
+                Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
+                    self._openOperations -= 1
+                }
+            }
+            
+            fetchTask.resume()
+        } else {
+            self._handleError(SDK_Connection_Errors.invalidServerURI(url), refCon: inRefCon)
+        }
+    }
+
+    /* ################################################################## */
+    /**
      This fetches objects from the security database server.
      
      - parameter inIntegerIDs: An Array of Int, with the security database item IDs.
@@ -2566,6 +2675,68 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
         /** There was a problem in the operation of the SDK. */
         case operationalError(_: SDK_Operation_Errors)
     }
+    
+    /* ################################################################## */
+    /**
+     These are used to define the types of tokens.
+     */
+    public enum TokenType: Comparable {
+        /** Unknown. This should be considered an error.  */
+        case none
+        /** This is a standard token. It may actually be a login ID, but that won't be exposed to non-God admis, most times.   */
+        case token(id: Int)
+        /** This is a login ID. In non-God admins, there will only be one (and it will be ours). */
+        case loginID(id: Int)
+        /** This is a personal token that was assigned from another login. */
+        case assigned(id: Int)
+        /** This is a personal ID. If this is the "God" ID, then the ID of the "owner" of the personal token will be associated (Int). */
+        case personal(id: Int, loginID: Int?)
+
+        /* ############################################################## */
+        /**
+         This allows us to sort the list.
+         
+         - parameter lhs: The left-hand comparable
+         - parameter rhs: The right-hand comparable
+         - returns: True, if lhs < rhs
+         */
+        public static func < (lhs: RVP_Cocoa_SDK.TokenType, rhs: RVP_Cocoa_SDK.TokenType) -> Bool {
+            if .none != lhs, .none != rhs {
+                var lh: Int = 0
+                var rh: Int = 0
+                
+                switch lhs {
+                    case .none:
+                        break
+                    case .token(let id):
+                        lh = id
+                    case .personal(let id, _):
+                        lh = id
+                    case .loginID(let id):
+                        lh = id
+                    case .assigned(let id):
+                        lh = id
+                }
+                
+                switch rhs {
+                    case .none:
+                        break
+                    case .token(let id):
+                        rh = id
+                    case .personal(let id, _):
+                        rh = id
+                    case .loginID(let id):
+                        rh = id
+                    case .assigned(let id):
+                        rh = id
+                }
+                
+                return lh < rh
+            }
+            
+            return false
+        }
+    }
 
     /* ################################################################## */
     // MARK: - Public Calculated Properties
@@ -3166,6 +3337,16 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
     public func fetchLogins(_ inLoginStringIDArray: [String], refCon inRefCon: Any?) {
         self.searchLocation = nil   // This will always nil out if we are fetching logins.
         self._fetchLoginItems(inLoginStringIDArray, refCon: inRefCon)
+    }
+
+    /* ################################################################## */
+    /**
+     This method will initiate a fetch of all visible ID objects, listed with types and "owners" (if logged in as "God").
+     
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
+     */
+    public func fetchAllTokens(refCon inRefCon: Any?) {
+        self._fetchAllTokensFromServer(refCon: inRefCon)
     }
     
     /* ################################################################## */
