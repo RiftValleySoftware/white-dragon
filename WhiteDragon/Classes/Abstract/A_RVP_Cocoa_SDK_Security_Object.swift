@@ -94,9 +94,6 @@ public class A_RVP_Cocoa_SDK_Security_Object: A_RVP_Cocoa_SDK_Object {
             
             if let personalTokens = self._myData["personal_tokens"] as? [Int] {
                 ret = personalTokens.sorted()
-                if !ret.isEmpty, 1 != ret[0] {    // If 1 was not already there, we add it here.
-                    ret.insert(1, at: 0)
-                }
             }
             
             return ret
