@@ -78,12 +78,38 @@ public class A_RVP_Cocoa_SDK_Security_Object: A_RVP_Cocoa_SDK_Object {
         
         set {
             // Special exemption for God.
-            if self._sdkInstance?.isManager ?? false && (self._sdkInstance?.myLoginInfo != self || self._sdkInstance?.isMainAdmin ?? false) && self.isWriteable {
+            if self._sdkInstance?.isManager ?? false, (self._sdkInstance?.myLoginInfo != self || self._sdkInstance?.isMainAdmin ?? false) && self.isWriteable {
                 self._myData["security_tokens"] = newValue
             }
         }
     }
     
+    /* ################################################################## */
+    /**
+     - returns: the object security tokens, as an Array of Int. NOTE: The tokens are sorted, from lowest to highest, and include the ID of the login item. "1" is the "any logged-in-user" token that all logins are implied to have. READ ONLY
+     */
+    public var personalTokens: [Int] {
+        get {
+            var ret: [Int] = []
+            
+            if let personalTokens = self._myData["personal_tokens"] as? [Int] {
+                ret = personalTokens.sorted()
+                if !ret.isEmpty, 1 != ret[0] {    // If 1 was not already there, we add it here.
+                    ret.insert(1, at: 0)
+                }
+            }
+            
+            return ret
+        }
+        
+        set {
+            // Special exemption for God.
+            if self._sdkInstance?.isManager ?? false, (self._sdkInstance?.myLoginInfo != self || self._sdkInstance?.isMainAdmin ?? false) && self.isWriteable {
+                self._myData["personal_tokens"] = newValue
+            }
+        }
+    }
+
     /* ################################################################## */
     // MARK: - Public Instance Methods
     /* ################################################################## */

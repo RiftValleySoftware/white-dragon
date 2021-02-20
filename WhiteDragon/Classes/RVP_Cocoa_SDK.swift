@@ -2813,6 +2813,20 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
     
     /* ################################################################## */
     /**
+     Returns an Array of Int, with the current tokens. If logged in, then this will be at least 1, and the current ID of the login. If not logged in, this will return an empty Array.
+     */
+    public var personalTokens: [Int] {
+        var ret: [Int] = []
+        
+        if self.isLoggedIn, let myInfo = self.myLoginInfo {
+            ret = myInfo.personalTokens
+        }
+        
+        return ret
+    }
+
+    /* ################################################################## */
+    /**
      Returns the number of data items in our cache.
      */
     public var count: Int {
