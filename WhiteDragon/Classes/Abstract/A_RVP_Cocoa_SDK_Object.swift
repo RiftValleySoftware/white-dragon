@@ -633,6 +633,12 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
         
         if let selfish = self as? RVP_Cocoa_SDK_Login {    // We need to add the security tokens.
             data["security_tokens"] = selfish.securityTokens
+            data["personal_tokens"] = selfish.personalTokens
+            if self.isNew,
+               let number_of_personal_tokens_per_login = self._sdkInstance?.number_of_personal_tokens_per_login,
+               0 < number_of_personal_tokens_per_login {
+                data["number_of_personal_tokens"] = number_of_personal_tokens_per_login
+            }
             if !(data["password"] as? String ?? "").isEmpty,
                selfish.isLoggedIn { // Force a logout, if we changed our own password.
                 self._sdkInstance?.logout(refCon: inRefCon)

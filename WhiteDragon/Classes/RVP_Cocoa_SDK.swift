@@ -310,6 +310,9 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
     /** This is the step size for auto-radius searches, in kilometers. Default is 0.5 Km, but it can be changed by changing the autoRadiusStepSizeInKm public calculated property. */
     private var _autoRadiusStepSizeInKm: Double = 0.5
     
+    /** This is the number of personal tokens that should be added to new logins. */
+    private var _number_of_personal_tokens_per_login: Int = 0
+    
     /** This will be used to determine when a stack of operations is complete. It is incremented whenever an operation is started, and decremented when it is complete. When it reaches 0, the delegate is informed. */
     private var _openOperations: Int = 0 {
         didSet {
@@ -1441,24 +1444,24 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                                     var tokenType: TokenType = .none
                                     
                                     switch type {
-                                        case "login":
+                                    case "login":
+                                        tokenType = .loginID(id: id)
+                                        
+                                    case "token":
+                                        if myLoginID == id {    // If we are a non-God admin, then our own login will be reported as a standard token. We report it as a login ID.
                                             tokenType = .loginID(id: id)
-                                            
-                                        case "token":
-                                            if myLoginID == id {    // If we are a non-God admin, then our own login will be reported as a standard token. We report it as a login ID.
-                                                tokenType = .loginID(id: id)
-                                            } else {
-                                                tokenType = .token(id: id)
-                                            }
+                                        } else {
+                                            tokenType = .token(id: id)
+                                        }
 
-                                        case "personal":    // Personal tokens are associated with a login. In the case of non-God admins, the only login reported, is our own.
-                                            tokenType = .personal(id: id, loginID: token["login_id"] as? Int ?? myLoginID)
+                                    case "personal":    // Personal tokens are associated with a login. In the case of non-God admins, the only login reported, is our own.
+                                        tokenType = .personal(id: id, loginID: token["login_id"] as? Int ?? myLoginID)
 
-                                        case "assigned":    // This is what is reported to non-God admins, when we have a token that was assigned from somewhere else.
-                                            tokenType = .assigned(id: id)
+                                    case "assigned":    // This is what is reported to non-God admins, when we have a token that was assigned from somewhere else.
+                                        tokenType = .assigned(id: id)
 
-                                        default:
-                                            break
+                                    default:
+                                        break
                                     }
                                     
                                     if .none != tokenType {
@@ -2706,29 +2709,29 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                 var rh: Int = 0
                 
                 switch lhs {
-                    case .none:
-                        break
-                    case .token(let id):
-                        lh = id
-                    case .personal(let id, _):
-                        lh = id
-                    case .loginID(let id):
-                        lh = id
-                    case .assigned(let id):
-                        lh = id
+                case .none:
+                    break
+                case .token(let id):
+                    lh = id
+                case .personal(let id, _):
+                    lh = id
+                case .loginID(let id):
+                    lh = id
+                case .assigned(let id):
+                    lh = id
                 }
                 
                 switch rhs {
-                    case .none:
-                        break
-                    case .token(let id):
-                        rh = id
-                    case .personal(let id, _):
-                        rh = id
-                    case .loginID(let id):
-                        rh = id
-                    case .assigned(let id):
-                        rh = id
+                case .none:
+                    break
+                case .token(let id):
+                    rh = id
+                case .personal(let id, _):
+                    rh = id
+                case .loginID(let id):
+                    rh = id
+                case .assigned(let id):
+                    rh = id
                 }
                 
                 return lh < rh
@@ -2847,6 +2850,20 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      */
     public var plugins: [String] {
         return self._plugins
+    }
+    
+    /* ################################################################## */
+    /**
+     Returns the number of personal tokens to be added to new users.
+     */
+    public var number_of_personal_tokens_per_login: Int {
+        get {
+            return self._number_of_personal_tokens_per_login
+        }
+        
+        set {
+            self._number_of_personal_tokens_per_login = newValue
+        }
     }
     
     /* ################################################################## */
