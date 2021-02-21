@@ -2390,6 +2390,12 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                 uri = uriTemp + "?" + loginParams + "&" + uri
                 
                 if inObjectToPut?.isNew ?? false {
+                    // If we are creating a new user with a login, we may want to ask for new personal tokens to be added.
+                    if "/people/people/" == inObjectToPut?._pluginPath,
+                       uri.contains("&login_id="),
+                       0 < number_of_personal_tokens_per_login {
+                        uri += "&number_of_personal_tokens=\(number_of_personal_tokens_per_login)"
+                    }
                     self._sendPOSTData(uri, payloadData: payloadString, objectInstance: inObjectToPut, refCon: inRefCon)
                 } else {
                     self._sendPUTData(uri, payloadData: payloadString, objectInstance: inObjectToPut, refCon: inRefCon)
