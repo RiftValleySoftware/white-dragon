@@ -161,6 +161,8 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
                     // Security tokens have a special case.
                     if "security_tokens" == uriKey, let value = current as? [Int], self._sdkInstance?.isManager ?? false {
                         uri += "\("tokens")=\(value.map {String($0)}.joined(separator: ","))"
+                    } else if "personal_tokens" == uriKey, let value = current as? [Int], self._sdkInstance?.isMainAdmin ?? false {
+                        uri += "\("personal_tokens")=\(value.map {String($0)}.joined(separator: ","))"
                     } else {
                         // Conversion to string options for various data types.
                         if let valueString = (current as? String)?.urlEncodedString {
@@ -247,6 +249,8 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
                 var data = self._myData
                 if let selfish = self as? RVP_Cocoa_SDK_Login {    // We need to add the security tokens.
                     data["security_tokens"] = selfish.securityTokens
+                    data["personal_tokens"] = selfish.personalTokens
+                    self._sdkInstance?.fetchAllTokens(refCon: inRefCon)
                 }
                 self._myOriginalData = data // OK. The old is now the new. We no longer need to feel "dirty."
             } else {
@@ -586,6 +590,7 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
             
             if let selfish = self as? RVP_Cocoa_SDK_Login {    // We need to add the security tokens.
                 data["security_tokens"] = selfish.securityTokens
+                data["personal_tokens"] = selfish.personalTokens
             }
             self._myOriginalData = data   // This is a "snapshot of the "before" state of the object.
         }
