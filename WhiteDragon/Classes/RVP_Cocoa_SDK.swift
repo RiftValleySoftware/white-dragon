@@ -1621,7 +1621,6 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                             for elem in count_access_to {
                                 if let token = elem["token"], let access = elem["access"] {
                                     accessDictionary[token] = access
-                                    print(elem)
                                 }
                             }
                             self._delegate?.sdkInstance(self, tokenAccessTest: accessDictionary, refCon: inRefCon)
