@@ -160,9 +160,11 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
                     
                     // Security tokens have a special case.
                     if "security_tokens" == uriKey, let value = current as? [Int], self._sdkInstance?.isManager ?? false {
-                        uri += "\("tokens")=\(value.map {String($0)}.joined(separator: ","))"
+                        let temp_tokens = [Int](Set(value.sorted())).compactMap { 1 != $0 && $0 != id ? $0 : nil }.map {String($0)}.joined(separator: ",")  // Casting to a set assures unique values.
+                        uri += "\("tokens")=\(temp_tokens)"
                     } else if "personal_tokens" == uriKey, let value = current as? [Int], self._sdkInstance?.isMainAdmin ?? false {
-                        uri += "\("personal_tokens")=\(value.map {String($0)}.joined(separator: ","))"
+                        let temp_tokens = [Int](Set(value.sorted())).map {String($0)}.joined(separator: ",")
+                        uri += "\("personal_tokens")=\(temp_tokens)"
                     } else {
                         // Conversion to string options for various data types.
                         if let valueString = (current as? String)?.urlEncodedString {

@@ -2390,8 +2390,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                 
                 if inObjectToPut?.isNew ?? false {
                     // If we are creating a new user with a login, we may want to ask for new personal tokens to be added.
-                    if "/people/people/" == inObjectToPut?._pluginPath,
-                       uri.contains("&login_id="),
+                    if ("/people/people/" == inObjectToPut?._pluginPath && uri.contains("&login_id=")) || ("/people/logins/" == inObjectToPut?._pluginPath),
                        0 < number_of_personal_tokens_per_login {
                         uri += "&number_of_personal_tokens=\(number_of_personal_tokens_per_login)"
                     }
@@ -3025,9 +3024,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
             return false
         })
         
-        let keyArray = sortedList.map { (a) -> String in
-            return a._pluginPathNoID
-        }.uniqueElements
+        let keyArray = [String](Set(sortedList.map { (a) -> String in a._pluginPathNoID }))
         
         // At this point, keyArray has an Array with the unique plugin paths we'll need for the lists of IDs. Time to sort out the IDs.
         var deleteDictionary: [String: [Int]] = [:]
