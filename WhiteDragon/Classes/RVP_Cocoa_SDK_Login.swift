@@ -62,7 +62,7 @@ public class RVP_Cocoa_SDK_Login: A_RVP_Cocoa_SDK_Security_Object {
         
         return ret
     }
-    
+
     /* ################################################################## */
     /**
      **NOTE:** Although this will let anyone with write permission set the ID, it will not be accepted on the server, unless the admin also has at least read permissions for the user object.

@@ -36,8 +36,8 @@ public class A_RVP_Cocoa_SDK_Security_Object: A_RVP_Cocoa_SDK_Object {
     override public var asDictionary: [String: Any?] {
         var ret = super.asDictionary
         ret["loginID"] = self.loginID
-        ret["securityTokens"] = self.securityTokens
-        ret["personalTokens"] = self.personalTokens
+        ret["securityTokens"] = self.securityTokens.sorted().compactMap { $0 != self.id && 1 != $0 ? $0 : nil }
+        ret["personalTokens"] = self.personalTokens.sorted()
         if let password = self._myData["password"] as? String { // This is a special case for when the login was just created. The password is rather ephemeral.
             ret["password"] = password
         }

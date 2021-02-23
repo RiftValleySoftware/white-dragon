@@ -452,7 +452,11 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
         
         for item in self._myData where !ret {
             // Everything can be cast to an NSObject, and we can compare them.
-            if let original = self._myOriginalData[item.key] as? NSObject {
+            if var original = self._myOriginalData[item.key] as? NSObject {
+                if "securityTokens" == item.key,
+                   let originalTemp = original as? [Int] {
+                    original = originalTemp.sorted().compactMap { $0 != self.id && 1 != $0 ? $0 : nil } as NSArray
+                }
                 if let current = item.value as? NSObject {
                     if current != original {
                         ret = true
@@ -474,6 +478,9 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
         
         // We go through the original data as well, in case we deleted something.
         for item in self._myOriginalData where !ret && (nil == self._myData[item.key]) {
+            if let valArray = item.value as? NSArray, 0 == valArray.count { // We let nil and an empty Array be the same.
+                continue
+            }
             ret = true
         }
         
