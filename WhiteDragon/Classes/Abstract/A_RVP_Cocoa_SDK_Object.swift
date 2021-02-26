@@ -255,6 +255,7 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
                     self._sdkInstance?.fetchAllTokens(refCon: inRefCon)
                 }
                 self._myOriginalData = data // OK. The old is now the new. We no longer need to feel "dirty."
+                self._sdkInstance?._callDelegateChangedItem(self, refCon: inRefCon)
             } else {
                 self._sdkInstance?._handleError(RVP_Cocoa_SDK.SDK_Data_Errors.invalidData(inChangeData), refCon: inRefCon)
             }

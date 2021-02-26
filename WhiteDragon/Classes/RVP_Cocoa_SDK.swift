@@ -204,6 +204,18 @@ public protocol RVP_Cocoa_SDK_Delegate: class {
 
     /* ################################################################## */
     /**
+     This is called when an object has been changed in the system.
+     
+     **NOTE:** This is not guaranteed to be called in the main thread!
+     
+     - parameter: This is the SDK instance making the call.
+     - parameter changedObject: The changed object.
+     - parameter refCon: This is an optional Any parameter that is simply returning attached data to the delegate. The data is sent during the initial call. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
+     */
+    func sdkInstance(_: RVP_Cocoa_SDK, changedObject: A_RVP_Cocoa_SDK_Object, refCon: Any?)
+
+    /* ################################################################## */
+    /**
      This is called with zero or more IDs. Baseline searches are a "two-step" process, where IDs are fetched first, then objects.
      This call is made between the two steps. In the case of auto-radius, the second step is not done until the end, so this is the only indication of progress.
      In an auto-radius search, this will be called repeatedly, but the actual objects will not be fetched until the final call.
@@ -2520,7 +2532,18 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
     internal func _callDelegateNewItem(_ inNewObject: A_RVP_Cocoa_SDK_Object, refCon inRefCon: Any?) {
         self._delegate?.sdkInstance(self, newObject: inNewObject, refCon: inRefCon)
     }
-    
+
+    /* ################################################################## */
+    /**
+     This is called when we want to send a changed object from the server to the delegate.
+     
+     - parameter inChangedObject: The object to be sent to the delegate.
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
+     */
+    internal func _callDelegateChangedItem(_ inChangedObject: A_RVP_Cocoa_SDK_Object, refCon inRefCon: Any?) {
+        self._delegate?.sdkInstance(self, changedObject: inChangedObject, refCon: inRefCon)
+    }
+
     /* ################################################################## */
     // MARK: - Internal URLSessionDelegate Protocol Methods
     /* ################################################################## */
