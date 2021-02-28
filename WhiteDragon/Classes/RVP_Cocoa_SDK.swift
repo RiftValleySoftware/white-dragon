@@ -3138,7 +3138,10 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
                     Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
                         self._openOperations += 1
                     }
-                    let loginTask = self._connectionSession.dataTask(with: url_object) { [weak self] data, response, error in
+                    var request = URLRequest(url: url_object)
+                    request.httpMethod = "GET"
+                    request.setValue("no-store, max-age=0", forHTTPHeaderField: "Cache-Control")
+                    let loginTask = self._connectionSession.dataTask(with: request) { [weak self] data, response, error in
                         if let error = error {
                             self?._handleError(error, refCon: inRefCon)
                             return
