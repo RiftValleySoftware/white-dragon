@@ -126,9 +126,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		D48ED6B0218DF59B00380FCA /* WhiteDragon(iOS) */ = {
+		D48ED6B0218DF59B00380FCA /* WhiteDragon */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D48ED6C5218DF59B00380FCA /* Build configuration list for PBXNativeTarget "WhiteDragon(iOS)" */;
+			buildConfigurationList = D48ED6C5218DF59B00380FCA /* Build configuration list for PBXNativeTarget "WhiteDragon" */;
 			buildPhases = (
 				D44733B9218E09A800D261AF /* SwiftLINT */,
 				D48ED6AD218DF59B00380FCA /* Sources */,
@@ -137,7 +137,7 @@
 			);
 			dependencies = (
 			);
-			name = "WhiteDragon(iOS)";
+			name = WhiteDragon;
 			productName = WhiteDragon;
 			productReference = D48ED6B1218DF59B00380FCA /* WhiteDragon.framework */;
 			productType = "com.apple.product-type.framework";
@@ -190,7 +190,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				D48ED6B0218DF59B00380FCA /* WhiteDragon(iOS) */,
+				D48ED6B0218DF59B00380FCA /* WhiteDragon */,
 				D4E6E7A8218DFAB8008CA31F /* WhiteDragon(OSX) */,
 			);
 		};
@@ -529,7 +529,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D48ED6C5218DF59B00380FCA /* Build configuration list for PBXNativeTarget "WhiteDragon(iOS)" */ = {
+		D48ED6C5218DF59B00380FCA /* Build configuration list for PBXNativeTarget "WhiteDragon" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D48ED6C6218DF59B00380FCA /* Debug */,

@@ -1,4 +1,7 @@
-**1.1.0.2000** *TBD*
+**1.1.0.2000** *March 21, 2021*
+
+- Made the product name "WhiteDragon."
+- A number of fixes and improvements, but this is still an interim version.
 
 **1.0.17.2000** *February 2, 2021*
 - Addressed an issue, where, under some conditions, it might be possible to get crashes after returning from an NSURLSession.
