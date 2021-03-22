@@ -93,6 +93,9 @@
                 <a class="nav-group-task-link" href="../Classes/RVP_Cocoa_SDK/SDK_Error.html">– SDK_Error</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/RVP_Cocoa_SDK/TokenType.html">– TokenType</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Classes/RVP_Cocoa_SDK/Iterator.html">– Iterator</a>
               </li>
               <li class="nav-group-task">
@@ -117,9 +120,6 @@
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Extensions/Data.html">Data</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Extensions/Sequence.html">Sequence</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Extensions/String.html">String</a>
@@ -587,6 +587,66 @@ In an auto-radius search, this may be called repeatedly.</p>
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/s:11WhiteDragon22RVP_Cocoa_SDK_DelegateP11sdkInstance_9tokenList6refConyAA0c1_d1_E0C_SayAH9TokenTypeOGypSgtF"></a>
+                    <a name="//apple_ref/swift/Method/sdkInstance(_:tokenList:refCon:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon22RVP_Cocoa_SDK_DelegateP11sdkInstance_9tokenList6refConyAA0c1_d1_E0C_SayAH9TokenTypeOGypSgtF">sdkInstance(_:<wbr>tokenList:<wbr>refCon:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>This is a response to the token catalog request (fetchAllTokensFromServer).</p>
+
+<p><strong>NOTE:</strong> This is not guaranteed to be called in the main thread!</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">sdkInstance</span><span class="p">(</span><span class="nv">_</span><span class="p">:</span> <span class="kt"><a href="../Classes/RVP_Cocoa_SDK.html">RVP_Cocoa_SDK</a></span><span class="p">,</span> <span class="nv">tokenList</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/RVP_Cocoa_SDK.html">RVP_Cocoa_SDK</a></span><span class="o">.</span><span class="kt">TokenType</span><span class="p">],</span> <span class="nv">refCon</span><span class="p">:</span> <span class="kt">Any</span><span class="p">?)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>tokenList</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An Array of Token Type Enum values. Some may have associated data.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>refCon</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>This is an optional Any parameter that is simply returning attached data to the delegate. The data is sent during the initial call. &ldquo;refCon&rdquo; is a very old concept, that stands for &ldquo;Reference Context.&rdquo; It allows the caller of an async operation to attach context to a call.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/s:11WhiteDragon22RVP_Cocoa_SDK_DelegateP11sdkInstance_15tokenAccessTest6refConyAA0c1_d1_E0C_Si0I0_SaySiG6loginstypSgtF"></a>
                     <a name="//apple_ref/swift/Method/sdkInstance(_:tokenAccessTest:refCon:)" class="dashAnchor"></a>
                     <a class="token" href="#/s:11WhiteDragon22RVP_Cocoa_SDK_DelegateP11sdkInstance_15tokenAccessTest6refConyAA0c1_d1_E0C_Si0I0_SaySiG6loginstypSgtF">sdkInstance(_:<wbr>tokenAccessTest:<wbr>refCon:<wbr>)</a>
@@ -897,6 +957,66 @@ which will be called with the same object, in an Array of one element.</p>
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/s:11WhiteDragon22RVP_Cocoa_SDK_DelegateP11sdkInstance_13changedObject6refConyAA0c1_d1_E0C_AA02A_c1_d1_e1_J0CypSgtF"></a>
+                    <a name="//apple_ref/swift/Method/sdkInstance(_:changedObject:refCon:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon22RVP_Cocoa_SDK_DelegateP11sdkInstance_13changedObject6refConyAA0c1_d1_E0C_AA02A_c1_d1_e1_J0CypSgtF">sdkInstance(_:<wbr>changedObject:<wbr>refCon:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>This is called when an object has been changed in the system.</p>
+
+<p><strong>NOTE:</strong> This is not guaranteed to be called in the main thread!</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">sdkInstance</span><span class="p">(</span><span class="nv">_</span><span class="p">:</span> <span class="kt"><a href="../Classes/RVP_Cocoa_SDK.html">RVP_Cocoa_SDK</a></span><span class="p">,</span> <span class="nv">changedObject</span><span class="p">:</span> <span class="kt"><a href="../Classes/A_RVP_Cocoa_SDK_Object.html">A_RVP_Cocoa_SDK_Object</a></span><span class="p">,</span> <span class="nv">refCon</span><span class="p">:</span> <span class="kt">Any</span><span class="p">?)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>changedObject</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The changed object.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>refCon</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>This is an optional Any parameter that is simply returning attached data to the delegate. The data is sent during the initial call. &ldquo;refCon&rdquo; is a very old concept, that stands for &ldquo;Reference Context.&rdquo; It allows the caller of an async operation to attach context to a call.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/s:11WhiteDragon22RVP_Cocoa_SDK_DelegateP11sdkInstance_21baselineAutoRadiusIDs7isFinal6refConyAA0c1_d1_E0C_SaySiGSbypSgtF"></a>
                     <a name="//apple_ref/swift/Method/sdkInstance(_:baselineAutoRadiusIDs:isFinal:refCon:)" class="dashAnchor"></a>
                     <a class="token" href="#/s:11WhiteDragon22RVP_Cocoa_SDK_DelegateP11sdkInstance_21baselineAutoRadiusIDs7isFinal6refConyAA0c1_d1_E0C_SaySiGSbypSgtF">sdkInstance(_:<wbr>baselineAutoRadiusIDs:<wbr>isFinal:<wbr>refCon:<wbr>)</a>
@@ -1073,7 +1193,7 @@ This is called BEFORE the results of that call come, so keep in mind that it is 
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2021 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2021-02-02)</p>
+      <p>&copy; 2021 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2021-03-22)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
