@@ -1,3 +1,7 @@
+**1.1.1.2000** *April 14, 2021*
+
+- The distance is now returned as a [Measurement](https://developer.apple.com/documentation/foundation/measurement) value, and is dynamically created, if possible.
+
 **1.1.0.2000** *March 21, 2021*
 
 - Made the product name "WhiteDragon."

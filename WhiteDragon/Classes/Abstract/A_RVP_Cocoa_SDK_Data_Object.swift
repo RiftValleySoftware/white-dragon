@@ -190,25 +190,24 @@ public class A_RVP_Cocoa_SDK_Data_Object: A_RVP_Cocoa_SDK_Object {
     
     /* ################################################################## */
     /**
-     - returns: any distance sent by the server, or one calculated "on the spot,"
-     if there was no server distance, the object has a location, and the searchLocation
-     instance property was set. Otherwise, it returns nil. READ ONLY
+     - returns: the distance, as a [Measurement](https://developer.apple.com/documentation/foundation/measurement) value, of the object from the search center.
+     This gives priority to the distance from the search location. If none is available, then it uses a distance returned from the server. If that is not available, then it reurns nil.
+     READ ONLY
      */
-    public var distance: CLLocationDistance? {
-        var ret: CLLocationDistance?
-        
-        // If the server returned a distance, we always use that.
-        if let distance = self._myData["distance"] as? CLLocationDistance {
-            ret = distance
-        } else if let loca = self.location, let searchCent = self.searchLocation {  // Otherwise, use CoreLocation to calculate the distance.
-            let location = CLLocation(latitude: loca.latitude, longitude: loca.longitude)
-            let searchCenter = CLLocation(latitude: searchCent.latitude, longitude: searchCent.longitude)
-            ret = location.distance(from: searchCenter) / 1000.0    // Konvert to Km
+    public var distance: Measurement<UnitLength>? {
+        if let location = self.location, let searchCent = self.searchLocation {
+            let loca1 = CLLocation(latitude: location.latitude, longitude: location.longitude)
+            let loca2 = CLLocation(latitude: searchCent.latitude, longitude: searchCent.longitude)
+            if 1 <= abs(loca1.distance(from: loca2)) {
+                return Measurement(value: abs(loca1.distance(from: loca2)), unit: UnitLength.meters)
+            }
+        } else if let distance = self._myData["distance"] as? CLLocationDistance {
+            return Measurement(value: distance, unit: UnitLength.kilometers)
         }
         
-        return ret
+        return nil
     }
-    
+
     /* ################################################################## */
     /**
      - returns: true, if the instance is fuzzy. READ ONLY
