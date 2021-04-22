@@ -1,3 +1,7 @@
+**1.1.2.2000** *April 22, 2021*
+
+- Removed unused "cruft" code.
+
 **1.1.1.2000** *April 14, 2021*
 
 - The distance is now returned as a [Measurement](https://developer.apple.com/documentation/foundation/measurement) value, and is dynamically created, if possible.

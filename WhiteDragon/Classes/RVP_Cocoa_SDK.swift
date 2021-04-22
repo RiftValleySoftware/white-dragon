@@ -2101,19 +2101,6 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
     
     /* ################################################################## */
     /**
-     This method sorts through the data returned by the search. It determines if another search needs to be done at a different radius (auto-radius), or if it's just time to send the results to the delegate and vamoose.
-     
-     - parameter inSearchResults: An Array of objects, allocated from the response to the last call.
-     - parameter tags: This is a pre-formatted Dictionary of keys and values
-     - parameter andLocation: This is an optional location/radius specifier. If not specified, location will not be considered.
-     - parameter withPlugin: This is the plugin to search. It can be: "baseline", "people", "places", "things"
-     - parameter maxRadiusInKm: This is a "maximum radius." If left at 0, then only one radius search will be done. If more than zero, and more than the radius in the location, then the radius will be increaed by the auto-radius step size, and another call will be made, if the threshold has not been satisfied. If no location is given, this is ignored.
-     */
-    private func _sortSearchResults(_ inSearchResults: [A_RVP_Cocoa_SDK_Object], tags inTagValues: [String: String], andLocation inLocation: LocationSpecification! = nil, withPlugin inPlugin: String, maxRadiusInKm inMaxRadiusInKm: Double = 0) {
-    }
-    
-    /* ################################################################## */
-    /**
      This sends a PUT command to the server.
      
      - parameter inURI: The URI to send to the server.
