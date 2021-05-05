@@ -113,14 +113,14 @@ public class A_RVP_Cocoa_SDK_Data_Object: A_RVP_Cocoa_SDK_Object {
      */
     public var isPayloadDirty: Bool {
         if let originalPayload = self._myOriginalData["payload"] as? String, let currentPayload = self._myData["payload"] as? String {
-            return originalPayload != currentPayload
+            return self._forceDirty || originalPayload != currentPayload
         } else if nil != self._myOriginalData["payload"] as? String {
             return true
         } else if nil != self._myData["payload"] as? String {
             return true
         }
         
-        return false
+        return self._forceDirty
     }
     
     /* ################################################################## */

@@ -1,3 +1,7 @@
+**1.1.3.2000** *TBD*
+
+- Updated to latest Xcode and Swift variants.
+
 **1.1.2.2000** *April 22, 2021*
 
 - Removed unused "cruft" code.

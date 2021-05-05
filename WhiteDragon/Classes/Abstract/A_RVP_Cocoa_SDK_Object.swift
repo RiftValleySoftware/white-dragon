@@ -596,6 +596,10 @@ public class A_RVP_Cocoa_SDK_Object: NSObject, Sequence {
         } else {
             var data = inData
             
+            self._forceDirty = data["force_dirty"] as? Bool ?? false
+
+            data.removeValue(forKey: "force_dirty")
+
             self._myData = data   // This will change as we edit the object.
             
             if let selfish = self as? RVP_Cocoa_SDK_Login {    // We need to add the security tokens.

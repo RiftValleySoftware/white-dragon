@@ -32,7 +32,7 @@ import MapKit
  
  These are likely to be called in non-main threads, so caveat emptor.
  */
-public protocol RVP_Cocoa_SDK_Delegate: class {
+public protocol RVP_Cocoa_SDK_Delegate: AnyObject {
     /* ################################################################## */
     /**
      This is called when a server session (not login) is started or ended.
@@ -2363,7 +2363,9 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
         }
         
         // If we have a dirty payload, then we take care of that here.
-        if let dataObject = inObjectToPut as? A_RVP_Cocoa_SDK_Data_Object, dataObject.isPayloadDirty, let tempPayloadString = dataObject.rawBase64Payload {
+        if let dataObject = inObjectToPut as? A_RVP_Cocoa_SDK_Data_Object,
+           dataObject.isPayloadDirty,
+           let tempPayloadString = dataObject.rawBase64Payload {
             if !tempPayloadString.isEmpty {
                 payloadString = tempPayloadString
             } else {    // Removal is easy.
