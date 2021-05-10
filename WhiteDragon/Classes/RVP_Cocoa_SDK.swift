@@ -2990,11 +2990,11 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      - parameter delegate: (REQUIRED) A RVP_IOS_SDK_Delegate that will receive updates from the SDK instance.
      - parameter loginID: (OPTIONAL/REQUIRED) A String, with a login ID. If provided, then you must also provide inPassword and inLoginTimeout.
      - parameter password: (OPTIONAL/REQUIRED) A String, with a login password. If provided, then you must also provide inLoginId and inLoginTimeout.
-     - parameter timeout: (OPTIONAL/REQUIRED) A Floating-point value, with the number of seconds the login has to be active. If provided, then you must also provide inLoginId and inPassword.
+     - parameter timeout: (OPTIONAL/REQUIRED) An Integer value, with the number of seconds the login has to be active. If provided, then you must also provide inLoginId and inPassword.
      - parameter session: (OPTIONAL) This allows the caller to have their own URLSession established (often, there is only one per app), so we can hitch a ride with that session. Otherwise, we create our own. The session must be ephemeral.
      - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    public init(serverURI inServerURI: String, serverSecret inServerSecret: String, delegate inDelegate: RVP_Cocoa_SDK_Delegate, loginID inLoginID: String! = nil, password inPassword: String! = nil, timeout inLoginTimeout: TimeInterval! = nil, session inURLSession: URLSession? = nil, refCon inRefCon: Any?) {
+    public init(serverURI inServerURI: String, serverSecret inServerSecret: String, delegate inDelegate: RVP_Cocoa_SDK_Delegate, loginID inLoginID: String! = nil, password inPassword: String! = nil, timeout inLoginTimeout: Int! = nil, session inURLSession: URLSession? = nil, refCon inRefCon: Any?) {
         super.init()
         
         self._delegate = inDelegate
@@ -3075,6 +3075,17 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
 
     /* ################################################################## */
     /**
+     - parameter id: The ID of the resource to be deleted
+     - parameter andPlugin: The plugin to be affected.
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
+     */
+    public func deleteBy(id inID: Int, andPlugin inPlugin: String, refCon inRefCon: Any?) {
+        let uri = self._server_uri + "/json/" + inPlugin.lowercased().trimmingCharacters(in: .whitespacesAndNewlines) + "/" + String(inID)
+        self._sendDelete(uri, refCon: inRefCon)
+    }
+    
+    /* ################################################################## */
+    /**
      This will connect to the server. If login credentials are provided, then it will also log in.
      
      - parameter loginId: (OPTIONAL) A String, with a login ID. If provided, then you must also provide inPassword and inLoginTimeout.
@@ -3082,23 +3093,17 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      - parameter timeout: (OPTIONAL) A Floating-point value, with the number of seconds the login has to be active. If provided, then you must also provide inLoginId and inPassword.
      - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    public func connect(loginID inLoginId: String! = nil, password inPassword: String! = nil, timeout inLoginTimeout: TimeInterval! = nil, refCon inRefCon: Any?) {
+    public func connect(loginID inLoginId: String! = nil, password inPassword: String! = nil, timeout inLoginTimeout: Int! = nil, refCon inRefCon: Any?) {
         // If any one of the optionals is provided, then they must ALL be provided.
-        if nil != inLoginId || nil != inPassword || nil != inLoginTimeout {
-            if nil == inLoginId || nil == inPassword || nil == inLoginTimeout {
-                self._handleError(SDK_Operation_Errors.invalidParameters, refCon: inRefCon)
-                return
-            }
-            
+        if (nil != inLoginId || nil != inPassword || nil != inLoginTimeout),
+           (nil == inLoginId || nil == inPassword || nil == inLoginTimeout) {
             // If a login was provided, we attempt a login.
             self.login(loginID: inLoginId, password: inPassword, timeout: inLoginTimeout, refCon: inRefCon)
-        } else {    // Otherwise, simply fetch the baseline plugins, which will result in the delegate being called.
-            if self._plugins.isEmpty {
-                self._validateServer(refCon: inRefCon)
-            } else {
-                self._reportSessionValidity(refCon: inRefCon)   // We report whether or not this session is valid.
-                self._callDelegateLoginValid(self.isLoggedIn, refCon: inRefCon)   // OK. We're done. Tell the delegate whether or not we are logged in.
-            }
+        } else if self._plugins.isEmpty {
+            self._validateServer(refCon: inRefCon)
+        } else {
+            self._reportSessionValidity(refCon: inRefCon)   // We report whether or not this session is valid.
+            self._callDelegateLoginValid(self.isLoggedIn, refCon: inRefCon)   // OK. We're done. Tell the delegate whether or not we are logged in.
         }
     }
 
@@ -3112,11 +3117,11 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
      
      - parameter loginID: (REQUIRED) A String, with a login ID.
      - parameter password: (REQUIRED) A String, with a login password.
-     - parameter timeout: (REQUIRED) A Floating-point value, with the number of seconds the login has to be active.
+     - parameter timeout: (REQUIRED) An Integervalue, with the number of seconds the login has to be active.
      - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    public func login(loginID inLoginID: String, password inPassword: String, timeout inLoginTimeout: TimeInterval, refCon inRefCon: Any?) {
-        self._loginTimeout = inLoginTimeout // This is how long we'll have to be logged in, before the server kicks us out.
+    public func login(loginID inLoginID: String, password inPassword: String, timeout inLoginTimeout: Int, refCon inRefCon: Any?) {
+        self._loginTimeout = TimeInterval(inLoginTimeout) // This is how long we'll have to be logged in, before the server kicks us out.
         self._loginTime = Date()    // Starting now.
         self._apiKey = nil          // We wipe out any stored API key.
         // The login is a simple GET task, so we can just use a straight-up task for this.
