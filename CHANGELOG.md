@@ -1,4 +1,4 @@
-**1.1.3.2000** *TBD*
+**1.1.3.2000** *May 16, 2021*
 
 - Updated to latest Xcode and Swift variants.
 
