@@ -830,7 +830,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
         var handled = false // If we get any IDs, then we have something...
         
         if let peopleIDs = inResultDictionary["people"], !peopleIDs.isEmpty {
-            self.fetchDataItemsByIDs(peopleIDs, andPlugin: "people", dontNukeTheLocation: true, refCon: inRefCon)
+            self.fetchDataItemsByIDs(peopleIDs, andPlugin: "people/people", dontNukeTheLocation: true, refCon: inRefCon)
             handled = true
         }
         

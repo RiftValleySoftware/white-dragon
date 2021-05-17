@@ -30,7 +30,7 @@ import WhiteDragon
 /**
  This adds some iOS-specific extensions to the payload handler.
  */
-@available(iOS 11.0, *) // This requires iOS 11 or higher. No MacOS.
+@available(iOS 13.0, *) // This requires iOS 13 or higher. No MacOS.
 extension RVP_Cocoa_SDK_Payload {
     /* ################################################################## */
     /**
