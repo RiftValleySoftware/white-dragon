@@ -32,7 +32,4 @@
    <FileRef
       location = "group:WhiteDragon.xcodeproj">
    </FileRef>
-   <FileRef
-      location = "group:WhiteDragonTestHarness.xcodeproj">
-   </FileRef>
 </Workspace>
