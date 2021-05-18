@@ -270,7 +270,7 @@ public protocol RVP_Cocoa_SDK_Delegate: AnyObject {
  
  It can also have an open session passed in at instantiation, and it will use that session.
  */
-public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
+public class RVP_Cocoa_SDK: NSObject {
     /* ################################################################## */
     // MARK: - Private Static Properties
     /* ################################################################## */
@@ -278,7 +278,7 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
     private static let _staticQueue = DispatchQueue(label: "RVP_Cocoa_SDK_Static_Queue")
 
     /* ################################################################## */
-    // MARK: - Private Properties
+    // MARK: - Private Instance Properties
     /* ################################################################## */
     /** This is an array of data instances. They are cached here. */
     private var _dataItems: [A_RVP_Cocoa_SDK_Object] = []
@@ -337,25 +337,100 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
         }
     }
     
-    /* ################################################################## */
-    // MARK: - Private Calculated Properties
-    /* ################################################################## */
-    /**
-     Returns a String, with the server secret and API Key already in URI form.
-     This should be appended to the URI, but be aware that it is not preceded by an ampersand (&) or question mark (?). You need to provide those, yourself. READ ONLY
-     */
-    private var _loginParameters: String {
-        if let secret = self._server_secret.urlEncodedString {
-            if let apiKey = self._apiKey?.urlEncodedString {
-                return "login_server_secret=" + secret + "&login_api_key=" + apiKey
-            }
-        }
-        
-        return ""
-    }
+    /** This will be used to match the challenge protection space. */
+    private var _protectionSpaceHost: String = ""
 
     /* ################################################################## */
-    // MARK: - Private Class Methods
+    // MARK: - Internal Instance Properties
+    /* ################################################################## */
+    /**
+     This is a semaphore that is set when we are creating a user/login pair.
+     The way that this works, is that the main appl calls createUserLoginPair(loginString:,name:),
+     and this semaphore is set. The SDK then attempts to create the login object.
+     If that is successful, then it will continue, and create the user object to accompany
+     the new login object, after informing the delegate of the new login object, but will not be called
+     with the sdkInstance(_:,fetchedDataItems:) call.
+     If the login object creation fails, the main app delegate will be called with an error.
+     If it is successful, the delegate is then called with the new user object,
+     */
+    internal var _creatingUserLoginPair: Bool = false
+
+    /** This will contain the temporary new user during a login/user creation. */
+    internal var _newUserInstance: A_RVP_Cocoa_SDK_Object!
+
+    /* ################################################################## */
+    // MARK: - Internal Instance Methods
+    /* ################################################################## */
+    /**
+     We simply make sure that we clean up after ourselves.
+     */
+    deinit {
+        if nil != self._connectionSession {
+            if self._newSession {   // We only nuke the session if we created it.
+                self._connectionSession.finishTasksAndInvalidate()   // Take off and nuke the site from orbit. It's the only way to be sure.
+            }
+            self._connectionSession = nil   // Just to be anal.
+        }
+    }
+    
+    /* ################################################################## */
+    // MARK: - Public Stored Properties
+    /* ################################################################## */
+    /**
+     This is a special "settable" property with the center of a radius search.
+     If the object already has a "distance" property returned from the server,
+     this is ignored. Otherwise, if it is provided, and the object has a long/lat,
+     the "distance" read-only property will return a Vincenty's Formulae distance
+     in Kilometers from this center.
+     */
+    public var searchLocation: CLLocationCoordinate2D?
+
+    /* ################################################################## */
+    // MARK: - Public Instance Methods
+    /* ################################################################## */
+    /**
+     This is the required default initializer.
+     
+     - parameter serverURI: (REQUIRED) A String, with the URI to a valid BAOBAB Server
+     - parameter serverSecret: (REQUIRED) A String, with the Server secret for the target server.
+     - parameter delegate: (REQUIRED) A RVP_IOS_SDK_Delegate that will receive updates from the SDK instance.
+     - parameter loginID: (OPTIONAL/REQUIRED) A String, with a login ID. If provided, then you must also provide inPassword and inLoginTimeout.
+     - parameter password: (OPTIONAL/REQUIRED) A String, with a login password. If provided, then you must also provide inLoginId and inLoginTimeout.
+     - parameter timeout: (OPTIONAL/REQUIRED) An Integer value, with the number of seconds the login has to be active. If provided, then you must also provide inLoginId and inPassword.
+     - parameter session: (OPTIONAL) This allows the caller to have their own URLSession established (often, there is only one per app), so we can hitch a ride with that session. Otherwise, we create our own. The session must be ephemeral.
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
+     */
+    public init(serverURI inServerURI: String, serverSecret inServerSecret: String, delegate inDelegate: RVP_Cocoa_SDK_Delegate, loginID inLoginID: String! = nil, password inPassword: String! = nil, timeout inLoginTimeout: Int! = nil, session inURLSession: URLSession? = nil, refCon inRefCon: Any?) {
+        super.init()
+        
+        self._delegate = inDelegate
+        
+        if let host = URL(string: inServerURI)?.host {
+            // Store the items we hang onto.
+            self._server_uri = inServerURI
+            self._server_secret = inServerSecret
+            self._protectionSpaceHost = host
+
+            // Set up our URL session.
+            if nil != inURLSession {
+                self._newSession = false
+                self._connectionSession = inURLSession
+            } else {
+                self._newSession = true
+                self._connectionSession = URLSession(configuration: .ephemeral, delegate: self, delegateQueue: nil)
+            }
+
+            self.connect(loginID: inLoginID, password: inPassword, timeout: inLoginTimeout, refCon: inRefCon)
+        } else {
+            inDelegate.sdkInstance(self, sessionError: SDK_Connection_Errors.invalidServerURI(inServerURI), refCon: inRefCon)
+        }
+    }
+}
+
+/* ###################################################################################################################################### */
+// MARK: - Private Class Methods -
+/* ###################################################################################################################################### */
+extension RVP_Cocoa_SDK {
     /* ################################################################## */
     /**
      This method sorts out the strings passed into the fetchObjectsByString(_:,andLocation:,withPlugin) method. It will return a valid generic search set for the given plugin.
@@ -562,9 +637,32 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
         }
         return ret
     }
-    
+}
+
+/* ###################################################################################################################################### */
+// MARK: - Private Instance Computed Properties -
+/* ###################################################################################################################################### */
+extension RVP_Cocoa_SDK {
     /* ################################################################## */
-    // MARK: - Private Instance Methods
+    /**
+     Returns a String, with the server secret and API Key already in URI form.
+     This should be appended to the URI, but be aware that it is not preceded by an ampersand (&) or question mark (?). You need to provide those, yourself. READ ONLY
+     */
+    private var _loginParameters: String {
+        if let secret = self._server_secret.urlEncodedString {
+            if let apiKey = self._apiKey?.urlEncodedString {
+                return "login_server_secret=" + secret + "&login_api_key=" + apiKey
+            }
+        }
+        
+        return ""
+    }
+}
+
+/* ###################################################################################################################################### */
+// MARK: - Private Instance Methods -
+/* ###################################################################################################################################### */
+extension RVP_Cocoa_SDK {
     /* ################################################################## */
     /**
      This checks our Array of instances, looking for an item with the given database and ID.
@@ -2281,38 +2379,31 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
     }
 
     /* ################################################################## */
-    // MARK: - Internal Stored Properties
-    /* ################################################################## */
     /**
-     This is a semaphore that is set when we are creating a user/login pair.
-     The way that this works, is that the main appl calls createUserLoginPair(loginString:,name:),
-     and this semaphore is set. The SDK then attempts to create the login object.
-     If that is successful, then it will continue, and create the user object to accompany
-     the new login object, after informing the delegate of the new login object, but will not be called
-     with the sdkInstance(_:,fetchedDataItems:) call.
-     If the login object creation fails, the main app delegate will be called with an error.
-     If it is successful, the delegate is then called with the new user object,
+     Handle Basic HTTP Auth.
+     
+     From here: https://developer.apple.com/forums/thread/68809?answerId=225507022#225507022
+     
+     - parameter didReceive: The challenge object
+     - parameter completionHandler: A function passed in, for dealing with the auth challenge.
      */
-    internal var _creatingUserLoginPair: Bool = false
-
-    /** This will contain the temporary new user during a login/user creation. */
-    internal var _newUserInstance: A_RVP_Cocoa_SDK_Object!
-
-    /* ################################################################## */
-    // MARK: - Internal Instance Methods
-    /* ################################################################## */
-    /**
-     We simply make sure that we clean up after ourselves.
-     */
-    deinit {
-        if nil != self._connectionSession {
-            if self._newSession {   // We only nuke the session if we created it.
-                self._connectionSession.finishTasksAndInvalidate()   // Take off and nuke the site from orbit. It's the only way to be sure.
-            }
-            self._connectionSession = nil   // Just to be anal.
+    private func _authTrip(didReceive inChallenge: URLAuthenticationChallenge, completionHandler inCompletionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+        guard let secret = self._server_secret.urlEncodedString,
+              let apiKey = self._apiKey?.urlEncodedString,
+              inChallenge.previousFailureCount < 3 else {
+            inCompletionHandler(.cancelAuthenticationChallenge, nil)
+            return
         }
+        
+        let credential = URLCredential(user: secret, password: apiKey, persistence: .forSession)
+        inCompletionHandler(.useCredential, credential)
     }
-    
+}
+
+/* ###################################################################################################################################### */
+// MARK: - Internal Instance Methods -
+/* ###################################################################################################################################### */
+extension RVP_Cocoa_SDK {
     /* ################################################################## */
     /**
      This is called with a list of one or more data items to be sent to the delegate.
@@ -2532,27 +2623,52 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
     internal func _callDelegateChangedItem(_ inChangedObject: A_RVP_Cocoa_SDK_Object, refCon inRefCon: Any?) {
         self._delegate?.sdkInstance(self, changedObject: inChangedObject, refCon: inRefCon)
     }
+}
 
-    /* ################################################################## */
-    // MARK: - Internal URLSessionDelegate Protocol Methods
+/* ###################################################################################################################################### */
+// MARK: - Internal URLSessionDelegate Protocol Methods -
+/* ###################################################################################################################################### */
+extension RVP_Cocoa_SDK: URLSessionDelegate {
     /* ################################################################## */
     /**
      This is called when the the session becomes invalid for any reason.
      
      - parameter session: The session calling this.
      - parameter didBecomeInvalidWithError: The error (if any) that caused the invalidation.
-     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
-    public func urlSession(_ session: URLSession, didBecomeInvalidWithError error: Error?, refCon inRefCon: Any?) {
+    public func urlSession(_ session: URLSession, didBecomeInvalidWithError error: Error?) {
         self._plugins = []  // This makes the session invalid.
         if let error = error {  // If there was an error, we report it first.
-            self._handleError(error, refCon: inRefCon)
+            self._handleError(error, refCon: nil)
         }
-        self._reportSessionValidity(refCon: inRefCon)   // Report the invalid session.
+        self._reportSessionValidity(refCon: nil)   // Report the invalid session.
     }
 
     /* ################################################################## */
-    // MARK: - Public Types and Structs
+    /**
+     Handle HTTP challenges (Task).
+     
+     From here: https://developer.apple.com/forums/thread/68809?answerId=225507022#225507022
+     
+     - parameter: The session under way
+     - parameter task: The session task under way
+     - parameter didReceive: The challenge object
+     - parameter completionHandler: A function passed in, for dealing with the auth challenge.
+     */
+    public func urlSession(_: URLSession, task inTask: URLSessionTask, didReceive inChallenge: URLAuthenticationChallenge, completionHandler inCompletionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+        switch (inChallenge.protectionSpace.authenticationMethod, inChallenge.protectionSpace.host) {
+        case (NSURLAuthenticationMethodHTTPBasic, self._protectionSpaceHost), (NSURLAuthenticationMethodHTTPDigest, self._protectionSpaceHost):
+            self._authTrip(didReceive: inChallenge, completionHandler: inCompletionHandler)
+        default:
+            inCompletionHandler(.performDefaultHandling, nil)
+        }
+    }
+}
+
+/* ###################################################################################################################################### */
+// MARK: - Public Types and Structs -
+/* ###################################################################################################################################### */
+extension RVP_Cocoa_SDK {
     /* ################################################################## */
     /**
      This is the element type for the Sequence protocol.
@@ -2621,9 +2737,12 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
             }
         }
     }
+}
 
-    /* ################################################################## */
-    // MARK: - Public Enums
+/* ###################################################################################################################################### */
+// MARK: - Public Enums -
+/* ###################################################################################################################################### */
+extension RVP_Cocoa_SDK {
     /* ################################################################## */
     /**
      This enum lists the various reasons that the server connection may be disconnected.
@@ -2756,9 +2875,12 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
             return false
         }
     }
+}
 
-    /* ################################################################## */
-    // MARK: - Public Calculated Properties
+/* ###################################################################################################################################### */
+// MARK: - Public Computed Properties -
+/* ###################################################################################################################################### */
+extension RVP_Cocoa_SDK {
     /* ################################################################## */
     /**
      This is a computed property that will return true if the login is valid.
@@ -2966,54 +3088,12 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
     public var myUserInfo: RVP_Cocoa_SDK_User? {
         return self._userInfo
     }
-    
-    /* ################################################################## */
-    // MARK: - Public Stored Properties
-    /* ################################################################## */
-    /**
-     This is a special "settable" property with the center of a radius search.
-     If the object already has a "distance" property returned from the server,
-     this is ignored. Otherwise, if it is provided, and the object has a long/lat,
-     the "distance" read-only property will return a Vincenty's Formulae distance
-     in Kilometers from this center.
-     */
-    public var searchLocation: CLLocationCoordinate2D?
+}
 
-    /* ################################################################## */
-    // MARK: - Public Instance Methods
-    /* ################################################################## */
-    /**
-     This is the required default initializer.
-     
-     - parameter serverURI: (REQUIRED) A String, with the URI to a valid BAOBAB Server
-     - parameter serverSecret: (REQUIRED) A String, with the Server secret for the target server.
-     - parameter delegate: (REQUIRED) A RVP_IOS_SDK_Delegate that will receive updates from the SDK instance.
-     - parameter loginID: (OPTIONAL/REQUIRED) A String, with a login ID. If provided, then you must also provide inPassword and inLoginTimeout.
-     - parameter password: (OPTIONAL/REQUIRED) A String, with a login password. If provided, then you must also provide inLoginId and inLoginTimeout.
-     - parameter timeout: (OPTIONAL/REQUIRED) An Integer value, with the number of seconds the login has to be active. If provided, then you must also provide inLoginId and inPassword.
-     - parameter session: (OPTIONAL) This allows the caller to have their own URLSession established (often, there is only one per app), so we can hitch a ride with that session. Otherwise, we create our own. The session must be ephemeral.
-     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
-     */
-    public init(serverURI inServerURI: String, serverSecret inServerSecret: String, delegate inDelegate: RVP_Cocoa_SDK_Delegate, loginID inLoginID: String! = nil, password inPassword: String! = nil, timeout inLoginTimeout: Int! = nil, session inURLSession: URLSession? = nil, refCon inRefCon: Any?) {
-        super.init()
-        
-        self._delegate = inDelegate
-        
-        // Store the items we hang onto.
-        self._server_uri = inServerURI
-        self._server_secret = inServerSecret
-        
-        // Set up our URL session.
-        if nil != inURLSession {
-            self._newSession = false
-            self._connectionSession = inURLSession
-        } else {
-            self._newSession = true
-            self._connectionSession = URLSession(configuration: .ephemeral, delegate: self, delegateQueue: nil)
-        }
-        self.connect(loginID: inLoginID, password: inPassword, timeout: inLoginTimeout, refCon: inRefCon)
-    }
-    
+/* ###################################################################################################################################### */
+// MARK: - Public Instance Methods -
+/* ###################################################################################################################################### */
+extension RVP_Cocoa_SDK {
     /* ################################################################## */
     /**
      This is called with a list of one or more objects to be deleted from the server.
@@ -3492,9 +3572,12 @@ public class RVP_Cocoa_SDK: NSObject, Sequence, URLSessionDelegate {
         self.searchLocation = inLocation?.coords
         self._fetchObjectsByString(Self._sortOutStrings(inTagValues, forPlugin: inPlugin), andLocation: inLocation, withPlugin: inPlugin, maxRadiusInKm: inLocation?.radiusInKm ?? 0, refCon: inRefCon)
     }
-    
-    /* ################################################################## */
-    // MARK: - Public Sequence Protocol Methods
+}
+
+/* ###################################################################################################################################### */
+// MARK: - Public Sequence Protocol Conformance -
+/* ###################################################################################################################################### */
+extension RVP_Cocoa_SDK: Sequence {
     /* ################################################################## */
     /**
      - returns: a new iterator for the instance.
