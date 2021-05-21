@@ -1,3 +1,7 @@
+**1.1.5.2000** *May 21, 2021*
+
+- Added methods for assigning and removing personal tokens.
+
 **1.1.4.2000** *May 17, 2021*
 
 - Fixed an issue, where people objects were not being properly returned, in a baseline search.

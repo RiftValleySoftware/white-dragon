@@ -3572,6 +3572,46 @@ extension RVP_Cocoa_SDK {
         self.searchLocation = inLocation?.coords
         self._fetchObjectsByString(Self._sortOutStrings(inTagValues, forPlugin: inPlugin), andLocation: inLocation, withPlugin: inPlugin, maxRadiusInKm: inLocation?.radiusInKm ?? 0, refCon: inRefCon)
     }
+    
+    /* ################################################################## */
+    /**
+     Assigns a personal token to another user.
+     
+      - parameter thisPersonalToken: The ID of the personal token (of the current logged-in user) to assign.
+      - parameter toThisUserLoginID: The login ID of the user to which we want to assign the token.
+      - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
+     */
+    public func assign(thisPersonalToken inPersonalToken: Int, toThisUserLoginID inUserLoginID: Int, refCon inRefCon: Any?) {
+        var loginParams = self._loginParameters
+        
+        if !loginParams.isEmpty {
+            loginParams = "&" + loginParams
+        }
+        
+        let uri = self._server_uri + "/json/people/personal_tokens/\(inPersonalToken)/?assign_tokens_to_user=\(inUserLoginID)" + loginParams
+        
+        self._sendPUTData(uri, payloadData: "", objectInstance: nil, refCon: inRefCon)
+    }
+    
+    /* ################################################################## */
+    /**
+     Removes a personal token from another user.
+     
+     - parameter thisPersonalToken: The ID of the personal token (of the current logged-in user) to remove.
+     - parameter toThisUserLoginID: The ID of the user from which we want to remove the token.
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
+     */
+    public func remove(thisPersonalToken inPersonalToken: Int, fromThisUserLoginID inUserLoginID: Int, refCon inRefCon: Any?) {
+        var loginParams = self._loginParameters
+        
+        if !loginParams.isEmpty {
+            loginParams = "&" + loginParams
+        }
+        
+        let uri = self._server_uri + "/json/people/personal_tokens/\(inPersonalToken)/?remove_tokens_from_user=\(inUserLoginID)" + loginParams
+        
+        self._sendPUTData(uri, payloadData: "", objectInstance: nil, refCon: inRefCon)
+    }
 }
 
 /* ###################################################################################################################################### */
