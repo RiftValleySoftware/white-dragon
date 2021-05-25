@@ -1,6 +1,7 @@
-**1.1.5.2000** *May 21, 2021*
+**1.1.5.2000** *May 25, 2021*
 
 - Added methods for assigning and removing personal tokens.
+- Fixed an issue with not getting un-fuzzed long/lat.
 
 **1.1.4.2000** *May 17, 2021*
 

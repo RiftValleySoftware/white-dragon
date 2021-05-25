@@ -97,7 +97,7 @@ public class A_RVP_Cocoa_SDK_Data_Object: A_RVP_Cocoa_SDK_Object {
         }
 
         if let canSeeThroughTheFuzz = self.canSeeThroughTheFuzz {
-            ret["canSeeThroughTheFuzz"] = canSeeThroughTheFuzz
+            ret["can_see_through_the_fuzz"] = canSeeThroughTheFuzz
         }
 
         if let payload = self.payload {
@@ -271,7 +271,7 @@ public class A_RVP_Cocoa_SDK_Data_Object: A_RVP_Cocoa_SDK_Object {
         
         // We cannot set any tokens that we don't have, ourselves.
         set {
-            if self.isWriteable, let newVal = newValue, (self._sdkInstance?.securityTokens.contains(newVal))! {
+            if self.isWriteable, let newVal = newValue, (self._sdkInstance?.securityTokens.contains(newVal) ?? false) || (self._sdkInstance?.personalTokens.contains(newVal) ?? false) {
                 self._myData["can_see_through_the_fuzz"] = newVal
             } else {
                 self._myData.removeValue(forKey: "can_see_through_the_fuzz")
@@ -287,7 +287,12 @@ public class A_RVP_Cocoa_SDK_Data_Object: A_RVP_Cocoa_SDK_Object {
         get {
             var ret: CLLocationCoordinate2D?
             
-            if let long = self._myData["raw_longitude"] as? Double ?? self._myData["longitude"] as? Double, let lat = self._myData["raw_latitude"] as? Double ?? self._myData["latitude"] as? Double {
+            if let splitCoords = (self._myData["coords"] as? String)?.split(separator: ","),
+               2 == splitCoords.count,
+               let lat = Double(splitCoords[0]),
+               let long = Double(splitCoords[1]) {
+                ret = CLLocationCoordinate2D(latitude: lat, longitude: long)
+            } else if let long = self._myData["raw_longitude"] as? Double ?? self._myData["longitude"] as? Double, let lat = self._myData["raw_latitude"] as? Double ?? self._myData["latitude"] as? Double {
                 ret = CLLocationCoordinate2D(latitude: lat, longitude: long)
             }
             
@@ -296,6 +301,7 @@ public class A_RVP_Cocoa_SDK_Data_Object: A_RVP_Cocoa_SDK_Object {
         
         set {
             if self.isWriteable, let newVal = newValue {
+                self._myData["coords"] = String(newVal.longitude) + "," + String(newVal.latitude)
                 self._myData["longitude"] = newVal.longitude
                 self._myData["latitude"] = newVal.latitude
             } else {
