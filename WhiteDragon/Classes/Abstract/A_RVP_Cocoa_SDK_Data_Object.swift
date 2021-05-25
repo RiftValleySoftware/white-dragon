@@ -287,7 +287,7 @@ public class A_RVP_Cocoa_SDK_Data_Object: A_RVP_Cocoa_SDK_Object {
         get {
             var ret: CLLocationCoordinate2D?
             
-            if let long = self._myData["longitude"] as? Double, let lat = self._myData["latitude"] as? Double {
+            if let long = self._myData["raw_longitude"] as? Double ?? self._myData["longitude"] as? Double, let lat = self._myData["raw_latitude"] as? Double ?? self._myData["latitude"] as? Double {
                 ret = CLLocationCoordinate2D(latitude: lat, longitude: long)
             }
             
