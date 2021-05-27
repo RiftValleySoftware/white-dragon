@@ -319,6 +319,9 @@ public class RVP_Cocoa_SDK: NSObject {
     /** This is set to true, if we created our own session (as opposed to using one passed in). */
     private var _newSession: Bool = false
     
+    /** In some cases, servers may not accept Basic auth headers, so we can force the auth in the query.  */
+    private var _forceParameterAuth: Bool = false
+
     /** This is the step size for auto-radius searches, in kilometers. Default is 0.5 Km, but it can be changed by changing the autoRadiusStepSizeInKm public calculated property. */
     private var _autoRadiusStepSizeInKm: Double = 0.5
     
@@ -649,9 +652,23 @@ extension RVP_Cocoa_SDK {
      This should be appended to the URI, but be aware that it is not preceded by an ampersand (&) or question mark (?). You need to provide those, yourself. READ ONLY
      */
     private var _loginParameters: String {
-        if let secret = self._server_secret.urlEncodedString {
-            if let apiKey = self._apiKey?.urlEncodedString {
-                return "login_server_secret=" + secret + "&login_api_key=" + apiKey
+        if self.forceParameterAuth, let secret = self._server_secret.urlEncodedString, let apiKey = self._apiKey?.urlEncodedString {
+            return "login_server_secret=" + secret + "&login_api_key=" + apiKey
+        }
+        
+        return ""
+    }
+    
+    /* ################################################################## */
+    /**
+     Returns a String, with the server secret and API Key already in Basic Auth header format (put together, and Base64-encoded).
+     */
+    private var _loginAuth: String {
+        if let apiKey = self._apiKey {
+            let simpleString = String(format: "%@:%@", self._server_secret, apiKey)
+
+            if let base64EncodedString = simpleString.data(using: .utf8)?.base64EncodedString() {
+                return "Basic " + base64EncodedString
             }
         }
         
@@ -1014,11 +1031,14 @@ extension RVP_Cocoa_SDK {
             // The my info request is a simple GET task, so we can just use a straight-up task for this.
             let url = self._server_uri + "/json/people/logins/my_info?" + self._loginParameters
             if let url_object = URL(string: url) {
+                var urlRequest = URLRequest(url: url_object)
+                urlRequest.httpMethod = "GET"
+                urlRequest.setValue(self._loginAuth, forHTTPHeaderField: "Authorization")
                 // We handle the response in the closure.
                 Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
                     self._openOperations += 1
                 }
-                let loginInfoTask = self._connectionSession.dataTask(with: url_object) { [unowned self] data, response, error in
+                let loginInfoTask = self._connectionSession.dataTask(with: urlRequest) { [unowned self] data, response, error in
                     if let error = error {
                         self._handleError(error, refCon: inRefCon)
                         return
@@ -1068,10 +1088,13 @@ extension RVP_Cocoa_SDK {
             let url = self._server_uri + "/json/people/people/my_info?" + self._loginParameters
             // The my info request is a simple GET task, so we can just use a straight-up task for this.
             if let url_object = URL(string: url) {
+                var urlRequest = URLRequest(url: url_object)
+                urlRequest.httpMethod = "GET"
+                urlRequest.setValue(self._loginAuth, forHTTPHeaderField: "Authorization")
                 Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
                     self._openOperations += 1
                 }
-                let userInfoTask = self._connectionSession.dataTask(with: url_object) { [unowned self] data, response, error in
+                let userInfoTask = self._connectionSession.dataTask(with: urlRequest) { [unowned self] data, response, error in
                     if let error = error {
                         self._handleError(error, refCon: inRefCon)
                         return
@@ -1156,6 +1179,16 @@ extension RVP_Cocoa_SDK {
         if !fetchIDs.isEmpty {  // If we didn't find everything we were looking for in the junk drawer, we will be asking the server for the remainder.
             fetchIDs = fetchIDs.sorted()    // Just because we're anal...
             
+//            let authString = String(format: "%@:%@", username, password);
+//            NSData *authenticationData = [authenticationString dataUsingEncoding:NSASCIIStringEncoding];
+//            NSString *authenticationValue = [authenticationData base64Encoding];
+//
+//            //Set up your request
+//            NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://www.your-api.com/“]];
+//
+//            // Set your user login credentials
+//            [request setValue:[NSString stringWithFormat:@"Basic %@", authenticationValue] forHTTPHeaderField:@"Authorization"];
+            
             // This uses our extension to break the array up. This is to reduce the size of the GET URI.
             for idArray in fetchIDs.chunk(10) {
                 var loginParams = self._loginParameters
@@ -1168,10 +1201,13 @@ extension RVP_Cocoa_SDK {
                 
                 // We will use the handlers returned to fetch the actual object data.
                 if let url_object = URL(string: url) {
+                    var urlRequest = URLRequest(url: url_object)
+                    urlRequest.httpMethod = "GET"
+                    urlRequest.setValue(self._loginAuth, forHTTPHeaderField: "Authorization")
                     Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
                         self._openOperations += 1
                     }
-                    let fetchTask = self._connectionSession.dataTask(with: url_object) { [weak self] data, response, error in
+                    let fetchTask = self._connectionSession.dataTask(with: urlRequest) { [weak self] data, response, error in
                         if let error = error {
                             self?._handleError(error, refCon: inRefCon)
                             return
@@ -1292,11 +1328,14 @@ extension RVP_Cocoa_SDK {
                 
                 // We will use the handlers returned to fetch the actual object data.
                 if let url_object = URL(string: url) {
+                    var urlRequest = URLRequest(url: url_object)
+                    urlRequest.httpMethod = "GET"
+                    urlRequest.setValue(self._loginAuth, forHTTPHeaderField: "Authorization")
                     Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
                         self._openOperations += 1
                     }
                     
-                    let fetchTask = self._connectionSession.dataTask(with: url_object) { [weak self] data, response, error in
+                    let fetchTask = self._connectionSession.dataTask(with: urlRequest) { [weak self] data, response, error in
                         if let error = error {
                             self?._handleError(error, refCon: inRefCon)
                             return
@@ -1346,11 +1385,14 @@ extension RVP_Cocoa_SDK {
             let url = "\(self._server_uri)/json/people/people?get_all_visible_users&\(loginParams)"   // We will be asking for all the users.
             // The request is a simple GET task, so we can just use a straight-up task for this.
             if let url_object = URL(string: url) {
+                var urlRequest = URLRequest(url: url_object)
+                urlRequest.httpMethod = "GET"
+                urlRequest.setValue(self._loginAuth, forHTTPHeaderField: "Authorization")
                 Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
                     self._openOperations += 1
                 }
                     
-                let fetchTask = self._connectionSession.dataTask(with: url_object) { [unowned self] data, response, error in
+                let fetchTask = self._connectionSession.dataTask(with: urlRequest) { [unowned self] data, response, error in
                     if let error = error {
                         self._handleError(error, refCon: inRefCon)
                         return
@@ -1419,10 +1461,13 @@ extension RVP_Cocoa_SDK {
         let url = self._server_uri + "/json/people/logins/" + inIDString + "?show_details" + loginParams   // We will be asking for the "full Monty".
         // The request is a simple GET task, so we can just use a straight-up task for this.
         if let url_object = URL(string: url) {
+            var urlRequest = URLRequest(url: url_object)
+            urlRequest.httpMethod = "GET"
+            urlRequest.setValue(self._loginAuth, forHTTPHeaderField: "Authorization")
             Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
                 self._openOperations += 1
             }
-            let fetchTask = self._connectionSession.dataTask(with: url_object) { [unowned self] data, response, error in
+            let fetchTask = self._connectionSession.dataTask(with: urlRequest) { [unowned self] data, response, error in
                 if let error = error {
                     self._handleError(error, refCon: inRefCon)
                     return
@@ -1470,10 +1515,13 @@ extension RVP_Cocoa_SDK {
         let url = self._server_uri + "/json/people/people/?show_details&writeable&login_user" + loginParams   // We will be asking for the "full Monty".
         // The request is a simple GET task, so we can just use a straight-up task for this.
         if let url_object = URL(string: url) {
+            var urlRequest = URLRequest(url: url_object)
+            urlRequest.httpMethod = "GET"
+            urlRequest.setValue(self._loginAuth, forHTTPHeaderField: "Authorization")
             Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
                 self._openOperations += 1
             }
-            let fetchTask = self._connectionSession.dataTask(with: url_object) { [unowned self] data, response, error in
+            let fetchTask = self._connectionSession.dataTask(with: urlRequest) { [unowned self] data, response, error in
                 if let error = error {
                     self._handleError(error, refCon: inRefCon)
                     return
@@ -1521,10 +1569,13 @@ extension RVP_Cocoa_SDK {
         let url = self._server_uri + "/json/baseline/tokens?types" + loginParams   // We will be asking for the "full Monty".
         // The request is a simple GET task, so we can just use a straight-up task for this.
         if let url_object = URL(string: url) {
+            var urlRequest = URLRequest(url: url_object)
+            urlRequest.httpMethod = "GET"
+            urlRequest.setValue(self._loginAuth, forHTTPHeaderField: "Authorization")
             Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
                 self._openOperations += 1
             }
-            let fetchTask = self._connectionSession.dataTask(with: url_object) { [unowned self] data, response, error in
+            let fetchTask = self._connectionSession.dataTask(with: urlRequest) { [unowned self] data, response, error in
                 if let error = error {
                     self._handleError(error, refCon: inRefCon)
                     return
@@ -1709,7 +1760,10 @@ extension RVP_Cocoa_SDK {
             self._openOperations += 1
         }
         if let url_object = URL(string: url) {
-            let fetchTask = self._connectionSession.dataTask(with: url_object) { [unowned self] data, response, error in
+            var urlRequest = URLRequest(url: url_object)
+            urlRequest.httpMethod = "GET"
+            urlRequest.setValue(self._loginAuth, forHTTPHeaderField: "Authorization")
+            let fetchTask = self._connectionSession.dataTask(with: urlRequest) { [unowned self] data, response, error in
                 if let error = error {
                     self._handleError(error, refCon: inRefCon)
                     return
@@ -1773,7 +1827,10 @@ extension RVP_Cocoa_SDK {
             self._openOperations += 1
         }
         if let url_object = URL(string: url) {
-            let fetchTask = self._connectionSession.dataTask(with: url_object) { [unowned self] data, response, error in
+            var urlRequest = URLRequest(url: url_object)
+            urlRequest.httpMethod = "GET"
+            urlRequest.setValue(self._loginAuth, forHTTPHeaderField: "Authorization")
+            let fetchTask = self._connectionSession.dataTask(with: urlRequest) { [unowned self] data, response, error in
                 if let error = error {
                     self._handleError(error, refCon: inRefCon)
                     return
@@ -1833,7 +1890,10 @@ extension RVP_Cocoa_SDK {
             self._openOperations += 1
         }
         if let url_object = URL(string: url) {
-            let fetchTask = self._connectionSession.dataTask(with: url_object) { [unowned self] data, response, error in
+            var urlRequest = URLRequest(url: url_object)
+            urlRequest.httpMethod = "GET"
+            urlRequest.setValue(self._loginAuth, forHTTPHeaderField: "Authorization")
+            let fetchTask = self._connectionSession.dataTask(with: urlRequest) { [unowned self] data, response, error in
                 if let error = error {
                     self._handleError(error, refCon: inRefCon)
                     return
@@ -1919,7 +1979,10 @@ extension RVP_Cocoa_SDK {
                     self._openOperations += 1
                 }
                 if let url_object = URL(string: url) {
-                    let fetchTask = self._connectionSession.dataTask(with: url_object) { [unowned self] data, response, error in
+                    var urlRequest = URLRequest(url: url_object)
+                    urlRequest.httpMethod = "GET"
+                    urlRequest.setValue(self._loginAuth, forHTTPHeaderField: "Authorization")
+                    let fetchTask = self._connectionSession.dataTask(with: urlRequest) { [unowned self] data, response, error in
                         if let error = error {
                             self._handleError(error, refCon: inRefCon)
                             return
@@ -1970,10 +2033,13 @@ extension RVP_Cocoa_SDK {
         let url = self._server_uri + "/json/baseline" + (inGetVersion ? "/version" : "")
         // The plugin list is a simple GET task, so we can just use a straight-up task for this.
         if let url_object = URL(string: url) {
+            var urlRequest = URLRequest(url: url_object)
+            urlRequest.httpMethod = "GET"
+            urlRequest.setValue(self._loginAuth, forHTTPHeaderField: "Authorization")
             Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
                 self._openOperations += 1
             }
-            let baselineTask = self._connectionSession.dataTask(with: url_object) { data, response, error in
+            let baselineTask = self._connectionSession.dataTask(with: urlRequest) { data, response, error in
                 if let error = error {
                     self._handleError(error, refCon: inRefCon)
                     return
@@ -2133,7 +2199,10 @@ extension RVP_Cocoa_SDK {
             Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
                 self._openOperations += 1
             }
-            let fetchTask = self._connectionSession.dataTask(with: url_object) { [unowned self] data, response, error in
+            var urlRequest = URLRequest(url: url_object)
+            urlRequest.httpMethod = "GET"
+            urlRequest.setValue(self._loginAuth, forHTTPHeaderField: "Authorization")
+            let fetchTask = self._connectionSession.dataTask(with: urlRequest) { [unowned self] data, response, error in
                 if let error = error {
                     self._handleError(error, refCon: inRefCon)
                     return
@@ -2208,8 +2277,9 @@ extension RVP_Cocoa_SDK {
      */
     private func _sendPUTData(_ inURI: String, payloadData inPayloadString: String, objectInstance inObjectInstance: A_RVP_Cocoa_SDK_Object?, refCon inRefCon: Any?) {
         if let url_object = URL(string: inURI) {
-            let urlRequest = NSMutableURLRequest(url: url_object)
-            urlRequest.httpMethod = "PUT"
+            var urlRequest = URLRequest(url: url_object)
+            urlRequest.httpMethod = "POST"
+            urlRequest.setValue(self._loginAuth, forHTTPHeaderField: "Authorization")
             let payloadData = inPayloadString.data(using: .utf8) ?? Data()  // Since we have already got Base64 data, we don't need to re-encode it. You need an empty Data object if no payload.
             
             Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
@@ -2252,6 +2322,7 @@ extension RVP_Cocoa_SDK {
         if let url_object = URL(string: inURI) {
             var urlRequest = URLRequest(url: url_object)
             urlRequest.httpMethod = "POST"
+            urlRequest.setValue(self._loginAuth, forHTTPHeaderField: "Authorization")
             if !inPayloadString.isEmpty {
                 let boundary = "Boundary-\(NSUUID().uuidString)"
                 urlRequest.setValue("Content-Type: multipart/form-data", forHTTPHeaderField: "Expect")
@@ -3088,6 +3159,15 @@ extension RVP_Cocoa_SDK {
     public var myUserInfo: RVP_Cocoa_SDK_User? {
         return self._userInfo
     }
+    
+    /* ################################################################## */
+    /**
+     In some cases, servers may not accept Basic auth headers, so we can force the auth in the query.
+     */
+    public var forceParameterAuth: Bool {
+        get { self._forceParameterAuth }
+        set { self._forceParameterAuth = newValue }
+    }
 }
 
 /* ###################################################################################################################################### */
@@ -3264,10 +3344,13 @@ extension RVP_Cocoa_SDK {
             // The logout is a simple GET task, so we can just use a straight-up task for this.
             let url = self._server_uri + "/logout?" + self._loginParameters
             if let url_object = URL(string: url) {
+                var urlRequest = URLRequest(url: url_object)
+                urlRequest.httpMethod = "GET"
+                urlRequest.setValue(self._loginAuth, forHTTPHeaderField: "Authorization")
                 Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
                     self._openOperations += 1
                 }
-                let logoutTask = self._connectionSession.dataTask(with: url_object) { [weak self] _, response, error in
+                let logoutTask = self._connectionSession.dataTask(with: urlRequest) { [weak self] _, response, error in
                     if let error = error {
                         self?._handleError(error, refCon: inRefCon)
                         return
