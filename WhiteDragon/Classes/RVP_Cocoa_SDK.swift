@@ -693,7 +693,9 @@ extension RVP_Cocoa_SDK {
      - returns: A new URLRequest, set up for the URI. Nil, if there was a problem.
      */
     private func _createURLRequest(url inURL: String, method inMethod: String = "GET") -> URLRequest? {
-        if let url_object = URL(string: inURL) {
+        let loginParams = self._forceParameterAuth ? (inURL.contains("?") ? "&" : "?") + self._loginParameters : ""
+        
+        if let url_object = URL(string: inURL + loginParams) {
             var urlRequest = URLRequest(url: url_object)
             urlRequest.httpMethod = inMethod
             urlRequest.setValue(self._loginAuth, forHTTPHeaderField: "Authorization")
@@ -996,7 +998,7 @@ extension RVP_Cocoa_SDK {
     private func _createSecurityToken(refCon inRefCon: Any?) {
         if self.isLoggedIn {
             // The my info request is a simple GET task, so we can just use a straight-up task for this.
-            let url = self._server_uri + "/json/baseline/tokens?" + self._loginParameters
+            let url = self._server_uri + "/json/baseline/tokens"
             if let urlRequest = self._createURLRequest(url: url, method: "POST") {
                 Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
                     self._openOperations += 1
@@ -1051,7 +1053,7 @@ extension RVP_Cocoa_SDK {
     private func _fetchMyLoginInfo(refCon inRefCon: Any?) {
         if self.isLoggedIn {
             // The my info request is a simple GET task, so we can just use a straight-up task for this.
-            let url = self._server_uri + "/json/people/logins/my_info?" + self._loginParameters
+            let url = self._server_uri + "/json/people/logins/my_info"
             if let urlRequest = self._createURLRequest(url: url) {
                 // We handle the response in the closure.
                 Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
@@ -1104,7 +1106,7 @@ extension RVP_Cocoa_SDK {
      */
     private func _fetchMyUserInfo(refCon inRefCon: Any?) {
         if self.isLoggedIn {
-            let url = self._server_uri + "/json/people/people/my_info?" + self._loginParameters
+            let url = self._server_uri + "/json/people/people/my_info"
             // The my info request is a simple GET task, so we can just use a straight-up task for this.
             if let urlRequest = self._createURLRequest(url: url) {
                 Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
@@ -1197,13 +1199,7 @@ extension RVP_Cocoa_SDK {
             
             // This uses our extension to break the array up. This is to reduce the size of the GET URI.
             for idArray in fetchIDs.chunk(10) {
-                var loginParams = self._loginParameters
-                
-                if !loginParams.isEmpty {
-                    loginParams = "?" + loginParams
-                }
-                
-                let url = self._server_uri + "/json/baseline/handlers/" + (idArray.map(String.init)).joined(separator: ",") + loginParams   // We are asking the plugin to return the handlers for the IDs we are sending in.
+                let url = self._server_uri + "/json/baseline/handlers/" + (idArray.map(String.init)).joined(separator: ",")   // We are asking the plugin to return the handlers for the IDs we are sending in.
                 
                 // We will use the handlers returned to fetch the actual object data.
                 if let urlRequest = self._createURLRequest(url: url) {
@@ -1313,14 +1309,10 @@ extension RVP_Cocoa_SDK {
             
             // This uses our extension to break the array up. This is to reduce the size of the GET URI.
             for idArray in fetchIDs.chunk(10) {
-                var loginParams = self._loginParameters
-                
-                if !loginParams.isEmpty {
-                    loginParams = "?" + loginParams
-                }
+                var loginParams: String = ""
                 
                 if "people/people" == inPlugin {
-                    loginParams += (!loginParams.isEmpty ? "&" : "?") + "show_details"
+                    loginParams = "?show_details"
                     if isManager,
                        inWithLogins {
                         loginParams += "&login_user"
@@ -1379,13 +1371,7 @@ extension RVP_Cocoa_SDK {
      - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
     private func _fetchVisibleUserIDAndNames(refCon inRefCon: Any?) {
-        var loginParams = self._loginParameters
-    
-        if !loginParams.isEmpty {
-            loginParams = "&" + loginParams
-        }
-        
-        let url = "\(self._server_uri)/json/people/people?get_all_visible_users\(loginParams)"   // We will be asking for all the users.
+        let url = "\(self._server_uri)/json/people/people?get_all_visible_users"   // We will be asking for all the users.
         // The request is a simple GET task, so we can just use a straight-up task for this.
         if let urlRequest = self._createURLRequest(url: url) {
             Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
@@ -1451,13 +1437,7 @@ extension RVP_Cocoa_SDK {
      - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
     private func _fetchLoginItemsFromServer(_ inIDString: String, refCon inRefCon: Any?) {
-        var loginParams = self._loginParameters
-        
-        if !loginParams.isEmpty {
-            loginParams = "&" + loginParams
-        }
-        
-        let url = self._server_uri + "/json/people/logins/" + inIDString + "?show_details" + loginParams   // We will be asking for the "full Monty".
+        let url = self._server_uri + "/json/people/logins/" + inIDString + "?show_details"   // We will be asking for the "full Monty".
         // The request is a simple GET task, so we can just use a straight-up task for this.
         if let urlRequest = self._createURLRequest(url: url) {
             Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
@@ -1502,13 +1482,9 @@ extension RVP_Cocoa_SDK {
      - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
     private func _fetchAllEditableUsersFromServer(refCon inRefCon: Any?) {
-        var loginParams = self._loginParameters
         self._dataItems = []
-        if !loginParams.isEmpty {
-            loginParams = "&" + loginParams
-        }
         
-        let url = self._server_uri + "/json/people/people/?show_details&writeable&login_user" + loginParams   // We will be asking for the "full Monty".
+        let url = self._server_uri + "/json/people/people/?show_details&writeable&login_user"   // We will be asking for the "full Monty".
         // The request is a simple GET task, so we can just use a straight-up task for this.
         if let urlRequest = self._createURLRequest(url: url) {
             Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
@@ -1553,13 +1529,9 @@ extension RVP_Cocoa_SDK {
      - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
     private func _fetchAllTokensFromServer(refCon inRefCon: Any?) {
-        var loginParams = self._loginParameters
         self._dataItems = []
-        if !loginParams.isEmpty {
-            loginParams = "&" + loginParams
-        }
         
-        let url = self._server_uri + "/json/baseline/tokens?types" + loginParams   // We will be asking for the "full Monty".
+        let url = self._server_uri + "/json/baseline/tokens?types"   // We will be asking for the "full Monty".
         // The request is a simple GET task, so we can just use a straight-up task for this.
         if let urlRequest = self._createURLRequest(url: url) {
             Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
@@ -1737,14 +1709,8 @@ extension RVP_Cocoa_SDK {
      - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
     private func _countWhoHasAccessToTheseSecurityTokens(_ inTokens: [Int], refCon inRefCon: Any?) {
-        var loginParams = self._loginParameters
-        
-        if !loginParams.isEmpty {
-            loginParams = "&" + loginParams
-        }
-        
         let tokenString = inTokens.compactMap { String($0) }.joined(separator: ",")
-        let url = self._server_uri + "/json/baseline/tokens/\(tokenString)?count_access_to" + loginParams   // We ask who has access to the given tokens.
+        let url = self._server_uri + "/json/baseline/tokens/\(tokenString)?count_access_to"   // We ask who has access to the given tokens.
         // The request is a simple GET task, so we can just use a straight-up task for this.
         Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
             self._openOperations += 1
@@ -1802,13 +1768,7 @@ extension RVP_Cocoa_SDK {
      - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
     private func _fetchIDsOfLoginsThatHaveThisToken(_ inToken: Int, refCon inRefCon: Any?) {
-        var loginParams = self._loginParameters
-        
-        if !loginParams.isEmpty {
-            loginParams = "?" + loginParams
-        }
-        
-        let url = self._server_uri + "/json/baseline/visibility/token/\(inToken)" + loginParams   // We ask who has access to the given tokens.
+        let url = self._server_uri + "/json/baseline/visibility/token/\(inToken)"   // We ask who has access to the given tokens.
         // The request is a simple GET task, so we can just use a straight-up task for this.
         Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
             self._openOperations += 1
@@ -1863,13 +1823,7 @@ extension RVP_Cocoa_SDK {
      - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
     private func _fetchIDsOfUsersThatHaveThisToken(_ inToken: Int, refCon inRefCon: Any?) {
-        var loginParams = self._loginParameters
-        
-        if !loginParams.isEmpty {
-            loginParams = "&" + loginParams
-        }
-        
-        let url = self._server_uri + "/json/baseline/visibility/token/\(inToken)?users" + loginParams   // We ask who has access to the given tokens.
+        let url = self._server_uri + "/json/baseline/visibility/token/\(inToken)?users"   // We ask who has access to the given tokens.
         // The request is a simple GET task, so we can just use a straight-up task for this.
         Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
             self._openOperations += 1
@@ -1951,12 +1905,7 @@ extension RVP_Cocoa_SDK {
         if !fetchKeys.isEmpty {  // If we didn't find everything we were looking for in the junk drawer, we will be asking the server for the remainder.
             // This uses our extension to break the array up. This is to reduce the size of the GET URI.
             for keyArray in fetchKeys.chunk(10) {
-                var loginParams = self._loginParameters
-                
-                if !loginParams.isEmpty {
-                    loginParams = "&" + loginParams
-                }
-                let url = self._server_uri + "/json/things/" + keyArray.map({$0.urlEncodedString ?? ""}).joined(separator: ",") + "?show_details" + loginParams   // We will be asking for the "full Monty".
+                let url = self._server_uri + "/json/things/" + keyArray.map({$0.urlEncodedString ?? ""}).joined(separator: ",") + "?show_details"   // We will be asking for the "full Monty".
                 // The request is a simple GET task, so we can just use a straight-up task for this.
                 Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
                     self._openOperations += 1
@@ -2135,15 +2084,8 @@ extension RVP_Cocoa_SDK {
             tagValues["radius"] = String(location.radiusInKm)
         }
         
-        // This handles any login parameters.
-        var loginParams = self._loginParameters
-        
-        if !loginParams.isEmpty {
-            loginParams += "&"
-        }
-        
         // We join the various text items.
-        let url = self._server_uri + "/json/" + plugin + loginParams + (tagValues.compactMap({ (key, value) -> String in
+        let url = self._server_uri + "/json/" + plugin + (tagValues.compactMap({ (key, value) -> String in
             if let value = value.urlEncodedString {
                 return "search_\(key)=\(value)"
             }
@@ -2470,7 +2412,7 @@ extension RVP_Cocoa_SDK {
                 print("Converting \"\(inLogin?.loginID ?? "ERROR")\" to a \(inToManager ? "manager" : "user").")
             #endif
             var uri = self._server_uri + "/json"
-            uri += (inLogin?._pluginPath ?? "") + "?convert_to_" + (inToManager ? "manager" : "login") + "&" + self._loginParameters
+            uri += (inLogin?._pluginPath ?? "") + "?convert_to_" + (inToManager ? "manager" : "login")
             self._sendPUTData(uri, payloadData: "", objectInstance: inLogin, refCon: inRefCon)
         }
     }
@@ -2510,14 +2452,7 @@ extension RVP_Cocoa_SDK {
         }
         
         if !uri.isEmpty || !payloadString.isEmpty {
-            // This handles any login parameters.
-            var loginParams = self._loginParameters
-            
-            if !loginParams.isEmpty {
-                loginParams = "&" + loginParams
-            }
-
-            uri = self._server_uri + "/json" + (inObjectToPut?._pluginPath ?? "") + "?" + uri + loginParams
+            uri = self._server_uri + "/json" + (inObjectToPut?._pluginPath ?? "") + "?" + uri
             
             if inObjectToPut?.isNew ?? false {
                 // If we are creating a new user with a login, we may want to ask for new personal tokens to be added.
@@ -2547,14 +2482,7 @@ extension RVP_Cocoa_SDK {
         }
         
         if !uri.isEmpty {
-            // This handles any login parameters.
-            var loginParams = self._loginParameters
-            
-            if !loginParams.isEmpty {
-                loginParams = "&" + loginParams
-            }
-
-            uri = self._server_uri + "/json" + inPOSTObject._pluginPath + "?" + uri + loginParams
+            uri = self._server_uri + "/json" + inPOSTObject._pluginPath + "?" + uri
             
             self._sendPOSTData(uri, objectInstance: inPOSTObject, refCon: inRefCon)
         }
@@ -3192,14 +3120,7 @@ extension RVP_Cocoa_SDK {
         // Now, we have a list of delete URIs to send to the server. Let's get to work...
         
         for var uri in uriList {
-            // This handles any login parameters.
-            var loginParams = self._loginParameters
-            
-            if !loginParams.isEmpty {
-                loginParams = "?" + loginParams
-            }
-
-            uri = self._server_uri + "/json" + uri + loginParams
+            uri = self._server_uri + "/json" + uri
             
             self._sendDelete(uri, refCon: inRefCon)
         }
@@ -3260,6 +3181,8 @@ extension RVP_Cocoa_SDK {
         if let login_id_object = inLoginID.urlEncodedString {
             if let password_object = inPassword.urlEncodedString {
                 let url = self._server_uri + "/login?login_id=" + login_id_object + "&password=" + password_object
+                let oldForce = self._forceParameterAuth
+                self._forceParameterAuth = false
                 if let urlRequest = self._createURLRequest(url: url) {
                     Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
                         self._openOperations += 1
@@ -3294,6 +3217,8 @@ extension RVP_Cocoa_SDK {
                 } else {
                     self._handleError(SDK_Connection_Errors.invalidServerURI(url), refCon: inRefCon)
                 }
+                
+                self._forceParameterAuth = oldForce
             } else {
                 self._handleError(SDK_Operation_Errors.invalidParameters, refCon: inRefCon)
             }
@@ -3312,7 +3237,7 @@ extension RVP_Cocoa_SDK {
     public func logout(refCon inRefCon: Any?) {
         if self.isLoggedIn {
             // The logout is a simple GET task, so we can just use a straight-up task for this.
-            let url = self._server_uri + "/logout?" + self._loginParameters
+            let url = self._server_uri + "/logout"
             if let urlRequest = self._createURLRequest(url: url) {
                 Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
                     self._openOperations += 1
@@ -3632,13 +3557,7 @@ extension RVP_Cocoa_SDK {
       - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
     public func assign(thisPersonalToken inPersonalToken: Int, toThisUserLoginID inUserLoginID: Int, refCon inRefCon: Any?) {
-        var loginParams = self._loginParameters
-        
-        if !loginParams.isEmpty {
-            loginParams = "&" + loginParams
-        }
-        
-        let uri = self._server_uri + "/json/people/personal_tokens/\(inPersonalToken)/?assign_tokens_to_user=\(inUserLoginID)" + loginParams
+        let uri = self._server_uri + "/json/people/personal_tokens/\(inPersonalToken)/?assign_tokens_to_user=\(inUserLoginID)"
         
         self._sendPUTData(uri, payloadData: "", objectInstance: nil, refCon: inRefCon)
     }
@@ -3652,13 +3571,7 @@ extension RVP_Cocoa_SDK {
      - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
     public func remove(thisPersonalToken inPersonalToken: Int, fromThisUserLoginID inUserLoginID: Int, refCon inRefCon: Any?) {
-        var loginParams = self._loginParameters
-        
-        if !loginParams.isEmpty {
-            loginParams = "&" + loginParams
-        }
-        
-        let uri = self._server_uri + "/json/people/personal_tokens/\(inPersonalToken)/?remove_tokens_from_user=\(inUserLoginID)" + loginParams
+        let uri = self._server_uri + "/json/people/personal_tokens/\(inPersonalToken)/?remove_tokens_from_user=\(inUserLoginID)"
         
         self._sendPUTData(uri, payloadData: "", objectInstance: nil, refCon: inRefCon)
     }

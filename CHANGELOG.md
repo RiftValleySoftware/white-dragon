@@ -1,3 +1,12 @@
+**1.1.7.2000** *May 28, 2021*
+
+- Completed consolidation of auth into one method.
+
+**1.1.6.2000** *May 27, 2021*
+
+- Began consolidation of auth into one method.
+- Added explicit support for Basic Auth headers, and made the query parameters optional.
+
 **1.1.5.2000** *May 25, 2021*
 
 - Added methods for assigning and removing personal tokens.
