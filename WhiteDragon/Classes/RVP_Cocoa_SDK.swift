@@ -3147,6 +3147,7 @@ extension RVP_Cocoa_SDK {
      - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
     public func connect(loginID inLoginId: String! = nil, password inPassword: String! = nil, timeout inLoginTimeout: Int! = nil, refCon inRefCon: Any?) {
+        self.sendAuthTypeTest(refCon: inRefCon) // We always start with a test for auth type.
         // If any one of the optionals is provided, then they must ALL be provided.
         if (nil != inLoginId || nil != inPassword || nil != inLoginTimeout),
            (nil == inLoginId || nil == inPassword || nil == inLoginTimeout) {
@@ -3198,7 +3199,8 @@ extension RVP_Cocoa_SDK {
                                 self?._handleHTTPError(response as? HTTPURLResponse ?? nil, refCon: inRefCon)
                                 return
                         }
-                        if let mimeType = httpResponse.mimeType, mimeType == "text/html",
+                        if let mimeType = httpResponse.mimeType,
+                           mimeType == "text/html",
                            let data = data,
                            let apiKey = String(data: data, encoding: .utf8) {
                             self?._apiKey = apiKey
@@ -3227,6 +3229,50 @@ extension RVP_Cocoa_SDK {
         }
     }
 
+    /* ################################################################## */
+    /**
+     This is sends a test to the server, requesting guidance on whether or not to use auth parameters (or the header).
+     
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
+     */
+    public func sendAuthTypeTest(refCon inRefCon: Any?) {
+        let url = self._server_uri + "/use_auth_params"
+        self._forceParameterAuth = false
+        if let urlRequest = self._createURLRequest(url: url) {
+            Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
+                self._openOperations += 1
+            }
+            
+            let testTask = self._connectionSession.dataTask(with: urlRequest) { [weak self] data, response, error in
+                if let error = error {
+                    self?._handleError(error, refCon: inRefCon)
+                    return
+                }
+                guard let httpResponse = response as? HTTPURLResponse,
+                    (200...299).contains(httpResponse.statusCode) else {
+                        self?._handleHTTPError(response as? HTTPURLResponse ?? nil, refCon: inRefCon)
+                        return
+                }
+                if let mimeType = httpResponse.mimeType,
+                   mimeType == "text/html",
+                   let data = data,
+                   let stringResponse = String(data: data, encoding: .utf8) {
+                    self?._forceParameterAuth = "1" == stringResponse
+                } else {
+                    self?._handleError(SDK_Data_Errors.invalidData(data), refCon: inRefCon)
+                }
+                
+                Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
+                    self?._openOperations -= 1
+                }
+            }
+            
+            testTask.resume()
+        } else {
+            self._handleError(SDK_Connection_Errors.invalidServerURI(url), refCon: inRefCon)
+        }
+    }
+    
     /* ################################################################## */
     /**
      This is the logout method.

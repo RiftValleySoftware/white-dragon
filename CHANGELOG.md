@@ -1,4 +1,6 @@
-**1.1.8.2000** *TBD*
+**1.1.8.2000** *May 30, 2018*
+
+- Added an initial test, to set the force auth params flag.
 
 **1.1.7.2000** *May 28, 2021*
 
