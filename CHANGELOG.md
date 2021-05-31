@@ -1,3 +1,7 @@
+**1.1.9.2000** *May 31, 2018*
+
+- Fixed a long/lat issue.
+
 **1.1.8.2000** *May 30, 2018*
 
 - Added an initial test, to set the force auth params flag.

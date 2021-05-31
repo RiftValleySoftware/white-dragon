@@ -301,12 +301,12 @@ public class A_RVP_Cocoa_SDK_Data_Object: A_RVP_Cocoa_SDK_Object {
         
         set {
             if self.isWriteable, let newVal = newValue {
-                self._myData["coords"] = String(newVal.longitude) + "," + String(newVal.latitude)
-                self._myData["longitude"] = newVal.longitude
+                self._myData["coords"] = String(newVal.latitude) + "," + String(newVal.longitude)
                 self._myData["latitude"] = newVal.latitude
+                self._myData["longitude"] = newVal.longitude
             } else {
-                self._myData.removeValue(forKey: "longitude")
                 self._myData.removeValue(forKey: "latitude")
+                self._myData.removeValue(forKey: "longitude")
             }
         }
     }
