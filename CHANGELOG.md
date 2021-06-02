@@ -1,3 +1,7 @@
+**1.1.10.2000** *June 2, 2018*
+
+- Fixed an issue, where a types command was sent, when not logged in.
+
 **1.1.9.2000** *May 31, 2018*
 
 - Fixed a long/lat issue.

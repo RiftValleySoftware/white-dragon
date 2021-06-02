@@ -3500,7 +3500,9 @@ extension RVP_Cocoa_SDK {
      - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
      */
     public func fetchAllTokens(refCon inRefCon: Any?) {
-        self._fetchAllTokensFromServer(refCon: inRefCon)
+        if self.isLoggedIn {
+            self._fetchAllTokensFromServer(refCon: inRefCon)
+        }
     }
     
     /* ################################################################## */
