@@ -1,3 +1,7 @@
+**1.1.11.2000** *TBD*
+
+- Added a delete() method to the basic entity base class.
+
 **1.1.10.2000** *June 2, 2018*
 
 - Fixed an issue, where a types command was sent, when not logged in.
