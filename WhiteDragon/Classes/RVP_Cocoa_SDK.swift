@@ -3080,8 +3080,9 @@ extension RVP_Cocoa_SDK {
      
      - parameter inItemArray: An Array of concrete instances of subclasses of A_RVP_IOS_SDK_Object.
      - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
+     - parameter uriExtension: OPTIONAL (empty, if not provided). This is a string that will be attached to the end of the URI. It is completely unvetted and raw.
      */
-    public func deleteObjects(_ inItemArray: [A_RVP_Cocoa_SDK_Object], refCon inRefCon: Any?) {
+    public func deleteObjects(_ inItemArray: [A_RVP_Cocoa_SDK_Object], refCon inRefCon: Any?, uriExtension inURIExtension: String = "") {
         // The first thing we do, is sort by plugin path, which we'll use for the next step.
         let sortedList = inItemArray.sorted(by: { (a, b) -> Bool in
             if a._pluginPathNoID < b._pluginPathNoID {
@@ -3120,7 +3121,7 @@ extension RVP_Cocoa_SDK {
         // Now, we have a list of delete URIs to send to the server. Let's get to work...
         
         for var uri in uriList {
-            uri = self._server_uri + "/json" + uri
+            uri = self._server_uri + "/json" + uri + inURIExtension
             
             self._sendDelete(uri, refCon: inRefCon)
         }
@@ -3131,9 +3132,10 @@ extension RVP_Cocoa_SDK {
      - parameter id: The ID of the resource to be deleted
      - parameter andPlugin: The plugin to be affected.
      - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
+     - parameter uriExtension: OPTIONAL (empty, if not provided). This is a string that will be attached to the end of the URI. It is completely unvetted and raw.
      */
-    public func deleteBy(id inID: Int, andPlugin inPlugin: String, refCon inRefCon: Any?) {
-        let uri = self._server_uri + "/json/" + inPlugin.lowercased().trimmingCharacters(in: .whitespacesAndNewlines) + "/" + String(inID)
+    public func deleteBy(id inID: Int, andPlugin inPlugin: String, refCon inRefCon: Any?, uriExtension inURIExtension: String = "") {
+        let uri = self._server_uri + "/json/" + inPlugin.lowercased().trimmingCharacters(in: .whitespacesAndNewlines) + "/" + String(inID) + inURIExtension
         self._sendDelete(uri, refCon: inRefCon)
     }
     

@@ -386,4 +386,16 @@ public class RVP_Cocoa_SDK_User: A_RVP_Cocoa_SDK_Data_Object {
         
         return ret
     }
+    
+    /* ################################################################## */
+    // MARK: - Base Class Override
+    /* ################################################################## */
+    /**
+     This deletes the object from the server (if the current login has permission).
+     This will delete associated login instances.
+     - parameter refCon: This is an optional Any parameter that is simply returned after the call is complete. "refCon" is a very old concept, that stands for "Reference Context." It allows the caller of an async operation to attach context to a call.
+     */
+    public override func delete(refCon inRefCon: Any?) {
+        self._sdkInstance?.deleteObjects([self], refCon: inRefCon, uriExtension: "?login_user")
+    }
 }
