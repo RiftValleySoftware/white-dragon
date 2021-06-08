@@ -1,16 +1,16 @@
-**1.1.11.2000** *TBD*
+**1.1.11.2000** *June 8, 2021*
 
 - Added a delete() method to the basic entity base class.
 
-**1.1.10.2000** *June 2, 2018*
+**1.1.10.2000** *June 2, 2021*
 
 - Fixed an issue, where a types command was sent, when not logged in.
 
-**1.1.9.2000** *May 31, 2018*
+**1.1.9.2000** *May 31, 2021*
 
 - Fixed a long/lat issue.
 
-**1.1.8.2000** *May 30, 2018*
+**1.1.8.2000** *May 30, 2021*
 
 - Added an initial test, to set the force auth params flag.
 
