@@ -1,3 +1,6 @@
+**1.1.12.2000** *June 19, 2021*
+- Changed all of the unowned selfs to weak, just to be sure. I've had some strange crash reports.
+
 **1.1.11.2000** *June 8, 2021*
 
 - Added a delete() method to the basic entity base class.

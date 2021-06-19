@@ -1005,32 +1005,33 @@ extension RVP_Cocoa_SDK {
                 }
                 
                 if let session = self._connectionSession {
-                    session.dataTask(with: urlRequest) { [unowned self] data, response, error in
+                    session.dataTask(with: urlRequest) { [weak self] data, response, error in
                         if let error = error {
-                            self._handleError(error, refCon: inRefCon)
+                            self?._handleError(error, refCon: inRefCon)
                             return
                         }
                         
                         guard let httpResponse = response as? HTTPURLResponse,
                             (200...299).contains(httpResponse.statusCode) else {
-                                self._handleHTTPError(response as? HTTPURLResponse ?? nil, refCon: inRefCon)
+                                self?._handleHTTPError(response as? HTTPURLResponse ?? nil, refCon: inRefCon)
                                 return
                         }
 
                         if let mimeType = httpResponse.mimeType, "application/json" == mimeType, let data = data {
-                            if let response = self._parseBaselineResponse(data: data, refCon: inRefCon) as? [String: [Int]] {
-                                if let token_array = response["tokens"] {
+                            if let response = self?._parseBaselineResponse(data: data, refCon: inRefCon) as? [String: [Int]] {
+                                if let self = self,
+                                   let token_array = response["tokens"] {
                                     self.myLoginInfo?.securityTokens += token_array
                                     self.myLoginInfo?.securityTokens = self.myLoginInfo?.securityTokens.sorted() ?? []
                                     self._delegate?.sdkInstance(self, newSecurityTokens: token_array, refCon: inRefCon)
                                 }
                             }
                         } else {
-                            self._handleError(SDK_Data_Errors.invalidData(data), refCon: inRefCon)
+                            self?._handleError(SDK_Data_Errors.invalidData(data), refCon: inRefCon)
                         }
                         
                         Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
-                            self._openOperations -= 1
+                            self?._openOperations -= 1
                         }
                     }.resume()
                 }
@@ -1059,32 +1060,32 @@ extension RVP_Cocoa_SDK {
                 Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
                     self._openOperations += 1
                 }
-                let loginInfoTask = self._connectionSession.dataTask(with: urlRequest) { [unowned self] data, response, error in
+                let loginInfoTask = self._connectionSession.dataTask(with: urlRequest) { [weak self] data, response, error in
                     if let error = error {
-                        self._handleError(error, refCon: inRefCon)
+                        self?._handleError(error, refCon: inRefCon)
                         return
                     }
                     guard let httpResponse = response as? HTTPURLResponse,
                         (200...299).contains(httpResponse.statusCode) else {
-                            self._handleHTTPError(response as? HTTPURLResponse ?? nil, refCon: inRefCon)
+                            self?._handleHTTPError(response as? HTTPURLResponse ?? nil, refCon: inRefCon)
                             return
                     }
                     if let mimeType = httpResponse.mimeType, "application/json" == mimeType, let data = data {
-                        if let object = self._makeInstance(data: data, refCon: inRefCon) as? [RVP_Cocoa_SDK_Login] {
+                        if let object = self?._makeInstance(data: data, refCon: inRefCon) as? [RVP_Cocoa_SDK_Login] {
                             if 1 == object.count {
-                                self._loginInfo = object[0]
+                                self?._loginInfo = object[0]
                                 // Assuming all went well, we ask for any user information.
-                                self._fetchMyUserInfo(refCon: inRefCon)
+                                self?._fetchMyUserInfo(refCon: inRefCon)
                             } else {
-                                self._handleError(SDK_Data_Errors.invalidData(data), refCon: inRefCon)
+                                self?._handleError(SDK_Data_Errors.invalidData(data), refCon: inRefCon)
                             }
                         }
                     } else {
-                        self._handleError(SDK_Data_Errors.invalidData(data), refCon: inRefCon)
+                        self?._handleError(SDK_Data_Errors.invalidData(data), refCon: inRefCon)
                     }
                     
                     Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
-                        self._openOperations -= 1
+                        self?._openOperations -= 1
                     }
                 }
                 
@@ -1112,14 +1113,15 @@ extension RVP_Cocoa_SDK {
                 Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
                     self._openOperations += 1
                 }
-                let userInfoTask = self._connectionSession.dataTask(with: urlRequest) { [unowned self] data, response, error in
+                let userInfoTask = self._connectionSession.dataTask(with: urlRequest) { [weak self] data, response, error in
                     if let error = error {
-                        self._handleError(error, refCon: inRefCon)
+                        self?._handleError(error, refCon: inRefCon)
                         return
                     }
-                    guard let httpResponse = response as? HTTPURLResponse,
+                    guard let self = self,
+                          let httpResponse = response as? HTTPURLResponse,
                         (200...299).contains(httpResponse.statusCode) || (400 == httpResponse.statusCode) else {
-                            self._handleHTTPError(response as? HTTPURLResponse ?? nil, refCon: inRefCon)
+                            self?._handleHTTPError(response as? HTTPURLResponse ?? nil, refCon: inRefCon)
                             return
                     }
                     if 400 == httpResponse.statusCode { // If we get nothing but a 400, we assume there is no user info, and go straight to completion.
@@ -1378,14 +1380,15 @@ extension RVP_Cocoa_SDK {
                 self._openOperations += 1
             }
                 
-            let fetchTask = self._connectionSession.dataTask(with: urlRequest) { [unowned self] data, response, error in
+            let fetchTask = self._connectionSession.dataTask(with: urlRequest) { [weak self] data, response, error in
                 if let error = error {
-                    self._handleError(error, refCon: inRefCon)
+                    self?._handleError(error, refCon: inRefCon)
                     return
                 }
-                guard let httpResponse = response as? HTTPURLResponse,
+                guard let self = self,
+                      let httpResponse = response as? HTTPURLResponse,
                     (200...299).contains(httpResponse.statusCode) else {
-                        self._handleHTTPError(response as? HTTPURLResponse ?? nil, refCon: inRefCon)
+                        self?._handleHTTPError(response as? HTTPURLResponse ?? nil, refCon: inRefCon)
                         return
                 }
                 
@@ -1443,14 +1446,15 @@ extension RVP_Cocoa_SDK {
             Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
                 self._openOperations += 1
             }
-            let fetchTask = self._connectionSession.dataTask(with: urlRequest) { [unowned self] data, response, error in
+            let fetchTask = self._connectionSession.dataTask(with: urlRequest) { [weak self] data, response, error in
                 if let error = error {
-                    self._handleError(error, refCon: inRefCon)
+                    self?._handleError(error, refCon: inRefCon)
                     return
                 }
-                guard let httpResponse = response as? HTTPURLResponse,
+                guard let self = self,
+                      let httpResponse = response as? HTTPURLResponse,
                     (200...299).contains(httpResponse.statusCode) else {
-                        self._handleHTTPError(response as? HTTPURLResponse ?? nil, refCon: inRefCon)
+                        self?._handleHTTPError(response as? HTTPURLResponse ?? nil, refCon: inRefCon)
                         return
                 }
                 
@@ -1490,14 +1494,15 @@ extension RVP_Cocoa_SDK {
             Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
                 self._openOperations += 1
             }
-            let fetchTask = self._connectionSession.dataTask(with: urlRequest) { [unowned self] data, response, error in
+            let fetchTask = self._connectionSession.dataTask(with: urlRequest) { [weak self] data, response, error in
                 if let error = error {
-                    self._handleError(error, refCon: inRefCon)
+                    self?._handleError(error, refCon: inRefCon)
                     return
                 }
-                guard let httpResponse = response as? HTTPURLResponse,
+                guard let self = self,
+                      let httpResponse = response as? HTTPURLResponse,
                     (200...299).contains(httpResponse.statusCode) else {
-                        self._handleHTTPError(response as? HTTPURLResponse ?? nil, refCon: inRefCon)
+                        self?._handleHTTPError(response as? HTTPURLResponse ?? nil, refCon: inRefCon)
                         return
                 }
                 
@@ -1537,14 +1542,15 @@ extension RVP_Cocoa_SDK {
             Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
                 self._openOperations += 1
             }
-            let fetchTask = self._connectionSession.dataTask(with: urlRequest) { [unowned self] data, response, error in
+            let fetchTask = self._connectionSession.dataTask(with: urlRequest) { [weak self] data, response, error in
                 if let error = error {
-                    self._handleError(error, refCon: inRefCon)
+                    self?._handleError(error, refCon: inRefCon)
                     return
                 }
-                guard let httpResponse = response as? HTTPURLResponse,
+                guard let self = self,
+                      let httpResponse = response as? HTTPURLResponse,
                     (200...299).contains(httpResponse.statusCode) else {
-                        self._handleHTTPError(response as? HTTPURLResponse ?? nil, refCon: inRefCon)
+                        self?._handleHTTPError(response as? HTTPURLResponse ?? nil, refCon: inRefCon)
                         return
                 }
                 
@@ -1716,14 +1722,15 @@ extension RVP_Cocoa_SDK {
             self._openOperations += 1
         }
         if let urlRequest = self._createURLRequest(url: url) {
-            let fetchTask = self._connectionSession.dataTask(with: urlRequest) { [unowned self] data, response, error in
+            let fetchTask = self._connectionSession.dataTask(with: urlRequest) { [weak self] data, response, error in
                 if let error = error {
-                    self._handleError(error, refCon: inRefCon)
+                    self?._handleError(error, refCon: inRefCon)
                     return
                 }
-                guard let httpResponse = response as? HTTPURLResponse,
+                guard let self = self,
+                      let httpResponse = response as? HTTPURLResponse,
                     (200...299).contains(httpResponse.statusCode) else {
-                        self._handleHTTPError(response as? HTTPURLResponse ?? nil, refCon: inRefCon)
+                        self?._handleHTTPError(response as? HTTPURLResponse ?? nil, refCon: inRefCon)
                         return
                 }
                 // We have a specific structure, which we'll unwind, and turn into a simple Int:Int Dictionary.
@@ -1775,14 +1782,15 @@ extension RVP_Cocoa_SDK {
         }
 
         if let urlRequest = self._createURLRequest(url: url) {
-            let fetchTask = self._connectionSession.dataTask(with: urlRequest) { [unowned self] data, response, error in
+            let fetchTask = self._connectionSession.dataTask(with: urlRequest) { [weak self] data, response, error in
                 if let error = error {
-                    self._handleError(error, refCon: inRefCon)
+                    self?._handleError(error, refCon: inRefCon)
                     return
                 }
-                guard let httpResponse = response as? HTTPURLResponse,
+                guard let self = self,
+                      let httpResponse = response as? HTTPURLResponse,
                     (200...299).contains(httpResponse.statusCode) else {
-                        self._handleHTTPError(response as? HTTPURLResponse ?? nil, refCon: inRefCon)
+                        self?._handleHTTPError(response as? HTTPURLResponse ?? nil, refCon: inRefCon)
                         return
                 }
                 // We have a specific structure, which we'll unwind, and turn into a simple Int:Int Dictionary.
@@ -1830,14 +1838,15 @@ extension RVP_Cocoa_SDK {
         }
         
         if let urlRequest = self._createURLRequest(url: url) {
-            let fetchTask = self._connectionSession.dataTask(with: urlRequest) { [unowned self] data, response, error in
+            let fetchTask = self._connectionSession.dataTask(with: urlRequest) { [weak self] data, response, error in
                 if let error = error {
-                    self._handleError(error, refCon: inRefCon)
+                    self?._handleError(error, refCon: inRefCon)
                     return
                 }
-                guard let httpResponse = response as? HTTPURLResponse,
+                guard let self = self,
+                      let httpResponse = response as? HTTPURLResponse,
                     (200...299).contains(httpResponse.statusCode) else {
-                        self._handleHTTPError(response as? HTTPURLResponse ?? nil, refCon: inRefCon)
+                        self?._handleHTTPError(response as? HTTPURLResponse ?? nil, refCon: inRefCon)
                         return
                 }
                 // We have a specific structure, which we'll unwind, and turn into a simple Int:Int Dictionary.
@@ -1912,14 +1921,15 @@ extension RVP_Cocoa_SDK {
                 }
                 
                 if let urlRequest = self._createURLRequest(url: url) {
-                    let fetchTask = self._connectionSession.dataTask(with: urlRequest) { [unowned self] data, response, error in
+                    let fetchTask = self._connectionSession.dataTask(with: urlRequest) { [weak self] data, response, error in
                         if let error = error {
-                            self._handleError(error, refCon: inRefCon)
+                            self?._handleError(error, refCon: inRefCon)
                             return
                         }
-                        guard let httpResponse = response as? HTTPURLResponse,
+                        guard let self = self,
+                              let httpResponse = response as? HTTPURLResponse,
                             (200...299).contains(httpResponse.statusCode) else {
-                                self._handleHTTPError(response as? HTTPURLResponse ?? nil, refCon: inRefCon)
+                                self?._handleHTTPError(response as? HTTPURLResponse ?? nil, refCon: inRefCon)
                                 return
                         }
                         
@@ -2119,14 +2129,15 @@ extension RVP_Cocoa_SDK {
             Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
                 self._openOperations += 1
             }
-            let fetchTask = self._connectionSession.dataTask(with: urlRequest) { [unowned self] data, response, error in
+            let fetchTask = self._connectionSession.dataTask(with: urlRequest) { [weak self] data, response, error in
                 if let error = error {
-                    self._handleError(error, refCon: inRefCon)
+                    self?._handleError(error, refCon: inRefCon)
                     return
                 }
-                guard let httpResponse = response as? HTTPURLResponse,
+                guard let self = self,
+                      let httpResponse = response as? HTTPURLResponse,
                     (200...299).contains(httpResponse.statusCode) else {
-                        self._handleHTTPError(response as? HTTPURLResponse ?? nil, refCon: inRefCon)
+                        self?._handleHTTPError(response as? HTTPURLResponse ?? nil, refCon: inRefCon)
                         return
                 }
                 
@@ -2200,15 +2211,15 @@ extension RVP_Cocoa_SDK {
                 self._openOperations += 1
             }
             
-            self._connectionSession.uploadTask(with: urlRequest as URLRequest, from: payloadData) { [unowned self, weak inObjectInstance] data, response, error in
+            self._connectionSession.uploadTask(with: urlRequest as URLRequest, from: payloadData) { [weak self, weak inObjectInstance] data, response, error in
                 if let error = error {
-                    self._handleError(error, refCon: inRefCon)
+                    self?._handleError(error, refCon: inRefCon)
                     return
                 }
                 
                 guard let httpResponse = response as? HTTPURLResponse,
                     (200...299).contains(httpResponse.statusCode) else {
-                        self._handleHTTPError(response as? HTTPURLResponse ?? nil, refCon: inRefCon)
+                        self?._handleHTTPError(response as? HTTPURLResponse ?? nil, refCon: inRefCon)
                         return
                 }
                 
@@ -2217,7 +2228,7 @@ extension RVP_Cocoa_SDK {
                 }
                 
                 Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
-                    self._openOperations -= 1
+                    self?._openOperations -= 1
                 }
             }.resume()
         }
@@ -2252,15 +2263,15 @@ extension RVP_Cocoa_SDK {
             }
             
             if let session = self._connectionSession {
-                session.dataTask(with: urlRequest) { [unowned self, weak inObjectInstance] data, response, error in
+                session.dataTask(with: urlRequest) { [weak self, weak inObjectInstance] data, response, error in
                     if let error = error {
-                        self._handleError(error, refCon: inRefCon)
+                        self?._handleError(error, refCon: inRefCon)
                         return
                     }
                     
                     guard let httpResponse = response as? HTTPURLResponse,
                         (200...299).contains(httpResponse.statusCode) else {
-                            self._handleHTTPError(response as? HTTPURLResponse ?? nil, refCon: inRefCon)
+                            self?._handleHTTPError(response as? HTTPURLResponse ?? nil, refCon: inRefCon)
                             return
                     }
 
@@ -2270,7 +2281,7 @@ extension RVP_Cocoa_SDK {
                     }
 
                     Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
-                        self._openOperations -= 1
+                        self?._openOperations -= 1
                     }
                 }.resume()
             }
@@ -2290,15 +2301,15 @@ extension RVP_Cocoa_SDK {
                 self._openOperations += 1
             }
             
-            self._connectionSession?.uploadTask(with: urlRequest, from: Data()) { [unowned self] data, response, error in
+            self._connectionSession?.uploadTask(with: urlRequest, from: Data()) { [weak self] data, response, error in
                 if let error = error {
-                    self._handleError(error, refCon: inRefCon)
+                    self?._handleError(error, refCon: inRefCon)
                     return
                 }
                 
                 guard let httpResponse = response as? HTTPURLResponse,
                     (200...299).contains(httpResponse.statusCode) else {
-                        self._handleHTTPError(response as? HTTPURLResponse ?? nil, refCon: inRefCon)
+                        self?._handleHTTPError(response as? HTTPURLResponse ?? nil, refCon: inRefCon)
                         return
                 }
                 
@@ -2319,7 +2330,7 @@ extension RVP_Cocoa_SDK {
                                         if let resultArray = nextKeyValue.value as? [[String: Any]] {
                                             parent = keyValue.key
                                             for item in resultArray {
-                                                if let itemObject = self._makeNewInstanceFromDictionary(item, parent: parent, forceNew: true) {
+                                                if let itemObject = self?._makeNewInstanceFromDictionary(item, parent: parent, forceNew: true) {
                                                     resultList.append(itemObject)
                                                 }
                                             }
@@ -2328,7 +2339,7 @@ extension RVP_Cocoa_SDK {
                                                 if let resultArray = yetAnotherKeyValue.value as? [[String: Any]] {
                                                     parent = yetAnotherKeyValue.key
                                                     for item in resultArray {
-                                                        if let itemObject = self._makeNewInstanceFromDictionary(item, parent: parent, forceNew: true) {
+                                                        if let itemObject = self?._makeNewInstanceFromDictionary(item, parent: parent, forceNew: true) {
                                                             resultList.append(itemObject)
                                                         }
                                                     }
@@ -2341,17 +2352,18 @@ extension RVP_Cocoa_SDK {
                         }
                         
                         // If we got any objects, we simply flush our cache, and send the items to the delegate.
-                        if !resultList.isEmpty {
+                        if let self = self,
+                           !resultList.isEmpty {
                             self.flushCache()
                             self._delegate?.sdkInstance(self, deletedDataItems: resultList, refCon: inRefCon)
                         }
                     } catch {   // We end up here if the response is not a proper JSON object.
-                        self._handleError(RVP_Cocoa_SDK.SDK_Data_Errors.invalidData(data), refCon: inRefCon)
+                        self?._handleError(RVP_Cocoa_SDK.SDK_Data_Errors.invalidData(data), refCon: inRefCon)
                     }
                 }
                 
                 Self._staticQueue.sync {    // This just makes sure the assignment happens in a thread-safe manner.
-                    self._openOperations -= 1
+                    self?._openOperations -= 1
                 }
                 }.resume()
         }
