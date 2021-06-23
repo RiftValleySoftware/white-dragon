@@ -144,7 +144,9 @@
               <div class="declaration">
                 <div class="language">
                   
-                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">RVP_Cocoa_SDK</span> <span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt">Sequence</span><span class="p">,</span> <span class="kt">URLSessionDelegate</span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">RVP_Cocoa_SDK</span> <span class="p">:</span> <span class="kt">NSObject</span></code></pre>
+<pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">RVP_Cocoa_SDK</span><span class="p">:</span> <span class="kt">URLSessionDelegate</span></code></pre>
+<pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">RVP_Cocoa_SDK</span><span class="p">:</span> <span class="kt">Sequence</span></code></pre>
 
                 </div>
               </div>
@@ -168,6 +170,193 @@ independent instance and state. Swift likes objects to be referenced, as opposed
           <div class="section-content">
             <div class="task-group">
               <div class="task-name-container">
+                <a name="/Public%20Stored%20Properties"></a>
+                <a name="//apple_ref/swift/Section/Public Stored Properties" class="dashAnchor"></a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/Public%20Stored%20Properties"></a>
+                  <h3 class="section-name"><p>Public Stored Properties</p>
+</h3>
+                </div>
+              </div>
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC14searchLocationSo22CLLocationCoordinate2DVSgvp"></a>
+                    <a name="//apple_ref/swift/Property/searchLocation" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC14searchLocationSo22CLLocationCoordinate2DVSgvp">searchLocation</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>This is a special &ldquo;settable&rdquo; property with the center of a radius search.
+If the object already has a &ldquo;distance&rdquo; property returned from the server,
+this is ignored. Otherwise, if it is provided, and the object has a long/lat,
+the &ldquo;distance&rdquo; read-only property will return a Vincenty&rsquo;s Formulae distance
+in Kilometers from this center.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">searchLocation</span><span class="p">:</span> <span class="kt">CLLocationCoordinate2D</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Public%20Instance%20Methods"></a>
+                <a name="//apple_ref/swift/Section/Public Instance Methods" class="dashAnchor"></a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/Public%20Instance%20Methods"></a>
+                  <h3 class="section-name"><p>Public Instance Methods</p>
+</h3>
+                </div>
+              </div>
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC9serverURI0F6Secret8delegate7loginID8password7timeout7session6refConACSS_SSAA0c1_d1_E9_Delegate_pSSSgAMSiSgSo12NSURLSessionCSgypSgtcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(serverURI:serverSecret:delegate:loginID:password:timeout:session:refCon:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC9serverURI0F6Secret8delegate7loginID8password7timeout7session6refConACSS_SSAA0c1_d1_E9_Delegate_pSSSgAMSiSgSo12NSURLSessionCSgypSgtcfc">init(serverURI:<wbr>serverSecret:<wbr>delegate:<wbr>loginID:<wbr>password:<wbr>timeout:<wbr>session:<wbr>refCon:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>This is the required default initializer.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="n">serverURI</span> <span class="nv">inServerURI</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n"><a href="../Classes/RVP_Cocoa_SDK.html#/s:11WhiteDragon13RVP_Cocoa_SDKC12serverSecretSSvp">serverSecret</a></span> <span class="nv">inServerSecret</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">delegate</span> <span class="nv">inDelegate</span><span class="p">:</span> <span class="kt"><a href="../Protocols/RVP_Cocoa_SDK_Delegate.html">RVP_Cocoa_SDK_Delegate</a></span><span class="p">,</span> <span class="n">loginID</span> <span class="nv">inLoginID</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="n">password</span> <span class="nv">inPassword</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="n">timeout</span> <span class="nv">inLoginTimeout</span><span class="p">:</span> <span class="kt">Int</span><span class="o">!</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="n">session</span> <span class="nv">inURLSession</span><span class="p">:</span> <span class="kt">URLSession</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="n">refCon</span> <span class="nv">inRefCon</span><span class="p">:</span> <span class="kt">Any</span><span class="p">?)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>serverURI</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>(REQUIRED) A String, with the URI to a valid BAOBAB Server</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>serverSecret</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>(REQUIRED) A String, with the Server secret for the target server.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>delegate</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>(REQUIRED) A RVP_IOS_SDK_Delegate that will receive updates from the SDK instance.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>loginID</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>(OPTIONAL/REQUIRED) A String, with a login ID. If provided, then you must also provide inPassword and inLoginTimeout.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>password</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>(OPTIONAL/REQUIRED) A String, with a login password. If provided, then you must also provide inLoginId and inLoginTimeout.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>timeout</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>(OPTIONAL/REQUIRED) An Integer value, with the number of seconds the login has to be active. If provided, then you must also provide inLoginId and inPassword.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>session</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>(OPTIONAL) This allows the caller to have their own URLSession established (often, there is only one per app), so we can hitch a ride with that session. Otherwise, we create our own. The session must be ephemeral.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>refCon</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>This is an optional Any parameter that is simply returned after the call is complete. &ldquo;refCon&rdquo; is a very old concept, that stands for &ldquo;Reference Context.&rdquo; It allows the caller of an async operation to attach context to a call.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
                 <a name="/Internal%20URLSessionDelegate%20Protocol%20Methods"></a>
                 <a name="//apple_ref/swift/Section/Internal URLSessionDelegate Protocol Methods" class="dashAnchor"></a>
                 <div class="section-name-container">
@@ -180,9 +369,9 @@ independent instance and state. Swift likes objects to be referenced, as opposed
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC10urlSession_25didBecomeInvalidWithError6refConySo12NSURLSessionC_s0L0_pSgypSgtF"></a>
-                    <a name="//apple_ref/swift/Method/urlSession(_:didBecomeInvalidWithError:refCon:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC10urlSession_25didBecomeInvalidWithError6refConySo12NSURLSessionC_s0L0_pSgypSgtF">urlSession(_:<wbr>didBecomeInvalidWithError:<wbr>refCon:<wbr>)</a>
+                    <a name="/c:@CM@WhiteDragon@objc(cs)RVP_Cocoa_SDK(im)URLSession:didBecomeInvalidWithError:"></a>
+                    <a name="//apple_ref/swift/Method/urlSession(_:didBecomeInvalidWithError:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@CM@WhiteDragon@objc(cs)RVP_Cocoa_SDK(im)URLSession:didBecomeInvalidWithError:">urlSession(_:<wbr>didBecomeInvalidWithError:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -197,7 +386,7 @@ independent instance and state. Swift likes objects to be referenced, as opposed
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">urlSession</span><span class="p">(</span><span class="n">_</span> <span class="nv">session</span><span class="p">:</span> <span class="kt">URLSession</span><span class="p">,</span> <span class="n">didBecomeInvalidWithError</span> <span class="nv">error</span><span class="p">:</span> <span class="kt">Error</span><span class="p">?,</span> <span class="n">refCon</span> <span class="nv">inRefCon</span><span class="p">:</span> <span class="kt">Any</span><span class="p">?)</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">urlSession</span><span class="p">(</span><span class="n">_</span> <span class="nv">session</span><span class="p">:</span> <span class="kt">URLSession</span><span class="p">,</span> <span class="n">didBecomeInvalidWithError</span> <span class="nv">error</span><span class="p">:</span> <span class="kt">Error</span><span class="p">?)</span></code></pre>
 
                         </div>
                       </div>
@@ -229,15 +418,75 @@ independent instance and state. Swift likes objects to be referenced, as opposed
                                 </div>
                               </td>
                             </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC10urlSession_4task10didReceive17completionHandlerySo12NSURLSessionC_So0M4TaskCSo28NSURLAuthenticationChallengeCySo0m4AuthP11DispositionV_So15NSURLCredentialCSgtctF"></a>
+                    <a name="//apple_ref/swift/Method/urlSession(_:task:didReceive:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC10urlSession_4task10didReceive17completionHandlerySo12NSURLSessionC_So0M4TaskCSo28NSURLAuthenticationChallengeCySo0m4AuthP11DispositionV_So15NSURLCredentialCSgtctF">urlSession(_:<wbr>task:<wbr>didReceive:<wbr>completionHandler:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Handle HTTP challenges (Task).</p>
+
+<p>From here: <a href="https://developer.apple.com/forums/thread/68809?answerId=225507022#225507022">https://developer.apple.com/forums/thread/68809?answerId=225507022#225507022</a></p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">urlSession</span><span class="p">(</span><span class="nv">_</span><span class="p">:</span> <span class="kt">URLSession</span><span class="p">,</span> <span class="n">task</span> <span class="nv">inTask</span><span class="p">:</span> <span class="kt">URLSessionTask</span><span class="p">,</span> <span class="n">didReceive</span> <span class="nv">inChallenge</span><span class="p">:</span> <span class="kt">URLAuthenticationChallenge</span><span class="p">,</span> <span class="n">completionHandler</span> <span class="nv">inCompletionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">URLSession</span><span class="o">.</span><span class="kt">AuthChallengeDisposition</span><span class="p">,</span> <span class="kt">URLCredential</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
                             <tr>
                               <td>
                                 <code>
-                                <em>refCon</em>
+                                <em>task</em>
                                 </code>
                               </td>
                               <td>
                                 <div>
-                                  <p>This is an optional Any parameter that is simply returned after the call is complete. &ldquo;refCon&rdquo; is a very old concept, that stands for &ldquo;Reference Context.&rdquo; It allows the caller of an async operation to attach context to a call.</p>
+                                  <p>The session task under way</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>didReceive</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The challenge object</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completionHandler</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A function passed in, for dealing with the auth challenge.</p>
                                 </div>
                               </td>
                             </tr>
@@ -536,11 +785,11 @@ independent instance and state. Swift likes objects to be referenced, as opposed
             </div>
             <div class="task-group">
               <div class="task-name-container">
-                <a name="/Public%20Calculated%20Properties"></a>
-                <a name="//apple_ref/swift/Section/Public Calculated Properties" class="dashAnchor"></a>
+                <a name="/Public%20Computed%20Properties"></a>
+                <a name="//apple_ref/swift/Section/Public Computed Properties" class="dashAnchor"></a>
                 <div class="section-name-container">
-                  <a class="section-name-link" href="#/Public%20Calculated%20Properties"></a>
-                  <h3 class="section-name"><p>Public Calculated Properties</p>
+                  <a class="section-name-link" href="#/Public%20Computed%20Properties"></a>
+                  <h3 class="section-name"><p>Public Computed Properties</p>
 </h3>
                 </div>
               </div>
@@ -803,6 +1052,60 @@ independent instance and state. Swift likes objects to be referenced, as opposed
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC6apiKeySSvp"></a>
+                    <a name="//apple_ref/swift/Property/apiKey" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC6apiKeySSvp">apiKey</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Accessor for the private API Key storage.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">apiKey</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC12serverSecretSSvp"></a>
+                    <a name="//apple_ref/swift/Property/serverSecret" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC12serverSecretSSvp">serverSecret</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Accessor for the private Server Secret storage.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">serverSecret</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC35number_of_personal_tokens_per_loginSivp"></a>
                     <a name="//apple_ref/swift/Property/number_of_personal_tokens_per_login" class="dashAnchor"></a>
                     <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC35number_of_personal_tokens_per_loginSivp">number_of_personal_tokens_per_login</a>
@@ -982,25 +1285,12 @@ independent instance and state. Swift likes objects to be referenced, as opposed
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <div class="task-name-container">
-                <a name="/Public%20Stored%20Properties"></a>
-                <a name="//apple_ref/swift/Section/Public Stored Properties" class="dashAnchor"></a>
-                <div class="section-name-container">
-                  <a class="section-name-link" href="#/Public%20Stored%20Properties"></a>
-                  <h3 class="section-name"><p>Public Stored Properties</p>
-</h3>
-                </div>
-              </div>
-              <ul class="item-container">
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC14searchLocationSo22CLLocationCoordinate2DVSgvp"></a>
-                    <a name="//apple_ref/swift/Property/searchLocation" class="dashAnchor"></a>
-                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC14searchLocationSo22CLLocationCoordinate2DVSgvp">searchLocation</a>
+                    <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC18forceParameterAuthSbvp"></a>
+                    <a name="//apple_ref/swift/Property/forceParameterAuth" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC18forceParameterAuthSbvp">forceParameterAuth</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1008,18 +1298,14 @@ independent instance and state. Swift likes objects to be referenced, as opposed
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>This is a special &ldquo;settable&rdquo; property with the center of a radius search.
-If the object already has a &ldquo;distance&rdquo; property returned from the server,
-this is ignored. Otherwise, if it is provided, and the object has a long/lat,
-the &ldquo;distance&rdquo; read-only property will return a Vincenty&rsquo;s Formulae distance
-in Kilometers from this center.</p>
+                        <p>In some cases, servers may not accept Basic auth headers, so we can force the auth in the query.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">searchLocation</span><span class="p">:</span> <span class="kt">CLLocationCoordinate2D</span><span class="p">?</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">forceParameterAuth</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
@@ -1030,10 +1316,10 @@ in Kilometers from this center.</p>
             </div>
             <div class="task-group">
               <div class="task-name-container">
-                <a name="/Public%20Instance%20Methods"></a>
+                <a name="/Public%20Instance%20Methods2"></a>
                 <a name="//apple_ref/swift/Section/Public Instance Methods" class="dashAnchor"></a>
                 <div class="section-name-container">
-                  <a class="section-name-link" href="#/Public%20Instance%20Methods"></a>
+                  <a class="section-name-link" href="#/Public%20Instance%20Methods2"></a>
                   <h3 class="section-name"><p>Public Instance Methods</p>
 </h3>
                 </div>
@@ -1042,139 +1328,9 @@ in Kilometers from this center.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC9serverURI0F6Secret8delegate7loginID8password7timeout7session6refConACSS_SSAA0c1_d1_E9_Delegate_pSSSgAMSiSgSo12NSURLSessionCSgypSgtcfc"></a>
-                    <a name="//apple_ref/swift/Method/init(serverURI:serverSecret:delegate:loginID:password:timeout:session:refCon:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC9serverURI0F6Secret8delegate7loginID8password7timeout7session6refConACSS_SSAA0c1_d1_E9_Delegate_pSSSgAMSiSgSo12NSURLSessionCSgypSgtcfc">init(serverURI:<wbr>serverSecret:<wbr>delegate:<wbr>loginID:<wbr>password:<wbr>timeout:<wbr>session:<wbr>refCon:<wbr>)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>This is the required default initializer.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="n">serverURI</span> <span class="nv">inServerURI</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">serverSecret</span> <span class="nv">inServerSecret</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">delegate</span> <span class="nv">inDelegate</span><span class="p">:</span> <span class="kt"><a href="../Protocols/RVP_Cocoa_SDK_Delegate.html">RVP_Cocoa_SDK_Delegate</a></span><span class="p">,</span> <span class="n">loginID</span> <span class="nv">inLoginID</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="n">password</span> <span class="nv">inPassword</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="n">timeout</span> <span class="nv">inLoginTimeout</span><span class="p">:</span> <span class="kt">Int</span><span class="o">!</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="n">session</span> <span class="nv">inURLSession</span><span class="p">:</span> <span class="kt">URLSession</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="n">refCon</span> <span class="nv">inRefCon</span><span class="p">:</span> <span class="kt">Any</span><span class="p">?)</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>serverURI</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>(REQUIRED) A String, with the URI to a valid BAOBAB Server</p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>serverSecret</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>(REQUIRED) A String, with the Server secret for the target server.</p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>delegate</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>(REQUIRED) A RVP_IOS_SDK_Delegate that will receive updates from the SDK instance.</p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>loginID</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>(OPTIONAL/REQUIRED) A String, with a login ID. If provided, then you must also provide inPassword and inLoginTimeout.</p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>password</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>(OPTIONAL/REQUIRED) A String, with a login password. If provided, then you must also provide inLoginId and inLoginTimeout.</p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>timeout</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>(OPTIONAL/REQUIRED) An Integer value, with the number of seconds the login has to be active. If provided, then you must also provide inLoginId and inPassword.</p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>session</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>(OPTIONAL) This allows the caller to have their own URLSession established (often, there is only one per app), so we can hitch a ride with that session. Otherwise, we create our own. The session must be ephemeral.</p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>refCon</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>This is an optional Any parameter that is simply returned after the call is complete. &ldquo;refCon&rdquo; is a very old concept, that stands for &ldquo;Reference Context.&rdquo; It allows the caller of an async operation to attach context to a call.</p>
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC13deleteObjects_6refConySayAA02A_c1_d1_E7_ObjectCG_ypSgtF"></a>
-                    <a name="//apple_ref/swift/Method/deleteObjects(_:refCon:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC13deleteObjects_6refConySayAA02A_c1_d1_E7_ObjectCG_ypSgtF">deleteObjects(_:<wbr>refCon:<wbr>)</a>
+                    <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC13deleteObjects_6refCon12uriExtensionySayAA02A_c1_d1_E7_ObjectCG_ypSgSStF"></a>
+                    <a name="//apple_ref/swift/Method/deleteObjects(_:refCon:uriExtension:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC13deleteObjects_6refCon12uriExtensionySayAA02A_c1_d1_E7_ObjectCG_ypSgSStF">deleteObjects(_:<wbr>refCon:<wbr>uriExtension:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1192,7 +1348,7 @@ It will figure out whether or not the object is a security object or a data obje
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">deleteObjects</span><span class="p">(</span><span class="n">_</span> <span class="nv">inItemArray</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/A_RVP_Cocoa_SDK_Object.html">A_RVP_Cocoa_SDK_Object</a></span><span class="p">],</span> <span class="n">refCon</span> <span class="nv">inRefCon</span><span class="p">:</span> <span class="kt">Any</span><span class="p">?)</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">deleteObjects</span><span class="p">(</span><span class="n">_</span> <span class="nv">inItemArray</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/A_RVP_Cocoa_SDK_Object.html">A_RVP_Cocoa_SDK_Object</a></span><span class="p">],</span> <span class="n">refCon</span> <span class="nv">inRefCon</span><span class="p">:</span> <span class="kt">Any</span><span class="p">?,</span> <span class="n">uriExtension</span> <span class="nv">inURIExtension</span><span class="p">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">""</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -1224,6 +1380,18 @@ It will figure out whether or not the object is a security object or a data obje
                                 </div>
                               </td>
                             </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>uriExtension</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>OPTIONAL (empty, if not provided). This is a string that will be attached to the end of the URI. It is completely unvetted and raw.</p>
+                                </div>
+                              </td>
+                            </tr>
                           </tbody>
                         </table>
                       </div>
@@ -1233,9 +1401,9 @@ It will figure out whether or not the object is a security object or a data obje
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC8deleteBy2id9andPlugin6refConySi_SSypSgtF"></a>
-                    <a name="//apple_ref/swift/Method/deleteBy(id:andPlugin:refCon:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC8deleteBy2id9andPlugin6refConySi_SSypSgtF">deleteBy(id:<wbr>andPlugin:<wbr>refCon:<wbr>)</a>
+                    <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC8deleteBy2id9andPlugin6refCon12uriExtensionySi_SSypSgSStF"></a>
+                    <a name="//apple_ref/swift/Method/deleteBy(id:andPlugin:refCon:uriExtension:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC8deleteBy2id9andPlugin6refCon12uriExtensionySi_SSypSgSStF">deleteBy(id:<wbr>andPlugin:<wbr>refCon:<wbr>uriExtension:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1249,7 +1417,7 @@ It will figure out whether or not the object is a security object or a data obje
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">deleteBy</span><span class="p">(</span><span class="n">id</span> <span class="nv">inID</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="n">andPlugin</span> <span class="nv">inPlugin</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">refCon</span> <span class="nv">inRefCon</span><span class="p">:</span> <span class="kt">Any</span><span class="p">?)</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">deleteBy</span><span class="p">(</span><span class="n">id</span> <span class="nv">inID</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="n">andPlugin</span> <span class="nv">inPlugin</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">refCon</span> <span class="nv">inRefCon</span><span class="p">:</span> <span class="kt">Any</span><span class="p">?,</span> <span class="n">uriExtension</span> <span class="nv">inURIExtension</span><span class="p">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">""</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -1290,6 +1458,18 @@ It will figure out whether or not the object is a security object or a data obje
                               <td>
                                 <div>
                                   <p>This is an optional Any parameter that is simply returned after the call is complete. &ldquo;refCon&rdquo; is a very old concept, that stands for &ldquo;Reference Context.&rdquo; It allows the caller of an async operation to attach context to a call.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>uriExtension</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>OPTIONAL (empty, if not provided). This is a string that will be attached to the end of the URI. It is completely unvetted and raw.</p>
                                 </div>
                               </td>
                             </tr>
@@ -1449,6 +1629,52 @@ It will figure out whether or not the object is a security object or a data obje
                                 </div>
                               </td>
                             </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>refCon</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>This is an optional Any parameter that is simply returned after the call is complete. &ldquo;refCon&rdquo; is a very old concept, that stands for &ldquo;Reference Context.&rdquo; It allows the caller of an async operation to attach context to a call.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC16sendAuthTypeTest6refConyypSg_tF"></a>
+                    <a name="//apple_ref/swift/Method/sendAuthTypeTest(refCon:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC16sendAuthTypeTest6refConyypSg_tF">sendAuthTypeTest(refCon:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>This is sends a test to the server, requesting guidance on whether or not to use auth parameters (or the header).</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">sendAuthTypeTest</span><span class="p">(</span><span class="n">refCon</span> <span class="nv">inRefCon</span><span class="p">:</span> <span class="kt">Any</span><span class="p">?)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
                             <tr>
                               <td>
                                 <code>
@@ -2680,15 +2906,155 @@ This can only be called if you are logged in as a manager.</p>
                     </section>
                   </div>
                 </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC6assign17thisPersonalToken17toThisUserLoginID6refConySi_SiypSgtF"></a>
+                    <a name="//apple_ref/swift/Method/assign(thisPersonalToken:toThisUserLoginID:refCon:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC6assign17thisPersonalToken17toThisUserLoginID6refConySi_SiypSgtF">assign(thisPersonalToken:<wbr>toThisUserLoginID:<wbr>refCon:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Assigns a personal token to another user.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">assign</span><span class="p">(</span><span class="n">thisPersonalToken</span> <span class="nv">inPersonalToken</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="n">toThisUserLoginID</span> <span class="nv">inUserLoginID</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="n">refCon</span> <span class="nv">inRefCon</span><span class="p">:</span> <span class="kt">Any</span><span class="p">?)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>thisPersonalToken</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The ID of the personal token (of the current logged-in user) to assign.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>toThisUserLoginID</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The login ID of the user to which we want to assign the token.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>refCon</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>This is an optional Any parameter that is simply returned after the call is complete. &ldquo;refCon&rdquo; is a very old concept, that stands for &ldquo;Reference Context.&rdquo; It allows the caller of an async operation to attach context to a call.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11WhiteDragon13RVP_Cocoa_SDKC6remove17thisPersonalToken19fromThisUserLoginID6refConySi_SiypSgtF"></a>
+                    <a name="//apple_ref/swift/Method/remove(thisPersonalToken:fromThisUserLoginID:refCon:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11WhiteDragon13RVP_Cocoa_SDKC6remove17thisPersonalToken19fromThisUserLoginID6refConySi_SiypSgtF">remove(thisPersonalToken:<wbr>fromThisUserLoginID:<wbr>refCon:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Removes a personal token from another user.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">remove</span><span class="p">(</span><span class="n">thisPersonalToken</span> <span class="nv">inPersonalToken</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="n">fromThisUserLoginID</span> <span class="nv">inUserLoginID</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="n">refCon</span> <span class="nv">inRefCon</span><span class="p">:</span> <span class="kt">Any</span><span class="p">?)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>thisPersonalToken</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The ID of the personal token (of the current logged-in user) to remove.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>toThisUserLoginID</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The ID of the user from which we want to remove the token.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>refCon</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>This is an optional Any parameter that is simply returned after the call is complete. &ldquo;refCon&rdquo; is a very old concept, that stands for &ldquo;Reference Context.&rdquo; It allows the caller of an async operation to attach context to a call.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
               </ul>
             </div>
             <div class="task-group">
               <div class="task-name-container">
-                <a name="/Public%20Sequence%20Protocol%20Methods"></a>
-                <a name="//apple_ref/swift/Section/Public Sequence Protocol Methods" class="dashAnchor"></a>
+                <a name="/Public%20Sequence%20Protocol%20Conformance"></a>
+                <a name="//apple_ref/swift/Section/Public Sequence Protocol Conformance" class="dashAnchor"></a>
                 <div class="section-name-container">
-                  <a class="section-name-link" href="#/Public%20Sequence%20Protocol%20Methods"></a>
-                  <h3 class="section-name"><p>Public Sequence Protocol Methods</p>
+                  <a class="section-name-link" href="#/Public%20Sequence%20Protocol%20Conformance"></a>
+                  <h3 class="section-name"><p>Public Sequence Protocol Conformance</p>
 </h3>
                 </div>
               </div>
@@ -2731,7 +3097,7 @@ This can only be called if you are logged in as a manager.</p>
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2021 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2021-05-17)</p>
+      <p>&copy; 2021 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2021-06-23)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.7</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>

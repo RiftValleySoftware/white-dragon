@@ -1,3 +1,6 @@
+**1.1.13.2000** *June 23, 2021*
+- Added access to the API Key and Server Secret (for persistence of login).
+
 **1.1.12.2000** *June 19, 2021*
 - Changed all of the unowned selfs to weak, just to be sure. I've had some strange crash reports.
 

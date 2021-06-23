@@ -305,7 +305,7 @@ public class RVP_Cocoa_SDK: NSObject {
     private var _connectionSession: URLSession! = nil
     
     /** This is the API Key (if logged in). */
-    private var _apiKey: String! = nil
+    private var _apiKey: String?
     
     /** This is our login info. If we are logged in, this should always have something. */
     private var _loginInfo: RVP_Cocoa_SDK_Login?
@@ -2970,6 +2970,24 @@ extension RVP_Cocoa_SDK {
         return self._plugins
     }
     
+    /* ################################################################## */
+    /**
+     Accessor for the private API Key storage.
+     */
+    public var apiKey: String {
+        get { return self._apiKey ?? "" }
+        set { self._apiKey = newValue.isEmpty ? nil : newValue }
+    }
+    
+    /* ################################################################## */
+    /**
+     Accessor for the private Server Secret storage.
+     */
+    public var serverSecret: String {
+        get { return self._server_secret }
+        set { self._server_secret = newValue }
+    }
+
     /* ################################################################## */
     /**
      Returns the number of personal tokens to be added to new users.
