@@ -1,3 +1,6 @@
+**1.1.14.2000** *June 25, 2021*
+- Added some helpful debug statements.
+
 **1.1.13.2000** *June 23, 2021*
 - Added access to the API Key and Server Secret (for persistence of login).
 

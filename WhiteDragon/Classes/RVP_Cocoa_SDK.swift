@@ -2219,6 +2219,9 @@ extension RVP_Cocoa_SDK {
                 
                 guard let httpResponse = response as? HTTPURLResponse,
                     (200...299).contains(httpResponse.statusCode) else {
+                        #if DEBUG
+                            print("HTTP Response \(String(describing: response)). Code: \((response as? HTTPURLResponse)?.statusCode ?? 0)")
+                        #endif
                         self?._handleHTTPError(response as? HTTPURLResponse ?? nil, refCon: inRefCon)
                         return
                 }
@@ -2271,6 +2274,9 @@ extension RVP_Cocoa_SDK {
                     
                     guard let httpResponse = response as? HTTPURLResponse,
                         (200...299).contains(httpResponse.statusCode) else {
+                            #if DEBUG
+                                print("HTTP Response \(String(describing: response)). Code: \((response as? HTTPURLResponse)?.statusCode ?? 0)")
+                            #endif
                             self?._handleHTTPError(response as? HTTPURLResponse ?? nil, refCon: inRefCon)
                             return
                     }
