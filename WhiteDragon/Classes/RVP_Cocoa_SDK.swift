@@ -977,10 +977,12 @@ extension RVP_Cocoa_SDK {
         
         if let placeIDs = inResultDictionary["places"], !placeIDs.isEmpty {
             self.fetchDataItemsByIDs(placeIDs, andPlugin: "places", dontNukeTheLocation: true, refCon: inRefCon)
+            handled = true
         }
         
         if let thingIDs = inResultDictionary["things"], !thingIDs.isEmpty {
             self.fetchDataItemsByIDs(thingIDs, andPlugin: "things", dontNukeTheLocation: true, refCon: inRefCon)
+            handled = true
         }
         
         if !handled {
@@ -2157,6 +2159,9 @@ extension RVP_Cocoa_SDK {
                             self._delegate?.sdkInstanceFinalAutoRadiusCall(self, refCon: inRefCon)  // If we are at the end of our rope, we let the delegate know.
                             self._sendIDsToDelegate(ids, isFinal: true, refCon: inRefCon)
                             self._fetchBaselineObjectsByID(ids, refCon: inRefCon)
+                            if ids.isEmpty {    // Last time, comes up snake-eyes, we send an empty set to the delegate.
+                                self._sendItemsToDelegate([], refCon: inRefCon)   // We got nuthin'
+                            }
                         } else if nil != inLocation {
                             self._sendIDsToDelegate(ids, refCon: inRefCon)
                             self._fetchObjectsByString(inTagValues, andLocation: inLocation, withPlugin: inPlugin, maxRadiusInKm: inMaxRadiusInKm, refCon: inRefCon)

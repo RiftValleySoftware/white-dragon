@@ -1,3 +1,6 @@
+**1.1.15.2000** *July 2, 2021*
+- Fixed a possible issue with the auto-radius search.
+
 **1.1.14.2000** *June 25, 2021*
 - Added some helpful debug statements.
 
